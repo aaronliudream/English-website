@@ -763,6 +763,95 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .isp-btn-enter:hover{background:rgba(255,255,255,.14);color:#fff}
 .isp-streak-hint{margin-top:16px;font-size:12px;color:rgba(255,255,255,.35);line-height:1.5}
 
+/* ── WORKPLACE DIALOGUE ─────────────────── */
+.dlg-hero{background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#0f3460 100%);border-radius:16px;padding:28px 24px 22px;margin-bottom:16px;color:#fff;position:relative;overflow:hidden}
+.dlg-hero::before{content:'💼';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.12;pointer-events:none}
+.dlg-hero h2{font-size:22px;font-weight:800;margin-bottom:4px}
+.dlg-hero p{font-size:12px;opacity:.7;line-height:1.5;max-width:380px}
+.dlg-week-row{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.dlg-week-btn{padding:5px 13px;border-radius:18px;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s}
+.dlg-week-btn:hover{background:rgba(255,255,255,.18)}
+.dlg-week-btn.on{background:#fff;color:#0f172a;border-color:#fff}
+.dlg-cat-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
+.dlg-scene-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 16px;margin-bottom:12px}
+.dlg-scene-en{font-size:13px;color:var(--text2);margin-bottom:3px}
+.dlg-scene-cn{font-size:12px;color:var(--text3)}
+.dlg-tip{font-size:12px;color:var(--text2);background:rgba(99,102,241,.07);border-left:3px solid #6366f1;border-radius:6px;padding:8px 12px;margin-bottom:14px;line-height:1.6}
+.dlg-cast-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.dlg-cast-item{display:flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:4px 12px;font-size:12px;font-weight:600}
+.dlg-theater-btn{width:100%;padding:11px;border-radius:12px;background:linear-gradient(135deg,#1e293b,#0f3460);border:1.5px solid rgba(99,102,241,.4);color:#a5b4fc;font-size:13px;font-weight:800;cursor:pointer;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.dlg-theater-btn:hover{border-color:#818cf8;background:linear-gradient(135deg,#1e3a5f,#1d4ed8)}
+.dlg-theater-btn.playing{background:linear-gradient(135deg,#7f1d1d,#991b1b);border-color:#fca5a5;color:#fecaca}
+.dlg-lines{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.dlg-line{display:flex;gap:10px;align-items:flex-start;transition:all .3s}
+.dlg-line.right{flex-direction:row-reverse}
+.dlg-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.dlg-bubble-wrap{max-width:76%}
+.dlg-line.right .dlg-bubble-wrap{display:flex;flex-direction:column;align-items:flex-end}
+.dlg-who{font-size:11px;font-weight:700;color:var(--text3);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.dlg-line.right .dlg-who{justify-content:flex-end}
+.dlg-bubble{background:var(--card);border:1px solid var(--border);border-radius:14px;border-top-left-radius:3px;padding:11px 14px;font-size:14px;line-height:1.65;color:var(--text1);position:relative}
+.dlg-line.right .dlg-bubble{background:linear-gradient(135deg,#1e3a5f,#1d4ed8);border:none;border-radius:14px;border-top-right-radius:3px;color:#fff}
+.dlg-kp{background:rgba(250,204,21,.2);border-bottom:2px solid #ca8a04;border-radius:3px;font-weight:700;cursor:help}
+.dlg-line.right .dlg-kp{background:rgba(250,204,21,.28);border-bottom-color:#fde047}
+.dlg-line-btns{display:flex;gap:6px;margin-top:6px}
+.dlg-spk-btn,.dlg-tr-btn{padding:4px 9px;border-radius:8px;background:var(--card2);border:1px solid var(--border);color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.dlg-spk-btn:hover{color:var(--blue);border-color:var(--blue)}
+.dlg-spk-btn.active{color:var(--blue)}
+.dlg-tr-btn:hover{color:var(--amber);border-color:var(--amber)}
+.dlg-trans{font-size:12px;color:var(--text3);margin-top:6px;padding:6px 10px;background:rgba(245,158,11,.07);border-radius:8px;border-left:2px solid #f59e0b;line-height:1.6;display:none}
+.dlg-trans.show{display:block}
+.dlg-line.theater-hi .dlg-bubble{box-shadow:0 0 0 2px #6366f1,0 4px 20px rgba(99,102,241,.35)}
+.dlg-line.theater-hi .dlg-av{transform:scale(1.12)}
+/* Vocab */
+.dlg-vocab-hd{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:10px}
+.dlg-vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px}
+@media(max-width:580px){.dlg-vocab-grid{grid-template-columns:1fr}}
+.dlg-vc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all .15s}
+.dlg-vc:hover{border-color:var(--blue);box-shadow:0 2px 12px rgba(59,130,246,.12)}
+.dlg-vc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:2px}
+.dlg-vc-ph{font-size:14px;font-weight:800;color:#4338ca;flex:1;line-height:1.3}
+.dlg-vc-spk{background:none;border:1.5px solid var(--border);border-radius:8px;padding:3px 8px;font-size:13px;cursor:pointer;color:var(--text2);transition:all .15s;flex-shrink:0;line-height:1}
+.dlg-vc-spk:hover{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.08)}
+.dlg-vc-cn{font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:600}
+.dlg-vc-lvl{font-size:10px;background:var(--card2);border-radius:10px;padding:2px 7px;display:inline-block;color:var(--text3);font-weight:600;margin-bottom:5px}
+.dlg-vc-ex{display:none;margin-top:6px;border-top:1px solid var(--border);padding-top:8px}
+.dlg-vc.open .dlg-vc-ex{display:block}
+.dlg-vc-ex-en{font-size:12px;color:var(--text2);font-style:italic;line-height:1.6;margin-bottom:5px}
+.dlg-vc-ex-cn{font-size:12px;color:#4338ca;font-weight:600;background:rgba(99,102,241,.07);border-radius:7px;padding:5px 9px;line-height:1.5}
+/* Quiz */
+.dlg-qwrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
+.dlg-qhd{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.dlg-qprog{display:flex;gap:4px}
+.dlg-qpd{width:22px;height:4px;border-radius:3px;background:var(--border)}
+.dlg-qpd.done{background:var(--green)}
+.dlg-qpd.active{background:var(--blue)}
+.dlg-qnum{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text3);letter-spacing:.08em;margin-bottom:5px}
+.dlg-qtxt{font-size:15px;font-weight:700;color:var(--text1);margin-bottom:14px;line-height:1.5}
+.dlg-qopts{display:grid;gap:8px}
+.dlg-qopt{padding:11px 14px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.dlg-qopt:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+.dlg-qopt.correct{background:#d1fae5;border-color:#10b981;color:#065f46;pointer-events:none}
+.dlg-qopt.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d;pointer-events:none}
+.dlg-qopt:disabled{pointer-events:none;opacity:.75}
+.dlg-qexp{margin-top:10px;padding:10px 12px;background:rgba(59,130,246,.07);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6;display:none;border-left:3px solid var(--blue)}
+.dlg-qexp.show{display:block}
+.dlg-qnext{margin-top:10px;padding:9px 22px;border-radius:10px;background:var(--blue);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:none;transition:all .15s}
+.dlg-qnext.show{display:inline-block}
+.dlg-qnext:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,130,246,.4)}
+.dlg-qresult{text-align:center;padding:12px 0}
+.dlg-qscore-big{font-size:46px;font-weight:900;color:var(--text1);margin-bottom:4px}
+.dlg-qscore-sub{font-size:13px;color:var(--text3);margin-bottom:14px}
+/* ── 连线题 matching quiz ── */
+.dlg-match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.dlg-match-col{display:flex;flex-direction:column;gap:7px}
+.dlg-mitem{padding:9px 12px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;line-height:1.4;transition:all .18s;-webkit-tap-highlight-color:transparent;user-select:none}
+.dlg-mitem:hover:not(.matched):not(.wrong){border-color:var(--blue);color:var(--blue)}
+.dlg-mitem.selected{border-color:var(--blue);background:rgba(59,130,246,.12);color:var(--blue);transform:scale(1.02)}
+.dlg-mitem.matched{background:#d1fae5;border-color:#10b981;color:#065f46;cursor:default;pointer-events:none}
+.dlg-mitem.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d}
+@media(max-width:480px){.dlg-match-grid{grid-template-columns:1fr 1fr}.dlg-mitem{font-size:12px;padding:8px 9px}}
+
 /* ── SHADOWING ──────────────────────────── */
 .shad-hero{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 45%,#4338ca 100%);border-radius:16px;padding:32px 24px 28px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden}
 .shad-hero::before{content:'🎤';position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:76px;opacity:.16;pointer-events:none}
@@ -870,6 +959,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <button class="nb" onclick="show('cnen')" style="color:#991b1b;font-weight:700">🀄 汉译英</button>
   <button class="nb" onclick="show('culture')" style="color:#1d4ed8;font-weight:700">🇺🇸 美国文化</button>
   <button class="nb" onclick="show('homework')" style="color:#4f46e5;font-weight:700">📝 每日作业</button>
+  <button class="nb" onclick="show('dialogue')" style="color:#0f3460;font-weight:700">🎬 职场对话</button>
   <button class="nb" onclick="show('shadow')" style="color:#4338ca;font-weight:700">🎤 Shadowing</button>
   <button class="nb" onclick="show('profile')">👤 Profile</button>
 </div>
@@ -1145,6 +1235,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <span id="cnen-count" style="font-size:12px;color:var(--text3);margin-left:6px"></span>
   </div>
   <div id="cnen-list"></div>
+</div>
+
+<!-- WORKPLACE DIALOGUE 职场情景对话 -->
+<div class="page" id="page-dialogue">
+  <div class="dlg-hero">
+    <h2>🎬 职场情景对话</h2>
+    <p>每周一幕真实湾区职场场景 · 地道对话 + 剧场朗读 + 词汇测验<br>像美国人一样开会、1:1、面试、闲聊</p>
+    <div class="dlg-week-row" id="dlg-week-row"><!-- week tabs by JS --></div>
+  </div>
+  <div id="dlg-main"><!-- Injected by JS --></div>
 </div>
 
 <!-- SHADOWING 听说练习 -->
@@ -3133,21 +3233,20 @@ function answerCult(artId, qi, chosen) {
     el.style.pointerEvents = 'none';
   });
 
-  // ── Award +1 pt for correct answer (only once per question) ──
+  // ── Award +3 pts for correct answer (reading comprehension = higher weight) ──
   if (isCorrect) {
     var ptsKey = artId + '_' + qi;
     if (!cultPtsAwarded[ptsKey]) {
       cultPtsAwarded[ptsKey] = true;
       var prevMilestone = Math.floor(localPts / 50);
-      awardPts(1);
+      awardPts(3);
       var newMilestone = Math.floor(localPts / 50);
       if (newMilestone > prevMilestone) {
-        // crossed a 50-pt boundary → diamond reward
         setTimeout(function() {
           toast('💎 恭喜！积分突破 ' + (newMilestone * 50) + ' 分，获得钻石奖励！', 'diamond');
         }, 350);
       } else {
-        toast('+1 分 ✅ 答对了！', 'ok');
+        toast('+3 分 ✅ 阅读答对！', 'ok');
       }
     }
   } else {
@@ -4025,6 +4124,810 @@ function closeSplashGoTo(section) {
 }
 
 // ═══════════════════════════════════════════════════════
+// WORKPLACE DIALOGUE 职场情景对话
+// ═══════════════════════════════════════════════════════
+var DLG_DATA = [
+// ──────────────────────────────────────────────────
+// W1: Sprint Planning Meeting
+// ──────────────────────────────────────────────────
+{id:'w1',cat:'MEETING',cc:'#6366f1',
+ title:'Sprint Planning',titleCN:'冲刺计划会议',
+ scene:"Monday 10 AM · Zoom · Two-week sprint kickoff at a Bay Area startup",
+ sceneCN:'周一早上10点，Zoom，湾区初创公司两周一次的冲刺计划会',
+ tip:'💡 Sprint planning meetings are a core Agile ritual. These phrases will make you sound like a tech industry veteran from day one.',
+ chars:{Sarah:['👩🏻‍💼','#6366f1'],Alex:['🧑🏻‍💻','#10b981'],Jordan:['🧑🏼‍🎨','#f59e0b']},
+ lines:[
+  {who:'Sarah',en:"Alright everyone, let's get this show on the road. Quick note — we're timeboxed to 45 minutes, so let's stay focused.",cn:'好，我们开始吧。提醒一下，我们只有45分钟，保持专注。',key:['get this show on the road','timeboxed']},
+  {who:'Alex',en:"Sounds good. Before we dive in — I still have a blocker from last sprint. The design assets never landed in our repo.",cn:'好的。正式开始之前，我有个上个Sprint遗留的阻碍——设计资源一直没上传到仓库。',key:['dive in','blocker']},
+  {who:'Jordan',en:"That was on me. I got pulled into a last-minute rebrand. I'll make sure the handoff happens today — sorry for the delay.",cn:'那是我的失误。我被临时拉去做品牌重设计了。今天我会确保交接完成，抱歉拖延了。',key:['That was on me','got pulled into','handoff']},
+  {who:'Sarah',en:"Appreciate the transparency, Jordan. Alex, does that unblock you for this sprint?",cn:'感谢你坦诚说明，Jordan。Alex，这样你这个Sprint就能解除阻碍了吗？',key:['transparency','unblock']},
+  {who:'Alex',en:"Yeah, as long as I have the assets by EOD, I'm good to go. I'll take point on the checkout flow.",cn:'是的，只要今天下班前能拿到资源就没问题。我来负责结账流程这块。',key:['EOD','good to go','take point on']},
+  {who:'Jordan',en:"Consider it done. Also — heads up — stakeholders want a demo Friday. Can we make that happen?",cn:'包在我身上。另外提醒一下，利益相关方想在周五看演示，我们能做到吗？',key:['Consider it done','heads up','stakeholders']},
+  {who:'Sarah',en:"That's tight, but doable if we prioritize ruthlessly. Let's put a pin in the feature requests and ship what actually matters.",cn:'时间很紧，但只要我们果断取舍就能做到。先搁置功能需求，上线真正重要的东西。',key:['prioritize ruthlessly','put a pin in','ship']},
+  {who:'Alex',en:"Agreed. I'll open a ticket and loop in Priya so she's in the loop on any scope changes.",cn:'同意。我来开个ticket，把Priya也拉进来，让她了解范围调整情况。',key:['loop in','in the loop','scope']},
+ ],
+ vocab:[
+  {ph:'get this show on the road',cn:'（让我们）开始吧',lvl:'Casual',ex:"It's 10:05 — let's get this show on the road!",exCN:'现在10:05了，我们开始吧！'},
+  {ph:'timeboxed / timebox',cn:'（会议/任务）有时间限制的',lvl:'Meeting',ex:"We're timeboxed to 30 minutes, so let's be efficient.",exCN:'我们只有30分钟，保持高效很重要。'},
+  {ph:'dive in',cn:'直接开始/深入探讨',lvl:'Casual',ex:"Without further delay, let's dive in to the main topic.",exCN:'废话不多说，直接进入正题。'},
+  {ph:'blocker',cn:'阻碍/阻塞问题（阻止推进工作的任何事）',lvl:'Tech / Workplace',ex:"I have a blocker — the API isn't ready and I can't test.",exCN:'我遇到了一个阻碍——API还没准备好，我无法进行测试。'},
+  {ph:'That was on me',cn:'那是我的失误/责任在我',lvl:'Professional',ex:"I missed that deadline — that was on me, not the team.",exCN:'那个截止日期是我错过的——责任在我，不在团队。'},
+  {ph:'got pulled into',cn:'被临时拉进/被卷入',lvl:'Casual',ex:"I got pulled into an emergency meeting and lost two hours.",exCN:'我被临时拉进了一个紧急会议，浪费了两个小时。'},
+  {ph:'handoff',cn:'交接/移交',lvl:'Workplace',ex:"Make sure the handoff is documented so nothing gets lost.",exCN:'确保交接文档记录清楚，这样就不会有信息遗漏。'},
+  {ph:'transparency',cn:'坦诚/透明度',lvl:'Professional',ex:"I appreciate your transparency about the delays.",exCN:'感谢你坦诚告知延误情况。'},
+  {ph:'unblock',cn:'解除阻碍/扫清障碍',lvl:'Tech / Workplace',ex:"Can you unblock me on the database access issue?",exCN:'能帮我解除数据库访问权限上的阻碍吗？'},
+  {ph:'EOD',cn:'今天下班前（End of Day）',lvl:'Workplace',ex:"Can you send me the report by EOD?",exCN:'能在今天下班前把报告发给我吗？'},
+  {ph:'good to go',cn:'准备好了/可以开始了',lvl:'Casual',ex:"Once you approve the design, I'm good to go.",exCN:'只要你批准设计稿，我就随时可以开始。'},
+  {ph:'take point on',cn:'负责/牵头某事',lvl:'Professional',ex:"Who's taking point on the onboarding flow this sprint?",exCN:'这个Sprint中谁来负责用户引导流程？'},
+  {ph:'Consider it done',cn:'包在我身上/放心吧',lvl:'Casual',ex:"Need those slides by tomorrow? Consider it done.",exCN:'明天前需要那些幻灯片？包在我身上。'},
+  {ph:'heads up',cn:'提前告知/预警',lvl:'Casual–Professional',ex:"Just a heads up — the client is joining our demo call.",exCN:'提前告知一下——客户要参加我们的演示电话会。'},
+  {ph:'stakeholders',cn:'利益相关方/相关决策人',lvl:'Corporate',ex:"We need sign-off from all stakeholders before we launch.",exCN:'发布前需要所有利益相关方的签字确认。'},
+  {ph:'prioritize ruthlessly',cn:'果断取舍/无情地优先排序',lvl:'Tech culture',ex:"When you have too much to do, prioritize ruthlessly.",exCN:'当你有太多事情要做时，要果断取舍。'},
+  {ph:'put a pin in',cn:'暂时搁置（稍后再议）',lvl:'Meeting',ex:"Let's put a pin in that and revisit after the deadline.",exCN:'先把那个问题搁置，过了截止日期之后再重新讨论。'},
+  {ph:'ship',cn:'上线/发布（产品/功能）',lvl:'Tech',ex:"We need to ship this feature before the competitor does.",exCN:'我们需要在竞争对手之前上线这个功能。'},
+  {ph:'loop in',cn:'把某人拉进来/通知到位',lvl:'Workplace',ex:"Can you loop in the legal team on this contract?",exCN:'你能把法务团队也拉进来看这份合同吗？'},
+  {ph:'in the loop',cn:'了解情况/知情',lvl:'Workplace',ex:"Keep me in the loop — I want to know any updates.",exCN:'有任何更新都告诉我——我需要了解最新情况。'},
+  {ph:'scope',cn:'工作范围/项目范围',lvl:'Professional',ex:"That request is out of scope for this sprint.",exCN:'那个需求超出了这个Sprint的工作范围。'},
+ ],
+ match:[
+  {en:'blocker',cn:'阻碍/阻塞问题'},
+  {en:'take point on',cn:'负责/牵头'},
+  {en:'heads up',cn:'提前告知/预警'},
+  {en:'EOD',cn:'今天下班前'},
+  {en:'put a pin in',cn:'暂时搁置'},
+  {en:'loop in',cn:'把某人拉进来'},
+  {en:'ship',cn:'上线/发布'},
+  {en:'stakeholders',cn:'利益相关方'},
+ ],
+ quiz:[
+  {q:'Your manager says "Can you take point on the redesign?" What does she want you to do?',
+   opts:['Lead and own the redesign project','Review the design and give feedback','Ask someone else to do it','Skip the redesign this sprint'],ci:0,
+   exp:'"Take point on" means to be the primary owner or leader of a specific task or project.'},
+  {q:'"I\'ve got a blocker" in a work context means:',
+   opts:['Something is preventing my progress','I\'m blocking a calendar invite','I\'m free to work on anything','I found a UI bug'],ci:0,
+   exp:'A "blocker" is anything — a dependency, missing resource, or unresolved issue — that stops your progress.'},
+  {q:'Your coworker messages: "Heads up — CEO is joining Thursday\'s call." What should you do?',
+   opts:['Prepare, since an important person is attending','Cancel the call','Ignore it — it\'s just small talk','Ask what a heads-up means'],ci:0,
+   exp:'"Heads up" is an informal phrase to give advance notice so you can prepare.'},
+  {q:'"Can you send the final deck by EOD?" When do they need it?',
+   opts:['By end of today\'s business hours','End of the week','Tomorrow morning','By email only'],ci:0,
+   exp:'EOD = End of Day. It means by 5–6 PM on the current workday.'},
+  {q:'In a meeting, someone says "Let\'s put a pin in the pricing discussion." What happens?',
+   opts:['The topic is paused to return to later','Everyone agrees on a price','The meeting is cancelled','A price vote is held'],ci:0,
+   exp:'"Put a pin in it" means to temporarily pause a topic and come back to it later — like pinning a note as a reminder.'},
+ ]
+},
+// ──────────────────────────────────────────────────
+// W2: 1:1 with Manager — Promotion Talk
+// ──────────────────────────────────────────────────
+{id:'w2',cat:'1:1',cc:'#10b981',
+ title:'Promotion Talk',titleCN:'晋升谈话',
+ scene:"Thursday 4 PM · Office coffee corner · Career growth conversation",
+ sceneCN:'周四下午4点，公司茶水间，与经理进行职业发展对话',
+ tip:'💡 In US workplaces, advocating for yourself is not bragging — it\'s expected. These phrases help you do it professionally.',
+ chars:{Sarah:['👩🏻‍💼','#6366f1'],Alex:['🧑🏻‍💻','#10b981']},
+ lines:[
+  {who:'Alex',en:"Thanks for making time for this. I wanted to touch base about my career trajectory here.",cn:'谢谢你抽时间过来。我想和你聊聊我在这里的职业发展方向。',key:['touch base','career trajectory']},
+  {who:'Sarah',en:"Of course. I've been meaning to have this conversation too. You've been crushing it lately.",cn:'当然，我也一直想和你谈这个。你最近表现非常出色。',key:["been meaning to",'crushing it']},
+  {who:'Alex',en:"I appreciate that. I feel like I'm ready to level up. I've been leading projects end-to-end and mentoring two junior engineers.",cn:'谢谢你这么说。我觉得已经准备好晋升了。我一直在端到端地主导项目，还在指导两名初级工程师。',key:['level up','end-to-end','mentoring']},
+  {who:'Sarah',en:"You're right — your scope has expanded significantly. What does the next level look like to you?",cn:'你说得对，你的工作范围确实扩大了很多。你眼中的下一个级别是什么样的？',key:['scope has expanded','next level']},
+  {who:'Alex',en:"I want to drive larger initiatives and have more visibility across the org. I've already started putting together a case.",cn:'我想主导更大的项目，在整个组织中有更多曝光机会。我已经在整理晋升材料了。',key:['drive initiatives','visibility','putting together a case']},
+  {who:'Sarah',en:"Smart. Let's make sure your work is visible to the right people. I'll advocate for you in the calibration meeting.",cn:'很好。我们要确保合适的人能看到你的成果。我会在校准会议上为你发声。',key:['visible to the right people','advocate for','calibration']},
+  {who:'Alex',en:"That means a lot. Is there anything I should be doing before the review cycle to strengthen my case?",cn:'这对我非常重要。在考核周期之前有什么具体的事情我应该做来强化晋升依据吗？',key:['means a lot','review cycle','strengthen my case']},
+  {who:'Sarah',en:"Get some high-visibility wins and make sure peers can speak to your impact. Cross-functional collaboration is a big one.",cn:'争取一些曝光度高的成果，确保同事能够证明你的影响力。跨部门协作是很重要的一点。',key:['high-visibility','speak to your impact','cross-functional']},
+ ],
+ vocab:[
+  {ph:'touch base',cn:'简短联系/沟通一下',lvl:'Professional',ex:"Let's touch base before the client call tomorrow.",exCN:'我们在明天的客户电话前先碰个面聊一聊吧。'},
+  {ph:'career trajectory',cn:'职业发展路径/轨迹',lvl:'Professional',ex:"I want to discuss my career trajectory at this company.",exCN:'我想聊一聊我在公司的职业发展方向。'},
+  {ph:'been meaning to',cn:'一直想（做某事但还没做）',lvl:'Casual',ex:"I've been meaning to reach out — thanks for the intro.",exCN:'我一直想联系你——感谢你的引荐。'},
+  {ph:'crushing it',cn:'表现非常出色',lvl:'Casual',ex:"She's been crushing it ever since she joined the team.",exCN:'她自从加入团队之后就一直表现出色。'},
+  {ph:'level up',cn:'晋升/提升能力或职级',lvl:'Modern / Tech',ex:"I'm ready to level up from individual contributor to tech lead.",exCN:'我已经准备好从个人贡献者晋升为技术负责人了。'},
+  {ph:'end-to-end',cn:'端到端/全流程（从开始到结束全部负责）',lvl:'Tech / Professional',ex:"She owned the project end-to-end — design, dev, and launch.",exCN:'她全程负责了这个项目——设计、开发和发布。'},
+  {ph:'mentoring',cn:'指导/带新人',lvl:'Professional',ex:"I've been mentoring two junior engineers on the team.",exCN:'我一直在辅导团队里的两名初级工程师。'},
+  {ph:'scope has expanded',cn:'工作范围扩大了',lvl:'Professional',ex:"Since the promotion, her scope has expanded significantly.",exCN:'晋升之后，她的职责范围已经大幅扩展。'},
+  {ph:'next level',cn:'下一个职级/更高水平',lvl:'Casual–Professional',ex:"What skills do I need to reach the next level?",exCN:'我需要什么技能才能晋升到下一个级别？'},
+  {ph:'drive initiatives',cn:'主导项目/推动举措',lvl:'Leadership',ex:"She drives multiple cross-functional initiatives simultaneously.",exCN:'她同时主导着多个跨职能项目。'},
+  {ph:'visibility',cn:'曝光度/被领导层看到的程度',lvl:'Corporate',ex:"Working on high-profile projects gives you visibility.",exCN:'参与高曝光度的项目能让你在公司获得更多关注。'},
+  {ph:'putting together a case',cn:'整理晋升/涨薪的依据',lvl:'Professional',ex:"I'm putting together a case for my promotion this cycle.",exCN:'我正在为这个周期的晋升申请整理支持材料。'},
+  {ph:'visible to the right people',cn:'让合适的（有影响力的）人看到',lvl:'Corporate',ex:"Your work needs to be visible to the right people to advance.",exCN:'你的工作需要被合适的人看到，才能推动职业发展。'},
+  {ph:'advocate for',cn:'为某人发声/力挺某人',lvl:'Professional',ex:"A great manager will advocate for you in leadership meetings.",exCN:'一个好的管理者会在领导层会议中为你发声。'},
+  {ph:'calibration',cn:'校准会议（绩效评级讨论会）',lvl:'Corporate HR',ex:"Promotions are decided in the calibration meeting.",exCN:'晋升决定是在校准会议上做出的。'},
+  {ph:'means a lot',cn:'对我非常重要/意义重大',lvl:'Casual',ex:"Your support really means a lot to me right now.",exCN:'你的支持对我来说真的意义重大。'},
+  {ph:'review cycle',cn:'绩效考核周期',lvl:'Corporate',ex:"The next review cycle starts in October.",exCN:'下一轮绩效考核从十月份开始。'},
+  {ph:'strengthen my case',cn:'强化（晋升/申请的）依据',lvl:'Professional',ex:"What can I do to strengthen my case for promotion?",exCN:'我能做些什么来加强我的晋升理由？'},
+  {ph:'high-visibility',cn:'曝光度高/受高层关注的',lvl:'Corporate',ex:"Taking on a high-visibility project helps your promotion case.",exCN:'参与高曝光度的项目有助于支撑你的晋升申请。'},
+  {ph:'speak to your impact',cn:'证明/说明你的影响力',lvl:'Professional',ex:"Make sure your peers can speak to your impact on the team.",exCN:'确保你的同事能够证明你对团队的影响与贡献。'},
+  {ph:'cross-functional',cn:'跨部门/跨职能',lvl:'Corporate',ex:"This project requires cross-functional collaboration between Eng and Design.",exCN:'这个项目需要工程部门和设计部门之间的跨职能协作。'},
+ ],
+ match:[
+  {en:'touch base',cn:'简短联系一下'},
+  {en:'crushing it',cn:'表现非常出色'},
+  {en:'level up',cn:'晋升/提升'},
+  {en:'advocate for',cn:'为某人发声'},
+  {en:'visibility',cn:'曝光度'},
+  {en:'calibration',cn:'绩效校准会议'},
+  {en:'high-visibility',cn:'曝光度高'},
+  {en:'cross-functional',cn:'跨部门协作'},
+ ],
+ quiz:[
+  {q:'Your manager says "Your scope has expanded significantly." What does this mean?',
+   opts:['Your responsibilities and impact have grown a lot','You\'re working too many hours','Your code is more complex now','You need a larger office'],ci:0,
+   exp:'"Scope" refers to the range of responsibilities. "Expanded scope" = doing more and at a higher level.'},
+  {q:'Which phrase is most professional when asking your manager to support your promotion?',
+   opts:['"I was hoping you could advocate for me in the calibration."','"Fight for me in the meeting."','"Make sure they know I work hard."','"Tell them I deserve this."'],ci:0,
+   exp:'"Advocate for" is the professional way to ask someone to speak up on your behalf in important meetings.'},
+  {q:'"Let\'s touch base tomorrow morning" means:',
+   opts:["Let's have a brief check-in","Let's have a long review meeting","Let's go get coffee","Let's reschedule the meeting"],ci:0,
+   exp:'"Touch base" means a short, informal check-in — often 10–15 minutes — to stay aligned.'},
+  {q:'"She\'s been crushing it since her promotion." This means:',
+   opts:["She's performing exceptionally well","She's struggling in her new role","She's overworked","She broke something at work"],ci:0,
+   exp:'"Crushing it" is casual American slang meaning performing at an exceptionally high level.'},
+  {q:'"Cross-functional collaboration" involves:',
+   opts:['Working with people from different teams or departments','Doing tasks outside your job description','Working overtime','Collaborating with external clients'],ci:0,
+   exp:'"Cross-functional" means spanning multiple functions or departments — e.g., Engineering + Product + Design working together.'},
+ ]
+},
+// ──────────────────────────────────────────────────
+// W3: Design Review — Respectful Pushback
+// ──────────────────────────────────────────────────
+{id:'w3',cat:'REVIEW',cc:'#f59e0b',
+ title:'Design Review: Pushback',titleCN:'设计评审：礼貌反对',
+ scene:"Tuesday 2 PM · Conference Room B + Zoom · Weekly design sync",
+ sceneCN:'周二下午2点，B会议室+Zoom，每周设计同步会',
+ tip:'💡 Disagreeing professionally without burning bridges is one of the most valued skills in US workplaces. These phrases let you push back while staying collaborative.',
+ chars:{Jordan:['🧑🏼‍🎨','#f59e0b'],Mike:['👨🏻‍💻','#ef4444'],Alex:['🧑🏻‍💻','#10b981']},
+ lines:[
+  {who:'Jordan',en:"Alright, here's the new checkout flow I mocked up. I think it really simplifies the UX.",cn:'好，这是我做的新结账流程原型。我觉得它大大简化了用户体验。',key:['mocked up','UX']},
+  {who:'Mike',en:"I like the direction, but I want to flag something from a technical standpoint. That animation runs on the main thread — it'll tank performance on older devices.",cn:'我喜欢这个方向，但我想从技术角度提个问题。那个动画在主线程上运行，会严重影响旧设备性能。',key:['flag','from a technical standpoint','tank performance']},
+  {who:'Jordan',en:"Fair point. Is that a hard blocker, or more of a nice-to-have fix?",cn:'说得对。这是必须解决的阻碍，还是有更好？',key:['hard blocker','nice-to-have']},
+  {who:'Mike',en:"Not a hard blocker, but I'd push back on shipping it as-is. We'd be accruing tech debt we'll regret.",cn:'不是硬性阻碍，但我反对就这样上线。会积累我们以后会后悔的技术债务。',key:['push back','shipping as-is','tech debt']},
+  {who:'Alex',en:"I hear you both. Could we ship the flow itself and take the animation offline for now? Best of both worlds.",cn:'我理解你们的意思。我们能不能先上线流程，暂时去掉动画？这样两全其美。',key:['I hear you','take offline','best of both worlds']},
+  {who:'Jordan',en:"I can live with that as a short-term solution. But I don't want it to get deprioritized and never ship.",cn:'作为短期方案我可以接受。但我不想让它一拖再拖，最后永远不上线了。',key:['I can live with that','deprioritized']},
+  {who:'Mike',en:"Let's timebox it — two sprints. I'll own the animation refactor. We document it so it doesn't get lost in the shuffle.",cn:'我们给它定个期限——两个Sprint。我来负责动画重构。记录下来别让它在混乱中被遗忘。',key:['timebox','own','lost in the shuffle']},
+  {who:'Alex',en:"Works for me. Jordan, can you update the design spec to reflect the interim state?",cn:'我同意。Jordan，你能更新设计文档，体现目前的过渡状态吗？',key:['Works for me','design spec','interim']},
+ ],
+ vocab:[
+  {ph:'mocked up',cn:'做了原型/原型图',lvl:'Design / Tech',ex:"I mocked up three different layouts for the homepage.",exCN:'我为主页设计了三个不同的布局草图。'},
+  {ph:'UX',cn:'用户体验（User Experience）',lvl:'Tech',ex:"The new design significantly improves UX on mobile.",exCN:'新设计显著提升了移动端的用户体验。'},
+  {ph:'flag',cn:'提出/标记（一个问题）',lvl:'Workplace',ex:"I want to flag a potential risk with this approach.",exCN:'我想指出这个方案中的一个潜在风险点。'},
+  {ph:'from a technical standpoint',cn:'从技术角度来看',lvl:'Professional',ex:"From a technical standpoint, this solution won't scale past 10k users.",exCN:'从技术角度看，这个方案在用户超过1万时将无法扩展。'},
+  {ph:'tank performance',cn:'严重影响/拖垮性能',lvl:'Tech',ex:"Running heavy animations on the main thread will tank performance.",exCN:'在主线程上运行大量动画会严重拖慢性能。'},
+  {ph:'hard blocker',cn:'硬性阻碍（必须解决才能继续）',lvl:'Tech / Workplace',ex:"Missing design assets is a hard blocker for the frontend team.",exCN:'设计资源缺失是前端团队的一个硬性阻碍。'},
+  {ph:'nice-to-have',cn:'有则更好（非必须）',lvl:'Product',ex:"Dark mode is a nice-to-have, not a launch requirement.",exCN:'暗黑模式是锦上添花，不是发布必要条件。'},
+  {ph:'push back',cn:'提出异议/礼貌反对',lvl:'Professional',ex:"I'd push back on that timeline — two weeks isn't realistic.",exCN:'我会对那个时间线提出质疑——两周根本不现实。'},
+  {ph:'shipping as-is',cn:'就这样原封不动上线',lvl:'Tech',ex:"I'm not comfortable shipping as-is without more testing.",exCN:'在没有经过更多测试的情况下直接发布，我不放心。'},
+  {ph:'tech debt',cn:'技术债务（赶进度留下的代码隐患）',lvl:'Tech',ex:"Every shortcut adds to our tech debt — we'll pay for it later.",exCN:'每一个走捷径的决定都在积累技术债——迟早都要偿还。'},
+  {ph:'I hear you',cn:'我理解你的观点（表示倾听但不一定同意）',lvl:'Casual',ex:"I hear you on the concerns — let me think about a middle ground.",exCN:'我理解你的顾虑——让我想想有没有折中方案。'},
+  {ph:'take offline',cn:'私下另行讨论/移出当前议程',lvl:'Meeting',ex:"Let's take this debate offline and set up a separate call.",exCN:'我们把这个争论放到线下，单独开个会来处理。'},
+  {ph:'best of both worlds',cn:'两全其美',lvl:'Idiomatic',ex:"This hybrid approach gives us the best of both worlds.",exCN:'这种混合方式可以兼顾两方的需求。'},
+  {ph:'I can live with that',cn:'作为妥协我可以接受',lvl:'Casual',ex:"It's not ideal, but I can live with that as a temporary fix.",exCN:'不太理想，但作为临时方案我可以接受。'},
+  {ph:'deprioritized',cn:'被降低优先级/被拖延',lvl:'Workplace',ex:"That feature got deprioritized three sprints in a row.",exCN:'那个功能已经连续三个Sprint被推后了。'},
+  {ph:'own',cn:'负责/拥有某项任务的所有权',lvl:'Workplace',ex:"I'll own the refactor — you can count on me.",exCN:'我来负责这次重构——你可以信任我。'},
+  {ph:'lost in the shuffle',cn:'在混乱中被遗忘/忽略',lvl:'Idiomatic',ex:"Good ideas often get lost in the shuffle during a big reorg.",exCN:'好的想法常常在大规模重组中被忽视和遗忘。'},
+  {ph:'Works for me',cn:'我同意/对我来说可以',lvl:'Casual',ex:"Three o'clock? Works for me!",exCN:'三点钟？没问题！'},
+  {ph:'design spec',cn:'设计规格文档/设计说明',lvl:'Design / Tech',ex:"Please update the design spec before handing off to engineering.",exCN:'交接给工程团队之前，请先更新设计规范文档。'},
+  {ph:'interim',cn:'过渡期间的/临时的',lvl:'Professional',ex:"This is an interim solution — we'll revisit it next quarter.",exCN:'这是一个临时方案——我们下季度再重新评估。'},
+ ],
+ match:[
+  {en:'flag',cn:'提出/标记问题'},
+  {en:'push back',cn:'礼貌反对'},
+  {en:'tech debt',cn:'技术债务'},
+  {en:'take offline',cn:'私下另行讨论'},
+  {en:'nice-to-have',cn:'有则更好（非必须）'},
+  {en:'lost in the shuffle',cn:'在混乱中被遗忘'},
+  {en:'I can live with that',cn:'作为妥协我可以接受'},
+  {en:'best of both worlds',cn:'两全其美'},
+ ],
+ quiz:[
+  {q:'Mike says "I want to flag something." What does he mean?',
+   opts:['I want to raise an important issue for everyone to be aware of','I want to add a flag emoji to the Slack thread','I want to leave the meeting early','I disagree with the entire proposal'],ci:0,
+   exp:'"Flag" in a meeting means to highlight an issue so others are aware — like raising a flag to get attention.'},
+  {q:'When someone says "I\'d push back on that," they are:',
+   opts:['Professionally disagreeing with a proposal','Physically pushing something away','Enthusiastically agreeing','Asking for more time to think'],ci:0,
+   exp:'"Push back on" is a professional way to express disagreement or concern without being aggressive or rude.'},
+  {q:'"Let\'s take the pricing discussion offline." This means:',
+   opts:["Let's discuss it in a separate conversation, not right now","Let's turn off the internet","Let's never talk about pricing","Let's end the meeting now"],ci:0,
+   exp:'"Take offline" means moving a topic to a side conversation — a follow-up meeting or DM — to keep the current meeting focused.'},
+  {q:'"I can live with that as a short-term solution." What does the speaker mean?',
+   opts:["I reluctantly accept it as a temporary compromise","I love this solution","I'll fix it myself later","I want to work from home"],ci:0,
+   exp:'"I can live with that" means accepting something imperfect — a pragmatic compromise when the ideal isn\'t available.'},
+  {q:'What does "accruing tech debt" mean?',
+   opts:['Building up hidden code problems that will need fixing later','Spending money on technical tools','Learning new programming languages','Paying engineers higher salaries'],ci:0,
+   exp:'"Tech debt" refers to the hidden cost of taking shortcuts in code. Like financial debt, it accumulates and must eventually be repaid through refactoring.'},
+ ]
+},
+// ──────────────────────────────────────────────────
+// W4: Monday Kitchen Chat
+// ──────────────────────────────────────────────────
+{id:'w4',cat:'CASUAL',cc:'#10b981',
+ title:'Monday Kitchen Chat',titleCN:'周一茶水间闲聊',
+ scene:"Monday 9 AM · Office kitchen · Before the workday kicks off",
+ sceneCN:'周一早上9点，公司茶水间，正式开始工作之前',
+ tip:'💡 Small talk is as important as boardroom English. Americans build trust through casual conversation — these phrases make you instantly relatable.',
+ chars:{Mike:['👨🏻‍💻','#ef4444'],Priya:['👩🏽‍💼','#8b5cf6'],Alex:['🧑🏻‍💻','#10b981']},
+ lines:[
+  {who:'Mike',en:"Hey Alex! How was your weekend? Do anything fun?",cn:'嘿，Alex！周末怎么样？有没有做什么有趣的事？',key:['Do anything fun']},
+  {who:'Alex',en:"It was great, actually — I finally hiked the Dipsea Trail. Totally wiped me out, but so worth it.",cn:'还不错，我终于去徒步了Dipsea Trail。整个人都累垮了，但非常值得。',key:['wiped me out','worth it']},
+  {who:'Mike',en:"No way, that trail is brutal! Good on you. What about you, Priya?",cn:'不会吧，那条路可真够狠的！不错啊。你呢，Priya？',key:['No way','brutal','Good on you']},
+  {who:'Priya',en:"We took the kids to the Academy of Sciences. Honestly? I needed it more than they did — completely recharged.",cn:'我们带孩子去了科学院。说真的，那次充电对我来说比对他们更有意义，满血复活了。',key:['recharged','Honestly']},
+  {who:'Mike',en:"Ha, same energy. I just decompressed all Sunday — zero plans, zero screens.",cn:'哈，感同身受。我周日就纯粹放空了——零计划，零屏幕。',key:['same energy','decompressed']},
+  {who:'Alex',en:"Living the dream. Alright, back to the grind. It's going to be a big week for all of us.",cn:'这就是理想生活。好了，继续努力工作。对我们所有人来说都是很重要的一周。',key:['Living the dream','back to the grind','big week']},
+  {who:'Priya',en:"For real. Let's make it count. Catch you guys at standup!",cn:'确实。我们好好干。站会见！',key:['For real','make it count','Catch you']},
+ ],
+ vocab:[
+  {ph:'Do anything fun?',cn:'（你）做了什么有趣的事吗？',lvl:'Casual',ex:"How was your weekend? Do anything fun?",exCN:'你周末过得怎么样？有什么好玩的事吗？'},
+  {ph:'wiped me out',cn:'把我累垮了/精疲力竭',lvl:'Casual',ex:"That 10-mile run completely wiped me out.",exCN:'那次10英里跑彻底把我累垮了。'},
+  {ph:'worth it',cn:'值得/有价值',lvl:'Casual',ex:"The three-hour hike was exhausting, but totally worth it.",exCN:'那段三小时的徒步很累，但完全值得。'},
+  {ph:'No way',cn:'不可能！/真的假的？（表示惊讶）',lvl:'Casual',ex:"No way — you ran a marathon last weekend?",exCN:'不会吧——你上周末真的跑了马拉松？'},
+  {ph:'brutal',cn:'很艰难/非常狠/残酷',lvl:'Casual',ex:"That interview was brutal — five rounds in one day.",exCN:'那次面试太煎熬了——一天内连续面了五轮。'},
+  {ph:'Good on you',cn:'做得好！/向你致敬',lvl:'Casual',ex:"You finished the project early? Good on you!",exCN:'你提前完成了项目？太棒了，干得好！'},
+  {ph:'recharged',cn:'充了电/精力恢复了',lvl:'Casual',ex:"I took a long weekend and came back fully recharged.",exCN:'我放了个长周末假，回来之后感觉整个人满血复活了。'},
+  {ph:'Honestly',cn:'说真的/坦白讲（句首语气词）',lvl:'Casual',ex:"Honestly? I enjoyed the flight more than the destination.",exCN:'说实话？我觉得在飞机上的时光比到了目的地更享受。'},
+  {ph:'same energy',cn:'感同身受/我也是这种感觉',lvl:'Casual',ex:"You need a nap? Same energy — I slept five hours last night.",exCN:'你也需要补觉？感同身受——我昨晚只睡了五个小时。'},
+  {ph:'decompressed',cn:'放松了/减压了',lvl:'Casual',ex:"I need a whole week to decompress after this product launch.",exCN:'这次产品发布之后，我需要整整一周来放松缓缓。'},
+  {ph:'Living the dream',cn:'（讽刺）这就是梦想生活 / 在过理想生活',lvl:'Casual',ex:"Working on weekends again? Living the dream!",exCN:'又在周末加班了？这就是我们梦寐以求的生活！'},
+  {ph:'back to the grind',cn:'重新投入日常苦差/继续忙工作',lvl:'Casual',ex:"Vacation's over — back to the grind!",exCN:'假期结束了——回归日常工作模式了！'},
+  {ph:'big week',cn:'重要/繁忙的一周',lvl:'Casual',ex:"It's a big week — product launch and board meeting.",exCN:'这周意义重大——既有产品发布，又有董事会会议。'},
+  {ph:'For real',cn:'确实/真的（表示强烈认同）',lvl:'Casual',ex:"That deadline is impossible. For real.",exCN:'那个截止日期完全不现实。说真的。'},
+  {ph:'make it count',cn:'让这次努力/机会有价值',lvl:'Motivational',ex:"We only get one shot at this — let's make it count.",exCN:'我们只有这一次机会——要好好把握，全力以赴。'},
+  {ph:'Catch you at...',cn:'...见/一会见',lvl:'Casual',ex:"Catch you at the 2 o'clock sync!",exCN:'两点钟的同步会上见！'},
+ ],
+ match:[
+  {en:'wiped me out',cn:'把我累垮了'},
+  {en:'recharged',cn:'精力恢复了'},
+  {en:'back to the grind',cn:'重新投入日常工作'},
+  {en:'make it count',cn:'让这次努力有价值'},
+  {en:'decompressed',cn:'放松减压了'},
+  {en:'brutal',cn:'非常艰难'},
+  {en:'For real',cn:'确实/真的'},
+  {en:'Living the dream',cn:'（讽刺）这就是梦想生活'},
+ ],
+ quiz:[
+  {q:'"That hike completely wiped me out." What does the speaker mean?',
+   opts:['The hike left them fully exhausted','The hike was cancelled','They got lost on the trail','They didn\'t enjoy the hike'],ci:0,
+   exp:'"Wiped out" means physically or mentally exhausted — as if all energy was erased. Common after exercise or a hard week.'},
+  {q:'Priya says "I came back completely recharged." This means she:',
+   opts:['Feels energized and refreshed','Charged her phone over the weekend','Worked the whole weekend','Started a new exercise routine'],ci:0,
+   exp:'"Recharged" means your energy and motivation are fully restored — like plugging in a dead phone battery.'},
+  {q:'On Monday morning, a colleague says "Back to the grind!" This means:',
+   opts:["It's time to return to the hard, regular work routine","The coffee grinder is broken","They hate their job","They're starting a new job"],ci:0,
+   exp:'"The grind" refers to the demanding daily work routine. "Back to the grind" = back to work after a break.'},
+  {q:'"Let\'s make it count" expresses what attitude?',
+   opts:["Let's make this effort meaningful and impactful","Let's count our tasks","Let's finish as quickly as possible","Let's count how many people are here"],ci:0,
+   exp:'"Make it count" means ensuring your time or opportunity is valuable and not wasted — putting in real effort.'},
+  {q:'"Catch you at standup!" is an example of:',
+   opts:['A casual American way of saying "See you at standup"','A way to get someone\'s attention forcefully','A formal meeting invitation','An apology for being late'],ci:0,
+   exp:'"Catch you at [place/time]" is very casual American English meaning "I\'ll see you at..." — friendly and natural.'},
+ ]
+},
+// ──────────────────────────────────────────────────
+// W5: Navigating a Reorg
+// ──────────────────────────────────────────────────
+{id:'w5',cat:'DIFFICULT',cc:'#ef4444',
+ title:'Navigating a Reorg',titleCN:'应对组织重构',
+ scene:"Friday 3 PM · Slack DM → Quick Zoom · After the company all-hands announcing a reorg",
+ sceneCN:'周五下午3点，Slack私信→快速Zoom，公司全员会宣布重组之后',
+ tip:'💡 Reorgs and uncertainty are a fact of Bay Area tech life. Staying calm and professional during these moments — and knowing how to read the room — will set you apart.',
+ chars:{Jordan:['🧑🏼‍🎨','#f59e0b'],Alex:['🧑🏻‍💻','#10b981'],Sarah:['👩🏻‍💼','#6366f1']},
+ lines:[
+  {who:'Jordan',en:"Hey, do you have five minutes? That all-hands was a lot to process.",cn:'嘿，你有五分钟吗？那个全员大会信息量太大了，需要消化一下。',key:['all-hands','a lot to process']},
+  {who:'Alex',en:"Yeah, jumping on a quick Zoom. Between us — I'm trying to read the tea leaves on what this means for our team.",cn:'当然，上个快速Zoom。私下说——我在揣摩这对我们团队意味着什么。',key:['Between us','read the tea leaves']},
+  {who:'Jordan',en:"Same. Leadership loves vague language during restructuring. \"Synergies\" and \"streamlining\" are never good signs.",cn:'我也是。领导层在重组期间喜欢用模糊语言。「协同效应」和「精简」从来不是好兆头。',key:['restructuring','synergies','streamlining']},
+  {who:'Sarah',en:"Hey, I just hopped on. I wanted to address the elephant in the room — I know everyone is anxious right now.",cn:'嘿，我刚加进来了。我想直接说说大家都在想的问题——我知道大家现在都很焦虑。',key:['address the elephant in the room','anxious']},
+  {who:'Alex',en:"Appreciate you being straight with us. Should we be worried about our headcount?",cn:'谢谢你直接跟我们说。我们需要担心我们团队的人员编制吗？',key:['being straight with us','headcount']},
+  {who:'Sarah',en:"Honest answer: I don't have full visibility yet. What I can tell you is our team's work is high-impact, and that counts for a lot.",cn:'实话实说：我目前也没有完整信息。我能告诉你的是，我们团队的工作影响力很大，这现在非常重要。',key:["full visibility",'high-impact','counts for a lot']},
+  {who:'Jordan',en:"Best move is to keep our heads down and keep delivering. Hard to argue with results.",cn:'最好的策略就是埋头苦干，持续产出。结果说话，很难被质疑。',key:['keep our heads down','delivering','Hard to argue with results']},
+  {who:'Sarah',en:"Exactly. Weather the storm, focus on what we control. I'll keep you in the loop as things develop.",cn:'完全正确。坚持度过这段时期，专注于我们能控制的事。有新进展我会及时告诉你们。',key:['weather the storm','what we control','keep you in the loop']},
+ ],
+ vocab:[
+  {ph:'all-hands',cn:'全员大会（全公司参加的会议）',lvl:'Corporate',ex:"The CEO called an all-hands to address the acquisition rumors.",exCN:'CEO召开了全员大会来回应有关收购的传言。'},
+  {ph:'a lot to process',cn:'需要消化的信息量很大',lvl:'Casual',ex:"That meeting was a lot to process — give me a minute.",exCN:'那次会议信息量太大了——让我先消化一下。'},
+  {ph:'Between us',cn:'私下说/仅在你我之间',lvl:'Casual',ex:"Between us — I think the project is in trouble.",exCN:'就我们自己知道——我觉得这个项目有些麻烦了。'},
+  {ph:'read the tea leaves',cn:'揣摩形势/察言观色预测走向',lvl:'Idiomatic',ex:"After the CEO's vague speech, everyone was trying to read the tea leaves.",exCN:'CEO讲话含糊其辞，大家都在揣摩言外之意。'},
+  {ph:'restructuring',cn:'重组/组织架构调整',lvl:'Corporate',ex:"The company went through a major restructuring last quarter.",exCN:'公司上个季度经历了一次大规模重组。'},
+  {ph:'synergies',cn:'协同效应（重组时常用的模糊官方语言）',lvl:'Corporate Jargon',ex:"\"Creating synergies\" often means cutting duplicate teams.",exCN:'「创造协同效应」往往意味着裁撤重复的团队。'},
+  {ph:'streamlining',cn:'精简/提高效率（重组委婉说法）',lvl:'Corporate Jargon',ex:"\"Streamlining operations\" usually means reducing headcount.",exCN:'「精简运营」通常就是削减人员的委婉说法。'},
+  {ph:'address the elephant in the room',cn:'说出大家心知肚明却回避的问题',lvl:'Idiomatic',ex:"Let me address the elephant in the room — we missed our targets.",exCN:'让我直接点明这个问题——我们没有完成目标。'},
+  {ph:'anxious',cn:'焦虑的/忧虑的',lvl:'General',ex:"Everyone is anxious about the upcoming layoffs.",exCN:'每个人都对即将到来的裁员感到焦虑不安。'},
+  {ph:'being straight with us',cn:'直接告诉我们/坦诚相告',lvl:'Casual',ex:"I appreciate you being straight with us about the situation.",exCN:'感谢你如实告知我们目前的情况。'},
+  {ph:'headcount',cn:'人员编制/员工总人数',lvl:'Corporate',ex:"They're reducing headcount by 10% across all departments.",exCN:'他们将在所有部门裁减10%的员工。'},
+  {ph:'full visibility',cn:'完整信息/完全了解情况',lvl:'Corporate',ex:"I don't have full visibility into the board's decision yet.",exCN:'我目前还无法完全了解董事会的决策依据。'},
+  {ph:'high-impact',cn:'高影响力的/很重要的',lvl:'Corporate',ex:"We need to focus on high-impact work this quarter.",exCN:'这个季度我们需要专注于高价值、高影响力的工作。'},
+  {ph:'counts for a lot',cn:'非常重要/很有分量',lvl:'Casual',ex:"In a reorg, results count for a lot.",exCN:'在公司重组期间，工作成果和业绩表现非常关键。'},
+  {ph:'keep our heads down',cn:'埋头苦干/专注工作不受干扰',lvl:'Casual',ex:"Best strategy during uncertainty: keep your head down and execute.",exCN:'面对不确定性时最好的策略是：低调专注，踏实执行。'},
+  {ph:'delivering',cn:'持续产出/交付成果',lvl:'Professional',ex:"Keep delivering high-quality work and you'll be fine.",exCN:'持续输出高质量的工作成果，你就会没事的。'},
+  {ph:'Hard to argue with results',cn:'结果说话/成绩摆在那里难以否认',lvl:'Casual',ex:"We hit every target — hard to argue with results.",exCN:'我们达成了每一个目标——成绩说话，无可辩驳。'},
+  {ph:'weather the storm',cn:'熬过困难时期/安然度过危机',lvl:'Idiomatic',ex:"We've weathered storms before — we'll get through this too.",exCN:'我们以前也挺过了困难时期——这次也一定能撑过去。'},
+  {ph:'what we control',cn:'我们能掌控的事情',lvl:'Casual',ex:"Focus on what you control and let go of the rest.",exCN:'专注于你能掌控的事情，其余的放手随它去。'},
+  {ph:'keep you in the loop',cn:'及时通知你/让你随时知情',lvl:'Professional',ex:"I'll keep you in the loop as more information comes in.",exCN:'有新消息时我会第一时间通知你。'},
+ ],
+ match:[
+  {en:'all-hands',cn:'全员大会'},
+  {en:'read the tea leaves',cn:'揣摩形势'},
+  {en:'address the elephant in the room',cn:'说出大家都回避的问题'},
+  {en:'headcount',cn:'人员编制'},
+  {en:'weather the storm',cn:'熬过困难时期'},
+  {en:'keep our heads down',cn:'埋头苦干'},
+  {en:'synergies',cn:'协同效应（重组官方语言）'},
+  {en:'keep you in the loop',cn:'及时通知你'},
+ ],
+ quiz:[
+  {q:'"That all-hands was a lot to process." What does the speaker mean?',
+   opts:['There was so much information it needs time to understand','The meeting was too long','The slides were badly designed','The speaker talked too fast'],ci:0,
+   exp:'"A lot to process" means there was so much information, complexity, or emotion that you need time to absorb it all.'},
+  {q:'The phrase "address the elephant in the room" means:',
+   opts:['Bring up the obvious issue everyone knows about but is avoiding','Invite someone new to the meeting','Change the subject quickly','Make an unexpected announcement'],ci:0,
+   exp:'"Elephant in the room" = an obvious problem everyone knows about but avoids. "Addressing it" means bringing it up directly.'},
+  {q:'"We need to reduce headcount by 15%." In a company context, this means:',
+   opts:['The company will lay off approximately 15% of employees','Employees need to work 15% fewer hours','The company is growing 15%','Meeting rooms need 15% fewer chairs'],ci:0,
+   exp:'"Headcount" is corporate-speak for the number of employees. Reducing headcount = layoffs or not backfilling roles.'},
+  {q:'Sarah says "Let\'s weather the storm." This means:',
+   opts:["Let's stay strong and endure this difficult period together","There's a literal storm outside","Let's cancel all meetings","Let's ask leadership for help"],ci:0,
+   exp:'"Weather the storm" means to endure and survive a difficult period, like a ship surviving rough seas.'},
+  {q:'"I\'m trying to read the tea leaves on this reorg." What is the speaker doing?',
+   opts:['Analyzing subtle clues to predict what will happen','Drinking tea while working','Reading a report about reorgs','Ignoring the news entirely'],ci:0,
+   exp:'"Read the tea leaves" means to analyze subtle signs and signals to predict what\'s likely to happen — like reading fortunes in tea leaves.'},
+ ]
+},
+// ──────────────────────────────────────────────────
+// W6: Job Interview at a Startup
+// ──────────────────────────────────────────────────
+{id:'w6',cat:'INTERVIEW',cc:'#8b5cf6',
+ title:'Final Round Interview',titleCN:'终面',
+ scene:"Wednesday 2 PM · Series B startup in SoMa, SF · Final onsite round",
+ sceneCN:'周三下午2点，旧金山SoMa区一家B轮初创公司，终面现场',
+ tip:'💡 Bay Area startup interviews are more conversational than traditional corporate ones. They\'re assessing culture fit as much as technical skills.',
+ chars:{Emma:['👩🏽‍💼','#8b5cf6'],Alex:['🧑🏻‍💻','#10b981']},
+ lines:[
+  {who:'Emma',en:"Thanks for coming in today, Alex. To kick things off — tell me about yourself and what drew you to this role.",cn:'感谢你今天来面试，Alex。我们先从这里开始——介绍一下你自己，以及是什么让你对这个职位感兴趣。',key:['kick things off','drew you to']},
+  {who:'Alex',en:"Sure! I've spent four years as a full-stack engineer at a B2B SaaS company, where I owned the core payments infrastructure end-to-end.",cn:'当然！过去四年我一直是一家B2B SaaS公司的全栈工程师，负责端到端地主导核心支付基础设施。',key:['owned','end-to-end','full-stack']},
+  {who:'Emma',en:"Interesting. Can you walk me through a time you made a high-stakes technical decision under tight deadlines?",cn:'有意思。能给我讲一个在时间紧迫的情况下做出高风险技术决策的经历吗？',key:['walk me through','high-stakes','tight deadlines']},
+  {who:'Alex',en:"Absolutely. We had a critical security vulnerability disclosed 48 hours before a major client demo. I had to triage, patch, and run full QA — all without derailing the demo.",cn:'当然可以。在重要客户演示前48小时发现了严重安全漏洞。我必须分类处理、打补丁、跑QA，同时不影响演示进行。',key:['vulnerability','triage','without derailing']},
+  {who:'Emma',en:"How did you handle the pressure? Were there tradeoffs you had to navigate?",cn:'你是如何应对压力的？有没有需要权衡取舍的地方？',key:['handle the pressure','tradeoffs','navigate']},
+  {who:'Alex',en:"Definitely. I made a judgment call to deploy a partial fix rather than a full refactor — and documented the tech debt clearly so the team could address it post-launch.",cn:'当然有。我做了一个判断：部署局部修复而不是完整重构——并清楚记录了技术债务，让团队在上线后处理。',key:['judgment call','partial fix','post-launch']},
+  {who:'Emma',en:"That's exactly the kind of ownership we look for. Last question — what's your biggest growth area right now?",cn:'这正是我们寻求的主人翁精神。最后一个问题——你目前最大的成长空间在哪里？',key:['ownership','growth area']},
+  {who:'Alex',en:"I want to develop my ability to influence without authority — driving outcomes across teams where I don't have direct control but still need to align people.",cn:'我想提升无职权影响力的能力——在没有直接控制权的跨团队环境中仍然能推动结果、凝聚共识。',key:['influence without authority','driving outcomes','align']},
+ ],
+ vocab:[
+  {ph:'kick things off',cn:'开始/启动（会议、活动）',lvl:'Casual',ex:"Let me kick things off with a quick overview of today's agenda.",exCN:'让我先用对今天议程的简要概述来开个场。'},
+  {ph:'drew you to',cn:'吸引你（选择这个角色/公司）的原因',lvl:'Interview',ex:"What drew you to apply for this position?",exCN:'是什么吸引你来申请这个职位的？'},
+  {ph:'full-stack',cn:'全栈（前端+后端都能做）',lvl:'Tech',ex:"We need a full-stack engineer who can work across the entire codebase.",exCN:'我们需要一名能在整个代码库中工作的全栈工程师。'},
+  {ph:'owned',cn:'负责了/主导了（某项目/功能）',lvl:'Tech / Interview',ex:"I owned the authentication system from design to deployment.",exCN:'我全程负责了认证系统，从设计到部署一手包揽。'},
+  {ph:'end-to-end',cn:'端到端/全流程（从头负责到尾）',lvl:'Tech / Professional',ex:"She led the project end-to-end — design, build, and launch.",exCN:'她全程领导了这个项目——设计、构建与发布。'},
+  {ph:'walk me through',cn:'带我了解/请详细说明',lvl:'Interview / Professional',ex:"Can you walk me through your decision-making process?",exCN:'你能带我了解一下你的决策过程吗？'},
+  {ph:'high-stakes',cn:'高风险的/后果重大的',lvl:'Professional',ex:"This is a high-stakes negotiation — one mistake could cost us the deal.",exCN:'这是一次高风险的谈判——一个失误可能让我们失去整笔交易。'},
+  {ph:'tight deadlines',cn:'非常紧张的截止日期',lvl:'Professional',ex:"She thrives under tight deadlines and high pressure.",exCN:'她在高压环境和紧迫期限下能够保持出色表现。'},
+  {ph:'vulnerability',cn:'安全漏洞/脆弱性',lvl:'Tech / Security',ex:"The team discovered a critical vulnerability in the authentication layer.",exCN:'团队在认证层发现了一个严重的安全漏洞。'},
+  {ph:'triage',cn:'按轻重缓急处理/优先排序',lvl:'Tech / Medical',ex:"When multiple bugs come in at once, engineers need to triage quickly.",exCN:'当多个Bug同时涌来时，工程师需要快速进行优先级排序。'},
+  {ph:'without derailing',cn:'不打乱/不破坏（原有计划）',lvl:'Professional',ex:"We fixed the issue without derailing the whole product roadmap.",exCN:'我们在不影响整个产品路线图的前提下解决了这个问题。'},
+  {ph:'handle the pressure',cn:'应对/承受压力',lvl:'General',ex:"How do you handle the pressure of multiple competing priorities?",exCN:'你如何应对多个优先事项同时竞争时带来的压力？'},
+  {ph:'tradeoffs',cn:'权衡取舍/得失利弊',lvl:'Professional',ex:"Every design decision involves tradeoffs between speed and quality.",exCN:'每一个设计决策都需要在速度与质量之间做出权衡取舍。'},
+  {ph:'navigate',cn:'处理/应对（复杂情况）',lvl:'Professional',ex:"She's skilled at navigating ambiguous situations.",exCN:'她擅长在模糊不清的情境下灵活应对、找到方向。'},
+  {ph:'judgment call',cn:'凭经验判断/自行决断',lvl:'Professional',ex:"There was no playbook — it was a judgment call under pressure.",exCN:'没有现成方案可以参考——这是在压力下做出的临场判断。'},
+  {ph:'partial fix',cn:'局部修复/部分解决',lvl:'Tech',ex:"We deployed a partial fix to stop the bleeding while planning the full solution.",exCN:'我们部署了一个临时修复方案先止血，同时规划完整解决方案。'},
+  {ph:'post-launch',cn:'上线后/发布后',lvl:'Tech / Professional',ex:"We can address the remaining tech debt in the post-launch cleanup sprint.",exCN:'剩余的技术债可以在发布后的清理Sprint中处理。'},
+  {ph:'ownership',cn:'主人翁精神/负责到底的态度',lvl:'Corporate / Interview',ex:"We hire people who take ownership — not just complete assigned tasks.",exCN:'我们招募有主人翁意识的人——而不只是完成分配任务的人。'},
+  {ph:'growth area',cn:'成长空间/有待提升的方面',lvl:'Interview / HR',ex:"What's your biggest growth area right now?",exCN:'你目前最大的成长空间在哪里？'},
+  {ph:'influence without authority',cn:'无职权影响力（不靠职位推动他人）',lvl:'Leadership',ex:"Cross-functional work requires influencing without authority.",exCN:'跨职能工作需要在没有直接权力的情况下影响他人。'},
+  {ph:'driving outcomes',cn:'推动达成结果/推动产出',lvl:'Leadership',ex:"A good PM focuses on driving outcomes, not just managing tasks.",exCN:'优秀的产品经理专注于推动成果，而不仅仅是管理任务。'},
+  {ph:'align',cn:'对齐/凝聚共识',lvl:'Corporate',ex:"Let's align on priorities before the quarter starts.",exCN:'在季度开始前，让我们先就优先事项达成共识。'},
+ ],
+ match:[
+  {en:'walk me through',cn:'请带我详细了解'},
+  {en:'high-stakes',cn:'高风险/后果重大'},
+  {en:'triage',cn:'按轻重缓急处理'},
+  {en:'judgment call',cn:'凭经验判断'},
+  {en:'ownership',cn:'主人翁精神'},
+  {en:'influence without authority',cn:'无职权影响力'},
+  {en:'tradeoffs',cn:'权衡取舍'},
+  {en:'kick things off',cn:'开始/启动'},
+ ],
+ quiz:[
+  {q:'"Can you walk me through your experience?" In an interview, the interviewer wants you to:',
+   opts:['Explain your experience step-by-step in a clear narrative','Stand up and walk around the room','Give a one-sentence summary','Write your experience on a whiteboard'],ci:0,
+   exp:'"Walk me through" means to explain something in a clear, step-by-step way — common in interviews, demos, and presentations.'},
+  {q:'"This is a high-stakes decision." The phrase "high-stakes" means:',
+   opts:['The outcome matters a lot — failure has serious consequences','The decision involves investor money','The decision must be made quickly','The decision is straightforward'],ci:0,
+   exp:'"High-stakes" describes situations where the result really matters — originally from poker, where large amounts are bet.'},
+  {q:'An interviewer says they value "ownership" in candidates. They want someone who:',
+   opts:['Takes full responsibility for their work and its outcomes','Wants equity in the company','Has their own private office','Works completely independently'],ci:0,
+   exp:'"Ownership" in workplace context means taking full accountability for your work and caring about the outcome, not just completing tasks.'},
+  {q:'"I had to make a judgment call under pressure." What does this mean?',
+   opts:['I made a decision using my own experience since there was no rulebook','I called my manager to make the decision','I delayed the decision until I had more info','I held a team vote'],ci:0,
+   exp:'"Judgment call" = a decision requiring personal experience and expertise because there\'s no clear right answer or established process.'},
+  {q:'"I want to improve my ability to influence without authority." What skill is this?',
+   opts:['Getting people to act on your ideas even when you\'re not their manager','Becoming a manager with formal power','Negotiating a salary increase','Managing a large engineering team'],ci:0,
+   exp:'"Influencing without authority" means driving outcomes and aligning people across teams without having formal power — a critical leadership skill.'},
+ ]
+},
+];
+
+var _dlgSt = {
+  wi: null,          // week index
+  trans: {},         // lineIdx -> bool (translation shown)
+  // MCQ state
+  qCur: 0,           // current quiz question index
+  qScore: 0,         // quiz score
+  qAnswered: false,  // has current question been answered
+  // Theater state
+  theater: false,    // theater mode playing
+  tIdx: 0,           // theater current line index
+  // Matching (连线题) state
+  matchPhase: 'match',  // 'match' | 'mcq'
+  matchSel: null,       // selected left-column index (or null)
+  matched: [],          // bool[] — which pairs are matched
+  shuffledRight: [],    // shuffled origIdx array for right column
+  matchMistakes: 0,     // mistake count
+};
+
+function renderDialogue() {
+  var weekNum = Math.floor(Date.now() / (7*24*3600*1000));
+  if (_dlgSt.wi === null) _dlgSt.wi = weekNum % DLG_DATA.length;
+  _dlgSt.trans = {}; _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false; _dlgSt.theater = false;
+  _dlgSt.matchPhase='match'; _dlgMatchInit(DLG_DATA[_dlgSt.wi]);
+  _dlgRender();
+}
+
+function _dlgSetWeek(i) {
+  _dlgSt.wi = i; _dlgSt.trans = {}; _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
+  _dlgSt.matchPhase='match'; _dlgMatchInit(DLG_DATA[i]);
+  if (_dlgSt.theater) { window.speechSynthesis.cancel(); _dlgSt.theater = false; }
+  _dlgRender();
+}
+
+function _dlgRender() {
+  var main = document.getElementById('dlg-main');
+  if (!main) return;
+  var d = DLG_DATA[_dlgSt.wi];
+  // Week tabs in hero
+  var row = document.getElementById('dlg-week-row');
+  if (row) {
+    var wLabel = '<span style="font-size:11px;opacity:.6;font-weight:700">第 ' + (_dlgSt.wi+1) + ' 期 / 共' + DLG_DATA.length + '期</span>';
+    var wBtns  = DLG_DATA.map(function(w,i){
+      return '<button class="dlg-week-btn' + (i===_dlgSt.wi?' on':'') + '" onclick="_dlgSetWeek('+i+')">' + w.titleCN.split('：')[0].split(':')[0].replace('·','').trim().slice(0,6) + '</button>';
+    }).join('');
+    row.innerHTML = wLabel + wBtns;
+  }
+  main.innerHTML = _dlgHTML(d);
+  // Bind vocab cards
+  // Vocab expand/collapse handled via dlgVcToggle()
+}
+
+function _dlgEsc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+function _dlgHTML(d) {
+  // Scene + cast
+  var castH = Object.keys(d.chars).map(function(n){
+    var c = d.chars[n];
+    return '<div class="dlg-cast-item"><span>' + c[0] + '</span><span style="color:' + c[1] + ';font-weight:700">' + n + '</span>' + (n==='Alex'?'<span style="font-size:9px;background:#3b82f6;color:#fff;padding:1px 5px;border-radius:6px">You</span>':'') + '</div>';
+  }).join('');
+
+  // Dialogue lines
+  var linesH = d.lines.map(function(line, i) {
+    var isAlex = line.who === 'Alex';
+    var ch = d.chars[line.who] || {0:'👤',1:'#888'};
+    var en = line.en;
+    if (line.key) line.key.forEach(function(kp){ en = en.replace(new RegExp('('+_dlgEsc(kp)+')','i'),'<span class="dlg-kp" title="key phrase: '+kp+'">$1</span>'); });
+    return '<div class="dlg-line' + (isAlex?' right':'') + '" id="dlg-ln-'+i+'">' +
+      '<div class="dlg-av" style="background:'+ch[1]+'20">' + ch[0] + '</div>' +
+      '<div class="dlg-bubble-wrap">' +
+        '<div class="dlg-who"><span style="color:'+ch[1]+'">' + line.who + '</span></div>' +
+        '<div class="dlg-bubble">' + en + '</div>' +
+        '<div class="dlg-line-btns">' +
+          '<button class="dlg-spk-btn" id="dlg-spk-'+i+'" onclick="dlgSpeak('+i+')">🔊</button>' +
+          '<button class="dlg-tr-btn" onclick="dlgToggleTrans('+i+')">🇨🇳</button>' +
+        '</div>' +
+        '<div class="dlg-trans" id="dlg-tr-'+i+'">' + line.cn + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  // Vocab
+  var vocabH = d.vocab.map(function(v,vi){
+    var exEsc = v.ex.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="dlg-vc" id="dlg-vc-'+vi+'" onclick="dlgVcToggle('+vi+')">' +
+      '<div class="dlg-vc-top">' +
+        '<div class="dlg-vc-ph">' + v.ph + '</div>' +
+        '<button class="dlg-vc-spk" data-ex="' + exEsc.replace(/"/g,'&quot;') + '" onclick="dlgVocabSpeak(event,\'' + exEsc + '\')">🔊</button>' +
+      '</div>' +
+      '<div class="dlg-vc-cn">' + v.cn + '</div>' +
+      '<span class="dlg-vc-lvl">' + v.lvl + '</span>' +
+      '<div class="dlg-vc-ex">' +
+        '<div class="dlg-vc-ex-en">💬 ' + v.ex + '</div>' +
+        '<div class="dlg-vc-ex-cn">🇨🇳 ' + (v.exCN || v.cn) + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  return '<div class="dlg-scene-card">' +
+      '<div class="dlg-scene-en">📍 ' + d.scene + '</div>' +
+      '<div class="dlg-scene-cn">' + d.sceneCN + '</div>' +
+    '</div>' +
+    '<div class="dlg-tip">' + d.tip + '</div>' +
+    '<div class="dlg-cast-row">' + castH + '</div>' +
+    '<button class="dlg-theater-btn" id="dlg-theater-btn" onclick="dlgToggleTheater()">🎬 剧场模式 — 自动逐句朗读全对话</button>' +
+    '<div class="dlg-lines" id="dlg-lines">' + linesH + '</div>' +
+    '<div class="dlg-vocab-hd">📖 本期关键词汇 &amp; 短语 <span style="font-size:11px;color:var(--text3);font-weight:400">（点击展开例句）</span></div>' +
+    '<div class="dlg-vocab-grid">' + vocabH + '</div>' +
+    '<div id="dlg-qbox">' + _dlgQuizHTML(d) + '</div>';
+}
+
+// ── Matching-quiz init ──
+function _dlgMatchInit(d) {
+  if (!d || !d.match) return;
+  var n = d.match.length;
+  _dlgSt.matched = [];
+  for (var k=0;k<n;k++) _dlgSt.matched.push(false);
+  _dlgSt.matchSel = null;
+  _dlgSt.matchMistakes = 0;
+  // Fisher-Yates shuffle for right column
+  _dlgSt.shuffledRight = [];
+  for (var k=0;k<n;k++) _dlgSt.shuffledRight.push(k);
+  for (var i=n-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=_dlgSt.shuffledRight[i];_dlgSt.shuffledRight[i]=_dlgSt.shuffledRight[j];_dlgSt.shuffledRight[j]=t;
+  }
+}
+
+// ── Matching quiz HTML ──
+function _dlgMatchHTML(d) {
+  if (!d.match || !d.match.length) { _dlgSt.matchPhase='mcq'; return _dlgMcqHTML(d); }
+  var n = d.match.length;
+  var matchedCount = 0;
+  for (var k=0;k<n;k++) if (_dlgSt.matched[k]) matchedCount++;
+  var allDone = matchedCount === n;
+
+  var leftH = d.match.map(function(pair,i){
+    var cls = 'dlg-mitem left';
+    if (_dlgSt.matched[i]) cls += ' matched';
+    else if (_dlgSt.matchSel===i) cls += ' selected';
+    return '<div class="'+cls+'" id="dlg-ml-'+i+'" onclick="dlgMatchLeft('+i+')">'+pair.en+'</div>';
+  }).join('');
+
+  var rightH = _dlgSt.shuffledRight.map(function(origIdx,si){
+    var cls = 'dlg-mitem right';
+    if (_dlgSt.matched[origIdx]) cls += ' matched';
+    return '<div class="'+cls+'" id="dlg-mr-'+si+'" onclick="dlgMatchRight('+si+')">'+d.match[origIdx].cn+'</div>';
+  }).join('');
+
+  var doneH = allDone ?
+    '<div style="text-align:center;margin-top:14px">'+
+      '<div style="font-size:17px;font-weight:700;color:#22c55e">🎉 全部匹配完成！</div>'+
+      '<div style="font-size:12px;color:var(--text3);margin:4px 0 10px">失误次数：'+_dlgSt.matchMistakes+'</div>'+
+      '<button class="dlg-qnext show" onclick="dlgMatchDone()">继续 → 词汇选择题 🎯</button>'+
+    '</div>' : '';
+
+  return '<div class="dlg-qwrap">'+
+    '<div class="dlg-qhd"><span>🔗 连线题 — 英汉匹配</span>'+
+      '<div style="font-size:12px;color:var(--text3)">'+matchedCount+'/'+n+' 已连线</div>'+
+    '</div>'+
+    '<p style="font-size:13px;color:var(--text2);margin:2px 0 10px">点击左侧英文短语 → 再点右侧对应中文意思</p>'+
+    '<div class="dlg-match-grid">'+
+      '<div class="dlg-match-col">'+leftH+'</div>'+
+      '<div class="dlg-match-col">'+rightH+'</div>'+
+    '</div>'+
+    doneH+
+  '</div>';
+}
+
+function dlgMatchLeft(i) {
+  var d = DLG_DATA[_dlgSt.wi];
+  if (_dlgSt.matched[i]) return;
+  _dlgSt.matchSel = i;
+  d.match.forEach(function(_,idx){
+    var el = document.getElementById('dlg-ml-'+idx);
+    if (!el || _dlgSt.matched[idx]) return;
+    el.classList.toggle('selected', idx===i);
+  });
+}
+
+function dlgMatchRight(si) {
+  if (_dlgSt.matchSel === null) return;
+  var d = DLG_DATA[_dlgSt.wi];
+  var origIdx = _dlgSt.shuffledRight[si];
+  if (_dlgSt.matched[origIdx]) return;
+  var leftIdx = _dlgSt.matchSel;
+  var isOk = (origIdx === leftIdx);
+  var lel = document.getElementById('dlg-ml-'+leftIdx);
+  var rel = document.getElementById('dlg-mr-'+si);
+  if (isOk) {
+    _dlgSt.matched[leftIdx] = true;
+    _dlgSt.matchSel = null;
+    if (lel) { lel.classList.remove('selected','wrong'); lel.classList.add('matched'); }
+    if (rel) { rel.classList.add('matched'); }
+    awardPts(2);
+    var n = d.match.length, mc=0;
+    for(var k=0;k<n;k++) if(_dlgSt.matched[k]) mc++;
+    if (mc===n) {
+      toast('🔗 连线全对！+'+n*2+'分','ok');
+      setTimeout(function(){ var box=document.getElementById('dlg-qbox'); if(box) box.innerHTML=_dlgMatchHTML(d); },300);
+    }
+  } else {
+    _dlgSt.matchMistakes++;
+    if (lel) lel.classList.add('wrong');
+    if (rel) rel.classList.add('wrong');
+    setTimeout(function(){
+      if(lel){lel.classList.remove('wrong','selected');}
+      if(rel){rel.classList.remove('wrong');}
+      _dlgSt.matchSel=null;
+    }, 700);
+  }
+}
+
+function dlgMatchDone() {
+  var d = DLG_DATA[_dlgSt.wi];
+  _dlgSt.matchPhase = 'mcq';
+  _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
+  var box = document.getElementById('dlg-qbox');
+  if (box) box.innerHTML = _dlgMcqHTML(d);
+}
+
+// ── Router: returns current phase HTML ──
+function _dlgQuizHTML(d) {
+  if (_dlgSt.matchPhase === 'match') return _dlgMatchHTML(d);
+  return _dlgMcqHTML(d);
+}
+
+// ── MCQ (选择题) HTML — was _dlgQuizHTML ──
+function _dlgMcqHTML(d) {
+  var q = d.quiz[_dlgSt.qCur];
+  if (!q) return '';
+  var progH = d.quiz.map(function(_,i){
+    return '<div class="dlg-qpd' + (i<_dlgSt.qCur?' done':i===_dlgSt.qCur?' active':'') + '"></div>';
+  }).join('');
+  var opts = q.opts.slice(); var correct = opts[q.ci];
+  for (var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=opts[i];opts[i]=opts[j];opts[j]=t;}
+  var optsH = opts.map(function(o){
+    return '<button class="dlg-qopt" onclick="dlgQAnswer(this,\'' + o.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\',\'' + correct.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' + o + '</button>';
+  }).join('');
+  return '<div class="dlg-qwrap">' +
+    '<div class="dlg-qhd"><span>🎯 词汇理解测验</span><div class="dlg-qprog">' + progH + '</div></div>' +
+    '<div class="dlg-qnum">第 ' + (_dlgSt.qCur+1) + ' 题 / 共 ' + d.quiz.length + ' 题</div>' +
+    '<div class="dlg-qtxt">' + q.q + '</div>' +
+    '<div class="dlg-qopts">' + optsH + '</div>' +
+    '<div class="dlg-qexp" id="dlg-qexp">' + q.exp + '</div>' +
+    '<button class="dlg-qnext" id="dlg-qnext" onclick="dlgQNext()">' + (_dlgSt.qCur+1 >= d.quiz.length ? '查看成绩 →' : '下一题 →') + '</button>' +
+  '</div>';
+}
+
+function dlgToggleTrans(i) {
+  var el = document.getElementById('dlg-tr-'+i);
+  if (!el) return;
+  _dlgSt.trans[i] = !_dlgSt.trans[i];
+  el.classList.toggle('show', !!_dlgSt.trans[i]);
+}
+
+function dlgSpeak(i) {
+  var d = DLG_DATA[_dlgSt.wi];
+  var line = d.lines[i];
+  if (!line || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  if (!_ttsReady) _loadVoice();
+  var utt = new SpeechSynthesisUtterance(line.en);
+  utt.lang='en-US'; utt.rate=0.84;
+  if (_ttsVoice) utt.voice=_ttsVoice;
+  var btn = document.getElementById('dlg-spk-'+i);
+  if (btn){btn.classList.add('active');btn.textContent='🔊…';}
+  utt.onend=function(){if(btn){btn.classList.remove('active');btn.textContent='🔊';}};
+  window.speechSynthesis.speak(utt);
+}
+
+function dlgToggleTheater() {
+  if (_dlgSt.theater) {
+    _dlgSt.theater=false; window.speechSynthesis.cancel();
+    document.querySelectorAll('.dlg-line').forEach(function(e){e.classList.remove('theater-hi');});
+    var btn=document.getElementById('dlg-theater-btn');
+    if(btn){btn.textContent='🎬 剧场模式 — 自动逐句朗读全对话';btn.classList.remove('playing');}
+    return;
+  }
+  _dlgSt.theater=true; _dlgSt.tIdx=0;
+  var btn=document.getElementById('dlg-theater-btn');
+  if(btn){btn.innerHTML='⏹ 停止朗读';btn.classList.add('playing');}
+  if(!_ttsReady)_loadVoice();
+  _dlgTheaterNext();
+}
+
+function _dlgTheaterNext() {
+  if(!_dlgSt.theater)return;
+  var d=DLG_DATA[_dlgSt.wi];
+  if(_dlgSt.tIdx>=d.lines.length){
+    _dlgSt.theater=false;
+    document.querySelectorAll('.dlg-line').forEach(function(e){e.classList.remove('theater-hi');});
+    var btn=document.getElementById('dlg-theater-btn');
+    if(btn){btn.textContent='🎬 剧场模式 — 自动逐句朗读全对话';btn.classList.remove('playing');}
+    return;
+  }
+  document.querySelectorAll('.dlg-line').forEach(function(e){e.classList.remove('theater-hi');});
+  var cur=document.getElementById('dlg-ln-'+_dlgSt.tIdx);
+  if(cur){cur.classList.add('theater-hi');cur.scrollIntoView({behavior:'smooth',block:'center'});}
+  var utt=new SpeechSynthesisUtterance(d.lines[_dlgSt.tIdx].en);
+  utt.lang='en-US'; utt.rate=0.84;
+  if(_ttsVoice)utt.voice=_ttsVoice;
+  utt.onend=function(){_dlgSt.tIdx++;setTimeout(_dlgTheaterNext,350);};
+  utt.onerror=function(){_dlgSt.tIdx++;setTimeout(_dlgTheaterNext,200);};
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utt);
+}
+
+function dlgQAnswer(btn,chosen,correct){
+  if(_dlgSt.qAnswered)return;
+  _dlgSt.qAnswered=true;
+  var isOk=(chosen===correct);
+  if(isOk){_dlgSt.qScore++;awardPts(5);localCorrect--;completeMission('correct');toast('+5分 ✅ 职场词汇答对！','ok');}
+  document.querySelectorAll('#dlg-qbox .dlg-qopt').forEach(function(b){
+    b.disabled=true;
+    if(b.textContent===correct)b.classList.add('correct');
+  });
+  if(!isOk)btn.classList.add('wrong');
+  var exp=document.getElementById('dlg-qexp');if(exp)exp.classList.add('show');
+  var nxt=document.getElementById('dlg-qnext');if(nxt)nxt.classList.add('show');
+}
+
+function dlgQNext(){
+  var d=DLG_DATA[_dlgSt.wi];
+  _dlgSt.qCur++;_dlgSt.qAnswered=false;
+  if(_dlgSt.qCur>=d.quiz.length){
+    var box=document.getElementById('dlg-qbox');
+    if(!box)return;
+    var sc=_dlgSt.qScore,tot=d.quiz.length,pct=Math.round(sc/tot*100);
+    var msg=pct===100?'🏆 满分！你已完全掌握本期职场表达！':pct>=80?'🎉 非常棒！继续保持！':pct>=60?'👍 不错，多听几遍对话会更好！':'💪 建议重读对话后重新挑战！';
+    box.innerHTML='<div class="dlg-qwrap"><div class="dlg-qresult">' +
+      '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+      '<div class="dlg-qscore-sub">' + msg + '</div>' +
+      '<button class="btn-p" onclick="dlgQRetry()" style="margin-top:8px">🔄 重新测验</button>' +
+    '</div></div>';
+    if(sc>=4)toast('🎬 职场对话测验 '+sc+'/'+tot+'！+'+sc*5+'积分','ok');
+  } else {
+    var box2=document.getElementById('dlg-qbox');
+    if(box2)box2.innerHTML=_dlgMcqHTML(d);
+  }
+}
+
+function dlgQRetry(){
+  var d=DLG_DATA[_dlgSt.wi];
+  _dlgSt.qCur=0;_dlgSt.qScore=0;_dlgSt.qAnswered=false;
+  _dlgSt.matchPhase='match'; _dlgMatchInit(d);
+  var box=document.getElementById('dlg-qbox');
+  if(box)box.innerHTML=_dlgMatchHTML(d);
+}
+
+function dlgVcToggle(vi) {
+  var el = document.getElementById('dlg-vc-'+vi);
+  if (!el) return;
+  var isOpening = !el.classList.contains('open');
+  el.classList.toggle('open');
+  // Auto-play example sentence when opening
+  if (isOpening) {
+    var btn = el.querySelector('.dlg-vc-spk');
+    var sentence = btn ? btn.dataset.ex : null;
+    if (sentence) _dlgVcPlay(sentence, btn);
+  }
+}
+
+function dlgVocabSpeak(e, sentence) {
+  e.stopPropagation();
+  // If card is not open yet, open it first
+  var btn = e.currentTarget || e.target;
+  var card = btn ? btn.closest('.dlg-vc') : null;
+  if (card && !card.classList.contains('open')) card.classList.add('open');
+  _dlgVcPlay(sentence, btn);
+}
+
+function _dlgVcPlay(sentence, btn) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  if (!_ttsReady) _loadVoice();
+  var utt = new SpeechSynthesisUtterance(sentence);
+  utt.lang = 'en-US'; utt.rate = 0.82; utt.pitch = 1.0;
+  if (_ttsVoice) utt.voice = _ttsVoice;
+  if (btn) { btn.textContent = '🔊…'; btn.style.color = 'var(--blue)'; }
+  utt.onend = utt.onerror = function() {
+    if (btn) { btn.textContent = '🔊'; btn.style.color = ''; }
+  };
+  window.speechSynthesis.speak(utt);
+}
+
+// ═══════════════════════════════════════════════════════
 // SHADOWING 听说练习
 // ═══════════════════════════════════════════════════════
 var SHAD_POOL = [
@@ -4742,6 +5645,7 @@ function show(p) {
   if (p === 'culture')   renderCulture();
   if (p === 'homework')  renderHWStart();
   if (p === 'shadow')    renderShadowing();
+  if (p === 'dialogue')  renderDialogue();
   if (p === 'quiz') {
     document.getElementById('qsetup-v').style.display  = 'block';
     document.getElementById('qactive-v').style.display = 'none';

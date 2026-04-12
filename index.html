@@ -662,9 +662,51 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .pk-result-card h3{font-size:20px;font-weight:800;color:#7c3aed;margin-bottom:8px}
 .pk-result-card p{font-size:14px;color:var(--text2);margin-bottom:16px}
 .pk-share-box{background:#fff;border-radius:10px;padding:14px;font-size:13px;color:var(--text1);border:1px solid var(--border);line-height:1.7;text-align:left;margin-top:12px}
+/* ── IDIOM CHALLENGE SPLASH ─────────────────── */
+#idiom-splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%)}
+#idiom-splash.hidden{display:none}
+.isp-card{background:rgba(255,255,255,.06);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12);border-radius:28px;max-width:500px;width:100%;padding:32px 28px;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:isp-in .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes isp-in{from{opacity:0;transform:scale(.88) translateY(24px)}to{opacity:1;transform:none}}
+.isp-dots{display:flex;gap:8px;justify-content:center;margin-bottom:24px}
+.isp-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .3s}
+.isp-dot.done{background:#10b981}
+.isp-dot.active{background:#f59e0b;transform:scale(1.35)}
+.isp-badge{display:inline-block;background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.4);color:#fbbf24;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:20px;padding:4px 14px;margin-bottom:16px}
+.isp-phrase{font-size:clamp(22px,5vw,30px);font-weight:900;color:#fff;margin-bottom:8px;line-height:1.2}
+.isp-example{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:24px;line-height:1.6;font-style:italic}
+.isp-example em{color:#fbbf24;font-style:normal;font-weight:700}
+.isp-opts{display:grid;gap:10px}
+.isp-opt{padding:14px 18px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.9);font-size:14px;font-weight:600;cursor:pointer;text-align:left;transition:all .18s;line-height:1.4}
+.isp-opt:hover:not([disabled]){border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);color:#fff;transform:translateX(4px)}
+.isp-opt.correct{border-color:#10b981;background:rgba(16,185,129,.15);color:#6ee7b7}
+.isp-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.12);color:#fca5a5}
+.isp-opt.revealed{opacity:.45}
+.isp-skip{margin-top:20px;text-align:center}
+.isp-skip-btn{background:none;border:none;color:rgba(255,255,255,.35);font-size:12px;cursor:pointer;padding:6px 12px;border-radius:8px;transition:color .2s}
+.isp-skip-btn:hover{color:rgba(255,255,255,.7)}
+/* Score screen */
+.isp-score{text-align:center}
+.isp-score-ring{width:100px;height:100px;margin:0 auto 20px;position:relative}
+.isp-score-ring svg{transform:rotate(-90deg)}
+.isp-score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff}
+.isp-score-title{font-size:22px;font-weight:800;color:#fff;margin-bottom:8px}
+.isp-score-sub{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:28px;line-height:1.5}
+.isp-cta-row{display:grid;gap:10px}
+.isp-btn-more{padding:15px;border-radius:16px;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;color:#fff;font-size:15px;font-weight:800;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.isp-btn-more:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,.4)}
+.isp-btn-enter{padding:14px;border-radius:16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.isp-btn-enter:hover{background:rgba(255,255,255,.14);color:#fff}
+.isp-streak-hint{margin-top:16px;font-size:12px;color:rgba(255,255,255,.35);line-height:1.5}
 </style>
 </head>
 <body>
+
+<!-- IDIOM CHALLENGE SPLASH -->
+<div id="idiom-splash">
+  <div class="isp-card" id="isp-card">
+    <!-- Injected by JS -->
+  </div>
+</div>
 
 <!-- TOPBAR -->
 <div class="topbar">
@@ -3279,7 +3321,10 @@ var _idleThresholdMs = 3 * 60 * 1000; // 3 minutes
 var _trackingPaused  = false;
 
 function _todayStr() {
-  return new Date().toISOString().split('T')[0];
+  var d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
 }
 
 function _recordActivity() {
@@ -3322,10 +3367,194 @@ function formatActiveTime(secs) {
 // ═══════════════════════════════════════
 // INIT — no login required
 // ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// IDIOM CHALLENGE SPLASH
+// ═══════════════════════════════════════
+var _ispState = {
+  pool:    [],   // all idioms
+  queue:   [],   // 4 picked for this round
+  cur:     0,    // current question index (0–3)
+  score:   0,    // correct answers
+  answered:false // whether current Q is answered
+};
+
+function _ispIdioms() {
+  return DATA.filter(function(d){ return d.type === 'idiom'; });
+}
+
+function _ispShuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function launchIdiomChallenge() {
+  var idioms = _ispIdioms();
+  if (idioms.length < 8) { closeSplash(); return; } // not enough data
+  _ispState.pool  = idioms;
+  _ispState.queue = _ispShuffle(idioms).slice(0, 4);
+  _ispState.cur   = 0;
+  _ispState.score = 0;
+  _ispState.answered = false;
+  _ispRenderQuestion();
+}
+
+function _ispRenderQuestion() {
+  var s   = _ispState;
+  var q   = s.queue[s.cur];
+  var card = document.getElementById('isp-card');
+  if (!card) return;
+
+  // Build 4 options: correct + 3 random wrong
+  var wrong = _ispShuffle(
+    s.pool.filter(function(d){ return d.id !== q.id; })
+  ).slice(0, 3).map(function(d){ return d.meaning; });
+  var opts = _ispShuffle([q.meaning].concat(wrong));
+
+  // Progress dots
+  var dots = '';
+  for (var i = 0; i < 4; i++) {
+    var cls = i < s.cur ? 'done' : i === s.cur ? 'active' : '';
+    dots += '<div class="isp-dot ' + cls + '"></div>';
+  }
+
+  // Highlight the idiom phrase inside the example sentence
+  var exHtml = q.example.replace(/<em>/g,'<em style="color:#fbbf24;font-style:normal;font-weight:700">');
+
+  var optsHtml = opts.map(function(opt, i) {
+    return '<button class="isp-opt" id="isp-opt' + i + '" onclick="_ispAnswer(this,' + JSON.stringify(opt === q.meaning) + ')">' + opt + '</button>';
+  }).join('');
+
+  card.innerHTML =
+    '<div class="isp-dots">' + dots + '</div>' +
+    '<div class="isp-badge">💬 Idiom Challenge · ' + (s.cur + 1) + ' / 4</div>' +
+    '<div class="isp-phrase">' + q.phrase + '</div>' +
+    '<div class="isp-example">' + exHtml + '</div>' +
+    '<div class="isp-opts">' + optsHtml + '</div>' +
+    '<div class="isp-skip"><button class="isp-skip-btn" onclick="closeSplash()">跳过，直接进入 →</button></div>';
+
+  // Trigger card re-animation
+  card.style.animation = 'none';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      card.style.animation = 'isp-in .38s cubic-bezier(.34,1.56,.64,1)';
+    });
+  });
+}
+
+function _ispAnswer(btn, isCorrect) {
+  if (_ispState.answered) return;
+  _ispState.answered = true;
+  var opts = document.querySelectorAll('.isp-opt');
+  opts.forEach(function(b) {
+    b.setAttribute('disabled', '1');
+    b.classList.add('revealed');
+  });
+  btn.classList.remove('revealed');
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  // If wrong, reveal the correct one
+  if (!isCorrect) {
+    var q = _ispState.queue[_ispState.cur];
+    opts.forEach(function(b) {
+      if (b.textContent.trim() === q.meaning) {
+        b.classList.remove('revealed');
+        b.classList.add('correct');
+      }
+    });
+    // show CN meaning as hint
+    btn.insertAdjacentHTML('afterend',
+      '<div style="margin-top:8px;padding:8px 12px;background:rgba(16,185,129,.12);border-left:3px solid #10b981;border-radius:0 8px 8px 0;font-size:12px;color:#6ee7b7;line-height:1.5">' +
+      '正确含义: ' + q.meaning + '<br><span style="color:rgba(255,255,255,.4)">' + q.meaning_cn + '</span></div>');
+  } else {
+    _ispState.score++;
+    // show CN meaning as bonus info
+    var q2 = _ispState.queue[_ispState.cur];
+    btn.insertAdjacentHTML('afterend',
+      '<div style="margin-top:8px;padding:8px 12px;background:rgba(245,158,11,.1);border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;font-size:12px;color:#fbbf24;line-height:1.5">' +
+      '🎯 正确！中文: ' + q2.meaning_cn + '</div>');
+  }
+  // Auto-advance after 1.5s
+  setTimeout(function() {
+    _ispState.cur++;
+    _ispState.answered = false;
+    if (_ispState.cur >= 4) {
+      _ispRenderScore();
+    } else {
+      _ispRenderQuestion();
+    }
+  }, 1500);
+}
+
+function _ispRenderScore() {
+  var s   = _ispState;
+  var pct = Math.round((s.score / 4) * 100);
+  var card = document.getElementById('isp-card');
+  if (!card) return;
+
+  var emoji, title, sub;
+  if (s.score === 4) {
+    emoji = '🏆'; title = 'Perfect Score!';
+    sub = '你全部答对了！地道英文表达对你来说不在话下。';
+  } else if (s.score === 3) {
+    emoji = '🎉'; title = 'Excellent!';
+    sub = '答对 3 题，你的习语功底相当不错！继续深入探索吧。';
+  } else if (s.score === 2) {
+    emoji = '💪'; title = 'Good Try!';
+    sub = '答对 2 题，还有进步空间——坚持练习效果会越来越好。';
+  } else {
+    emoji = '🌱'; title = 'Keep Going!';
+    sub = '英语习语很有挑战性，但练习是最好的老师！';
+  }
+
+  // SVG arc for score ring
+  var r = 42, circ = 2 * Math.PI * r;
+  var dash = (pct / 100) * circ;
+  var scoreColor = s.score >= 3 ? '#10b981' : s.score === 2 ? '#f59e0b' : '#ef4444';
+
+  card.innerHTML =
+    '<div class="isp-score">' +
+      '<div style="font-size:48px;margin-bottom:12px">' + emoji + '</div>' +
+      '<div class="isp-score-ring">' +
+        '<svg width="100" height="100" viewBox="0 0 100 100">' +
+          '<circle cx="50" cy="50" r="' + r + '" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="8"/>' +
+          '<circle cx="50" cy="50" r="' + r + '" fill="none" stroke="' + scoreColor + '" stroke-width="8" stroke-linecap="round"' +
+          ' stroke-dasharray="' + dash.toFixed(1) + ' ' + circ.toFixed(1) + '" style="transition:stroke-dasharray 1s ease"/>' +
+        '</svg>' +
+        '<div class="isp-score-num" style="color:' + scoreColor + '">' + s.score + '/4</div>' +
+      '</div>' +
+      '<div class="isp-score-title">' + title + '</div>' +
+      '<div class="isp-score-sub">' + sub + '</div>' +
+      '<div class="isp-cta-row">' +
+        '<button class="isp-btn-more" onclick="launchIdiomChallenge()">🎯 再来 4 题！</button>' +
+        '<button class="isp-btn-enter" onclick="closeSplash()">📚 进入网站，深入学习 →</button>' +
+      '</div>' +
+      '<div class="isp-streak-hint">网站内有 100+ 习语、职场词汇、每日测验、湾区工作常用语…</div>' +
+    '</div>';
+
+  card.style.animation = 'none';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      card.style.animation = 'isp-in .45s cubic-bezier(.34,1.56,.64,1)';
+    });
+  });
+}
+
+function closeSplash() {
+  var el = document.getElementById('idiom-splash');
+  if (el) {
+    el.style.opacity = '0';
+    el.style.transition = 'opacity .4s';
+    setTimeout(function(){ el.classList.add('hidden'); }, 400);
+  }
+}
+
 window.onload = async function() {
   // Record first visit date
   if (!localStorage.getItem('join_date')) {
-    localStorage.setItem('join_date', new Date().toISOString().split('T')[0]);
+    localStorage.setItem('join_date', _todayStr());
   }
   // Fetch IP geolocation in background (once)
   if (!localStorage.getItem('ip_country')) {
@@ -3343,6 +3572,9 @@ window.onload = async function() {
   renderHomeProgBar();
   show('learn');
   renderLearn();
+
+  // Launch idiom challenge splash (every visit — it's the hook)
+  launchIdiomChallenge();
 
   // Optional: try to restore Supabase session in background
   if (sbEnabled) {
@@ -4194,7 +4426,9 @@ function renderProfile() {
     // Logged-in profile
     var p    = profile;
     var init = (p.username || 'U')[0].toUpperCase();
-    var regDate = (user.created_at || '').split('T')[0] || joinDate;
+    var regDate = user.created_at
+      ? (function(){ var d = new Date(user.created_at); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })()
+      : joinDate;
     var loggedMetaChips = '';
     if (regDate || ipCountry) {
       loggedMetaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';

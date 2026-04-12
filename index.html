@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaron's English Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--card:#13131a;--card2:#1a1a25;--border:#252535;
+  --blue:#4f8ef7;--purple:#8b5cf6;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;
+  --text:#f0f0ff;--text2:#9090b0;--text3:#505070;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+
+/* TOPBAR */
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.pts-badge{background:var(--amber);color:#000;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px}
+
+/* NAV */
+.nav{display:flex;gap:0;padding:0 12px;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto}
+.nb{padding:13px 16px;background:transparent;border:none;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent}
+.nb:hover{color:var(--text)}
+.nb.on{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* PAGES */
+.page{display:none;max-width:900px;margin:0 auto;padding:20px;min-height:80vh}
+.page.show{display:block}
+
+/* AUTH */
+.auth-box{max-width:380px;margin:60px auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
+.auth-box h2{font-size:22px;font-weight:700;margin-bottom:6px}
+.auth-box p{font-size:13px;color:var(--text2);margin-bottom:24px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.field input{width:100%;padding:11px 14px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none}
+.field input:focus{border-color:var(--blue)}
+.btn-p{width:100%;padding:13px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.btn-p:hover{opacity:.85}
+.switch{text-align:center;margin-top:14px;font-size:13px;color:var(--text2)}
+.switch a{color:var(--blue);cursor:pointer}
+.errmsg{background:#2d0b0b;border:1px solid var(--red);color:var(--red);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none}
+.errmsg.show{display:block}
+.okmsg{background:#052e16;border:1px solid var(--green);color:var(--green);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none}
+.okmsg.show{display:block}
+
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.st{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+
+/* CATEGORY TABS */
+.ctabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.ct{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer}
+.ct:hover{border-color:var(--blue);color:var(--blue)}
+.ct.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* SEARCH */
+.sbar{width:100%;padding:11px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none;margin-bottom:16px}
+.sbar:focus{border-color:var(--blue)}
+
+/* VOCAB CARDS */
+.vgrid{display:flex;flex-direction:column;gap:8px}
+.vc{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer}
+.vc.open{border-color:var(--blue)}
+.vc-head{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.vc-num{font-size:11px;font-weight:700;color:var(--text3);min-width:26px}
+.vc-phrase{font-size:15px;font-weight:600;color:var(--text);flex:1}
+.vc-tag{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700}
+.t-idiom{background:#1e2a5f;color:#7ba3ff}
+.t-phrase{background:#1a2e1a;color:#6fd56f}
+.t-vocab{background:#2a1a3a;color:#c084fc}
+.vc-arr{color:var(--text3);font-size:12px;transition:transform .2s}
+.vc.open .vc-arr{transform:rotate(180deg)}
+.vc-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.vc.open .vc-body{display:block}
+.vc-meaning{font-size:13px;color:var(--text2);line-height:1.7;margin:12px 0 10px}
+.vc-ex{font-size:12px;line-height:1.6;padding:10px 12px;background:#0d0d16;border-radius:8px;border-left:3px solid var(--blue);color:var(--text2);font-style:italic}
+.vc-ex em{font-style:normal;color:var(--blue);font-weight:600}
+
+/* QUIZ SETUP */
+.qsetup{text-align:center;padding:40px 20px}
+.qsetup h2{font-size:24px;font-weight:700;margin-bottom:8px}
+.qsetup p{font-size:14px;color:var(--text2);margin-bottom:28px}
+.qopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;max-width:520px;margin:0 auto 20px}
+.qo{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:16px 12px;cursor:pointer;text-align:center}
+.qo:hover{border-color:var(--blue)}
+.qo.on{border-color:var(--blue);background:#0d1e3a}
+.qo-icon{font-size:22px;margin-bottom:8px}
+.qo-lbl{font-size:13px;font-weight:600}
+.qo-desc{font-size:11px;color:var(--text2);margin-top:2px}
+.start-btn{padding:13px 40px;background:var(--blue);border:none;border-radius:10px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px}
+
+/* QUIZ ACTIVE */
+.qwrap{max-width:640px;margin:0 auto}
+.qpbar{height:4px;background:var(--border);border-radius:2px;margin-bottom:24px}
+.qpfill{height:4px;background:var(--blue);border-radius:2px;transition:width .4s}
+.qmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:20px}
+.qscene{font-size:13px;color:var(--text2);background:#0d0d16;border-radius:8px;padding:12px 14px;margin-bottom:14px;line-height:1.6;border-left:3px solid var(--amber)}
+.qtext{font-size:16px;font-weight:500;color:var(--text);line-height:1.7;margin-bottom:20px}
+.qblank{border-bottom:2px solid var(--blue);padding:0 6px;color:var(--blue);font-weight:600}
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.ch{padding:13px 16px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:14px;text-align:left;cursor:pointer;width:100%}
+.ch:hover:not([disabled]){border-color:var(--blue);background:#0d1e3a}
+.ch.correct{background:#052e16;border-color:var(--green);color:var(--green)}
+.ch.wrong{background:#2d0b0b;border-color:var(--red);color:var(--red)}
+.ch.reveal{background:#052e16;border-color:var(--green);color:var(--green)}
+.fillinput{width:100%;padding:13px 16px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;outline:none;margin-bottom:12px}
+.fillinput:focus{border-color:var(--blue)}
+.fillinput.ok{border-color:var(--green);background:#052e16;color:var(--green)}
+.fillinput.bad{border-color:var(--red);background:#2d0b0b;color:var(--red)}
+.subm-btn{padding:11px 24px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.subm-btn:disabled{opacity:.3}
+.qfb{padding:12px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin-bottom:14px}
+.qfb.ok{background:#052e16;color:var(--green)}
+.qfb.bad{background:#2d0b0b;color:var(--red)}
+.qnxt{width:100%;padding:13px;border-radius:10px;border:2px solid var(--blue);background:transparent;color:var(--blue);font-size:15px;font-weight:700;cursor:pointer}
+.qnxt:hover{background:var(--blue);color:#fff}
+.pts-pop{font-size:11px;font-weight:700;color:var(--amber);background:#2a1a00;padding:2px 8px;border-radius:8px;margin-left:8px}
+
+/* RESULTS */
+.res-wrap{text-align:center;padding:20px 0;max-width:600px;margin:0 auto}
+.res-circle{width:120px;height:120px;border-radius:50%;border:4px solid var(--blue);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px}
+.res-big{font-size:38px;font-weight:700}
+.res-den{font-size:16px;color:var(--text2)}
+.res-grade{font-size:20px;font-weight:700;margin-bottom:6px}
+.res-msg{font-size:14px;color:var(--text2);max-width:340px;margin:0 auto 24px;line-height:1.6}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.sbox{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.sbox-n{font-size:22px;font-weight:700}
+.sbox-l{font-size:11px;color:var(--text2);margin-top:3px}
+.brow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.btn-o{padding:11px 22px;border-radius:8px;border:2px solid var(--blue);background:transparent;color:var(--blue);font-size:13px;font-weight:700;cursor:pointer}
+.btn-o:hover{background:var(--blue);color:#fff}
+.wrong-list{text-align:left;display:flex;flex-direction:column;gap:8px}
+.wi{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;padding:12px 14px}
+.wi-phrase{font-size:14px;font-weight:700;margin-bottom:3px}
+.wi-detail{font-size:12px;color:var(--text2)}
+.wi-ans{font-size:12px;color:var(--red);margin-top:3px}
+
+/* WRONG BOOK */
+.wb-empty{text-align:center;padding:60px 20px;color:var(--text3)}
+
+/* LEADERBOARD */
+.lb{max-width:600px;margin:0 auto}
+.lb-hdr{display:grid;grid-template-columns:48px 1fr 90px 80px;gap:8px;padding:8px 16px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.lb-row{display:grid;grid-template-columns:48px 1fr 90px 80px;gap:8px;align-items:center;padding:13px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:6px}
+.lb-row.me{border-color:var(--blue);background:#0a1629}
+.lb-rank{font-size:15px;font-weight:700;color:var(--text3);text-align:center}
+.lb-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.lb-av{width:28px;height:28px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.lb-pts{font-size:14px;font-weight:700;color:var(--amber);text-align:right}
+.lb-q{font-size:12px;color:var(--text2);text-align:right}
+
+/* PROFILE */
+.prof-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:20px}
+.prof-av{width:64px;height:64px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;flex-shrink:0}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.scard .n{font-size:28px;font-weight:700;margin-bottom:4px}
+.scard .l{font-size:12px;color:var(--text2)}
+.logout-btn{width:100%;padding:12px;border-radius:8px;border:1px solid var(--red);background:transparent;color:var(--red);font-size:14px;font-weight:600;cursor:pointer}
+.logout-btn:hover{background:var(--red);color:#fff}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:13px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:var(--green);color:var(--green)}
+.toast.bad{border-color:var(--red);color:var(--red)}
+
+@media(max-width:500px){
+  .res-stats{grid-template-columns:1fr 1fr}
+  .lb-hdr,.lb-row{grid-template-columns:36px 1fr 80px}
+  .lb-q{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo"><div class="logo-dot"></div>Aaron's English Hub</div>
+  <div id="tbr">
+    <button class="btn-p" style="width:auto;padding:7px 18px;font-size:13px" onclick="show('login')">Sign In</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="nav" style="display:none">
+  <button class="nb on" onclick="show('learn')">📚 Learn</button>
+  <button class="nb" onclick="show('quiz')">✏️ Quiz</button>
+  <button class="nb" onclick="show('wrongbook')">📕 Wrong Book</button>
+  <button class="nb" onclick="show('lb')">🏆 Rankings</button>
+  <button class="nb" onclick="show('profile')">👤 Profile</button>
+</div>
+
+<!-- LOGIN -->
+<div class="page show" id="page-login">
+  <div class="auth-box">
+    <h2>Welcome back</h2>
+    <p>Sign in to track points and rankings</p>
+    <div class="errmsg" id="lerr"></div>
+    <div class="field"><label>Email</label><input type="email" id="lem" placeholder="you@example.com"></div>
+    <div class="field"><label>Password</label><input type="password" id="lpw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn-p" onclick="doLogin()">Sign In</button>
+    <p class="switch">No account? <a onclick="show('register')">Create one free</a></p>
+    <p class="switch" style="margin-top:8px"><a onclick="guestMode()">Continue as guest →</a></p>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div class="page" id="page-register">
+  <div class="auth-box">
+    <h2>Create account</h2>
+    <p>Free — earn points, track progress, join rankings</p>
+    <div class="errmsg" id="rerr"></div>
+    <div class="okmsg" id="rok"></div>
+    <div class="field"><label>Username</label><input type="text" id="rname" placeholder="YourName"></div>
+    <div class="field"><label>Email</label><input type="email" id="rem" placeholder="you@example.com"></div>
+    <div class="field"><label>Password</label><input type="password" id="rpw" placeholder="At least 6 characters"></div>
+    <button class="btn-p" onclick="doRegister()">Create Account</button>
+    <p class="switch">Already have one? <a onclick="show('login')">Sign in</a></p>
+  </div>
+</div>
+
+<!-- LEARN -->
+<div class="page" id="page-learn">
+  <div class="sh"><span class="st">April 2026 · 250 Expressions</span><span style="font-size:12px;color:var(--text3)" id="lcount"></span></div>
+  <input class="sbar" id="lsearch" placeholder="Search any word or meaning..." oninput="renderLearn()">
+  <div class="ctabs">
+    <button class="ct on" onclick="setCat('all',this)">All 250</button>
+    <button class="ct" onclick="setCat('idiom',this)">💬 Idioms 100</button>
+    <button class="ct" onclick="setCat('phrase',this)">📢 Phrases 100</button>
+    <button class="ct" onclick="setCat('vocab',this)">📖 Vocab 50</button>
+  </div>
+  <div class="vgrid" id="llist"></div>
+</div>
+
+<!-- QUIZ -->
+<div class="page" id="page-quiz">
+  <div id="qsetup-v" class="qsetup">
+    <h2>Test Your Knowledge</h2>
+    <p>Choose a category and question type</p>
+    <div class="qopts" id="qcat-opts">
+      <div class="qo on" data-v="all" onclick="selQO(this,'cat')"><div class="qo-icon">🌐</div><div class="qo-lbl">All</div><div class="qo-desc">250 expressions</div></div>
+      <div class="qo" data-v="idiom" onclick="selQO(this,'cat')"><div class="qo-icon">💬</div><div class="qo-lbl">Idioms</div><div class="qo-desc">100 idioms</div></div>
+      <div class="qo" data-v="phrase" onclick="selQO(this,'cat')"><div class="qo-icon">📢</div><div class="qo-lbl">Phrases</div><div class="qo-desc">100 phrases</div></div>
+      <div class="qo" data-v="vocab" onclick="selQO(this,'cat')"><div class="qo-icon">📖</div><div class="qo-lbl">Vocab</div><div class="qo-desc">50 words</div></div>
+    </div>
+    <div class="qopts" id="qtype-opts" style="margin-top:-4px">
+      <div class="qo on" data-v="mc" onclick="selQO(this,'type')"><div class="qo-icon">🔘</div><div class="qo-lbl">Multiple Choice</div><div class="qo-desc">Pick the answer</div></div>
+      <div class="qo" data-v="fill" onclick="selQO(this,'type')"><div class="qo-icon">✍️</div><div class="qo-lbl">Fill in Blank</div><div class="qo-desc">Type the answer</div></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <span style="font-size:13px;color:var(--text2);margin-right:10px">Questions:</span>
+      <select id="qn-sel" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;font-size:13px">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+  <div id="qactive-v" style="display:none">
+    <div class="qwrap">
+      <div class="qpbar"><div class="qpfill" id="qpf"></div></div>
+      <div class="qmeta"><span id="qnl"></span><span id="qsl"></span></div>
+      <div id="qbody"></div>
+    </div>
+  </div>
+  <div id="qresult-v" style="display:none"></div>
+</div>
+
+<!-- WRONG BOOK -->
+<div class="page" id="page-wrongbook">
+  <div class="sh"><span class="st">Wrong Book</span><button class="btn-o" style="font-size:12px;padding:5px 14px" onclick="clearWB()">Clear all</button></div>
+  <div id="wblist"></div>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="page" id="page-lb">
+  <div class="sh" style="margin-bottom:20px"><span class="st">Top Learners</span><span style="font-size:12px;color:var(--text3)" id="lb-ts"></span></div>
+  <div class="lb">
+    <div class="lb-hdr"><div style="text-align:center">Rank</div><div>Player</div><div style="text-align:right">Points</div><div style="text-align:right">Quizzes</div></div>
+    <div id="lbdata"></div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="page" id="page-profile">
+  <div id="profdata"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+// SUPABASE — replace with YOUR keys
+// ═══════════════════════════════════════
+var SURL = 'https://umknukqosomgcufcrjav.supabase.co';
+var SKEY = 'sb_publishable_UJVv2DJvkr8qNihXkHZI5g_BlpXy5Hz';
+var sb = supabase.createClient(SURL, SKEY);
+
+// ═══════════════════════════════════════
+// DATA — 250 expressions
+// ═══════════════════════════════════════
+var DATA = [
+// 100 IDIOMS
+{id:1,type:'idiom',phrase:'hit the nail on the head',meaning:'To be exactly right about something.',example:'You <em>hit the nail on the head</em> — that is exactly the problem.',scene:'Someone correctly identifies a problem.'},
+{id:2,type:'idiom',phrase:'under the weather',meaning:'Feeling sick or unwell.',example:'I am feeling <em>under the weather</em> today so I will skip the meeting.',scene:'You are not feeling well.'},
+{id:3,type:'idiom',phrase:'bite the bullet',meaning:'To endure a painful situation with courage.',example:'I just had to <em>bite the bullet</em> and have that difficult conversation.',scene:'You face something unpleasant.'},
+{id:4,type:'idiom',phrase:'spill the beans',meaning:'To reveal secret information.',example:'Do not <em>spill the beans</em> — it is a surprise party!',scene:'Someone might reveal a secret.'},
+{id:5,type:'idiom',phrase:'break the ice',meaning:'To relieve tension and start a conversation.',example:'He told a joke to <em>break the ice</em> at the meeting.',scene:'A group of strangers meet.'},
+{id:6,type:'idiom',phrase:'on the fence',meaning:'Undecided between two options.',example:'I am still <em>on the fence</em> about accepting the job offer.',scene:'You cannot make a decision.'},
+{id:7,type:'idiom',phrase:'hit the sack',meaning:'To go to bed and sleep.',example:'I am exhausted — time to <em>hit the sack</em>.',scene:'Late at night after a long day.'},
+{id:8,type:'idiom',phrase:'costs an arm and a leg',meaning:'Extremely expensive.',example:'That designer bag <em>costs an arm and a leg</em>.',scene:'Something is very overpriced.'},
+{id:9,type:'idiom',phrase:'once in a blue moon',meaning:'Very rarely.',example:'He calls his parents <em>once in a blue moon</em>.',scene:'Something almost never happens.'},
+{id:10,type:'idiom',phrase:'the elephant in the room',meaning:'An obvious problem nobody wants to discuss.',example:'The budget crisis is <em>the elephant in the room</em> at every meeting.',scene:'Everyone ignores an obvious issue.'},
+{id:11,type:'idiom',phrase:'out of the blue',meaning:'Unexpectedly with no warning.',example:'She called me <em>out of the blue</em> after five years.',scene:'Something happens with no warning.'},
+{id:12,type:'idiom',phrase:'burn bridges',meaning:'To permanently damage a relationship.',example:'Do not <em>burn bridges</em> when you quit — you might need them again.',scene:'You leave a job or relationship badly.'},
+{id:13,type:'idiom',phrase:'beat around the bush',meaning:'To avoid the main topic.',example:'Stop <em>beating around the bush</em> and just tell me the truth.',scene:'Someone is not being direct.'},
+{id:14,type:'idiom',phrase:'cut corners',meaning:'To do something poorly to save time or money.',example:'They <em>cut corners</em> on construction and the building leaked.',scene:'Quality is sacrificed for speed.'},
+{id:15,type:'idiom',phrase:'hit the books',meaning:'To study hard.',example:'I need to <em>hit the books</em> — exams are next week.',scene:'Exams are coming up.'},
+{id:16,type:'idiom',phrase:'let the cat out of the bag',meaning:'To accidentally reveal a secret.',example:'She <em>let the cat out of the bag</em> about the promotion.',scene:'A secret is accidentally revealed.'},
+{id:17,type:'idiom',phrase:'kill two birds with one stone',meaning:'To accomplish two things with one action.',example:'I will drop off the package and grab groceries — <em>kill two birds with one stone</em>.',scene:'You can do two errands at once.'},
+{id:18,type:'idiom',phrase:'the last straw',meaning:'The final problem that makes a situation unbearable.',example:'His constant lateness was <em>the last straw</em> — she fired him.',scene:'Patience finally runs out.'},
+{id:19,type:'idiom',phrase:'back to square one',meaning:'To start over from the beginning.',example:'The prototype failed so we are <em>back to square one</em>.',scene:'A plan fails completely.'},
+{id:20,type:'idiom',phrase:'bite off more than you can chew',meaning:'To take on more than you can handle.',example:'I <em>bit off more than I could chew</em> taking three courses at once.',scene:'You overcommit yourself.'},
+{id:21,type:'idiom',phrase:'a blessing in disguise',meaning:'Something bad that turns out to be good.',example:'Losing that job was <em>a blessing in disguise</em> — I found a better one.',scene:'A bad event leads to something good.'},
+{id:22,type:'idiom',phrase:'miss the boat',meaning:'To miss an opportunity.',example:'He <em>missed the boat</em> on investing in that startup.',scene:'An opportunity passes by.'},
+{id:23,type:'idiom',phrase:'get out of hand',meaning:'To become uncontrollable.',example:'The party <em>got out of hand</em> — neighbors called the police.',scene:'A situation becomes chaotic.'},
+{id:24,type:'idiom',phrase:'on thin ice',meaning:'In a risky or dangerous situation.',example:'After two warnings he is <em>on thin ice</em> with his boss.',scene:'Someone is close to serious trouble.'},
+{id:25,type:'idiom',phrase:'pull someone\'s leg',meaning:'To joke or tease someone.',example:'Are you serious or just <em>pulling my leg</em>?',scene:'Someone says something unbelievable.'},
+{id:26,type:'idiom',phrase:'throw someone under the bus',meaning:'To blame someone else to protect yourself.',example:'He <em>threw his coworker under the bus</em> to avoid getting fired.',scene:'Someone is unfairly blamed.'},
+{id:27,type:'idiom',phrase:'get the ball rolling',meaning:'To start something.',example:'Let us <em>get the ball rolling</em> on this project.',scene:'Starting a new initiative.'},
+{id:28,type:'idiom',phrase:'in the same boat',meaning:'In the same difficult situation.',example:'We are all <em>in the same boat</em> — nobody knows what to do.',scene:'Everyone shares the same problem.'},
+{id:29,type:'idiom',phrase:'take it with a grain of salt',meaning:'To be skeptical about something.',example:'Take his advice <em>with a grain of salt</em> — he exaggerates.',scene:'Someone gives questionable advice.'},
+{id:30,type:'idiom',phrase:'drop the ball',meaning:'To make a mistake or fail at something.',example:'I really <em>dropped the ball</em> forgetting that deadline.',scene:'Someone fails a responsibility.'},
+{id:31,type:'idiom',phrase:'up in the air',meaning:'Uncertain or unresolved.',example:'Our vacation plans are still <em>up in the air</em>.',scene:'Plans have not been confirmed.'},
+{id:32,type:'idiom',phrase:'add fuel to the fire',meaning:'To make a bad situation worse.',example:'His sarcastic comment only <em>added fuel to the fire</em>.',scene:'An argument escalates.'},
+{id:33,type:'idiom',phrase:'the ball is in your court',meaning:'It is your turn to act.',example:'I have made my offer — <em>the ball is in your court</em>.',scene:'Waiting for someone to respond.'},
+{id:34,type:'idiom',phrase:'in hot water',meaning:'In trouble.',example:'He is <em>in hot water</em> with management over that email.',scene:'Someone is facing consequences.'},
+{id:35,type:'idiom',phrase:'read between the lines',meaning:'To understand the hidden meaning.',example:'<em>Read between the lines</em> — she is not happy about the decision.',scene:'Someone implies without saying directly.'},
+{id:36,type:'idiom',phrase:'steal someone\'s thunder',meaning:'To take attention away from someone.',example:'He announced his news and <em>stole her thunder</em>.',scene:'Someone upstages another person.'},
+{id:37,type:'idiom',phrase:'in a nutshell',meaning:'In a brief summary.',example:'<em>In a nutshell</em>, we need more funding.',scene:'Summarizing a complex situation.'},
+{id:38,type:'idiom',phrase:'through thick and thin',meaning:'In all circumstances good and bad.',example:'They have been friends <em>through thick and thin</em>.',scene:'A loyal friendship.'},
+{id:39,type:'idiom',phrase:'on a roll',meaning:'Experiencing a streak of success.',example:'She is <em>on a roll</em> — three promotions in two years.',scene:'Someone has many successes.'},
+{id:40,type:'idiom',phrase:'turn a blind eye',meaning:'To ignore something on purpose.',example:'The manager <em>turned a blind eye</em> to the violations.',scene:'A problem is deliberately ignored.'},
+{id:41,type:'idiom',phrase:'have a lot on your plate',meaning:'To be very busy.',example:'I cannot take on more — I <em>have a lot on my plate</em>.',scene:'Someone is overwhelmed with tasks.'},
+{id:42,type:'idiom',phrase:'get your ducks in a row',meaning:'To organize everything properly.',example:'<em>Get your ducks in a row</em> before the presentation.',scene:'Preparing for something important.'},
+{id:43,type:'idiom',phrase:'the tip of the iceberg',meaning:'Only a small visible part of a much larger problem.',example:'Those complaints are just <em>the tip of the iceberg</em>.',scene:'A bigger problem exists beneath.'},
+{id:44,type:'idiom',phrase:'get cold feet',meaning:'To become nervous and hesitant.',example:'She <em>got cold feet</em> right before the wedding.',scene:'Someone backs out at the last moment.'},
+{id:45,type:'idiom',phrase:'face the music',meaning:'To accept the consequences of your actions.',example:'He made the mistake — now he has to <em>face the music</em>.',scene:'Accepting punishment.'},
+{id:46,type:'idiom',phrase:'burn the midnight oil',meaning:'To work very late into the night.',example:'She <em>burned the midnight oil</em> to finish the report.',scene:'Working through the night.'},
+{id:47,type:'idiom',phrase:'throw in the towel',meaning:'To give up.',example:'After three failed attempts he <em>threw in the towel</em>.',scene:'Giving up on something.'},
+{id:48,type:'idiom',phrase:'go the extra mile',meaning:'To do more than expected.',example:'She always <em>goes the extra mile</em> for her clients.',scene:'Someone gives exceptional effort.'},
+{id:49,type:'idiom',phrase:'at the drop of a hat',meaning:'Immediately and without hesitation.',example:'She would move to Paris <em>at the drop of a hat</em>.',scene:'Someone acts with no hesitation.'},
+{id:50,type:'idiom',phrase:'bark up the wrong tree',meaning:'To pursue the wrong course of action.',example:'You are <em>barking up the wrong tree</em> — I did not take it.',scene:'Someone focuses on the wrong thing.'},
+{id:51,type:'idiom',phrase:'in the loop',meaning:'Kept informed and up to date.',example:'Keep me <em>in the loop</em> about any changes.',scene:'Someone wants to stay informed.'},
+{id:52,type:'idiom',phrase:'jump on the bandwagon',meaning:'To follow a trend.',example:'Everyone is <em>jumping on the bandwagon</em> with crypto.',scene:'A trend is becoming popular.'},
+{id:53,type:'idiom',phrase:'neck and neck',meaning:'Very close in competition.',example:'The two candidates are <em>neck and neck</em> in the polls.',scene:'A very close race or competition.'},
+{id:54,type:'idiom',phrase:'pass the buck',meaning:'To shift responsibility to someone else.',example:'Stop <em>passing the buck</em> — own your mistakes.',scene:'Someone avoids responsibility.'},
+{id:55,type:'idiom',phrase:'hit the ground running',meaning:'To start something quickly with full effort.',example:'The new hire <em>hit the ground running</em> on day one.',scene:'Someone starts a job energetically.'},
+{id:56,type:'idiom',phrase:'no strings attached',meaning:'With no hidden conditions.',example:'The loan comes with <em>no strings attached</em>.',scene:'An offer without conditions.'},
+{id:57,type:'idiom',phrase:'over the moon',meaning:'Extremely happy.',example:'She was <em>over the moon</em> about getting into Harvard.',scene:'Someone receives wonderful news.'},
+{id:58,type:'idiom',phrase:'cut to the chase',meaning:'To get to the point directly.',example:'<em>Cut to the chase</em> — what is the price?',scene:'Someone is wasting time.'},
+{id:59,type:'idiom',phrase:'dodge a bullet',meaning:'To narrowly avoid something bad.',example:'We <em>dodged a bullet</em> — the deal fell through before we lost money.',scene:'A bad thing was narrowly avoided.'},
+{id:60,type:'idiom',phrase:'put all your eggs in one basket',meaning:'To risk everything on one option.',example:'Do not <em>put all your eggs in one basket</em> — diversify.',scene:'Risky over-reliance on one thing.'},
+{id:61,type:'idiom',phrase:'sell like hotcakes',meaning:'To sell very quickly in large quantities.',example:'The new iPhone <em>sold like hotcakes</em>.',scene:'A product is extremely popular.'},
+{id:62,type:'idiom',phrase:'make ends meet',meaning:'To have just enough money to survive.',example:'With two jobs she can barely <em>make ends meet</em>.',scene:'Financial struggle.'},
+{id:63,type:'idiom',phrase:'see eye to eye',meaning:'To agree on something.',example:'We do not always <em>see eye to eye</em> but we respect each other.',scene:'Two people agree or disagree.'},
+{id:64,type:'idiom',phrase:'in the nick of time',meaning:'Just in time at the last possible moment.',example:'The ambulance arrived <em>in the nick of time</em>.',scene:'Something happens at the last second.'},
+{id:65,type:'idiom',phrase:'bite the dust',meaning:'To fail or end.',example:'Another startup <em>bites the dust</em>.',scene:'Something fails or ends.'},
+{id:66,type:'idiom',phrase:'show your true colors',meaning:'To reveal your real character.',example:'He <em>showed his true colors</em> after the promotion.',scene:'Someone\'s real personality is revealed.'},
+{id:67,type:'idiom',phrase:'take the bull by the horns',meaning:'To confront a problem directly.',example:'She <em>took the bull by the horns</em> and confronted her boss.',scene:'Facing a challenge head-on.'},
+{id:68,type:'idiom',phrase:'under someone\'s thumb',meaning:'Controlled by someone.',example:'He has been <em>under his boss\'s thumb</em> for years.',scene:'Someone is being controlled.'},
+{id:69,type:'idiom',phrase:'water under the bridge',meaning:'Past events that are over and forgotten.',example:'The argument happened years ago — <em>water under the bridge</em>.',scene:'Letting go of past conflicts.'},
+{id:70,type:'idiom',phrase:'when pigs fly',meaning:'Something that will never happen.',example:'He will apologize <em>when pigs fly</em>.',scene:'Something is highly unlikely.'},
+{id:71,type:'idiom',phrase:'blow off steam',meaning:'To release frustration or stress.',example:'He goes running to <em>blow off steam</em>.',scene:'Releasing pent-up frustration.'},
+{id:72,type:'idiom',phrase:'break even',meaning:'To have no profit or loss.',example:'After expenses the event just <em>broke even</em>.',scene:'No net gain or loss.'},
+{id:73,type:'idiom',phrase:'run out of steam',meaning:'To lose energy or motivation.',example:'The project <em>ran out of steam</em> halfway through.',scene:'Energy or enthusiasm fades.'},
+{id:74,type:'idiom',phrase:'stir the pot',meaning:'To cause trouble or drama intentionally.',example:'She loves <em>stirring the pot</em> at family dinners.',scene:'Someone creates conflict intentionally.'},
+{id:75,type:'idiom',phrase:'speak of the devil',meaning:'Said when someone appears just as you mention them.',example:'<em>Speak of the devil</em> — here comes Sarah now.',scene:'Someone arrives right as you say their name.'},
+{id:76,type:'idiom',phrase:'weather the storm',meaning:'To survive a difficult period.',example:'The company <em>weathered the storm</em> of the recession.',scene:'Surviving a hard period.'},
+{id:77,type:'idiom',phrase:'let sleeping dogs lie',meaning:'To avoid bringing up old problems.',example:'Do not mention the lawsuit — <em>let sleeping dogs lie</em>.',scene:'Avoiding stirring up old trouble.'},
+{id:78,type:'idiom',phrase:'give the benefit of the doubt',meaning:'To trust someone despite uncertainty.',example:'She is new — <em>give her the benefit of the doubt</em>.',scene:'Judging someone fairly.'},
+{id:79,type:'idiom',phrase:'take the cake',meaning:'To be the most extreme example.',example:'That excuse really <em>takes the cake</em>.',scene:'Something is surprisingly bad or extreme.'},
+{id:80,type:'idiom',phrase:'miss the point',meaning:'To fail to understand the main idea.',example:'He completely <em>missed the point</em> of her feedback.',scene:'Someone misunderstands what was meant.'},
+{id:81,type:'idiom',phrase:'keep your chin up',meaning:'To stay positive in a difficult situation.',example:'<em>Keep your chin up</em> — things will improve.',scene:'Encouraging someone facing hardship.'},
+{id:82,type:'idiom',phrase:'cost a fortune',meaning:'To be very expensive.',example:'Renovating the kitchen <em>cost a fortune</em>.',scene:'Something costs a lot of money.'},
+{id:83,type:'idiom',phrase:'have the upper hand',meaning:'To be in a position of advantage.',example:'With more data we will <em>have the upper hand</em> in negotiations.',scene:'One side has an advantage.'},
+{id:84,type:'idiom',phrase:'think on your feet',meaning:'To make quick decisions without preparation.',example:'Good teachers can <em>think on their feet</em>.',scene:'Responding quickly to unexpected situations.'},
+{id:85,type:'idiom',phrase:'drive someone up the wall',meaning:'To irritate or annoy someone greatly.',example:'That constant tapping is <em>driving me up the wall</em>.',scene:'Something is extremely annoying.'},
+{id:86,type:'idiom',phrase:'go back to the drawing board',meaning:'To start a plan over from scratch.',example:'The client rejected it — <em>back to the drawing board</em>.',scene:'A proposal is rejected.'},
+{id:87,type:'idiom',phrase:'under wraps',meaning:'Kept secret.',example:'The new product is still <em>under wraps</em>.',scene:'Secret project not yet revealed.'},
+{id:88,type:'idiom',phrase:'no pain no gain',meaning:'You must work hard to get results.',example:'I hate the gym but <em>no pain no gain</em>.',scene:'Someone complains about effort.'},
+{id:89,type:'idiom',phrase:'push the envelope',meaning:'To go beyond normal limits.',example:'This design really <em>pushes the envelope</em>.',scene:'Something is bold or unconventional.'},
+{id:90,type:'idiom',phrase:'have an ace up your sleeve',meaning:'To have a hidden advantage.',example:'She has <em>an ace up her sleeve</em> in the negotiation.',scene:'Someone has a secret advantage.'},
+{id:91,type:'idiom',phrase:'wrap your head around',meaning:'To understand something complex.',example:'I cannot <em>wrap my head around</em> quantum physics.',scene:'Something is hard to understand.'},
+{id:92,type:'idiom',phrase:'at the end of your rope',meaning:'At the limit of your patience.',example:'After six hours of delays I was <em>at the end of my rope</em>.',scene:'Someone is completely exhausted.'},
+{id:93,type:'idiom',phrase:'strike while the iron is hot',meaning:'To act at the best opportunity.',example:'Submit the application now — <em>strike while the iron is hot</em>.',scene:'A good opportunity exists right now.'},
+{id:94,type:'idiom',phrase:'pull strings',meaning:'To use influence to get something done.',example:'His father <em>pulled strings</em> to get him the internship.',scene:'Using connections for an advantage.'},
+{id:95,type:'idiom',phrase:'get a taste of your own medicine',meaning:'To experience what you have done to others.',example:'He finally <em>got a taste of his own medicine</em>.',scene:'Someone faces the same treatment they give others.'},
+{id:96,type:'idiom',phrase:'straight from the horse\'s mouth',meaning:'Directly from the original source.',example:'I heard it <em>straight from the horse\'s mouth</em>.',scene:'Information from a reliable direct source.'},
+{id:97,type:'idiom',phrase:'tie the knot',meaning:'To get married.',example:'They are <em>tying the knot</em> in June.',scene:'A wedding is planned.'},
+{id:98,type:'idiom',phrase:'vanish into thin air',meaning:'To disappear completely.',example:'The money just <em>vanished into thin air</em>.',scene:'Something disappears without a trace.'},
+{id:99,type:'idiom',phrase:'you cannot have your cake and eat it too',meaning:'You cannot have everything at once.',example:'<em>You cannot have your cake and eat it too</em> — choose one.',scene:'Choosing between two incompatible things.'},
+{id:100,type:'idiom',phrase:'pull it off',meaning:'To succeed at something difficult.',example:'I did not think we could do it but we <em>pulled it off</em>.',scene:'Achieving something challenging.'},
+
+// 100 PHRASES
+{id:101,type:'phrase',phrase:'double down',meaning:'To increase commitment even under pressure.',example:'Instead of apologizing he <em>doubled down</em> on his claims.',scene:'Someone refuses to back down.'},
+{id:102,type:'phrase',phrase:'circle back',meaning:'To return to a topic later.',example:'Let us <em>circle back</em> to this after the break.',scene:'A meeting agenda item is postponed.'},
+{id:103,type:'phrase',phrase:'touch base',meaning:'To make brief contact with someone.',example:'I will <em>touch base</em> with you on Friday.',scene:'A quick check-in.'},
+{id:104,type:'phrase',phrase:'reach out',meaning:'To contact someone.',example:'Feel free to <em>reach out</em> with any questions.',scene:'Inviting someone to contact you.'},
+{id:105,type:'phrase',phrase:'move the needle',meaning:'To make a significant impact or change.',example:'This campaign really <em>moved the needle</em> on awareness.',scene:'Measuring meaningful progress.'},
+{id:106,type:'phrase',phrase:'think outside the box',meaning:'To think creatively beyond conventional approaches.',example:'We need to <em>think outside the box</em> to solve this.',scene:'Seeking a creative solution.'},
+{id:107,type:'phrase',phrase:'deep dive',meaning:'A thorough and detailed examination.',example:'Let us do a <em>deep dive</em> into the data.',scene:'Analyzing something in detail.'},
+{id:108,type:'phrase',phrase:'take ownership',meaning:'To accept full responsibility for something.',example:'I want every team member to <em>take ownership</em> of their work.',scene:'Assigning accountability.'},
+{id:109,type:'phrase',phrase:'leverage',meaning:'To use something to maximum advantage.',example:'We need to <em>leverage</em> our existing network.',scene:'Using resources strategically.'},
+{id:110,type:'phrase',phrase:'drill down',meaning:'To examine something in greater detail.',example:'Let us <em>drill down</em> into the Q3 numbers.',scene:'Seeking more specific information.'},
+{id:111,type:'phrase',phrase:'pivot',meaning:'To change direction or strategy.',example:'The startup had to <em>pivot</em> after the market shifted.',scene:'Changing business strategy.'},
+{id:112,type:'phrase',phrase:'game changer',meaning:'Something that radically changes a situation.',example:'Remote work was a real <em>game changer</em>.',scene:'Describing a transformative development.'},
+{id:113,type:'phrase',phrase:'pain point',meaning:'A specific problem experienced by customers.',example:'Customer service is our biggest <em>pain point</em>.',scene:'Identifying a key problem.'},
+{id:114,type:'phrase',phrase:'walk back',meaning:'To retract or soften a previous statement.',example:'The politician tried to <em>walk back</em> his earlier comments.',scene:'Taking back a statement.'},
+{id:115,type:'phrase',phrase:'bandwidth',meaning:'Available time energy or capacity.',example:'I do not have the <em>bandwidth</em> for another project.',scene:'Being too busy to take on more.'},
+{id:116,type:'phrase',phrase:'low-hanging fruit',meaning:'The easiest tasks or goals to achieve first.',example:'Start with the <em>low-hanging fruit</em> before the hard problems.',scene:'Prioritizing easy wins.'},
+{id:117,type:'phrase',phrase:'push back',meaning:'To resist or express disagreement.',example:'The team <em>pushed back</em> on the new policy.',scene:'Opposing a decision.'},
+{id:118,type:'phrase',phrase:'loop in',meaning:'To include someone in communication.',example:'<em>Loop in</em> Sarah before you send that email.',scene:'Adding someone to a conversation.'},
+{id:119,type:'phrase',phrase:'fast track',meaning:'To speed up a process.',example:'They <em>fast tracked</em> the approval.',scene:'Accelerating something.'},
+{id:120,type:'phrase',phrase:'put a pin in it',meaning:'To pause discussion for later.',example:'Let us <em>put a pin in it</em> and revisit tomorrow.',scene:'Deferring a conversation.'},
+{id:121,type:'phrase',phrase:'get buy-in',meaning:'To gain agreement and support from others.',example:'Get <em>buy-in</em> from leadership before proceeding.',scene:'Seeking approval.'},
+{id:122,type:'phrase',phrase:'go viral',meaning:'To spread rapidly across the internet.',example:'That video <em>went viral</em> overnight.',scene:'Content spreads widely online.'},
+{id:123,type:'phrase',phrase:'heads down',meaning:'Focused and working intensely.',example:'I will be <em>heads down</em> this week finishing the report.',scene:'Working without distraction.'},
+{id:124,type:'phrase',phrase:'sync up',meaning:'To align or coordinate with someone.',example:'Let us <em>sync up</em> before the client call.',scene:'Brief alignment meeting.'},
+{id:125,type:'phrase',phrase:'ramp up',meaning:'To increase rapidly.',example:'We need to <em>ramp up</em> production immediately.',scene:'Scaling something quickly.'},
+{id:126,type:'phrase',phrase:'roll out',meaning:'To launch or introduce something.',example:'The new feature will <em>roll out</em> next month.',scene:'Releasing a product or update.'},
+{id:127,type:'phrase',phrase:'sign off on',meaning:'To give formal approval.',example:'The board <em>signed off on</em> the new budget.',scene:'Formal approval process.'},
+{id:128,type:'phrase',phrase:'follow through',meaning:'To complete what you started.',example:'Good ideas are useless without <em>following through</em>.',scene:'Completing commitments.'},
+{id:129,type:'phrase',phrase:'wrap up',meaning:'To finish or conclude.',example:'Let us <em>wrap up</em> in five minutes.',scene:'Ending a meeting.'},
+{id:130,type:'phrase',phrase:'at the end of the day',meaning:'Ultimately when everything is considered.',example:'<em>At the end of the day</em> results are what matter.',scene:'Summarizing what matters most.'},
+{id:131,type:'phrase',phrase:'long story short',meaning:'To summarize briefly.',example:'<em>Long story short</em> we did not get the contract.',scene:'Cutting to a summary.'},
+{id:132,type:'phrase',phrase:'not gonna lie',meaning:'Used to emphasize honesty.',example:'<em>Not gonna lie</em> that presentation was rough.',scene:'Admitting something honestly.'},
+{id:133,type:'phrase',phrase:'on the same page',meaning:'In agreement or having the same understanding.',example:'Let us make sure we are all <em>on the same page</em>.',scene:'Ensuring shared understanding.'},
+{id:134,type:'phrase',phrase:'give it a shot',meaning:'To try something.',example:'I have never cooked Thai food but I will <em>give it a shot</em>.',scene:'Attempting something new.'},
+{id:135,type:'phrase',phrase:'call it a day',meaning:'To stop working for the day.',example:'We have done enough — let us <em>call it a day</em>.',scene:'Ending a workday.'},
+{id:136,type:'phrase',phrase:'nail it',meaning:'To do something perfectly.',example:'She <em>nailed</em> the interview.',scene:'Performing perfectly.'},
+{id:137,type:'phrase',phrase:'step up',meaning:'To increase effort or take on more responsibility.',example:'We need to <em>step up</em> our marketing.',scene:'Increasing effort.'},
+{id:138,type:'phrase',phrase:'check in',meaning:'To make contact and see how someone is doing.',example:'Let us <em>check in</em> on Friday to see progress.',scene:'Brief status update.'},
+{id:139,type:'phrase',phrase:'dial in',meaning:'To precisely adjust or focus.',example:'We need to <em>dial in</em> our marketing strategy.',scene:'Fine-tuning an approach.'},
+{id:140,type:'phrase',phrase:'lay out',meaning:'To explain clearly and in detail.',example:'Let me <em>lay out</em> the plan.',scene:'Presenting information clearly.'},
+{id:141,type:'phrase',phrase:'break down',meaning:'To explain in simpler parts.',example:'Let me <em>break down</em> what this means.',scene:'Simplifying a complex topic.'},
+{id:142,type:'phrase',phrase:'come through',meaning:'To succeed when needed.',example:'She always <em>comes through</em> in a crisis.',scene:'Reliable performance when needed.'},
+{id:143,type:'phrase',phrase:'weigh in',meaning:'To give an opinion on something.',example:'I would like to <em>weigh in</em> before we decide.',scene:'Adding one\'s perspective.'},
+{id:144,type:'phrase',phrase:'crack down',meaning:'To enforce rules more strictly.',example:'The city is <em>cracking down</em> on illegal parking.',scene:'Stricter enforcement of rules.'},
+{id:145,type:'phrase',phrase:'burn out',meaning:'To exhaust oneself through overwork.',example:'She <em>burned out</em> after three years of 80-hour weeks.',scene:'Exhaustion from overwork.'},
+{id:146,type:'phrase',phrase:'stand out',meaning:'To be noticeably different or better.',example:'Her portfolio really <em>stood out</em>.',scene:'Someone is impressively distinct.'},
+{id:147,type:'phrase',phrase:'gear up',meaning:'To prepare for something.',example:'<em>Gear up</em> for the busy season.',scene:'Preparing for an upcoming challenge.'},
+{id:148,type:'phrase',phrase:'sort out',meaning:'To resolve or organize something.',example:'I will <em>sort out</em> the scheduling conflict.',scene:'Fixing or organizing something.'},
+{id:149,type:'phrase',phrase:'look into',meaning:'To investigate or research.',example:'I will <em>look into</em> the issue and get back to you.',scene:'Investigating a problem.'},
+{id:150,type:'phrase',phrase:'map out',meaning:'To plan in detail.',example:'Let us <em>map out</em> the strategy.',scene:'Detailed planning session.'},
+{id:151,type:'phrase',phrase:'narrow down',meaning:'To reduce options.',example:'We <em>narrowed down</em> the candidates to three.',scene:'Shortlisting options.'},
+{id:152,type:'phrase',phrase:'rule out',meaning:'To eliminate as a possibility.',example:'We cannot <em>rule out</em> a cyberattack.',scene:'Eliminating possibilities.'},
+{id:153,type:'phrase',phrase:'figure out',meaning:'To understand or solve.',example:'I cannot <em>figure out</em> why it is not working.',scene:'Trying to solve a problem.'},
+{id:154,type:'phrase',phrase:'fall apart',meaning:'To disintegrate or fail.',example:'The deal <em>fell apart</em> at the last minute.',scene:'Something fails completely.'},
+{id:155,type:'phrase',phrase:'take off',meaning:'To become successful rapidly.',example:'The product really <em>took off</em> after the viral post.',scene:'Something grows rapidly.'},
+{id:156,type:'phrase',phrase:'pile up',meaning:'To accumulate.',example:'Work is really <em>piling up</em> this week.',scene:'Tasks or problems accumulating.'},
+{id:157,type:'phrase',phrase:'team up',meaning:'To join forces.',example:'We <em>teamed up</em> with a local charity.',scene:'Collaboration between parties.'},
+{id:158,type:'phrase',phrase:'test the waters',meaning:'To explore cautiously.',example:'Post a beta version to <em>test the waters</em>.',scene:'Trying something before committing.'},
+{id:159,type:'phrase',phrase:'step back',meaning:'To take a broader perspective.',example:'<em>Step back</em> and look at the bigger picture.',scene:'Getting perspective.'},
+{id:160,type:'phrase',phrase:'turn around',meaning:'To reverse a negative situation.',example:'We <em>turned the failing division around</em> in a year.',scene:'Reversing a negative trend.'},
+{id:161,type:'phrase',phrase:'speak up',meaning:'To voice an opinion or speak louder.',example:'<em>Speak up</em> if you have a concern.',scene:'Encouraging someone to say something.'},
+{id:162,type:'phrase',phrase:'hold back',meaning:'To restrain oneself.',example:'Do not <em>hold back</em> — say what you think.',scene:'Restraining oneself.'},
+{id:163,type:'phrase',phrase:'make it happen',meaning:'To cause something to occur.',example:'We have the resources — let us <em>make it happen</em>.',scene:'Taking decisive action.'},
+{id:164,type:'phrase',phrase:'come clean',meaning:'To admit the truth.',example:'He finally <em>came clean</em> about what happened.',scene:'Confessing the truth.'},
+{id:165,type:'phrase',phrase:'add up',meaning:'To make sense or total correctly.',example:'The numbers do not <em>add up</em> — something is off.',scene:'Something does not make sense.'},
+{id:166,type:'phrase',phrase:'brush up on',meaning:'To review and improve.',example:'I need to <em>brush up on</em> my Spanish before the trip.',scene:'Refreshing a skill.'},
+{id:167,type:'phrase',phrase:'live up to',meaning:'To meet expectations.',example:'The film did not <em>live up to</em> the hype.',scene:'Meeting or failing to meet expectations.'},
+{id:168,type:'phrase',phrase:'keep up with',meaning:'To stay current with.',example:'It is hard to <em>keep up with</em> all the changes.',scene:'Staying current.'},
+{id:169,type:'phrase',phrase:'come up with',meaning:'To produce an idea or solution.',example:'Can you <em>come up with</em> a better plan?',scene:'Creating a new idea.'},
+{id:170,type:'phrase',phrase:'catch up',meaning:'To reach the same level or talk after time apart.',example:'Let us grab coffee and <em>catch up</em>.',scene:'Reconnecting with someone.'},
+{id:171,type:'phrase',phrase:'own up to',meaning:'To admit responsibility.',example:'He finally <em>owned up to</em> his mistake.',scene:'Admitting fault.'},
+{id:172,type:'phrase',phrase:'go out of your way',meaning:'To make extra effort.',example:'She <em>went out of her way</em> to help me.',scene:'Extra effort for someone.'},
+{id:173,type:'phrase',phrase:'give it your all',meaning:'To put in maximum effort.',example:'Whatever you do <em>give it your all</em>.',scene:'Giving maximum effort.'},
+{id:174,type:'phrase',phrase:'switch gears',meaning:'To change the topic or direction.',example:'Let us <em>switch gears</em> and talk about marketing.',scene:'Changing direction in conversation.'},
+{id:175,type:'phrase',phrase:'pick up the pace',meaning:'To move or work faster.',example:'We need to <em>pick up the pace</em> to meet the deadline.',scene:'Needing to go faster.'},
+{id:176,type:'phrase',phrase:'zero in on',meaning:'To focus precisely on something.',example:'Police <em>zeroed in on</em> the suspect.',scene:'Focusing on a target.'},
+{id:177,type:'phrase',phrase:'shake things up',meaning:'To make significant changes.',example:'The new CEO plans to <em>shake things up</em>.',scene:'Disrupting the status quo.'},
+{id:178,type:'phrase',phrase:'back down',meaning:'To retreat from a position.',example:'She refused to <em>back down</em> from her stance.',scene:'Standing firm or retreating.'},
+{id:179,type:'phrase',phrase:'phase out',meaning:'To gradually eliminate.',example:'They are <em>phasing out</em> the older model.',scene:'Gradual elimination of something.'},
+{id:180,type:'phrase',phrase:'work out',meaning:'To resolve or exercise.',example:'It all <em>worked out</em> in the end.',scene:'A situation resolves positively.'},
+{id:181,type:'phrase',phrase:'fall for',meaning:'To be deceived by something.',example:'Do not <em>fall for</em> that scam.',scene:'Being tricked or attracted.'},
+{id:182,type:'phrase',phrase:'cut out for',meaning:'Naturally suited for something.',example:'Not everyone is <em>cut out for</em> management.',scene:'Natural suitability for a role.'},
+{id:183,type:'phrase',phrase:'lay off',meaning:'To stop doing something or terminate employment.',example:'They <em>laid off</em> 20% of staff.',scene:'Job cuts or stopping behavior.'},
+{id:184,type:'phrase',phrase:'run into',meaning:'To encounter unexpectedly.',example:'I <em>ran into</em> my old professor at the airport.',scene:'Unexpected encounter.'},
+{id:185,type:'phrase',phrase:'hold out',meaning:'To wait for something better.',example:'He <em>held out</em> for a better offer.',scene:'Waiting for a better deal.'},
+{id:186,type:'phrase',phrase:'go through the motions',meaning:'To do something without real effort.',example:'He was just <em>going through the motions</em>.',scene:'Doing something half-heartedly.'},
+{id:187,type:'phrase',phrase:'pick up on',meaning:'To notice or detect something.',example:'She <em>picks up on</em> subtle social cues quickly.',scene:'Noticing something subtle.'},
+{id:188,type:'phrase',phrase:'ease up',meaning:'To reduce pressure or intensity.',example:'<em>Ease up</em> — she is new to the job.',scene:'Reducing pressure on someone.'},
+{id:189,type:'phrase',phrase:'trade off',meaning:'A balance between competing advantages.',example:'There is always a <em>trade-off</em> between speed and quality.',scene:'Comparing competing factors.'},
+{id:190,type:'phrase',phrase:'stand up for',meaning:'To defend or support.',example:'She <em>stood up for</em> her colleague.',scene:'Defending someone.'},
+{id:191,type:'phrase',phrase:'slip up',meaning:'To make a small mistake.',example:'She <em>slipped up</em> and revealed the surprise.',scene:'A small mistake.'},
+{id:192,type:'phrase',phrase:'open up',meaning:'To become more communicative.',example:'She finally <em>opened up</em> about her struggles.',scene:'Someone shares emotions.'},
+{id:193,type:'phrase',phrase:'sell out',meaning:'To sell all inventory or betray principles.',example:'Tickets <em>sold out</em> in ten minutes.',scene:'All items are gone.'},
+{id:194,type:'phrase',phrase:'talk through',meaning:'To discuss something step by step.',example:'Let me <em>talk you through</em> the process.',scene:'Explaining something carefully.'},
+{id:195,type:'phrase',phrase:'drag on',meaning:'To continue for too long.',example:'The meeting <em>dragged on</em> for three hours.',scene:'Something lasts longer than expected.'},
+{id:196,type:'phrase',phrase:'end up',meaning:'To eventually be in a situation.',example:'We <em>ended up</em> staying until midnight.',scene:'An unexpected final outcome.'},
+{id:197,type:'phrase',phrase:'cut back',meaning:'To reduce the amount of something.',example:'We need to <em>cut back</em> on spending.',scene:'Reducing costs or consumption.'},
+{id:198,type:'phrase',phrase:'pass on',meaning:'To decline or transmit to someone else.',example:'I will have to <em>pass on</em> the dessert tonight.',scene:'Declining something politely.'},
+{id:199,type:'phrase',phrase:'bring up',meaning:'To mention a topic.',example:'She <em>brought up</em> the salary issue at the meeting.',scene:'Introducing a topic in conversation.'},
+{id:200,type:'phrase',phrase:'get ahead',meaning:'To make progress or succeed.',example:'He works extra hours to <em>get ahead</em>.',scene:'Making more progress than others.'},
+
+// 50 VOCAB
+{id:201,type:'vocab',phrase:'ambiguous',meaning:'Open to more than one interpretation; unclear.',example:'His response was <em>ambiguous</em> — we still do not know his answer.',scene:'A statement that could mean different things.'},
+{id:202,type:'vocab',phrase:'scrutinize',meaning:'To examine very carefully.',example:'The committee will <em>scrutinize</em> every detail of the budget.',scene:'Close careful examination.'},
+{id:203,type:'vocab',phrase:'pragmatic',meaning:'Dealing with things practically rather than ideally.',example:'She took a <em>pragmatic</em> approach to the problem.',scene:'Practical problem-solving.'},
+{id:204,type:'vocab',phrase:'eloquent',meaning:'Fluent and persuasive in speech or writing.',example:'His <em>eloquent</em> speech moved the entire audience.',scene:'Impressive speaking or writing.'},
+{id:205,type:'vocab',phrase:'resilient',meaning:'Able to recover quickly from difficulties.',example:'Children are often more <em>resilient</em> than adults expect.',scene:'Recovering from hardship.'},
+{id:206,type:'vocab',phrase:'contentious',meaning:'Causing or likely to cause disagreement.',example:'Immigration is a <em>contentious</em> political issue.',scene:'A topic that causes argument.'},
+{id:207,type:'vocab',phrase:'meticulous',meaning:'Showing great attention to detail.',example:'She was <em>meticulous</em> about proofreading every document.',scene:'Careful attention to detail.'},
+{id:208,type:'vocab',phrase:'unprecedented',meaning:'Never done or known before.',example:'The storm caused <em>unprecedented</em> flooding.',scene:'Something never seen before.'},
+{id:209,type:'vocab',phrase:'volatile',meaning:'Liable to change rapidly and unpredictably.',example:'The stock market has been <em>volatile</em> all week.',scene:'Rapidly changing conditions.'},
+{id:210,type:'vocab',phrase:'advocate',meaning:'To publicly support a cause.',example:'She <em>advocates</em> for mental health awareness.',scene:'Supporting a cause publicly.'},
+{id:211,type:'vocab',phrase:'tangible',meaning:'Perceptible by touch; clear and definite.',example:'We need <em>tangible</em> results not just promises.',scene:'Something real and measurable.'},
+{id:212,type:'vocab',phrase:'facilitate',meaning:'To make an action or process easier.',example:'Good software should <em>facilitate</em> collaboration.',scene:'Making things easier.'},
+{id:213,type:'vocab',phrase:'jeopardize',meaning:'To put something at risk.',example:'His reckless behavior could <em>jeopardize</em> the entire project.',scene:'Putting something in danger.'},
+{id:214,type:'vocab',phrase:'paradox',meaning:'A seemingly contradictory statement that may be true.',example:'It is a <em>paradox</em> — more choices make us less satisfied.',scene:'A contradictory but true statement.'},
+{id:215,type:'vocab',phrase:'mitigate',meaning:'To make less severe or serious.',example:'The vaccine helped <em>mitigate</em> the effects of the virus.',scene:'Reducing the severity of something.'},
+{id:216,type:'vocab',phrase:'complacent',meaning:'Smugly satisfied with oneself.',example:'Do not get <em>complacent</em> after one success.',scene:'Warning against over-confidence.'},
+{id:217,type:'vocab',phrase:'exacerbate',meaning:'To make a problem worse.',example:'Lack of sleep can <em>exacerbate</em> anxiety.',scene:'Something making a bad situation worse.'},
+{id:218,type:'vocab',phrase:'robust',meaning:'Strong and effective in all conditions.',example:'We need a <em>robust</em> system that handles high traffic.',scene:'Strong reliable system.'},
+{id:219,type:'vocab',phrase:'nuance',meaning:'A subtle difference in meaning or expression.',example:'The <em>nuance</em> in his tone suggested he was unhappy.',scene:'Subtle distinctions in meaning.'},
+{id:220,type:'vocab',phrase:'consensus',meaning:'General agreement among a group.',example:'The team reached a <em>consensus</em> on the strategy.',scene:'Group agreement.'},
+{id:221,type:'vocab',phrase:'integrity',meaning:'The quality of being honest and having strong principles.',example:'Her <em>integrity</em> made her the obvious choice for CEO.',scene:'Honesty and strong morals.'},
+{id:222,type:'vocab',phrase:'benchmark',meaning:'A standard point of reference for comparison.',example:'This score sets a new <em>benchmark</em> for the industry.',scene:'Setting a standard for comparison.'},
+{id:223,type:'vocab',phrase:'coherent',meaning:'Logical and consistent; easy to understand.',example:'Please give a <em>coherent</em> explanation.',scene:'Clear logical explanation.'},
+{id:224,type:'vocab',phrase:'arbitrary',meaning:'Based on random choice rather than reason.',example:'The rules seemed completely <em>arbitrary</em>.',scene:'Random decision-making.'},
+{id:225,type:'vocab',phrase:'implicate',meaning:'To show involvement in wrongdoing.',example:'The documents <em>implicated</em> three executives.',scene:'Connecting someone to wrongdoing.'},
+{id:226,type:'vocab',phrase:'rhetoric',meaning:'Persuasive language; language used for effect.',example:'His speech was all <em>rhetoric</em> with no concrete plan.',scene:'Impressive but empty language.'},
+{id:227,type:'vocab',phrase:'transparency',meaning:'Openness; being easy to perceive or detect.',example:'The company pledged full <em>transparency</em> in reporting.',scene:'Commitment to openness.'},
+{id:228,type:'vocab',phrase:'accountability',meaning:'The fact of being responsible for one\'s actions.',example:'<em>Accountability</em> starts at the top.',scene:'Taking responsibility.'},
+{id:229,type:'vocab',phrase:'catalyst',meaning:'Something that causes or accelerates change.',example:'The protest was a <em>catalyst</em> for new legislation.',scene:'Something triggering change.'},
+{id:230,type:'vocab',phrase:'ambivalent',meaning:'Having mixed feelings; uncertain.',example:'She felt <em>ambivalent</em> about the job offer.',scene:'Mixed feelings about something.'},
+{id:231,type:'vocab',phrase:'plausible',meaning:'Seeming reasonable or probable.',example:'That is a <em>plausible</em> explanation but not proven.',scene:'Something that could be true.'},
+{id:232,type:'vocab',phrase:'profound',meaning:'Very great or intense; requiring deep thought.',example:'The loss had a <em>profound</em> effect on him.',scene:'Something deeply meaningful.'},
+{id:233,type:'vocab',phrase:'demographic',meaning:'A segment of a population sharing characteristics.',example:'The app targets the 18 to 25 <em>demographic</em>.',scene:'Describing a target audience.'},
+{id:234,type:'vocab',phrase:'concede',meaning:'To admit something is true; to give up.',example:'He had to <em>concede</em> that she was right.',scene:'Admitting defeat or error.'},
+{id:235,type:'vocab',phrase:'incentive',meaning:'Something that motivates action.',example:'Bonuses are a powerful <em>incentive</em>.',scene:'Motivating someone to act.'},
+{id:236,type:'vocab',phrase:'empirical',meaning:'Based on observation and experiment rather than theory.',example:'We need <em>empirical</em> evidence not assumptions.',scene:'Evidence-based findings.'},
+{id:237,type:'vocab',phrase:'phenomenon',meaning:'A fact or situation observed to exist or happen.',example:'Viral content is a relatively new <em>phenomenon</em>.',scene:'An observable occurrence.'},
+{id:238,type:'vocab',phrase:'cynical',meaning:'Believing people are motivated by self-interest.',example:'Years in politics made him <em>cynical</em>.',scene:'Distrusting others motives.'},
+{id:239,type:'vocab',phrase:'redundant',meaning:'Superfluous; no longer needed.',example:'The new software made his role <em>redundant</em>.',scene:'Something no longer necessary.'},
+{id:240,type:'vocab',phrase:'proactive',meaning:'Creating or controlling a situation rather than responding.',example:'Be <em>proactive</em> about identifying problems early.',scene:'Taking initiative before problems arise.'},
+{id:241,type:'vocab',phrase:'ramification',meaning:'A complex or unwanted consequence.',example:'Consider the <em>ramifications</em> before deciding.',scene:'Thinking about consequences.'},
+{id:242,type:'vocab',phrase:'scrutiny',meaning:'Critical observation or examination.',example:'The company finances are under intense <em>scrutiny</em>.',scene:'Being examined closely.'},
+{id:243,type:'vocab',phrase:'inherent',meaning:'Existing as a natural or permanent characteristic.',example:'There are <em>inherent</em> risks in starting a business.',scene:'Natural built-in characteristics.'},
+{id:244,type:'vocab',phrase:'perpetuate',meaning:'To cause to continue indefinitely.',example:'This policy only <em>perpetuates</em> inequality.',scene:'Continuing a negative cycle.'},
+{id:245,type:'vocab',phrase:'emulate',meaning:'To match or surpass by imitation.',example:'He tried to <em>emulate</em> his mentor\'s success.',scene:'Trying to copy someone\'s success.'},
+{id:246,type:'vocab',phrase:'corroborate',meaning:'To confirm or support with evidence.',example:'Witnesses <em>corroborated</em> his version of events.',scene:'Evidence supporting a claim.'},
+{id:247,type:'vocab',phrase:'jurisdiction',meaning:'The official power to make legal decisions.',example:'This crime falls under federal <em>jurisdiction</em>.',scene:'Legal authority or territory.'},
+{id:248,type:'vocab',phrase:'methodology',meaning:'A system of methods used in a field.',example:'The research <em>methodology</em> was flawed.',scene:'The process or approach used.'},
+{id:249,type:'vocab',phrase:'albeit',meaning:'Although; even though.',example:'The project succeeded <em>albeit</em> with some delay.',scene:'Acknowledging a qualification.'},
+{id:250,type:'vocab',phrase:'anecdote',meaning:'A short amusing or interesting story.',example:'He shared an <em>anecdote</em> about his first day at work.',scene:'Telling a brief story.'}
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+var user = null, profile = null, isGuest = false;
+var wb = JSON.parse(localStorage.getItem('wb')||'[]');
+var localPts = parseInt(localStorage.getItem('lpts')||'0');
+var cat = 'all', qCat = 'all', qType = 'mc';
+var qs = [], qCur = 0, qScore = 0, qDone = false, qHist = [];
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+window.onload = async function() {
+  try {
+    var r = await sb.auth.getSession();
+    if (r.data && r.data.session) { await setUser(r.data.session.user); return; }
+  } catch(e) {}
+  show('login');
+};
+
+async function setUser(u) {
+  user = u; isGuest = false;
+  try {
+    var r = await sb.from('profiles').select('*').eq('id', u.id).single();
+    if (r.error || !r.data) {
+      var uname = u.user_metadata && u.user_metadata.username ? u.user_metadata.username : u.email.split('@')[0];
+      await sb.from('profiles').insert({id:u.id, username:uname, points:0, streak:0, quizzes_taken:0, correct_total:0});
+      r = await sb.from('profiles').select('*').eq('id', u.id).single();
+    }
+    profile = r.data;
+  } catch(e) { profile = null; }
+  showAuthUI(); show('learn'); renderLearn();
+}
+
+function guestMode() {
+  isGuest = true; user = null; profile = null;
+  showAuthUI(); show('learn'); renderLearn();
+}
+
+function showAuthUI() {
+  document.getElementById('nav').style.display = 'flex';
+  var tbr = document.getElementById('tbr');
+  if (isGuest) {
+    tbr.innerHTML = '<span style="font-size:12px;color:var(--text2);margin-right:8px">Guest</span><button class="btn-p" style="width:auto;padding:7px 16px;font-size:12px" onclick="show(\'login\')">Sign In</button>';
+  } else {
+    var pts = profile ? profile.points : localPts;
+    var name = profile ? profile.username : 'User';
+    tbr.innerHTML = '<span style="font-size:13px;color:var(--text2);margin-right:8px">'+name+'</span><span class="pts-badge">'+pts+' pts</span>';
+  }
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function show(p) {
+  document.querySelectorAll('.page').forEach(function(e){e.classList.remove('show')});
+  document.querySelectorAll('.nb').forEach(function(e){e.classList.remove('on')});
+  var el = document.getElementById('page-'+p);
+  if (el) el.classList.add('show');
+  var map = {learn:0,quiz:1,wrongbook:2,lb:3,profile:4};
+  var nbs = document.querySelectorAll('.nb');
+  if (map[p]!==undefined && nbs[map[p]]) nbs[map[p]].classList.add('on');
+  if (p==='wrongbook') renderWB();
+  if (p==='lb') renderLB();
+  if (p==='profile') renderProfile();
+  if (p==='quiz') { document.getElementById('qsetup-v').style.display='block'; document.getElementById('qactive-v').style.display='none'; document.getElementById('qresult-v').style.display='none'; }
+}
+
+// ═══════════════════════════════════════
+// LEARN
+// ═══════════════════════════════════════
+function setCat(c, el) {
+  cat = c;
+  document.querySelectorAll('.ct').forEach(function(b){b.classList.remove('on')});
+  el.classList.add('on');
+  renderLearn();
+}
+
+function renderLearn() {
+  var q = (document.getElementById('lsearch').value||'').toLowerCase();
+  var list = DATA.filter(function(v) {
+    if (cat!=='all' && v.type!==cat) return false;
+    if (q && !v.phrase.toLowerCase().includes(q) && !v.meaning.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  document.getElementById('lcount').textContent = list.length + ' shown';
+  var c = document.getElementById('llist');
+  c.innerHTML = '';
+  list.forEach(function(d) {
+    var tc = d.type==='idiom'?'t-idiom':d.type==='phrase'?'t-phrase':'t-vocab';
+    var tl = d.type==='idiom'?'Idiom':d.type==='phrase'?'Phrase':'Vocab';
+    var el = document.createElement('div');
+    el.className = 'vc'; el.id = 'vc'+d.id;
+    el.innerHTML =
+      '<div class="vc-head" onclick="tog('+d.id+')">' +
+        '<span class="vc-num">'+d.id+'</span>' +
+        '<span class="vc-phrase">'+d.phrase+'</span>' +
+        '<span class="vc-tag '+tc+'">'+tl+'</span>' +
+        '<span class="vc-arr" id="va'+d.id+'">▼</span>' +
+      '</div>' +
+      '<div class="vc-body" id="vb'+d.id+'">' +
+        '<p class="vc-meaning">'+d.meaning+'</p>' +
+        '<p class="vc-ex">&ldquo;'+d.example+'&rdquo;</p>' +
+      '</div>';
+    c.appendChild(el);
+  });
+}
+
+function tog(id) {
+  var b = document.getElementById('vb'+id);
+  var a = document.getElementById('va'+id);
+  var c = document.getElementById('vc'+id);
+  var o = c.classList.contains('open');
+  document.querySelectorAll('.vc.open').forEach(function(x){x.classList.remove('open')});
+  document.querySelectorAll('.vc-arr').forEach(function(x){x.textContent='▼'});
+  if (!o) { c.classList.add('open'); a.textContent='▲'; }
+}
+
+// ═══════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════
+function selQO(el, grp) {
+  var parent = document.getElementById('q'+grp+'-opts');
+  parent.querySelectorAll('.qo').forEach(function(c){c.classList.remove('on')});
+  el.classList.add('on');
+  if (grp==='cat') qCat = el.dataset.v;
+  else qType = el.dataset.v;
+}
+
+function startQuiz() {
+  var pool = DATA.filter(function(v){return qCat==='all'||v.type===qCat});
+  var n = Math.min(parseInt(document.getElementById('qn-sel').value), pool.length);
+  qs = pool.sort(function(){return Math.random()-.5}).slice(0,n);
+  qCur=0; qScore=0; qDone=false; qHist=[];
+  document.getElementById('qsetup-v').style.display='none';
+  document.getElementById('qactive-v').style.display='block';
+  document.getElementById('qresult-v').style.display='none';
+  renderQ();
+}
+
+function renderQ() {
+  qDone = false;
+  var q = qs[qCur];
+  document.getElementById('qpf').style.width = Math.round((qCur/qs.length)*100)+'%';
+  document.getElementById('qnl').textContent = 'Q '+(qCur+1)+' / '+qs.length;
+  document.getElementById('qsl').textContent = 'Score: '+qScore;
+  if (qType==='mc') renderMC(q);
+  else renderFill(q);
+}
+
+function renderMC(q) {
+  var pool = DATA.filter(function(v){return v.type===q.type && v.id!==q.id});
+  var wrongs = pool.sort(function(){return Math.random()-.5}).slice(0,3).map(function(v){return v.phrase});
+  var opts = wrongs.concat([q.phrase]).sort(function(){return Math.random()-.5});
+  var letters = ['A','B','C','D'];
+  var html = '<div class="qscene">'+q.scene+'</div>' +
+    '<p class="qtext">Which expression means:<br><br><strong>'+q.meaning+'</strong></p>' +
+    '<div class="choices">' +
+    opts.map(function(o,i){return '<button class="ch" id="ch'+i+'" onclick="pickMC('+i+',this,\''+q.phrase.replace(/'/g,"\\'")+'\')">'+letters[i]+'. '+o+'</button>';}).join('') +
+    '</div><div id="qfb" style="display:none" class="qfb"></div>' +
+    '<button id="qnxt" onclick="nextQ()" style="display:none" class="qnxt">'+(qCur<qs.length-1?'Next Question →':'See Results →')+'</button>';
+  document.getElementById('qbody').innerHTML = html;
+}
+
+function renderFill(q) {
+  var blanked = q.example.replace(/<em>(.*?)<\/em>/,'<span class="qblank">_______</span>');
+  document.getElementById('qbody').innerHTML =
+    '<div class="qscene">'+q.scene+'</div>' +
+    '<p class="qtext">Fill in the blank:<br><br>&ldquo;'+blanked+'&rdquo;</p>' +
+    '<input class="fillinput" id="fli" placeholder="Type the missing expression..." autocomplete="off">' +
+    '<br><button class="subm-btn" id="subb" onclick="checkFill(\''+q.phrase.replace(/'/g,"\\'")+'\')">Check Answer</button>' +
+    '<div id="qfb" style="display:none" class="qfb"></div>' +
+    '<button id="qnxt" onclick="nextQ()" style="display:none" class="qnxt">'+(qCur<qs.length-1?'Next Question →':'See Results →')+'</button>';
+  document.getElementById('fli').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('subb').click();});
+}
+
+function pickMC(i, btn, correct) {
+  if (qDone) return;
+  qDone = true;
+  var chosen = btn.textContent.replace(/^[A-D]\.\s/,'');
+  var isOk = chosen === correct;
+  if (isOk) qScore++;
+  document.querySelectorAll('.ch').forEach(function(b){
+    b.disabled = true;
+    var t = b.textContent.replace(/^[A-D]\.\s/,'');
+    if (t===correct) b.className='ch reveal';
+    else if (b===btn && !isOk) b.className='ch wrong';
+  });
+  var q = qs[qCur];
+  showFB(isOk, q, chosen);
+  if (!isOk) addWB(q, chosen);
+}
+
+function checkFill(correct) {
+  if (qDone) return;
+  qDone = true;
+  var inp = document.getElementById('fli');
+  var val = inp.value.trim().toLowerCase();
+  var isOk = val === correct.toLowerCase();
+  if (isOk) qScore++;
+  inp.disabled = true;
+  inp.className = 'fillinput '+(isOk?'ok':'bad');
+  document.getElementById('subb').disabled = true;
+  var q = qs[qCur];
+  showFB(isOk, q, val);
+  if (!isOk) addWB(q, val);
+}
+
+function showFB(ok, q, chosen) {
+  var fb = document.getElementById('qfb');
+  fb.style.display='block';
+  fb.className = 'qfb '+(ok?'ok':'bad');
+  fb.innerHTML = ok
+    ? '<strong>Correct!</strong><span class="pts-pop">+10 pts</span> — '+q.meaning
+    : '<strong>Incorrect.</strong> Answer: <strong>"'+q.phrase+'"</strong><br>'+q.meaning;
+  document.getElementById('qnxt').style.display='block';
+  qHist.push({q:q, correct:ok, chosen:chosen});
+  if (ok) awardPts(10);
+}
+
+function addWB(q, chosen) {
+  if (!wb.some(function(w){return w.id===q.id})) {
+    wb.push({id:q.id,phrase:q.phrase,meaning:q.meaning,type:q.type,chosen:chosen,date:new Date().toLocaleDateString()});
+    localStorage.setItem('wb', JSON.stringify(wb));
+  }
+}
+
+function nextQ() { qCur++; if(qCur>=qs.length){showRes();return;} renderQ(); }
+
+async function awardPts(n) {
+  if (isGuest || !user) { localPts+=n; localStorage.setItem('lpts',localPts); return; }
+  if (!profile) return;
+  profile.points = (profile.points||0)+n;
+  profile.correct_total = (profile.correct_total||0)+1;
+  await sb.from('profiles').update({points:profile.points,correct_total:profile.correct_total}).eq('id',user.id);
+  showAuthUI();
+}
+
+function showRes() {
+  document.getElementById('qactive-v').style.display='none';
+  var rv = document.getElementById('qresult-v');
+  rv.style.display='block';
+  var total = qs.length, pct = Math.round((qScore/total)*100);
+  var earned = qScore*10;
+  var grade,msg,color;
+  if(pct>=90){grade='Outstanding! 🏆';msg='You are mastering American English!';color='var(--green)';}
+  else if(pct>=70){grade='Great Job! 🎉';msg='Strong performance. Keep it up!';color='var(--blue)';}
+  else if(pct>=50){grade='Not Bad! 💪';msg='Review the wrong answers and try again.';color='var(--amber)';}
+  else{grade='Keep Going! 📚';msg='Study the Learn section and try again.';color='var(--red)';}
+  var wrongs = qHist.filter(function(h){return !h.correct});
+  var wHtml = wrongs.length===0
+    ? '<p style="color:var(--green);text-align:center;padding:16px">Perfect! No wrong answers! 🎊</p>'
+    : '<p class="st" style="margin-bottom:10px">Review wrong answers</p>' +
+      wrongs.map(function(h){return '<div class="wi"><div class="wi-phrase">'+h.q.phrase+'</div><div class="wi-detail">'+h.q.meaning+'</div><div class="wi-ans">Your answer: "'+h.chosen+'"</div></div>';}).join('');
+  rv.innerHTML =
+    '<div class="res-wrap">' +
+      '<div class="res-circle" style="border-color:'+color+'"><div class="res-big" style="color:'+color+'">'+qScore+'</div><div class="res-den">/'+total+'</div></div>' +
+      '<div class="res-grade" style="color:'+color+'">'+grade+'</div>' +
+      '<div class="res-msg">'+msg+'</div>' +
+      '<div class="res-stats">' +
+        '<div class="sbox"><div class="sbox-n">'+pct+'%</div><div class="sbox-l">Accuracy</div></div>' +
+        '<div class="sbox"><div class="sbox-n" style="color:var(--amber)">+'+earned+'</div><div class="sbox-l">Points earned</div></div>' +
+        '<div class="sbox"><div class="sbox-n" style="color:var(--red)">'+wrongs.length+'</div><div class="sbox-l">Wrong answers</div></div>' +
+      '</div>' +
+      '<div class="brow">' +
+        '<button class="btn-o" onclick="resetQ()">Try Again</button>' +
+        '<button class="btn-o" onclick="show(\'learn\')">Review Words</button>' +
+        '<button class="btn-o" onclick="show(\'lb\')">Rankings 🏆</button>' +
+      '</div>' +
+      '<div class="wrong-list">'+wHtml+'</div>' +
+    '</div>';
+  if (!isGuest && user && profile) {
+    profile.quizzes_taken = (profile.quizzes_taken||0)+1;
+    sb.from('profiles').update({quizzes_taken:profile.quizzes_taken}).eq('id',user.id);
+  }
+}
+
+function resetQ() {
+  document.getElementById('qsetup-v').style.display='block';
+  document.getElementById('qactive-v').style.display='none';
+  document.getElementById('qresult-v').style.display='none';
+}
+
+// ═══════════════════════════════════════
+// WRONG BOOK
+// ═══════════════════════════════════════
+function renderWB() {
+  var c = document.getElementById('wblist');
+  if (!wb.length) {
+    c.innerHTML='<div class="wb-empty"><div style="font-size:48px;margin-bottom:12px">📗</div><p>No wrong answers yet!</p><p style="font-size:12px;margin-top:8px;color:var(--text3)">Take a quiz to fill your wrong book.</p></div>';
+    return;
+  }
+  c.innerHTML = wb.map(function(w) {
+    var tc = w.type==='idiom'?'t-idiom':w.type==='phrase'?'t-phrase':'t-vocab';
+    return '<div class="vc" style="margin-bottom:8px">' +
+      '<div class="vc-head" onclick="this.parentNode.classList.toggle(\'open\')">' +
+        '<span class="vc-tag '+tc+'" style="flex-shrink:0">'+w.type+'</span>' +
+        '<span class="vc-phrase" style="margin-left:8px">'+w.phrase+'</span>' +
+        '<span style="font-size:10px;color:var(--text3);margin-left:auto;margin-right:8px">'+w.date+'</span>' +
+        '<span class="vc-arr">▼</span>' +
+      '</div>' +
+      '<div class="vc-body">' +
+        '<p class="vc-meaning">'+w.meaning+'</p>' +
+        '<p style="font-size:12px;color:var(--red);margin-top:8px">Your answer: "'+w.chosen+'"</p>' +
+        '<button onclick="rmWB('+w.id+')" style="margin-top:10px;padding:5px 14px;border-radius:8px;border:1px solid var(--red);background:transparent;color:var(--red);font-size:11px;cursor:pointer">Remove</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function rmWB(id) {
+  wb = wb.filter(function(w){return w.id!==id});
+  localStorage.setItem('wb',JSON.stringify(wb));
+  renderWB();
+}
+
+function clearWB() {
+  if (!wb.length) return;
+  if (confirm('Clear all '+wb.length+' items?')) {
+    wb=[]; localStorage.setItem('wb',JSON.stringify(wb)); renderWB();
+  }
+}
+
+// ═══════════════════════════════════════
+// LEADERBOARD
+// ═══════════════════════════════════════
+async function renderLB() {
+  document.getElementById('lbdata').innerHTML='<div style="text-align:center;padding:30px;color:var(--text3)">Loading...</div>';
+  try {
+    var r = await sb.from('profiles').select('username,points,quizzes_taken').order('points',{ascending:false}).limit(20);
+    if (r.error || !r.data || !r.data.length) {
+      document.getElementById('lbdata').innerHTML='<div style="text-align:center;padding:30px;color:var(--text3)">No players yet — be the first!</div>';
+      return;
+    }
+    document.getElementById('lb-ts').textContent='Updated just now';
+    document.getElementById('lbdata').innerHTML = r.data.map(function(row,i){
+      var sym = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+      var cls = i===0?'style="color:#f59e0b"':i===1?'style="color:#94a3b8"':i===2?'style="color:#92400e"':'';
+      var isMe = profile && row.username===profile.username;
+      var init = (row.username||'?')[0].toUpperCase();
+      return '<div class="lb-row'+(isMe?' me':'')+'">' +
+        '<div class="lb-rank" '+cls+'>'+sym+'</div>' +
+        '<div class="lb-name"><div class="lb-av">'+init+'</div>'+row.username+(isMe?' (you)':'')+'</div>' +
+        '<div class="lb-pts">'+row.points+'</div>' +
+        '<div class="lb-q">'+row.quizzes_taken+'</div>' +
+      '</div>';
+    }).join('');
+  } catch(e) {
+    document.getElementById('lbdata').innerHTML='<div style="text-align:center;padding:30px;color:var(--text3)">Sign in to see rankings</div>';
+  }
+}
+
+// ═══════════════════════════════════════
+// PROFILE
+// ═══════════════════════════════════════
+function renderProfile() {
+  var c = document.getElementById('profdata');
+  if (isGuest || !user) {
+    c.innerHTML='<div style="text-align:center;padding:60px 20px"><p style="font-size:16px;margin-bottom:16px">Sign in to see your profile</p><button class="btn-p" style="width:auto;padding:11px 28px" onclick="show(\'login\')">Sign In</button></div>';
+    return;
+  }
+  var p = profile||{};
+  var init = (p.username||'U')[0].toUpperCase();
+  c.innerHTML =
+    '<div class="prof-card"><div class="prof-av">'+init+'</div><div><h2 style="font-size:20px;font-weight:700;margin-bottom:4px">'+p.username+'</h2><p style="font-size:13px;color:var(--text2)">'+user.email+'</p></div></div>' +
+    '<div class="sgrid">' +
+      '<div class="scard"><div class="n" style="color:var(--amber)">'+(p.points||0)+'</div><div class="l">Total Points</div></div>' +
+      '<div class="scard"><div class="n" style="color:var(--blue)">'+(p.quizzes_taken||0)+'</div><div class="l">Quizzes Taken</div></div>' +
+      '<div class="scard"><div class="n" style="color:var(--green)">'+(p.correct_total||0)+'</div><div class="l">Correct Answers</div></div>' +
+      '<div class="scard"><div class="n" style="color:var(--purple)">'+wb.length+'</div><div class="l">In Wrong Book</div></div>' +
+    '</div>' +
+    '<button class="logout-btn" onclick="doLogout()">Sign Out</button>';
+}
+
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
+async function doLogin() {
+  var em = document.getElementById('lem').value.trim();
+  var pw = document.getElementById('lpw').value;
+  var err = document.getElementById('lerr');
+  err.classList.remove('show');
+  if (!em||!pw){err.textContent='Please fill in all fields';err.classList.add('show');return;}
+  var r = await sb.auth.signInWithPassword({email:em,password:pw});
+  if (r.error){err.textContent=r.error.message;err.classList.add('show');return;}
+  await setUser(r.data.user);
+}
+
+async function doRegister() {
+  var name = document.getElementById('rname').value.trim();
+  var em = document.getElementById('rem').value.trim();
+  var pw = document.getElementById('rpw').value;
+  var err = document.getElementById('rerr');
+  var ok = document.getElementById('rok');
+  err.classList.remove('show'); ok.classList.remove('show');
+  if (!name||!em||!pw){err.textContent='Please fill in all fields';err.classList.add('show');return;}
+  if (pw.length<6){err.textContent='Password must be at least 6 characters';err.classList.add('show');return;}
+  var r = await sb.auth.signUp({email:em,password:pw,options:{data:{username:name}}});
+  if (r.error){err.textContent=r.error.message;err.classList.add('show');return;}
+  ok.textContent='Account created! Check your email to confirm, then sign in.';
+  ok.classList.add('show');
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  user=null;profile=null;isGuest=false;
+  document.getElementById('nav').style.display='none';
+  document.getElementById('tbr').innerHTML='<button class="btn-p" style="width:auto;padding:7px 18px;font-size:13px" onclick="show(\'login\')">Sign In</button>';
+  show('login');
+}
+
+// Toast
+function toast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(function(){t.className='toast';},2500);}
+</script>
+</body>
+</html>

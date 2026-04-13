@@ -3829,7 +3829,17 @@ var _ispState = {
 };
 
 function _ispIdioms() {
-  return DATA.filter(function(d){ return d.type === 'idiom'; });
+  // Filter idioms by SRS: only include ones that are new, due, or never answered in splash
+  return DATA.filter(function(d){
+    if (d.type !== 'idiom') return false;
+    var s = srsData[d.id];
+    // No SRS data = never tested = include
+    if (!s) return true;
+    // Due for review = include
+    if (Date.now() >= s.nextReview) return true;
+    // Not yet due = skip (user answered correctly, forgetting curve says wait)
+    return false;
+  });
 }
 
 function _ispShuffle(arr) {
@@ -3843,7 +3853,11 @@ function _ispShuffle(arr) {
 
 function launchIdiomChallenge() {
   var idioms = _ispIdioms();
-  if (idioms.length < 8) { closeSplash(); return; } // not enough data
+  if (idioms.length < 4) {
+    // All idioms mastered or not enough due — skip splash, go straight in
+    closeSplash();
+    return;
+  }
   _ispState.pool  = idioms;
   _ispState.queue = _ispShuffle(idioms).slice(0, 4);
   _ispState.cur   = 0;
@@ -3898,6 +3912,11 @@ function _ispRenderQuestion() {
 function _ispAnswer(btn, isCorrect) {
   if (_ispState.answered) return;
   _ispState.answered = true;
+  var q = _ispState.queue[_ispState.cur];
+
+  // Update SRS (forgetting curve): correct = push review further out; wrong = reset to review soon
+  updateSRS(q.id, isCorrect);
+
   var opts = document.querySelectorAll('.isp-opt');
   opts.forEach(function(b) {
     b.setAttribute('disabled', '1');
@@ -3907,7 +3926,6 @@ function _ispAnswer(btn, isCorrect) {
   btn.classList.add(isCorrect ? 'correct' : 'wrong');
   // If wrong, reveal the correct one
   if (!isCorrect) {
-    var q = _ispState.queue[_ispState.cur];
     opts.forEach(function(b) {
       if (b.textContent.trim() === q.meaning) {
         b.classList.remove('revealed');

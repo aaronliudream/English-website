@@ -409,6 +409,204 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   .lb-q{display:none}
 }
 
+/* ── COURSE MODULE ─────────────────────── */
+/* Level Select */
+.crs-home{max-width:800px;margin:0 auto}
+.crs-banner{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 40%,#1b8a6b 100%);border-radius:20px;padding:32px 28px 26px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden}
+.crs-banner::before{content:'🎓';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:72px;opacity:.10;pointer-events:none}
+.crs-banner h2{font-size:22px;font-weight:800;margin-bottom:6px}
+.crs-banner p{font-size:13px;opacity:.82;line-height:1.6;max-width:480px}
+.crs-stats-bar{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.crs-stat{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.crs-level-card{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:22px;margin-bottom:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.crs-level-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+.crs-level-card.locked{opacity:.55;cursor:default}
+.crs-level-card.locked:hover{border-color:var(--border);transform:none;box-shadow:none}
+.crs-lv-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.crs-lv-icon{font-size:36px;min-width:48px;text-align:center}
+.crs-lv-info h3{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px}
+.crs-lv-info p{font-size:12px;color:var(--text3);line-height:1.4}
+.crs-lv-badge{position:absolute;top:14px;right:16px;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px}
+.crs-lv-badge.done{background:#d6f5e6;color:#0a6020}
+.crs-lv-badge.curr{background:#ddeaff;color:#1a3ea0}
+.crs-lv-badge.lock{background:var(--card2);color:var(--text3)}
+.crs-lv-prog{height:8px;background:var(--card2);border-radius:6px;overflow:hidden;margin-top:4px}
+.crs-lv-prog-fill{height:100%;border-radius:6px;transition:width .5s}
+.crs-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;margin-bottom:16px;padding:6px 0}
+.crs-back:hover{text-decoration:underline}
+.crs-lv-hero{border-radius:20px;padding:28px 24px 22px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden}
+.crs-lv-hero h2{font-size:22px;font-weight:800;margin-bottom:4px}
+.crs-lv-hero p{font-size:13px;opacity:.82;line-height:1.6}
+.crs-lesson-grid{display:flex;flex-direction:column;gap:10px}
+.crs-lesson-row{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .15s}
+.crs-lesson-row:hover:not(.locked){border-color:var(--blue);background:rgba(59,130,246,.02)}
+.crs-lesson-row.locked{opacity:.45;cursor:default}
+.crs-lesson-row.completed{border-color:var(--green)}
+.crs-lesson-row.unit-test{border-style:dashed;border-color:var(--orange, #f59e0b)}
+.crs-lrow-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.crs-lrow-num.done{background:var(--green);color:#fff}
+.crs-lrow-num.curr{background:var(--blue);color:#fff}
+.crs-lrow-num.lock{background:var(--card2);color:var(--text3)}
+.crs-lrow-num.test{background:var(--orange, #f59e0b);color:#fff}
+.crs-lrow-body{flex:1;min-width:0}
+.crs-lrow-title{font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crs-lrow-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.crs-lrow-stars{display:flex;gap:2px;font-size:16px;flex-shrink:0}
+.crs-lrow-lock{font-size:18px;color:var(--text3);flex-shrink:0}
+.crs-hero{background:linear-gradient(135deg,#1e3a5f 0%,#2d6a9f 50%,#1b8a6b 100%);border-radius:16px;padding:28px 24px 22px;margin-bottom:20px;color:#fff;position:relative;overflow:hidden}
+.crs-hero::before{content:'📖';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:68px;opacity:.12;pointer-events:none}
+.crs-hero h2{font-size:22px;font-weight:800;margin-bottom:6px}
+.crs-hero p{font-size:13px;opacity:.82;line-height:1.6;max-width:480px}
+.crs-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px}
+.crs-section-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.crs-section-title .crs-ico{font-size:20px}
+.crs-passage{background:var(--card2);border-radius:12px;padding:20px;margin-bottom:16px;position:relative}
+.crs-passage-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;padding:10px 12px;border-radius:10px;cursor:pointer;transition:background .15s}
+.crs-passage-line:hover{background:rgba(59,130,246,.06)}
+.crs-passage-line.playing{background:rgba(59,130,246,.1)}
+.crs-ln-num{min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:800;flex-shrink:0;margin-top:2px}
+.crs-ln-en{font-size:15px;font-weight:600;color:var(--text);line-height:1.6}
+.crs-ln-cn{font-size:12px;color:var(--text3);line-height:1.5;margin-top:2px}
+.crs-ln-note{font-size:11px;color:var(--blue);margin-top:4px;font-style:italic}
+.crs-vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.crs-vocab-card{background:var(--card2);border-radius:12px;padding:14px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.crs-vocab-card:hover{border-color:var(--blue)}
+.crs-vocab-word{font-size:15px;font-weight:700;color:var(--text)}
+.crs-vocab-pron{font-size:12px;color:var(--text3);margin-left:6px}
+.crs-vocab-pos{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:#ddeaff;color:#1a3ea0;margin-left:6px}
+.crs-vocab-cn{font-size:13px;color:var(--blue);margin-top:6px;font-weight:600}
+.crs-vocab-ex{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5;font-style:italic}
+.crs-grammar-box{background:linear-gradient(135deg,#f0f5ff,#e8f5e9);border-radius:12px;padding:20px;margin-bottom:12px}
+.crs-grammar-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:10px}
+.crs-grammar-rule{font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:8px}
+.crs-grammar-example{background:rgba(255,255,255,.7);border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.7;margin:8px 0;border-left:3px solid var(--blue)}
+.crs-grammar-example em{color:var(--blue);font-weight:700;font-style:normal}
+.crs-quiz-q{background:var(--card2);border-radius:12px;padding:18px;margin-bottom:12px}
+.crs-quiz-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.crs-quiz-text{font-size:14px;font-weight:600;color:var(--text);line-height:1.6;margin-bottom:14px}
+.crs-quiz-opts{display:flex;flex-direction:column;gap:8px}
+.crs-quiz-opt{padding:11px 14px;border:2px solid var(--border);border-radius:10px;background:var(--card);font-size:13px;color:var(--text);cursor:pointer;text-align:left;transition:all .15s}
+.crs-quiz-opt:hover:not(.locked){border-color:var(--blue);color:var(--blue)}
+.crs-quiz-opt.correct{border-color:var(--green);background:#d6f5e6;color:#0a6020;font-weight:600}
+.crs-quiz-opt.wrong{border-color:var(--red);background:#fde8e8;color:var(--red);font-weight:600}
+.crs-quiz-opt.locked{cursor:default}
+.crs-quiz-exp{margin-top:10px;padding:10px 14px;border-radius:8px;background:var(--card2);border-left:3px solid var(--green);font-size:12px;color:var(--text2);line-height:1.6;display:none}
+.crs-quiz-exp.show{display:block}
+.crs-fill-input{border:none;border-bottom:2px solid var(--blue);background:transparent;font-size:15px;font-weight:600;color:var(--blue);width:120px;text-align:center;padding:2px 4px;outline:none}
+.crs-fill-input:focus{border-bottom-color:var(--green)}
+.crs-fill-check{padding:8px 20px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px}
+.crs-fill-check:hover{background:#2a5cb8}
+.crs-fill-result{font-size:13px;margin-top:8px;font-weight:600}
+.crs-spell-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px}
+.crs-spell-prompt{font-size:16px;font-weight:700;color:var(--text);text-align:center}
+.crs-spell-cn{font-size:13px;color:var(--text3)}
+.crs-spell-input{font-size:22px;font-weight:700;text-align:center;border:3px solid var(--border);border-radius:14px;padding:12px 20px;width:240px;color:var(--text);background:var(--card);outline:none;transition:border-color .2s;letter-spacing:2px}
+.crs-spell-input:focus{border-color:var(--blue)}
+.crs-spell-input.correct{border-color:var(--green);background:#d6f5e6}
+.crs-spell-input.wrong{border-color:var(--red);background:#fde8e8;animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.crs-complete{text-align:center;padding:40px 20px}
+.crs-complete-icon{font-size:64px;margin-bottom:12px}
+.crs-complete h2{font-size:24px;font-weight:800;color:var(--text);margin-bottom:6px}
+.crs-complete .sub{font-size:14px;color:var(--text3);margin-bottom:24px}
+.crs-score-card{background:var(--card2);border-radius:16px;padding:20px;margin:16px auto;max-width:360px;display:flex;flex-direction:column;gap:12px}
+.crs-score-row{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.crs-score-label{color:var(--text3)}
+.crs-score-val{font-weight:800;color:var(--text)}
+.crs-stars-big{font-size:42px;letter-spacing:6px;margin:12px 0}
+.crs-xp-burst{font-size:28px;font-weight:800;color:var(--blue);animation:xpPop .6s ease-out}
+@keyframes xpPop{0%{transform:scale(0);opacity:0}60%{transform:scale(1.3)}100%{transform:scale(1);opacity:1}}
+.crs-btn-row{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.crs-btn{padding:12px 28px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.crs-btn-primary{background:var(--blue);color:#fff}
+.crs-btn-primary:hover{background:#2a5cb8}
+.crs-btn-ghost{background:transparent;border:2px solid var(--border);color:var(--text)}
+.crs-btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.crs-achieve-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.crs-achieve-overlay.show{opacity:1;pointer-events:auto}
+.crs-achieve-box{background:var(--card);border-radius:24px;padding:40px 36px;text-align:center;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:scale(.85);transition:transform .35s}
+.crs-achieve-overlay.show .crs-achieve-box{transform:scale(1)}
+.crs-achieve-box .ach-icon{font-size:56px;margin-bottom:10px}
+.crs-achieve-box h3{font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px}
+.crs-achieve-box p{font-size:13px;color:var(--text3);line-height:1.5}
+.crs-ut-progress{display:flex;gap:6px;margin-bottom:20px;justify-content:center;flex-wrap:wrap}
+.crs-ut-dot{width:12px;height:12px;border-radius:50%;background:var(--card2);border:2px solid var(--border);transition:all .2s}
+.crs-ut-dot.active{border-color:var(--blue);background:var(--blue)}
+.crs-ut-dot.correct{border-color:var(--green);background:var(--green)}
+.crs-ut-dot.wrong{border-color:var(--red);background:var(--red)}
+@media(max-width:600px){
+  .crs-vocab-grid{grid-template-columns:1fr}
+  .crs-stats-bar{gap:8px}
+  .crs-stat{padding:6px 10px;font-size:11px}
+  .crs-level-card{padding:16px}
+  .crs-spell-input{width:200px;font-size:18px}
+}
+
+
+
+/* Bay Area View Tabs */
+.bay-view-tabs{display:flex;gap:0;margin:0 0 16px;border-radius:12px;overflow:hidden;border:2px solid var(--border)}
+.bay-vtab{flex:1;padding:12px;font-size:13px;font-weight:700;border:none;background:var(--card);color:var(--text3);cursor:pointer;transition:all .15s}
+.bay-vtab:hover{color:var(--text)}
+.bay-vtab.on{background:var(--blue);color:#fff}
+/* Dialogue Month Tabs */
+.dlg-month-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.dlg-month-btn{padding:8px 16px;border-radius:20px;border:2px solid var(--border);background:var(--card);font-size:12px;font-weight:700;color:var(--text3);cursor:pointer;transition:all .15s}
+.dlg-month-btn:hover{border-color:var(--blue);color:var(--blue)}
+.dlg-month-btn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.dlg-month-btn .new-badge{font-size:9px;background:#ef4444;color:#fff;padding:1px 5px;border-radius:8px;margin-left:4px}
+/* Bay mastery badge */
+.bay-mastery{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}
+.bay-mastery.mastered{background:#d6f5e6;color:#0a6020}
+.bay-mastery.review{background:#fef3c7;color:#92400e}
+.bay-mastery.learning{background:#ddeaff;color:#1a3ea0}
+
+
+/* ── ONBOARDING GUIDE ─────────────────────── */
+.ob-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 40%,#0f4c3a 100%);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .5s}
+.ob-overlay.hide{opacity:0;pointer-events:none}
+.ob-box{background:var(--card,#fff);border-radius:28px;padding:40px 32px;max-width:520px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.3);position:relative}
+.ob-step{display:none}
+.ob-step.active{display:block}
+.ob-title{font-size:26px;font-weight:800;color:var(--text,#1a1a2e);text-align:center;margin-bottom:6px}
+.ob-sub{font-size:14px;color:var(--text3,#888);text-align:center;margin-bottom:24px;line-height:1.6}
+.ob-icon{font-size:56px;text-align:center;margin-bottom:16px}
+.ob-level-grid{display:flex;flex-direction:column;gap:10px}
+.ob-level-card{display:flex;align-items:center;gap:14px;padding:16px 18px;border:2px solid var(--border,#e0e0e0);border-radius:16px;cursor:pointer;transition:all .2s;background:var(--card,#fff)}
+.ob-level-card:hover{border-color:#3b82f6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,130,246,.1)}
+.ob-level-card.selected{border-color:#3b82f6;background:rgba(59,130,246,.05)}
+.ob-lc-icon{font-size:32px;min-width:40px;text-align:center}
+.ob-lc-info{flex:1}
+.ob-lc-info h4{font-size:15px;font-weight:700;color:var(--text,#1a1a2e);margin-bottom:2px}
+.ob-lc-info p{font-size:12px;color:var(--text3,#888);line-height:1.4}
+.ob-btn{display:block;width:100%;padding:14px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer;transition:all .15s;margin-top:16px}
+.ob-btn-primary{background:#3b82f6;color:#fff}
+.ob-btn-primary:hover{background:#2563eb}
+.ob-btn-primary:disabled{opacity:.4;cursor:default}
+.ob-quiz-card{background:var(--card2,#f8f8f8);border-radius:16px;padding:24px;margin-bottom:16px}
+.ob-quiz-q{font-size:16px;font-weight:700;color:var(--text,#1a1a2e);margin-bottom:6px}
+.ob-quiz-hint{font-size:12px;color:var(--text3,#888);margin-bottom:14px}
+.ob-quiz-opts{display:flex;flex-direction:column;gap:8px}
+.ob-quiz-opt{padding:12px 16px;border:2px solid var(--border,#e0e0e0);border-radius:12px;background:var(--card,#fff);font-size:14px;color:var(--text,#1a1a2e);cursor:pointer;text-align:left;transition:all .15s}
+.ob-quiz-opt:hover:not(.locked){border-color:#3b82f6}
+.ob-quiz-opt.correct{border-color:#10b981;background:#d1fae5;color:#065f46;font-weight:600}
+.ob-quiz-opt.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b}
+.ob-quiz-opt.locked{cursor:default}
+.ob-progress{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.ob-dot{width:10px;height:10px;border-radius:50%;background:var(--border,#ddd);transition:all .2s}
+.ob-dot.done{background:#10b981}
+.ob-dot.active{background:#3b82f6;transform:scale(1.2)}
+.ob-result{text-align:center;padding:20px 0}
+.ob-result-icon{font-size:56px;margin-bottom:12px}
+.ob-result h3{font-size:22px;font-weight:800;margin-bottom:6px}
+.ob-result p{font-size:14px;color:var(--text3,#888);line-height:1.5;margin-bottom:16px}
+.ob-recommend{background:linear-gradient(135deg,#eff6ff,#ecfdf5);border-radius:14px;padding:16px;margin:12px 0}
+.ob-recommend h4{font-size:14px;font-weight:700;color:var(--text,#1a1a2e);margin-bottom:8px}
+.ob-recommend ul{list-style:none;padding:0;margin:0}
+.ob-recommend li{font-size:13px;color:var(--text2,#555);padding:4px 0;display:flex;align-items:center;gap:6px}
+.ob-skip{font-size:12px;color:var(--text3,#888);text-align:center;margin-top:12px;cursor:pointer;text-decoration:underline}
+.ob-skip:hover{color:var(--blue,#3b82f6)}
+@media(max-width:500px){.ob-box{padding:28px 20px;border-radius:20px}.ob-title{font-size:22px}}
 
 /* ── TROPHY SYSTEM ───────────────────────── */
 .trophy-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
@@ -869,6 +1067,63 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 </style>
 </head>
 <body>
+<!-- ONBOARDING GUIDE -->
+<div class="ob-overlay" id="ob-overlay">
+  <div class="ob-box">
+    <!-- Step 1: Welcome -->
+    <div class="ob-step active" id="ob-step-1">
+      <div class="ob-icon">👋</div>
+      <div class="ob-title">Welcome to Aaron's English Hub!</div>
+      <div class="ob-sub">欢迎来到 Aaron 英语学习中心<br>Let's find the best starting point for you.<br>让我们找到最适合你的起点。</div>
+      <div class="ob-level-grid" id="ob-levels">
+        <div class="ob-level-card" onclick="obPickLevel(1,this)">
+          <div class="ob-lc-icon">🌱</div>
+          <div class="ob-lc-info">
+            <h4>I'm a beginner 我是零基础</h4>
+            <p>I know almost no English · 我几乎不会英语</p>
+          </div>
+        </div>
+        <div class="ob-level-card" onclick="obPickLevel(2,this)">
+          <div class="ob-lc-icon">🧭</div>
+          <div class="ob-lc-info">
+            <h4>I know some basics 我有一点基础</h4>
+            <p>Simple greetings & phrases · 会简单问候和短语</p>
+          </div>
+        </div>
+        <div class="ob-level-card" onclick="obPickLevel(3,this)">
+          <div class="ob-lc-icon">🚀</div>
+          <div class="ob-lc-info">
+            <h4>I'm intermediate 我是中级水平</h4>
+            <p>Can hold basic conversations · 能进行基本对话</p>
+          </div>
+        </div>
+        <div class="ob-level-card" onclick="obPickLevel(4,this)">
+          <div class="ob-lc-icon">🏔️</div>
+          <div class="ob-lc-info">
+            <h4>I'm advanced 我是高级水平</h4>
+            <p>Fluent but want to improve · 流利但想提升</p>
+          </div>
+        </div>
+      </div>
+      <div class="ob-skip" onclick="obSkip()">跳过引导 Skip for now</div>
+    </div>
+
+    <!-- Step 2: Placement Test (non-beginners) -->
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-icon">🧪</div>
+      <div class="ob-title">Quick Level Check 快速水平测试</div>
+      <div class="ob-sub">4 quick questions to confirm your level<br>4 道小题确认你的水平</div>
+      <div class="ob-progress" id="ob-quiz-dots"></div>
+      <div id="ob-quiz-area"></div>
+    </div>
+
+    <!-- Step 3: Result & Guided Entry -->
+    <div class="ob-step" id="ob-step-3">
+      <div id="ob-result-area"></div>
+    </div>
+  </div>
+</div>
+
 
 <!-- LEVEL ASSESSMENT OVERLAY -->
 <div id="level-assess-overlay" class="hidden">
@@ -890,19 +1145,17 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 <!-- NAV (always visible) -->
 <div class="nav" id="nav">
-  <button class="nb on" onclick="show('learn')">📚 Learn</button>
-  <button class="nb" onclick="show('quiz')">✏️ Quiz</button>
-  <button class="nb" onclick="show('wrongbook')">📕 Wrong Book</button>
-  <button class="nb" onclick="show('lb')">🏆 Rankings</button>
-  <button class="nb" onclick="show('bayarea')" style="color:#c0392b;font-weight:700">💼 Bay Area</button>
-  <button class="nb" onclick="show('monthly')" style="color:#0d7a55;font-weight:700">📅 月度词汇</button>
-  <button class="nb" onclick="show('pk')" style="color:#7c3aed;font-weight:700">⚔️ PK挑战</button>
-  <button class="nb" onclick="show('cnen')" style="color:#991b1b;font-weight:700">🀄 汉译英</button>
-  <button class="nb" onclick="show('culture')" style="color:#1d4ed8;font-weight:700">🇺🇸 美国文化</button>
-  <button class="nb" onclick="show('homework')" style="color:#4f46e5;font-weight:700">📝 每日作业</button>
-  <button class="nb" onclick="show('dialogue')" style="color:#0f3460;font-weight:700">🎬 职场对话</button>
-  <button class="nb" onclick="show('shadow')" style="color:#4338ca;font-weight:700">🎤 Shadowing</button>
-  <button class="nb" onclick="show('profile')">👤 Profile</button>
+  <button class="nb on" onclick="show('learn')">📚 Learn 学习</button>
+  <button class="nb" onclick="show('quiz')">✏️ Quiz 测验</button>
+  <button class="nb" onclick="show('wrongbook')">📕 Wrong Book 错题本</button>
+  <button class="nb" onclick="show('lb')">🏆 Rankings 排行榜</button>
+  <button class="nb" onclick="show('bayarea')" style="color:#c0392b;font-weight:700">💼 Workplace 职场英语</button>
+  <button class="nb" onclick="show('monthly')" style="color:#0d7a55;font-weight:700">📅 Monthly 月度词汇</button>
+  <button class="nb" onclick="show('pk')" style="color:#7c3aed;font-weight:700">⚔️ PK Challenge PK挑战</button>
+  <button class="nb" onclick="show('cnen')" style="color:#991b1b;font-weight:700">🀄 CN→EN 汉译英</button>
+  <button class="nb" onclick="show('homework')" style="color:#4f46e5;font-weight:700">📝 Homework 每日作业</button>
+  <button class="nb" onclick="show('course')" style="color:#1b8a6b;font-weight:700">📖 Course 系统课程</button>
+  <button class="nb" onclick="show('profile')">👤 Profile 个人</button>
 </div>
 
 <!-- GLOBAL PROGRESS BAR -->
@@ -1023,24 +1276,35 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <!-- BAY AREA WORKPLACE ENGLISH -->
 <div class="page" id="page-bayarea">
   <div class="bay-hero">
-    <h2>💬 Bay Area Workplace English</h2>
-    <p>硅谷职场真实对话 · 开会、邮件、日常闲聊、绩效反馈 · 80个高频职场英语表达</p>
+    <h2>💼 Bay Area Workplace English · 湾区职场英语</h2>
+    <p>硅谷职场真实对话 · 高频表达 + 情景对话 · 每月更新<br>Real Silicon Valley dialogues · Phrases + Scenarios · Updated monthly</p>
     <div class="bay-chips">
-      <span class="bay-chip">🗣️ Meetings</span>
-      <span class="bay-chip">📧 Email &amp; Slack</span>
-      <span class="bay-chip">💬 Office Chat</span>
-      <span class="bay-chip">🤝 Feedback</span>
+      <span class="bay-chip">🗣️ Meetings 开会</span>
+      <span class="bay-chip">📧 Email 邮件</span>
+      <span class="bay-chip">💬 Chat 闲聊</span>
+      <span class="bay-chip">🤝 Feedback 反馈</span>
+      <span class="bay-chip">🎬 Dialogue 情景对话</span>
     </div>
   </div>
-  <input class="sbar" id="bay-search" placeholder="Search phrases, meanings..." oninput="renderBayArea()">
-  <div class="ctabs" id="bay-ctabs">
-    <button class="ct on" onclick="setBayCat('all',this)">All 80</button>
-    <button class="ct" onclick="setBayCat('meeting',this)">🗣️ Meetings</button>
-    <button class="ct" onclick="setBayCat('email',this)">📧 Email &amp; Slack</button>
-    <button class="ct" onclick="setBayCat('chat',this)">💬 Office Chat</button>
-    <button class="ct" onclick="setBayCat('feedback',this)">🤝 Feedback</button>
+  <div class="bay-view-tabs" id="bay-view-tabs">
+    <button class="bay-vtab on" onclick="setBayView('phrases',this)">📝 职场表达 Phrases</button>
+    <button class="bay-vtab" onclick="setBayView('dialogue',this)">🎬 情景对话 Dialogues</button>
   </div>
-  <div id="baylist"></div>
+  <div id="bay-phrases-view">
+    <input class="sbar" id="bay-search" placeholder="Search phrases, meanings... 搜索短语或含义" oninput="renderBayArea()">
+    <div class="ctabs" id="bay-ctabs">
+      <button class="ct on" onclick="setBayCat('all',this)">All 全部</button>
+      <button class="ct" onclick="setBayCat('meeting',this)">🗣️ Meetings</button>
+      <button class="ct" onclick="setBayCat('email',this)">📧 Email</button>
+      <button class="ct" onclick="setBayCat('chat',this)">💬 Chat</button>
+      <button class="ct" onclick="setBayCat('feedback',this)">🤝 Feedback</button>
+    </div>
+    <div id="baylist"></div>
+  </div>
+  <div id="bay-dialogue-view" style="display:none">
+    <div class="dlg-week-row" id="dlg-week-row" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap"></div>
+    <div id="dlg-main"><!-- Injected by JS --></div>
+  </div>
 </div>
 
 
@@ -1099,22 +1363,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 </div>
 
 
-<!-- AMERICAN CULTURE -->
-<div class="page" id="page-culture">
-  <div class="cult-hero">
-    <h2>美国文化学习</h2>
-    <p>每篇约100字英语短文 · 附关键词汇 · 朗读功能 · 3道理解测试题</p>
-  </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-    <button class="cult-filter-btn on" onclick="setCultFilter('all',this)">全部</button>
-    <button class="cult-filter-btn" onclick="setCultFilter('history',this)">📜 历史</button>
-    <button class="cult-filter-btn" onclick="setCultFilter('culture',this)">🎉 文化</button>
-    <button class="cult-filter-btn" onclick="setCultFilter('tech',this)">💻 科技</button>
-    <button class="cult-filter-btn" onclick="setCultFilter('edu',this)">🎓 教育</button>
-    <button class="cult-filter-btn" onclick="setCultFilter('space',this)">🚀 太空</button>
-  </div>
-  <div id="cult-list"></div>
-</div>
 
 <!-- CHINESE TRENDING → ENGLISH -->
 <div class="page" id="page-cnen">
@@ -1147,26 +1395,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 </div>
 
 <!-- WORKPLACE DIALOGUE 职场情景对话 -->
-<div class="page" id="page-dialogue">
-  <div class="dlg-hero">
-    <h2>🎬 职场情景对话</h2>
-    <p>每周一幕真实湾区职场场景 · 地道对话 + 剧场朗读 + 词汇测验<br>像美国人一样开会、1:1、面试、闲聊</p>
-    <div class="dlg-week-row" id="dlg-week-row"><!-- week tabs by JS --></div>
-  </div>
-  <div id="dlg-main"><!-- Injected by JS --></div>
-</div>
+<!-- Dialogue module merged into Bay Area -->
 
 <!-- SHADOWING 听说练习 -->
-<div class="page" id="page-shadow">
-  <div class="shad-hero">
-    <h2>🎤 Shadowing · 听说练习</h2>
-    <p>每天3句地道表达 · 先听后跟读 · AI识别发音打分<br>从「背单词」到「真正开口说」的关键桥梁</p>
-    <div id="shad-voice-wrap"><!-- Voice picker injected by JS --></div>
-    <div class="shad-progress-row" id="shad-prog-row">
-      <!-- Injected by JS -->
-    </div>
-  </div>
-  <div id="shad-main"><!-- Injected by JS --></div>
+<!-- Shadowing module removed -->
+
+<!-- COURSE MODULE -->
+<div class="page" id="page-course">
+  <div id="crs-main"><!-- Injected by JS --></div>
+  <div class="crs-achieve-overlay" id="crs-achieve"></div>
 </div>
 
 <!-- LOGIN MODAL -->
@@ -1724,10 +1961,50 @@ function progressStats(prefix, ids) {
   return {pass: pass, learning: learning, pending: ids.length - pass - learning, total: ids.length};
 }
 
-// Sort helper: 学习中(0) → 待学习(1) → 已通过(2)
+// Sort helper: 待学习(0) → 学习中(1) → 已掌握(2) — unlearned floats up, mastered sinks
 function _progOrder(prefix, id) {
   var s = getProgress(prefix + '_' + id);
-  return s === 'learning' ? 0 : s === 'pass' ? 2 : 1;
+  return s === 'pass' ? 2 : s === 'learning' ? 1 : 0;
+}
+// SRS review check: if mastered item is due for review, treat it as learning
+function _progOrderSRS(prefix, id) {
+  var s = getProgress(prefix + '_' + id);
+  if (s === 'pass') {
+    var srsKey = prefix + '_' + id;
+    var srs = _getSRSData(srsKey);
+    if (srs && srs.next && Date.now() >= srs.next) return 0; // due for review → float up
+    return 2;
+  }
+  return s === 'learning' ? 1 : 0;
+}
+function _getSRSData(key) {
+  try { var d = JSON.parse(localStorage.getItem('srs_bay') || '{}'); return d[key] || null; } catch(e){ return null; }
+}
+function _setSRSData(key, correct) {
+  try {
+    var d = JSON.parse(localStorage.getItem('srs_bay') || '{}');
+    var prev = d[key] || {interval:1, next:0, reviews:0};
+    if (correct) {
+      prev.interval = Math.min(prev.interval * 2.5, 60);
+      prev.reviews = (prev.reviews || 0) + 1;
+    } else {
+      prev.interval = 1;
+    }
+    prev.next = Date.now() + prev.interval * 86400000;
+    d[key] = prev;
+    localStorage.setItem('srs_bay', JSON.stringify(d));
+  } catch(e){}
+}
+function _getMasteryLabel(prefix, id) {
+  var s = getProgress(prefix + '_' + id);
+  if (s === 'pass') {
+    var srs = _getSRSData(prefix + '_' + id);
+    if (srs && srs.next && Date.now() >= srs.next)
+      return '<span class="bay-mastery review">🔄 Review 复习</span>';
+    return '<span class="bay-mastery mastered">✅ Mastered 已掌握</span>';
+  }
+  if (s === 'learning') return '<span class="bay-mastery learning">📖 Learning 学习中</span>';
+  return '';
 }
 
 function renderHomeProgBar() {
@@ -1749,7 +2026,7 @@ function renderHomeProgBar() {
   var cultIds = CULTURE_DATA.map(function(a){ return a.id; });
   var secs = [
     {key:'learn',   label:'📚 Learn',    color:'#1d4ed8', ids: learnIds},
-    {key:'bay',     label:'💼 Bay Area', color:'#c0392b', ids: bayIds},
+    {key:'bay',     label:'💼 Workplace 职场', color:'#c0392b', ids: bayIds},
     {key:'monthly', label:'📅 月度词汇', color:'#0d7a55', ids: monthlyIds},
     {key:'cnen',    label:'🀄 汉译英',   color:'#991b1b', ids: cnenIds},
     {key:'cult',    label:'🇺🇸 文化',    color:'#7c3aed', ids: cultIds}
@@ -5387,6 +5664,212 @@ function _laShowResult() {
     '<button class="la-skip" onclick="closeLevelAssess()">直接进入网站首页</button>';
 }
 
+
+// ═══════════════════════════════════════
+// ONBOARDING GUIDE
+// ═══════════════════════════════════════
+var _obLevel = 0;
+var _obQuizIdx = 0;
+var _obQuizScore = 0;
+
+// Placement test questions per level
+var OB_QUIZ = {
+  2: [
+    {q:'What does "How are you?" mean?', q_cn:'这句话是什么意思？', opts:['你好吗？','你叫什么？','你去哪里？','你几岁？'], ans:0},
+    {q:'"She ___ a teacher."', q_cn:'她___一名老师。', opts:['is','am','are','do'], ans:0},
+    {q:'What is the opposite of "big"?', q_cn:'"big"的反义词是什么？', opts:['small','tall','fast','old'], ans:0},
+    {q:'"I like apples." What does "like" mean?', q_cn:'"like"是什么意思？', opts:['喜欢','看见','吃','买'], ans:0}
+  ],
+  3: [
+    {q:'Choose the correct sentence:', q_cn:'选择正确的句子：', opts:['If I were you, I would study harder.','If I was you, I will study harder.','If I am you, I would study harder.','If I were you, I will studied harder.'], ans:0},
+    {q:'What does "break the ice" mean?', q_cn:'"break the ice"是什么意思？', opts:['打破沉默/缓解尴尬','打碎冰块','结束关系','感到寒冷'], ans:0},
+    {q:'"The project was completed ___ schedule."', q_cn:'项目___按时完成了。', opts:['ahead of','in front of','before of','prior'], ans:0},
+    {q:'Which word means "to delay"?', q_cn:'哪个词表示"推迟"？', opts:['postpone','promote','propose','protect'], ans:0}
+  ],
+  4: [
+    {q:'"The CEO\\\'s decision was met with ___ criticism."', q_cn:'CEO的决定遭到了___批评。', opts:['scathing','scattered','scanning','scaling'], ans:0},
+    {q:'What does "a blessing in disguise" mean?', q_cn:'"a blessing in disguise"是什么意思？', opts:['因祸得福','伪装的祝福','隐藏的礼物','假装祝福'], ans:0},
+    {q:'"The report was comprehensive ___ lacking key data."', q_cn:'报告很全面___缺少关键数据。', opts:['albeit','despite','however','moreover'], ans:0},
+    {q:'Which is a correct use of subjunctive mood?', q_cn:'哪个使用了正确的虚拟语气？', opts:['I suggest he be present.','I suggest he is present.','I suggest he was present.','I suggest he being present.'], ans:0}
+  ]
+};
+
+// Recommended sections per level
+var OB_RECOMMEND = {
+  1: {icon:'🌱', title:'Beginner Path 入门路线', desc:'Start with the systematic course 从系统课程开始', items:[
+    {emoji:'📖', text:'Course 系统课程 — Start from Lesson 1 从第一课开始', page:'course'},
+    {emoji:'📚', text:'Learn 学习 — Browse vocabulary 浏览词汇卡片', page:'learn'}
+  ]},
+  2: {icon:'🧭', title:'Elementary Path 基础路线', desc:'Build your vocabulary & grammar 扩展词汇和语法', items:[
+    {emoji:'📖', text:'Course 系统课程 — Level 1: Seedling 萌芽篇', page:'course'},
+    {emoji:'📚', text:'Learn 学习 — Master core vocabulary 掌握核心词汇', page:'learn'},
+    {emoji:'📅', text:'Monthly 月度词汇 — Fresh words every month 每月新词', page:'monthly'}
+  ]},
+  3: {icon:'🚀', title:'Intermediate Path 中级路线', desc:'Level up your real-world English 提升实用英语', items:[
+    {emoji:'💼', text:'Workplace 职场英语 — Real business English 真实职场英语', page:'bayarea'},
+    {emoji:'⚔️', text:'PK Challenge PK挑战 — Test your skills 检验实力', page:'pk'}
+  ]},
+  4: {icon:'🏔️', title:'Advanced Path 高级路线', desc:'Perfect your English like a native 像母语者一样精进', items:[
+    {emoji:'💼', text:'Workplace 职场英语 — Silicon Valley English 硅谷职场英语', page:'bayarea'},
+    {emoji:'🀄', text:'CN→EN 汉译英 — Master translation 精通翻译', page:'cnen'},
+    {emoji:'⚔️', text:'PK Challenge PK挑战 — Challenge yourself 挑战自我', page:'pk'}
+  ]}
+};
+
+function _obInit() {
+  // Check if onboarding already done
+  if (localStorage.getItem('ob_done')) {
+    var ov = document.getElementById('ob-overlay');
+    if (ov) { ov.classList.add('hide'); setTimeout(function(){ ov.style.display='none'; }, 500); }
+    return;
+  }
+  // Show onboarding overlay
+  var ov = document.getElementById('ob-overlay');
+  if (ov) ov.style.display = 'flex';
+}
+
+function obPickLevel(level, el) {
+  _obLevel = level;
+  document.querySelectorAll('.ob-level-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+
+  if (level === 1) {
+    // Beginner: skip test, go directly to result
+    setTimeout(function(){ _obShowResult(); }, 300);
+  } else {
+    // Non-beginner: show placement test
+    _obQuizIdx = 0;
+    _obQuizScore = 0;
+    setTimeout(function(){
+      _obGoStep(2);
+      _obRenderQuiz();
+    }, 300);
+  }
+}
+
+function obSkip() {
+  localStorage.setItem('ob_done', '1');
+  localStorage.setItem('ob_level', '0');
+  var ov = document.getElementById('ob-overlay');
+  if (ov) { ov.classList.add('hide'); setTimeout(function(){ ov.style.display='none'; }, 500); }
+}
+
+function _obGoStep(n) {
+  document.querySelectorAll('.ob-step').forEach(function(s){ s.classList.remove('active'); });
+  var step = document.getElementById('ob-step-' + n);
+  if (step) step.classList.add('active');
+}
+
+function _obRenderQuiz() {
+  var qs = OB_QUIZ[_obLevel] || OB_QUIZ[2];
+  var total = qs.length;
+
+  // Progress dots
+  var dots = document.getElementById('ob-quiz-dots');
+  if (dots) {
+    var dh = '';
+    for (var i = 0; i < total; i++) {
+      dh += '<div class="ob-dot' + (i < _obQuizIdx ? ' done' : '') + (i === _obQuizIdx ? ' active' : '') + '"></div>';
+    }
+    dots.innerHTML = dh;
+  }
+
+  var area = document.getElementById('ob-quiz-area');
+  if (!area) return;
+
+  if (_obQuizIdx >= total) {
+    // Test complete → show result
+    _obShowResult();
+    return;
+  }
+
+  var q = qs[_obQuizIdx];
+  var h = '<div class="ob-quiz-card">' +
+    '<div class="ob-quiz-q">' + q.q + '</div>' +
+    '<div class="ob-quiz-hint">' + q.q_cn + '</div>' +
+    '<div class="ob-quiz-opts">';
+  q.opts.forEach(function(opt, oi) {
+    h += '<button class="ob-quiz-opt" id="obqo-' + oi + '" onclick="obQuizAnswer(' + oi + ',' + q.ans + ')">' + opt + '</button>';
+  });
+  h += '</div></div>';
+  area.innerHTML = h;
+}
+
+function obQuizAnswer(chosen, correct) {
+  // Lock all options
+  document.querySelectorAll('.ob-quiz-opt').forEach(function(b){ b.classList.add('locked'); });
+  var chosenEl = document.getElementById('obqo-' + chosen);
+  var correctEl = document.getElementById('obqo-' + correct);
+
+  if (chosen === correct) {
+    chosenEl.classList.add('correct');
+    _obQuizScore++;
+  } else {
+    chosenEl.classList.add('wrong');
+    correctEl.classList.add('correct');
+  }
+
+  _obQuizIdx++;
+  setTimeout(function(){ _obRenderQuiz(); }, 800);
+}
+
+function _obShowResult() {
+  _obGoStep(3);
+  var area = document.getElementById('ob-result-area');
+  if (!area) return;
+
+  // Adjust level if test score is low
+  var finalLevel = _obLevel;
+  if (_obLevel > 1) {
+    var qs = OB_QUIZ[_obLevel] || [];
+    var pct = qs.length > 0 ? _obQuizScore / qs.length * 100 : 0;
+    if (pct < 50) finalLevel = Math.max(1, _obLevel - 1);
+  }
+
+  var rec = OB_RECOMMEND[finalLevel] || OB_RECOMMEND[1];
+  var icons = ['🌱','🧭','🚀','🏔️'];
+  var levelNames = ['Beginner 入门级','Elementary 基础级','Intermediate 中级','Advanced 高级'];
+  var pctText = _obLevel > 1 ? '<p>测试结果 Test result: <b>' + _obQuizScore + '/4</b></p>' : '';
+
+  var h = '<div class="ob-result">' +
+    '<div class="ob-result-icon">' + icons[finalLevel-1] + '</div>' +
+    '<h3>Your Level: ' + levelNames[finalLevel-1] + '</h3>' +
+    pctText +
+    '<p>Based on your choice, here\\\'s your recommended learning path:<br>根据你的选择，以下是推荐的学习路线：</p>' +
+  '</div>' +
+  '<div class="ob-recommend">' +
+    '<h4>' + rec.icon + ' ' + rec.title + '</h4>';
+  rec.items.forEach(function(item) {
+    h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:var(--text2,#555)">' +
+      '<span style="font-size:18px">' + item.emoji + '</span>' +
+      '<span>' + item.text + '</span>' +
+    '</div>';
+  });
+  h += '</div>';
+
+  // Primary action button based on level
+  var primaryPage = rec.items[0].page;
+  var primaryLabel = finalLevel === 1 ? '🚀 Start Learning 开始学习' : '🚀 Go to Recommended 进入推荐路线';
+  h += '<button class="ob-btn ob-btn-primary" onclick="obFinish(\'' + primaryPage + '\')">' + primaryLabel + '</button>';
+  h += '<div class="ob-skip" onclick="obFinish(\'learn\')">或者自由探索 Or explore freely</div>';
+
+  area.innerHTML = h;
+
+  // Save level
+  localStorage.setItem('ob_level', finalLevel);
+}
+
+function obFinish(page) {
+  localStorage.setItem('ob_done', '1');
+  var ov = document.getElementById('ob-overlay');
+  if (ov) { ov.classList.add('hide'); setTimeout(function(){ ov.style.display='none'; }, 500); }
+  // Navigate to recommended page
+  if (page === 'course') {
+    _crsView = 'home';
+  }
+  show(page);
+}
+
 window.onload = async function() {
   // Record first visit date
   if (!localStorage.getItem('join_date')) {
@@ -5406,6 +5889,8 @@ window.onload = async function() {
   updateTopbar();
   refreshDueBadge();
   renderHomeProgBar();
+  // Check onboarding first
+  _obInit();
   show('learn');
   renderLearn();
 
@@ -5576,7 +6061,7 @@ function show(p) {
   document.querySelectorAll('.nb').forEach(function(e){ e.classList.remove('on'); });
   var el = document.getElementById('page-' + p);
   if (el) el.classList.add('show');
-  var map = {learn:0, quiz:1, wrongbook:2, lb:3, profile:4, bayarea:5, monthly:6, pk:7, cnen:8, culture:9, homework:10, shadow:11};
+  var map = {learn:0, quiz:1, wrongbook:2, lb:3, profile:4, bayarea:5, monthly:6, pk:7, cnen:8, homework:9, course:10};
   var nbs = document.querySelectorAll('.nb');
   if (map[p] !== undefined && nbs[map[p]]) nbs[map[p]].classList.add('on');
   if (p === 'wrongbook') { renderWB(); completeMission('wrongbook'); }
@@ -5586,10 +6071,8 @@ function show(p) {
   if (p === 'monthly')   renderMonthly();
   if (p === 'pk')        renderPK();
   if (p === 'cnen')      renderCNEN();
-  if (p === 'culture')   renderCulture();
   if (p === 'homework')  renderHWStart();
-  if (p === 'shadow')    renderShadowing();
-  if (p === 'dialogue')  renderDialogue();
+  if (p === 'course')    { _crsView = 'home'; renderCourse(); }
   if (p === 'quiz') {
     document.getElementById('qsetup-v').style.display  = 'block';
     document.getElementById('qactive-v').style.display = 'none';
@@ -5600,6 +6083,24 @@ function show(p) {
 // ═══════════════════════════════════════
 // BAY AREA FINANCE SECTION
 // ═══════════════════════════════════════
+// Bay Area view switching (Phrases vs Dialogues)
+var _bayView = 'phrases';
+function setBayView(view, el) {
+  _bayView = view;
+  document.querySelectorAll('.bay-vtab').forEach(function(b){ b.classList.remove('on'); });
+  if (el) el.classList.add('on');
+  var pv = document.getElementById('bay-phrases-view');
+  var dv = document.getElementById('bay-dialogue-view');
+  if (pv) pv.style.display = view === 'phrases' ? '' : 'none';
+  if (dv) dv.style.display = view === 'dialogue' ? '' : 'none';
+  if (view === 'dialogue') _renderDlgInBay();
+}
+
+// Render dialogues inside Bay Area view
+function _renderDlgInBay() {
+  renderDialogue();
+}
+
 function setBayCat(c, el) {
   baycat = c;
   document.querySelectorAll('#bay-ctabs .ct').forEach(function(b){ b.classList.remove('on'); });
@@ -5616,8 +6117,8 @@ function renderBayArea() {
         !(v.meaning_cn && v.meaning_cn.toLowerCase().includes(q))) return false;
     return true;
   });
-  // Sort: 学习中 → 待学习 → 已通过
-  list.sort(function(a, b){ return _progOrder('bay', a.id) - _progOrder('bay', b.id); });
+  // Sort: 需复习/未学习 → 学习中 → 已掌握 (with SRS review check)
+  list.sort(function(a, b){ return _progOrderSRS('bay', a.id) - _progOrderSRS('bay', b.id); });
   var c = document.getElementById('baylist');
   if (!c) return;
   c.innerHTML = '';
@@ -5638,7 +6139,7 @@ function renderBayArea() {
           '<span class="vc-arr" id="ba' + d.id + '">▼</span>' +
         '</div>' +
         '<div class="bay-head-btm">' +
-          progBadge('bay_' + d.id) +
+          _getMasteryLabel('bay', d.id) +
           '<span class="vc-tag ' + tagCls + '">' + tagLbl + '</span>' +
           '<button class="spk-btn" id="spkbay' + d.id + '" onclick="speakPhrase(event,this)" title="朗读 · Listen">🔊</button>' +
         '</div>' +
@@ -6126,6 +6627,8 @@ function renderMC(q) {
     '</div>' +
     '<div id="qfb" style="display:none" class="qfb"></div>' +
     '<button id="qnxt" onclick="nextQ()" style="display:none" class="qnxt">' + (qCur < qs.length - 1 ? 'Next Question →' : 'See Results →') + '</button>';
+  // Auto-speak the scene hint
+  if (q.scene) { setTimeout(function(){ _speak(q.scene.replace(/<[^>]*>/g,''), null, 0.85); }, 300); }
 }
 
 function renderFill(q) {
@@ -6138,6 +6641,8 @@ function renderFill(q) {
     '<div id="qfb" style="display:none" class="qfb"></div>' +
     '<button id="qnxt" onclick="nextQ()" style="display:none" class="qnxt">' + (qCur < qs.length - 1 ? 'Next Question →' : 'See Results →') + '</button>';
   document.getElementById('fli').addEventListener('keydown', function(e){ if (e.key === 'Enter') document.getElementById('subb').click(); });
+  // Auto-speak the scene hint
+  if (q.scene) { setTimeout(function(){ _speak(q.scene.replace(/<[^>]*>/g,''), null, 0.85); }, 300); }
 }
 
 function pickMC(i, btn, correct) {
@@ -6175,7 +6680,7 @@ function showFB(ok, q, chosen) {
   fb.style.display = 'block';
   fb.className = 'qfb ' + (ok ? 'ok' : 'bad');
   var cnLine = q.meaning_cn ? '<br><span style="font-size:12px;opacity:.85">' + q.meaning_cn + '</span>' : '';
-  var exLine = q.example ? '<div style="margin-top:10px;padding:8px 10px;background:rgba(0,0,0,.06);border-radius:6px;font-size:12px;line-height:1.7;font-style:italic">' +
+  var exLine = q.example ? '<div style="margin-top:10px;padding:8px 10px;background:rgba(0,0,0,.06);border-radius:6px;font-size:15px;line-height:1.7;font-style:italic">' +
     '&ldquo;' + q.example + '&rdquo;' +
     (q.example_cn ? '<br><span style="font-style:normal;color:inherit;opacity:.8">' + q.example_cn + '</span>' : '') +
     '</div>' : '';
@@ -6189,7 +6694,15 @@ function showFB(ok, q, chosen) {
   qHist.push({q: q, correct: ok, chosen: chosen});
   updateSRS(q.id, ok);
   recordStreak();
-  if (ok) awardPts(10);
+  if (ok) {
+    awardPts(10);
+    // Auto-speak: phrase first, then example sentence
+    setTimeout(function(){ _speak(q.phrase, null, 0.82); }, 400);
+    if (q.example) {
+      var _exPlain = q.example.replace(/<[^>]*>/g,'');
+      setTimeout(function(){ _speak(_exPlain, null, 0.82); }, 1800);
+    }
+  }
 }
 
 function addWB(q, chosen) {
@@ -6649,6 +7162,1333 @@ async function doLogout() {
   toast('Signed out', 'ok');
   renderProfile();
 }
+
+// ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// SYSTEMATIC COURSE MODULE
+// ═══════════════════════════════════════
+
+// ── Course Level Definitions ──
+var CRS_LEVELS = [
+  {
+    id:1, name:'Seedling', name_cn:'萌芽篇', icon:'🌱',
+    color:'#10b981', gradient:'linear-gradient(135deg,#065f46,#10b981)',
+    desc:'From ABCs to daily conversation', desc_cn:'从零基础到日常简单对话',
+    target:'完成后达到新概念英语第一册水平 · CEF A1',
+    unlockAt:0
+  },
+  {
+    id:2, name:'Explorer', name_cn:'拓展篇', icon:'🧭',
+    color:'#3b82f6', gradient:'linear-gradient(135deg,#1e3a8a,#3b82f6)',
+    desc:'Build fluency & express ideas', desc_cn:'拓展表达能力，自如沟通',
+    target:'完成后达到新概念英语第二册水平 · CEF A2-B1',
+    unlockAt:1
+  },
+  {
+    id:3, name:'Voyager', name_cn:'飞跃篇', icon:'🚀',
+    color:'#8b5cf6', gradient:'linear-gradient(135deg,#4c1d95,#8b5cf6)',
+    desc:'Master complex English with nuance', desc_cn:'驾驭复杂英语，精准表达',
+    target:'完成后达到新概念英语第三册水平 · CEF B2',
+    unlockAt:2
+  },
+  {
+    id:4, name:'Summit', name_cn:'巅峰篇', icon:'🏔️',
+    color:'#f59e0b', gradient:'linear-gradient(135deg,#78350f,#f59e0b)',
+    desc:'Think, debate & write like a native', desc_cn:'像母语者一样思考、辩论和写作',
+    target:'完成后达到新概念英语第四册水平 · CEF C1-C2',
+    unlockAt:3
+  }
+];
+
+// ── Achievement Definitions ──
+var CRS_ACHIEVEMENTS = {
+  first_lesson:  {icon:'🎉', title:'First Step · 第一步',       desc:'完成第一节课 Complete your first lesson'},
+  perfect_score: {icon:'💎', title:'Perfect · 满分达人',         desc:'一节课全部答对 Get 100% on a lesson'},
+  five_streak:   {icon:'🔥', title:'On Fire · 连胜五课',        desc:'连续完成5节课 Complete 5 lessons in a row'},
+  unit_master:   {icon:'🏆', title:'Unit Master · 单元达人',    desc:'单元测试90分以上 Score 90%+ on a unit test'},
+  spelling_ace:  {icon:'✍️', title:'Spelling Ace · 拼写高手',   desc:'拼写全部正确 Spell all words correctly in a unit test'},
+  level_up:      {icon:'⬆️', title:'Level Up · 升级',           desc:'完成一个级别的全部课程 Complete all lessons in a level'},
+  vocab_100:     {icon:'📚', title:'Word Collector · 百词斩',   desc:'学习超过100个单词 Learn over 100 vocabulary words'},
+  xp_500:        {icon:'⭐', title:'Rising Star · 新星',        desc:'累计获得500 XP  Earn 500 total XP'},
+  xp_2000:       {icon:'🌟', title:'Superstar · 超级明星',      desc:'累计获得2000 XP  Earn 2000 total XP'}
+};
+
+// ── Course Data (Level 1: Seedling 萌芽篇) ──
+var CRS_LESSONS = {
+  1: [
+    {
+      id:1, title:'Hello, I\'m Tom.', title_cn:'你好，我是汤姆。',
+      passage:[
+        {en:'Hello! My name is Tom.', cn:'你好！我的名字叫汤姆。', note:'name = 名字；用 "My name is..." 来介绍自己'},
+        {en:'I am a student.', cn:'我是一名学生。', note:'"I am" 可以缩写为 "I\'m"；a student = 一个学生'},
+        {en:'This is my teacher, Ms. Green.', cn:'这是我的老师，格林女士。', note:'"This is..." 用来介绍他人；Ms. 是对女性的尊称'},
+        {en:'She is from New York.', cn:'她来自纽约。', note:'"be from" 表示来自某地'},
+        {en:'Nice to meet you, Ms. Green!', cn:'很高兴认识您，格林女士！', note:'初次见面最常用的问候语'}
+      ],
+      vocab:[
+        {word:'hello', pron:'/həˈloʊ/', pos:'int.', cn:'你好', ex:'Hello, how are you?', ex_cn:'你好，你怎么样？'},
+        {word:'name', pron:'/neɪm/', pos:'n.', cn:'名字', ex:'My name is Tom.', ex_cn:'我的名字叫汤姆。'},
+        {word:'student', pron:'/ˈstjuːdənt/', pos:'n.', cn:'学生', ex:'I am a student.', ex_cn:'我是一名学生。'},
+        {word:'teacher', pron:'/ˈtiːtʃər/', pos:'n.', cn:'老师', ex:'She is a good teacher.', ex_cn:'她是一位好老师。'},
+        {word:'meet', pron:'/miːt/', pos:'v.', cn:'见面；认识', ex:'Nice to meet you!', ex_cn:'很高兴认识你！'},
+        {word:'from', pron:'/frʌm/', pos:'prep.', cn:'从；来自', ex:'I am from China.', ex_cn:'我来自中国。'}
+      ],
+      grammar:[
+        {
+          title:'Be 动词 (am / is / are) — The Verb "Be"',
+          rules:['I → <b>am</b> &nbsp; ("I am a student." = 我是一名学生。)','He / She / It → <b>is</b> &nbsp; ("She is a teacher." = 她是一名老师。)','You / We / They → <b>are</b> &nbsp; ("You are my friend." = 你是我的朋友。)'],
+          examples:[{en:'I <em>am</em> Tom.', cn:'我是汤姆。'},{en:'She <em>is</em> from New York.', cn:'她来自纽约。'},{en:'They <em>are</em> students.', cn:'他们是学生。'}]
+        },
+        {
+          title:'自我介绍 — Introducing Yourself',
+          rules:['"My name is + 名字" — 最正式的自我介绍','"I\'m + 名字" — 更口语化','"This is + 人名" — 介绍第三人'],
+          examples:[{en:'My name <em>is</em> Lisa.', cn:'我叫丽莎。'},{en:'<em>I\'m</em> David. Nice to meet you.', cn:'我是大卫，很高兴认识你。'},{en:'<em>This is</em> my friend, Amy.', cn:'这是我的朋友，艾米。'}]
+        }
+      ],
+      quiz:[
+        {q:'How do you introduce yourself in English?', q_cn:'用英语怎么介绍自己？', opts:['My name is Tom.','My name Tom is.','Name my is Tom.','Is my name Tom.'], ans:0, exp:'正确的语序是 "My name is + 名字"。主语 + be动词 + 表语。', exp_en:'The correct order is "My name is + name."'},
+        {q:'"She ___ a teacher." Fill in the blank.', q_cn:'她___一名老师。填空。', opts:['is','am','are','be'], ans:0, exp:'She 是第三人称单数，搭配 "is"。', exp_en:'"She" is 3rd person singular, so it takes "is."'},
+        {q:'What does "Nice to meet you" mean?', q_cn:'"Nice to meet you" 是什么意思？', opts:['很高兴认识你','再见','谢谢你','对不起'], ans:0, exp:'这是初次见面时最常用的礼貌用语。', exp_en:'This is the most common greeting when meeting someone for the first time.'},
+        {q:'Which sentence is correct?', q_cn:'哪个句子是正确的？', opts:['I am from China.','I is from China.','I are from China.','I from China.'], ans:0, exp:'"I" 搭配 "am"。"be from" 表示来自某处。', exp_en:'"I" takes "am." "Be from" means to come from a place.'}
+      ],
+      fill:[
+        {before:'My', blank:'name', after:'is Tom.', cn:'我的___叫汤姆。'},
+        {before:'She is', blank:'from', after:'New York.', cn:'她___纽约。（来自）'},
+        {before:'I', blank:'am', after:'a student.', cn:'我___一名学生。'},
+        {before:'Nice to', blank:'meet', after:'you!', cn:'很高兴___你！（认识）'},
+        {before:'This', blank:'is', after:'my teacher.', cn:'这___我的老师。'}
+      ]
+    },
+    {
+      id:2, title:'How are you?', title_cn:'你好吗？',
+      passage:[
+        {en:'Good morning, Lisa!', cn:'早上好，丽莎！', note:'"Good morning" 用于早上到中午之前的问候'},
+        {en:'How are you today?', cn:'你今天怎么样？', note:'最常见的日常问候语'},
+        {en:'I\'m fine, thank you. And you?', cn:'我很好，谢谢。你呢？', note:'标准回答；"And you?" 表示反问'},
+        {en:'I\'m great! See you later.', cn:'我很棒！回头见。', note:'"See you later" = 再见，比 goodbye 更口语化'},
+        {en:'Goodbye! Have a nice day!', cn:'再见！祝你有美好的一天！', note:'"Have a nice day" 是常见的告别祝福语'}
+      ],
+      vocab:[
+        {word:'morning', pron:'/ˈmɔːrnɪŋ/', pos:'n.', cn:'早上', ex:'Good morning!', ex_cn:'早上好！'},
+        {word:'fine', pron:'/faɪn/', pos:'adj.', cn:'好的', ex:'I\'m fine, thanks.', ex_cn:'我很好，谢谢。'},
+        {word:'today', pron:'/təˈdeɪ/', pos:'adv.', cn:'今天', ex:'How are you today?', ex_cn:'你今天怎么样？'},
+        {word:'great', pron:'/ɡreɪt/', pos:'adj.', cn:'很棒的', ex:'That\'s great!', ex_cn:'太棒了！'},
+        {word:'goodbye', pron:'/ɡʊdˈbaɪ/', pos:'int.', cn:'再见', ex:'Goodbye, see you!', ex_cn:'再见！'},
+        {word:'thank', pron:'/θæŋk/', pos:'v.', cn:'感谢', ex:'Thank you very much.', ex_cn:'非常感谢你。'}
+      ],
+      grammar:[
+        {
+          title:'日常问候 — Greetings',
+          rules:['Good morning (早上好) · Good afternoon (下午好) · Good evening (晚上好)','How are you? = 你好吗？（最常见问候）','How\'s it going? = 最近怎么样？（更随意）'],
+          examples:[{en:'<em>Good morning</em>, everyone!', cn:'大家早上好！'},{en:'<em>How are you</em> today?', cn:'你今天怎么样？'},{en:'I\'m fine, <em>thank you</em>.', cn:'我很好，谢谢。'}]
+        },
+        {
+          title:'告别用语 — Saying Goodbye',
+          rules:['Goodbye / Bye = 再见','See you later = 回头见','Have a nice day = 祝你有美好的一天'],
+          examples:[{en:'<em>See you</em> tomorrow!', cn:'明天见！'},{en:'<em>Have a nice</em> weekend!', cn:'周末愉快！'},{en:'<em>Bye</em>! Take care.', cn:'再见！保重。'}]
+        }
+      ],
+      quiz:[
+        {q:'Which is a correct morning greeting?', q_cn:'哪个是正确的早上问候？', opts:['Good morning!','Good night!','Good evening!','Goodbye!'], ans:0, exp:'"Good morning" 用于早上问候。"Good night" 是晚安。', exp_en:'"Good morning" is used to greet in the morning.'},
+        {q:'How do you reply to "How are you?"', q_cn:'别人问 "How are you?" 怎么回答？', opts:['I\'m fine, thank you.','My name is Tom.','See you later.','Good morning.'], ans:0, exp:'标准回答是 "I\'m fine, thank you."', exp_en:'The standard reply is "I\'m fine, thank you."'},
+        {q:'What does "See you later" mean?', q_cn:'"See you later" 是什么意思？', opts:['回头见','早上好','谢谢','对不起'], ans:0, exp:'这是比 Goodbye 更口语化的告别方式。', exp_en:'This is a more casual way to say goodbye.'},
+        {q:'"Have a nice ___!" (day)', q_cn:'祝你有美好的___！', opts:['day','morning','you','fine'], ans:0, exp:'"Have a nice day" 是常见的告别祝福。', exp_en:'"Have a nice day" is a common farewell wish.'}
+      ],
+      fill:[
+        {before:'Good', blank:'morning', after:', Lisa!', cn:'早上___，丽莎！'},
+        {before:'How are', blank:'you', after:'today?', cn:'___今天怎么样？'},
+        {before:'I\'m fine,', blank:'thank', after:'you.', cn:'我很好，___你。'},
+        {before:'See you', blank:'later', after:'!', cn:'回头___！'},
+        {before:'Have a nice', blank:'day', after:'!', cn:'祝你有美好的一___！'}
+      ]
+    },
+    {
+      id:3, title:'What\'s this?', title_cn:'这是什么？',
+      passage:[
+        {en:'What\'s this? It\'s a book.', cn:'这是什么？这是一本书。', note:'"What\'s this?" = "What is this?" 用来询问近处的东西'},
+        {en:'What\'s that? That\'s a pen.', cn:'那是什么？那是一支笔。', note:'"this" 指近处，"that" 指远处'},
+        {en:'Is this your bag?', cn:'这是你的包吗？', note:'一般疑问句：把 be 动词放在句首'},
+        {en:'Yes, it is. It\'s my new bag.', cn:'是的。这是我的新包。', note:'"my" = 我的（形容词性物主代词）'},
+        {en:'What color is it? It\'s blue.', cn:'它是什么颜色的？蓝色的。', note:'"What color" 用来询问颜色'}
+      ],
+      vocab:[
+        {word:'book', pron:'/bʊk/', pos:'n.', cn:'书', ex:'This is a book.', ex_cn:'这是一本书。'},
+        {word:'pen', pron:'/pen/', pos:'n.', cn:'笔', ex:'That is a pen.', ex_cn:'那是一支笔。'},
+        {word:'bag', pron:'/bæɡ/', pos:'n.', cn:'包', ex:'Is this your bag?', ex_cn:'这是你的包吗？'},
+        {word:'new', pron:'/njuː/', pos:'adj.', cn:'新的', ex:'I have a new bag.', ex_cn:'我有一个新包。'},
+        {word:'color', pron:'/ˈkʌlər/', pos:'n.', cn:'颜色', ex:'What color is it?', ex_cn:'它是什么颜色？'},
+        {word:'blue', pron:'/bluː/', pos:'adj.', cn:'蓝色的', ex:'The sky is blue.', ex_cn:'天空是蓝色的。'}
+      ],
+      grammar:[
+        {
+          title:'What 疑问句 — What Questions',
+          rules:['What\'s this? = 这是什么？（近处）','What\'s that? = 那是什么？（远处）','What color is it? = 它是什么颜色？'],
+          examples:[{en:'<em>What\'s this</em>? It\'s a book.', cn:'这是什么？这是一本书。'},{en:'<em>What\'s that</em>? That\'s a clock.', cn:'那是什么？那是一个钟。'},{en:'<em>What color</em> is your bag?', cn:'你的包是什么颜色？'}]
+        },
+        {
+          title:'冠词 a / an — Articles',
+          rules:['a + 辅音开头的单词：a book, a pen, a student','an + 元音开头的单词：an apple, an egg, an umbrella','特指用 the：the book (那本特定的书)'],
+          examples:[{en:'It\'s <em>a</em> pen.', cn:'这是一支笔。'},{en:'It\'s <em>an</em> apple.', cn:'这是一个苹果。'},{en:'<em>The</em> book is on the desk.', cn:'那本书在桌子上。'}]
+        }
+      ],
+      quiz:[
+        {q:'How do you ask about a nearby object?', q_cn:'怎么问近处的东西是什么？', opts:['What\'s this?','What\'s that?','Where is it?','Who is this?'], ans:0, exp:'"What\'s this?" 用来询问近处的物品。', exp_en:'"What\'s this?" is used to ask about a nearby object.'},
+        {q:'Which article goes before "apple"?', q_cn:'apple 前面用哪个冠词？', opts:['an','a','the','(none)'], ans:0, exp:'apple 以元音 a 开头，所以用 "an"。', exp_en:'"Apple" starts with a vowel, so we use "an."'},
+        {q:'"Is this your bag?" — "Yes, ___."', q_cn:'回答 "是的，___。"', opts:['it is','I am','this is','you are'], ans:0, exp:'用 "it is" 回答关于物品的一般疑问句。', exp_en:'Use "it is" to answer yes/no questions about objects.'},
+        {q:'What does "new" mean?', q_cn:'"new" 是什么意思？', opts:['新的','旧的','大的','蓝色的'], ans:0, exp:'"new" 的反义词是 "old"（旧的）。', exp_en:'The opposite of "new" is "old."'}
+      ],
+      fill:[
+        {before:'What\'s', blank:'this', after:'? It\'s a book.', cn:'___是什么？'},
+        {before:'It\'s', blank:'a', after:'pen.', cn:'这是___支笔。'},
+        {before:'Is this', blank:'your', after:'bag?', cn:'这是___的包吗？'},
+        {before:'What', blank:'color', after:'is it?', cn:'它是什么___？'},
+        {before:'It\'s', blank:'blue', after:'.', cn:'它是___色的。'}
+      ]
+    },
+    {
+      id:4, title:'My Family', title_cn:'我的家人',
+      passage:[
+        {en:'This is my family.', cn:'这是我的家人。', note:'"family" 既表示"家庭"，也表示"家人"'},
+        {en:'My father is a doctor. His name is John.', cn:'我爸爸是一名医生。他叫约翰。', note:'"his" = 他的（形容词性物主代词）'},
+        {en:'My mother is a nurse. Her name is Mary.', cn:'我妈妈是一名护士。她叫玛丽。', note:'"her" = 她的'},
+        {en:'I have a sister. She is ten years old.', cn:'我有一个姐姐/妹妹。她十岁了。', note:'"have" = 拥有；"years old" = ……岁'},
+        {en:'We are a happy family.', cn:'我们是一个幸福的家庭。', note:'"We are" = 我们是；"happy" = 幸福的、快乐的'}
+      ],
+      vocab:[
+        {word:'family', pron:'/ˈfæməli/', pos:'n.', cn:'家庭；家人', ex:'I love my family.', ex_cn:'我爱我的家人。'},
+        {word:'father', pron:'/ˈfɑːðər/', pos:'n.', cn:'爸爸', ex:'My father is a doctor.', ex_cn:'我爸爸是一名医生。'},
+        {word:'mother', pron:'/ˈmʌðər/', pos:'n.', cn:'妈妈', ex:'My mother is kind.', ex_cn:'我妈妈很善良。'},
+        {word:'sister', pron:'/ˈsɪstər/', pos:'n.', cn:'姐姐/妹妹', ex:'My sister is young.', ex_cn:'我妹妹很年轻。'},
+        {word:'doctor', pron:'/ˈdɑːktər/', pos:'n.', cn:'医生', ex:'He is a doctor.', ex_cn:'他是一名医生。'},
+        {word:'happy', pron:'/ˈhæpi/', pos:'adj.', cn:'快乐的', ex:'We are happy.', ex_cn:'我们很快乐。'}
+      ],
+      grammar:[
+        {
+          title:'物主代词 — Possessive Adjectives',
+          rules:['I → <b>my</b> (我的)','you → <b>your</b> (你的)','he → <b>his</b> (他的) · she → <b>her</b> (她的)','we → <b>our</b> (我们的) · they → <b>their</b> (他们的)'],
+          examples:[{en:'<em>My</em> father is a doctor.', cn:'我的爸爸是一名医生。'},{en:'<em>Her</em> name is Mary.', cn:'她的名字叫玛丽。'},{en:'<em>Their</em> house is big.', cn:'他们的房子很大。'}]
+        },
+        {
+          title:'have / has 的用法 — Using "Have"',
+          rules:['I / You / We / They → <b>have</b>','He / She / It → <b>has</b>','否定形式：don\'t have / doesn\'t have'],
+          examples:[{en:'I <em>have</em> a sister.', cn:'我有一个姐姐。'},{en:'She <em>has</em> a cat.', cn:'她有一只猫。'},{en:'I <em>don\'t have</em> a brother.', cn:'我没有兄弟。'}]
+        }
+      ],
+      quiz:[
+        {q:'"My ___ is a doctor." (father)', q_cn:'我的___是一名医生。', opts:['father','mother','sister','teacher'], ans:0, exp:'文中说 "My father is a doctor."', exp_en:'The text says "My father is a doctor."'},
+        {q:'Which possessive adjective matches "she"?', q_cn:'"she" 对应哪个物主代词？', opts:['her','his','my','your'], ans:0, exp:'she → her（她的）。', exp_en:'she → her (her/hers).'},
+        {q:'"She ___ ten years old."', q_cn:'她___十岁了。', opts:['is','am','are','has'], ans:0, exp:'She 是第三人称单数，用 "is"。', exp_en:'"She" takes "is."'},
+        {q:'"I ___ a sister."', q_cn:'我___一个姐妹。', opts:['have','has','am','is'], ans:0, exp:'I 后面用 "have"，不用 "has"。', exp_en:'Use "have" after "I," not "has."'}
+      ],
+      fill:[
+        {before:'This is my', blank:'family', after:'.', cn:'这是我的___。'},
+        {before:'My father is a', blank:'doctor', after:'.', cn:'我爸爸是一名___。'},
+        {before:'Her name is', blank:'Mary', after:'.', cn:'她叫___。'},
+        {before:'I have a', blank:'sister', after:'.', cn:'我有一个___。'},
+        {before:'We are a', blank:'happy', after:'family.', cn:'我们是一个___的家庭。'}
+      ]
+    },
+    {
+      id:5, title:'Numbers & Age', title_cn:'数字与年龄',
+      passage:[
+        {en:'I am twelve years old.', cn:'我十二岁了。', note:'表达年龄：主语 + am/is/are + 数字 + years old'},
+        {en:'My phone number is 138-5678-9012.', cn:'我的手机号码是 138-5678-9012。', note:'读号码时一个一个数字读：one-three-eight...'},
+        {en:'There are thirty students in my class.', cn:'我们班有三十个学生。', note:'"There are + 复数名词" 表示某处有某物'},
+        {en:'How many books do you have?', cn:'你有几本书？', note:'"How many + 可数名词复数" 用来询问数量'},
+        {en:'I have five books on my desk.', cn:'我的桌上有五本书。', note:'"on" 表示在……上面'}
+      ],
+      vocab:[
+        {word:'number', pron:'/ˈnʌmbər/', pos:'n.', cn:'数字；号码', ex:'What\'s your number?', ex_cn:'你的号码是什么？'},
+        {word:'twelve', pron:'/twelv/', pos:'num.', cn:'十二', ex:'I am twelve.', ex_cn:'我十二岁。'},
+        {word:'thirty', pron:'/ˈθɜːrti/', pos:'num.', cn:'三十', ex:'There are thirty students.', ex_cn:'有三十个学生。'},
+        {word:'class', pron:'/klæs/', pos:'n.', cn:'班级；课', ex:'I\'m in Class 3.', ex_cn:'我在三班。'},
+        {word:'many', pron:'/ˈmeni/', pos:'adj.', cn:'许多的', ex:'How many cats?', ex_cn:'多少只猫？'},
+        {word:'desk', pron:'/desk/', pos:'n.', cn:'桌子', ex:'The book is on the desk.', ex_cn:'书在桌子上。'}
+      ],
+      grammar:[
+        {
+          title:'数字 1-100 — Numbers',
+          rules:['1-12: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve','13-19: thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen','20-100: twenty, thirty, forty, fifty ... one hundred'],
+          examples:[{en:'I am <em>twelve</em> years old.', cn:'我十二岁。'},{en:'There are <em>thirty</em> students.', cn:'有三十个学生。'},{en:'I have <em>five</em> books.', cn:'我有五本书。'}]
+        },
+        {
+          title:'How many 疑问句 — Asking About Quantity',
+          rules:['"How many + 可数名词复数 + do you have?" = 你有多少……？','"There are + 数字 + 名词" = 有……个……','注意：不可数名词用 "How much"'],
+          examples:[{en:'<em>How many</em> books do you have?', cn:'你有多少本书？'},{en:'<em>There are</em> five apples.', cn:'有五个苹果。'},{en:'<em>How much</em> water do you need?', cn:'你需要多少水？'}]
+        }
+      ],
+      quiz:[
+        {q:'How do you say your age in English?', q_cn:'用英语怎么说自己的年龄？', opts:['I am twelve years old.','I have twelve years.','My age twelve.','Twelve I am.'], ans:0, exp:'英语表达年龄用 "I am + 数字 + years old"。', exp_en:'Use "I am + number + years old" to express age in English.'},
+        {q:'What comes after "twenty-nine"?', q_cn:'"二十九"后面是什么？', opts:['thirty','twenty-ten','thirteen','forty'], ans:0, exp:'29 → 30，即 twenty-nine → thirty。', exp_en:'29 → 30, twenty-nine → thirty.'},
+        {q:'"How ___ books do you have?"', q_cn:'你有多少本书？', opts:['many','much','are','is'], ans:0, exp:'books 是可数名词复数，用 "How many"。', exp_en:'"Books" is countable, so use "How many."'},
+        {q:'"There ___ thirty students."', q_cn:'有三十个学生。', opts:['are','is','am','has'], ans:0, exp:'students 是复数，用 "are"。', exp_en:'"Students" is plural, so use "are."'}
+      ],
+      fill:[
+        {before:'I am', blank:'twelve', after:'years old.', cn:'我___岁了。（十二）'},
+        {before:'How', blank:'many', after:'books do you have?', cn:'你有多___本书？'},
+        {before:'There are', blank:'thirty', after:'students.', cn:'有___个学生。（三十）'},
+        {before:'The book is on the', blank:'desk', after:'.', cn:'书在___上。'},
+        {before:'My phone', blank:'number', after:'is 138-5678-9012.', cn:'我的手机___是……'}
+      ]
+    },
+    // ── UNIT TEST after lesson 5 ──
+    {
+      id:6, unitTest:true, title:'Unit Test 1', title_cn:'第一单元测试',
+      reviewLessons:[1,2,3,4,5],
+      mcq:[
+        {q:'How do you say "你好" in English?', opts:['Hello','Goodbye','Thank you','Sorry'], ans:0},
+        {q:'"She ___ a nurse."', opts:['is','am','are','be'], ans:0},
+        {q:'What does "How are you?" mean?', opts:['你好吗？','你叫什么？','你从哪来？','你几岁？'], ans:0},
+        {q:'"I ___ two sisters."', opts:['have','has','am','is'], ans:0},
+        {q:'"___ your name?" — "Tom."', opts:['What\'s','Where\'s','How\'s','Who\'s'], ans:0},
+        {q:'What is the correct reply to "Nice to meet you"?', opts:['Nice to meet you, too.','I\'m fine.','Goodbye.','Thank you.'], ans:0},
+        {q:'"There ___ five books on the desk."', opts:['are','is','am','have'], ans:0},
+        {q:'Which is NOT a greeting?', opts:['See you later','Good morning','Good afternoon','Good evening'], ans:0},
+        {q:'"My ___ is a doctor."', opts:['father','from','color','morning'], ans:0},
+        {q:'"How ___ students are in your class?"', opts:['many','much','are','is'], ans:0}
+      ],
+      spelling:[
+        {word:'hello', cn:'你好', hint:'h_l_o'},
+        {word:'teacher', cn:'老师', hint:'t_ _ch_r'},
+        {word:'family', cn:'家庭', hint:'f_m_ly'},
+        {word:'morning', cn:'早上', hint:'m_rn_ng'},
+        {word:'student', cn:'学生', hint:'st_d_nt'},
+        {word:'number', cn:'数字', hint:'n_mb_r'},
+        {word:'doctor', cn:'医生', hint:'d_ct_r'},
+        {word:'happy', cn:'快乐的', hint:'h_pp_'}
+      ]
+    },
+    {
+      id:7, title:'What time is it?', title_cn:'现在几点了？',
+      passage:[
+        {en:'What time is it? It\'s seven o\'clock.', cn:'现在几点了？七点整。', note:'"o\'clock" 用于整点；seven o\'clock = 7:00'},
+        {en:'I get up at six thirty.', cn:'我六点半起床。', note:'"get up" = 起床；"at" 用于具体时间前'},
+        {en:'School starts at eight fifteen.', cn:'学校八点十五分开始上课。', note:'"start" = 开始'},
+        {en:'I have lunch at twelve o\'clock.', cn:'我十二点吃午饭。', note:'"have lunch" = 吃午饭'},
+        {en:'I go to bed at nine o\'clock.', cn:'我九点上床睡觉。', note:'"go to bed" = 上床睡觉'}
+      ],
+      vocab:[
+        {word:'time', pron:'/taɪm/', pos:'n.', cn:'时间', ex:'What time is it?', ex_cn:'现在几点了？'},
+        {word:'o\'clock', pron:'/əˈklɑːk/', pos:'adv.', cn:'……点钟', ex:'It\'s seven o\'clock.', ex_cn:'七点钟了。'},
+        {word:'get up', pron:'/ɡet ʌp/', pos:'phr.', cn:'起床', ex:'I get up early.', ex_cn:'我起得早。'},
+        {word:'lunch', pron:'/lʌntʃ/', pos:'n.', cn:'午饭', ex:'Let\'s have lunch.', ex_cn:'我们吃午饭吧。'},
+        {word:'start', pron:'/stɑːrt/', pos:'v.', cn:'开始', ex:'Class starts at 8.', ex_cn:'八点开始上课。'},
+        {word:'bed', pron:'/bed/', pos:'n.', cn:'床', ex:'Go to bed now.', ex_cn:'现在去睡觉。'}
+      ],
+      grammar:[
+        {
+          title:'询问时间 — Asking the Time',
+          rules:['What time is it? = 现在几点了？','It\'s + 数字 + o\'clock = ……点整','It\'s + 时 + 分（如 eight fifteen = 8:15）'],
+          examples:[{en:'<em>What time is it</em>? It\'s three o\'clock.', cn:'现在几点？三点整。'},{en:'It\'s <em>eight fifteen</em>.', cn:'八点十五分。'},{en:'It\'s <em>six thirty</em>.', cn:'六点半。'}]
+        },
+        {
+          title:'日常作息 — Daily Routine',
+          rules:['get up = 起床','have breakfast / lunch / dinner = 吃早/午/晚饭','go to school = 去上学 · go to bed = 去睡觉'],
+          examples:[{en:'I <em>get up</em> at six.', cn:'我六点起床。'},{en:'I <em>have lunch</em> at noon.', cn:'我中午吃午饭。'},{en:'I <em>go to bed</em> at nine.', cn:'我九点睡觉。'}]
+        }
+      ],
+      quiz:[
+        {q:'How do you ask the time?', q_cn:'怎么问时间？', opts:['What time is it?','Where is the time?','How is the time?','When time is?'], ans:0, exp:'正确问法是 "What time is it?"', exp_en:'The correct way is "What time is it?"'},
+        {q:'"I get up ___ six thirty."', q_cn:'我六点半起床。', opts:['at','in','on','to'], ans:0, exp:'具体时间前用介词 "at"。', exp_en:'Use "at" before specific times.'},
+        {q:'What does "go to bed" mean?', q_cn:'"go to bed" 是什么意思？', opts:['去睡觉','去上学','去吃饭','去上班'], ans:0, exp:'"go to bed" = 去睡觉。', exp_en:'"Go to bed" means to go to sleep.'},
+        {q:'How do you say 8:15?', q_cn:'8:15 怎么说？', opts:['eight fifteen','eight fifty','fifteen eight','eight five'], ans:0, exp:'先说小时，再说分钟：eight fifteen。', exp_en:'Say the hour first, then minutes: eight fifteen.'}
+      ],
+      fill:[
+        {before:'What', blank:'time', after:'is it?', cn:'现在几___了？'},
+        {before:'It\'s seven', blank:'o\'clock', after:'.', cn:'七点___了。'},
+        {before:'I get', blank:'up', after:'at six thirty.', cn:'我六点半起___。'},
+        {before:'I have', blank:'lunch', after:'at twelve.', cn:'我十二点吃___饭。'},
+        {before:'I go to', blank:'bed', after:'at nine.', cn:'我九点上___睡觉。'}
+      ]
+    },
+    {
+      id:8, title:'I like apples.', title_cn:'我喜欢苹果。',
+      passage:[
+        {en:'I like apples. They are sweet.', cn:'我喜欢苹果。它们很甜。', note:'"like" = 喜欢；"sweet" = 甜的'},
+        {en:'Do you like bananas?', cn:'你喜欢香蕉吗？', note:'一般疑问句：Do you + 动词原形？'},
+        {en:'No, I don\'t. I like oranges.', cn:'不，我不喜欢。我喜欢橘子。', note:'"I don\'t" = "I do not" 的缩写'},
+        {en:'My mother likes milk, but she doesn\'t like coffee.', cn:'我妈妈喜欢牛奶，但她不喜欢咖啡。', note:'第三人称单数：likes / doesn\'t like'},
+        {en:'What\'s your favorite food?', cn:'你最喜欢的食物是什么？', note:'"favorite" = 最喜欢的'}
+      ],
+      vocab:[
+        {word:'like', pron:'/laɪk/', pos:'v.', cn:'喜欢', ex:'I like music.', ex_cn:'我喜欢音乐。'},
+        {word:'apple', pron:'/ˈæpəl/', pos:'n.', cn:'苹果', ex:'I eat an apple.', ex_cn:'我吃了一个苹果。'},
+        {word:'sweet', pron:'/swiːt/', pos:'adj.', cn:'甜的', ex:'This cake is sweet.', ex_cn:'这个蛋糕很甜。'},
+        {word:'banana', pron:'/bəˈnænə/', pos:'n.', cn:'香蕉', ex:'I like bananas.', ex_cn:'我喜欢香蕉。'},
+        {word:'milk', pron:'/mɪlk/', pos:'n.', cn:'牛奶', ex:'I drink milk.', ex_cn:'我喝牛奶。'},
+        {word:'favorite', pron:'/ˈfeɪvərɪt/', pos:'adj.', cn:'最喜欢的', ex:'My favorite color is blue.', ex_cn:'我最喜欢的颜色是蓝色。'}
+      ],
+      grammar:[
+        {
+          title:'like 的用法 — Using "Like"',
+          rules:['I / You / We / They + like + 名词','He / She / It + like<b>s</b> + 名词（注意加 s！）','否定：don\'t like / doesn\'t like'],
+          examples:[{en:'I <em>like</em> apples.', cn:'我喜欢苹果。'},{en:'She <em>likes</em> milk.', cn:'她喜欢牛奶。'},{en:'I <em>don\'t like</em> coffee.', cn:'我不喜欢咖啡。'}]
+        },
+        {
+          title:'Do/Does 疑问句 — Yes/No Questions',
+          rules:['Do + I/you/we/they + 动词原形？','Does + he/she/it + 动词原形？（注意动词不加 s）','回答：Yes, I do. / No, I don\'t.'],
+          examples:[{en:'<em>Do you like</em> bananas?', cn:'你喜欢香蕉吗？'},{en:'<em>Does she like</em> coffee?', cn:'她喜欢咖啡吗？'},{en:'No, she <em>doesn\'t</em>.', cn:'不，她不喜欢。'}]
+        }
+      ],
+      quiz:[
+        {q:'"I ___ apples."', q_cn:'我___苹果。', opts:['like','likes','liking','liked'], ans:0, exp:'I 后面用动词原形 "like"。', exp_en:'Use the base form "like" after "I."'},
+        {q:'"She ___ milk."', q_cn:'她___牛奶。', opts:['likes','like','liking','is like'], ans:0, exp:'第三人称单数 She 后面动词加 s。', exp_en:'Add "s" to the verb for third person singular.'},
+        {q:'"___ you like bananas?"', q_cn:'你喜欢香蕉吗？', opts:['Do','Does','Are','Is'], ans:0, exp:'you 前面用助动词 "Do"。', exp_en:'Use "Do" before "you."'},
+        {q:'What does "favorite" mean?', q_cn:'"favorite" 是什么意思？', opts:['最喜欢的','美味的','甜的','新的'], ans:0, exp:'"favorite" = 最喜欢的。', exp_en:'"Favorite" means the one you like best.'}
+      ],
+      fill:[
+        {before:'I', blank:'like', after:'apples.', cn:'我___苹果。'},
+        {before:'Do you like', blank:'bananas', after:'?', cn:'你喜欢___吗？'},
+        {before:'She', blank:'likes', after:'milk.', cn:'她___牛奶。（注意第三人称）'},
+        {before:'My', blank:'favorite', after:'food is pizza.', cn:'我___的食物是披萨。'},
+        {before:'I don\'t like', blank:'coffee', after:'.', cn:'我不喜欢___。'}
+      ]
+    },
+    {
+      id:9, title:'Where is the cat?', title_cn:'猫在哪里？',
+      passage:[
+        {en:'Where is the cat? It\'s on the sofa.', cn:'猫在哪里？在沙发上。', note:'"on" = 在……上面'},
+        {en:'The dog is under the table.', cn:'狗在桌子下面。', note:'"under" = 在……下面'},
+        {en:'My keys are in the bag.', cn:'我的钥匙在包里。', note:'"in" = 在……里面'},
+        {en:'There is a clock on the wall.', cn:'墙上有一个钟。', note:'"There is + 单数名词" 表示某处有某物'},
+        {en:'The park is next to the school.', cn:'公园在学校旁边。', note:'"next to" = 在……旁边'}
+      ],
+      vocab:[
+        {word:'where', pron:'/wer/', pos:'adv.', cn:'哪里', ex:'Where is the cat?', ex_cn:'猫在哪里？'},
+        {word:'on', pron:'/ɑːn/', pos:'prep.', cn:'在……上面', ex:'The book is on the desk.', ex_cn:'书在桌上。'},
+        {word:'under', pron:'/ˈʌndər/', pos:'prep.', cn:'在……下面', ex:'The dog is under the table.', ex_cn:'狗在桌子下面。'},
+        {word:'in', pron:'/ɪn/', pos:'prep.', cn:'在……里面', ex:'The keys are in the bag.', ex_cn:'钥匙在包里。'},
+        {word:'wall', pron:'/wɔːl/', pos:'n.', cn:'墙', ex:'A clock is on the wall.', ex_cn:'钟在墙上。'},
+        {word:'next to', pron:'/nekst tuː/', pos:'prep.', cn:'在……旁边', ex:'Sit next to me.', ex_cn:'坐在我旁边。'}
+      ],
+      grammar:[
+        {
+          title:'方位介词 — Prepositions of Place',
+          rules:['in = 在里面（in the box, in the room）','on = 在上面（on the table, on the wall）','under = 在下面（under the bed, under the tree）','next to = 在旁边（next to the school）'],
+          examples:[{en:'The cat is <em>on</em> the sofa.', cn:'猫在沙发上。'},{en:'The dog is <em>under</em> the table.', cn:'狗在桌子下面。'},{en:'The park is <em>next to</em> the school.', cn:'公园在学校旁边。'}]
+        },
+        {
+          title:'There is / There are — 有',
+          rules:['There is + 单数/不可数名词（There is a book.）','There are + 复数名词（There are five books.）','否定：There isn\'t / There aren\'t'],
+          examples:[{en:'<em>There is</em> a clock on the wall.', cn:'墙上有一个钟。'},{en:'<em>There are</em> three cats.', cn:'有三只猫。'},{en:'<em>There isn\'t</em> a park here.', cn:'这里没有公园。'}]
+        }
+      ],
+      quiz:[
+        {q:'"The cat is ___ the sofa."', q_cn:'猫在沙发___。', opts:['on','in','at','to'], ans:0, exp:'在沙发表面上用 "on"。', exp_en:'Use "on" for surfaces.'},
+        {q:'"The dog is ___ the table."', q_cn:'狗在桌子___。', opts:['under','on','in','at'], ans:0, exp:'"under" = 在……下面。', exp_en:'"Under" means below something.'},
+        {q:'"There ___ a clock on the wall."', q_cn:'墙上___一个钟。', opts:['is','are','am','has'], ans:0, exp:'a clock 是单数，用 "There is"。', exp_en:'"A clock" is singular, use "There is."'},
+        {q:'What does "next to" mean?', q_cn:'"next to" 是什么意思？', opts:['在旁边','在上面','在里面','在下面'], ans:0, exp:'"next to" = 在……旁边。', exp_en:'"Next to" means beside something.'}
+      ],
+      fill:[
+        {before:'Where', blank:'is', after:'the cat?', cn:'猫在哪里？'},
+        {before:'It\'s', blank:'on', after:'the sofa.', cn:'在沙发___面。'},
+        {before:'The dog is', blank:'under', after:'the table.', cn:'狗在桌子___面。'},
+        {before:'My keys are', blank:'in', after:'the bag.', cn:'钥匙在包___面。'},
+        {before:'The park is', blank:'next to', after:'the school.', cn:'公园在学校___。'}
+      ]
+    },
+    {
+      id:10, title:'I can swim!', title_cn:'我会游泳！',
+      passage:[
+        {en:'I can swim. Can you swim?', cn:'我会游泳。你会游泳吗？', note:'"can" = 能，会；表示能力'},
+        {en:'Yes, I can! I can also ride a bike.', cn:'是的，我会！我还会骑自行车。', note:'"also" = 也；"ride a bike" = 骑自行车'},
+        {en:'My brother can play the piano.', cn:'我哥哥会弹钢琴。', note:'"play the piano" 乐器前加 the'},
+        {en:'Can she speak English? Yes, she can.', cn:'她会说英语吗？是的，她会。', note:'"speak" + 语言名称'},
+        {en:'I can\'t cook, but I can make a sandwich.', cn:'我不会做饭，但我会做三明治。', note:'"can\'t" = "cannot" = 不会'}
+      ],
+      vocab:[
+        {word:'can', pron:'/kæn/', pos:'v.', cn:'能；会', ex:'I can swim.', ex_cn:'我会游泳。'},
+        {word:'swim', pron:'/swɪm/', pos:'v.', cn:'游泳', ex:'Let\'s go swimming!', ex_cn:'我们去游泳吧！'},
+        {word:'ride', pron:'/raɪd/', pos:'v.', cn:'骑', ex:'I can ride a bike.', ex_cn:'我会骑自行车。'},
+        {word:'play', pron:'/pleɪ/', pos:'v.', cn:'玩；弹奏', ex:'Play the guitar.', ex_cn:'弹吉他。'},
+        {word:'speak', pron:'/spiːk/', pos:'v.', cn:'说（语言）', ex:'I speak Chinese.', ex_cn:'我说中文。'},
+        {word:'cook', pron:'/kʊk/', pos:'v.', cn:'做饭', ex:'My mom can cook.', ex_cn:'我妈妈会做饭。'}
+      ],
+      grammar:[
+        {
+          title:'情态动词 can — Modal Verb "Can"',
+          rules:['肯定：主语 + can + 动词原形（I can swim.）','否定：主语 + can\'t + 动词原形（I can\'t cook.）','疑问：Can + 主语 + 动词原形？（Can you swim?）'],
+          examples:[{en:'I <em>can</em> swim.', cn:'我会游泳。'},{en:'She <em>can\'t</em> drive.', cn:'她不会开车。'},{en:'<em>Can</em> you play the piano?', cn:'你会弹钢琴吗？'}]
+        },
+        {
+          title:'play 的搭配 — Using "Play"',
+          rules:['play + the + 乐器（play the piano, play the guitar）','play + 球类运动（play basketball, play soccer）','play + 游戏（play games, play chess）'],
+          examples:[{en:'I <em>play the</em> piano.', cn:'我弹钢琴。'},{en:'He <em>plays</em> basketball.', cn:'他打篮球。'},{en:'We <em>play</em> games together.', cn:'我们一起玩游戏。'}]
+        }
+      ],
+      quiz:[
+        {q:'"I ___ swim."', q_cn:'我___游泳。', opts:['can','am','do','have'], ans:0, exp:'表示能力用情态动词 "can"。', exp_en:'Use "can" to express ability.'},
+        {q:'"Can she speak English?" — "Yes, she ___."', q_cn:'是的，她___。', opts:['can','does','is','speaks'], ans:0, exp:'用 can 提问，用 can 回答。', exp_en:'Answer with "can" when asked with "can."'},
+        {q:'Which is correct?', q_cn:'哪个句子正确？', opts:['play the piano','play piano the','play a piano','the play piano'], ans:0, exp:'乐器前面要加 the。', exp_en:'Use "the" before musical instruments.'},
+        {q:'"I can\'t cook" means:', q_cn:'"I can\'t cook" 是什么意思？', opts:['我不会做饭','我喜欢做饭','我正在做饭','我想做饭'], ans:0, exp:'"can\'t" 表示不会、不能。', exp_en:'"Can\'t" means unable to do something.'}
+      ],
+      fill:[
+        {before:'I can', blank:'swim', after:'.', cn:'我会___。'},
+        {before:'Can you', blank:'ride', after:'a bike?', cn:'你会___自行车吗？'},
+        {before:'She can', blank:'speak', after:'English.', cn:'她会___英语。'},
+        {before:'I can\'t', blank:'cook', after:'.', cn:'我不会___饭。'},
+        {before:'He can play the', blank:'piano', after:'.', cn:'他会弹___琴。'}
+      ]
+    },
+    // ── UNIT TEST after lesson 10 ──
+    {
+      id:11, unitTest:true, title:'Unit Test 2', title_cn:'第二单元测试',
+      reviewLessons:[7,8,9,10],
+      mcq:[
+        {q:'"What ___ is it?" — "Seven o\'clock."', opts:['time','color','name','number'], ans:0},
+        {q:'"I ___ up at six thirty."', opts:['get','go','have','am'], ans:0},
+        {q:'"She ___ milk."', opts:['likes','like','is like','liking'], ans:0},
+        {q:'"___ you like bananas?"', opts:['Do','Does','Are','Is'], ans:0},
+        {q:'"The cat is ___ the table."', opts:['under','at','to','from'], ans:0},
+        {q:'"There ___ three books."', opts:['are','is','am','has'], ans:0},
+        {q:'"I ___ swim."', opts:['can','am','do','has'], ans:0},
+        {q:'"Can she speak English?" "Yes, she ___."', opts:['can','does','is','speaks'], ans:0},
+        {q:'Which preposition means "在……里面"?', opts:['in','on','under','at'], ans:0},
+        {q:'"I go to ___ at nine o\'clock."', opts:['bed','school','home','class'], ans:0}
+      ],
+      spelling:[
+        {word:'apple', cn:'苹果', hint:'_ppl_'},
+        {word:'banana', cn:'香蕉', hint:'b_n_na'},
+        {word:'lunch', cn:'午饭', hint:'l_nch'},
+        {word:'under', cn:'在下面', hint:'_nd_r'},
+        {word:'clock', cn:'钟', hint:'cl_ck'},
+        {word:'swim', cn:'游泳', hint:'sw_m'},
+        {word:'speak', cn:'说', hint:'sp_ _k'},
+        {word:'favorite', cn:'最喜欢的', hint:'f_v_r_te'}
+      ]
+    }
+  ],
+  // ── Level 2: Explorer 拓展篇 (placeholder lessons) ──
+  2: [
+    {
+      id:1, title:'A Lovely Day Out', title_cn:'美好的一天',
+      passage:[
+        {en:'Last Sunday, we went to the park.', cn:'上个星期天，我们去了公园。', note:'"went" 是 go 的过去式；"last Sunday" = 上个星期天'},
+        {en:'The weather was sunny and warm.', cn:'天气晴朗又温暖。', note:'"weather" = 天气；"sunny" = 晴朗的'},
+        {en:'We played football on the grass.', cn:'我们在草地上踢了足球。', note:'"played" 是 play 的过去式'},
+        {en:'Then we had a picnic under a big tree.', cn:'然后我们在一棵大树下野餐。', note:'"had" 是 have 的过去式；"picnic" = 野餐'},
+        {en:'It was a wonderful day. I felt very happy.', cn:'那是美好的一天。我感到非常开心。', note:'"wonderful" = 美好的；"felt" 是 feel 的过去式'}
+      ],
+      vocab:[
+        {word:'weather', pron:'/ˈweðər/', pos:'n.', cn:'天气', ex:'The weather is nice today.', ex_cn:'今天天气不错。'},
+        {word:'sunny', pron:'/ˈsʌni/', pos:'adj.', cn:'晴朗的', ex:'It\'s a sunny day.', ex_cn:'今天天气晴朗。'},
+        {word:'warm', pron:'/wɔːrm/', pos:'adj.', cn:'温暖的', ex:'The room is warm.', ex_cn:'房间很温暖。'},
+        {word:'grass', pron:'/ɡræs/', pos:'n.', cn:'草地', ex:'Don\'t walk on the grass.', ex_cn:'不要踩草地。'},
+        {word:'picnic', pron:'/ˈpɪknɪk/', pos:'n.', cn:'野餐', ex:'Let\'s have a picnic.', ex_cn:'我们去野餐吧。'},
+        {word:'wonderful', pron:'/ˈwʌndərfəl/', pos:'adj.', cn:'美好的', ex:'What a wonderful day!', ex_cn:'多么美好的一天！'}
+      ],
+      grammar:[
+        {
+          title:'一般过去时 — Simple Past Tense',
+          rules:['规则动词：动词 + ed（played, walked, liked）','不规则动词需要记忆：go → went, have → had, feel → felt','否定：didn\'t + 动词原形（I didn\'t go.）'],
+          examples:[{en:'We <em>went</em> to the park.', cn:'我们去了公园。'},{en:'We <em>played</em> football.', cn:'我们踢了足球。'},{en:'I <em>didn\'t go</em> to school yesterday.', cn:'我昨天没有去上学。'}]
+        },
+        {
+          title:'时间状语 — Time Expressions for Past',
+          rules:['yesterday = 昨天','last + 时间 = 上一个（last Sunday, last week, last month）','… ago = ……前（two days ago, a week ago）'],
+          examples:[{en:'I went there <em>yesterday</em>.', cn:'我昨天去了那里。'},{en:'<em>Last Sunday</em>, we had a picnic.', cn:'上个星期天，我们去野餐了。'},{en:'She called me <em>two days ago</em>.', cn:'她两天前给我打了电话。'}]
+        }
+      ],
+      quiz:[
+        {q:'"We ___ to the park last Sunday."', q_cn:'上周日我们___了公园。', opts:['went','go','goes','going'], ans:0, exp:'go 的过去式是 went。', exp_en:'The past tense of "go" is "went."'},
+        {q:'"The weather ___ sunny."', q_cn:'天气___晴朗的。', opts:['was','is','were','are'], ans:0, exp:'weather 是单数，过去式用 "was"。', exp_en:'"Weather" is singular, so use "was."'},
+        {q:'"We ___ football on the grass."', q_cn:'我们在草地上___足球。', opts:['played','play','plays','playing'], ans:0, exp:'过去时用 played。', exp_en:'Use "played" for past tense.'},
+        {q:'What does "wonderful" mean?', q_cn:'"wonderful" 是什么意思？', opts:['美好的','可怕的','无聊的','普通的'], ans:0, exp:'"wonderful" = 美好的，精彩的。', exp_en:'"Wonderful" means very good, excellent.'}
+      ],
+      fill:[
+        {before:'Last Sunday, we', blank:'went', after:'to the park.', cn:'上周日，我们___了公园。'},
+        {before:'The weather was', blank:'sunny', after:'and warm.', cn:'天气___又温暖。'},
+        {before:'We had a', blank:'picnic', after:'under a big tree.', cn:'我们在大树下___。'},
+        {before:'It was a', blank:'wonderful', after:'day.', cn:'那是___的一天。'},
+        {before:'I felt very', blank:'happy', after:'.', cn:'我感到非常___。'}
+      ]
+    }
+  ],
+  // ── Level 3: Voyager 飞跃篇 (placeholder) ──
+  3: [
+    {
+      id:1, title:'The Art of Conversation', title_cn:'交谈的艺术',
+      passage:[
+        {en:'Making good conversation is an essential social skill.', cn:'良好的交谈是一项重要的社交技能。', note:'"essential" = 必不可少的；"social skill" = 社交技能'},
+        {en:'It involves not only speaking clearly but also listening attentively.', cn:'它不仅要求表达清晰，还要求认真倾听。', note:'"not only...but also..." = 不仅……而且……'},
+        {en:'People who ask thoughtful questions tend to make a better impression.', cn:'善于提出有深度问题的人往往能留下更好的印象。', note:'"thoughtful" = 有深度的；"impression" = 印象'},
+        {en:'Avoid interrupting others; instead, wait for a natural pause.', cn:'避免打断他人；相反，等待自然的停顿。', note:'"interrupt" = 打断；"pause" = 停顿'},
+        {en:'A great conversation leaves both parties feeling valued and understood.', cn:'一场精彩的对话让双方都感到被尊重和理解。', note:'"valued" = 被重视的；"understood" = 被理解的'}
+      ],
+      vocab:[
+        {word:'conversation', pron:'/ˌkɑːnvərˈseɪʃən/', pos:'n.', cn:'对话；交谈', ex:'We had a long conversation.', ex_cn:'我们进行了一次长谈。'},
+        {word:'essential', pron:'/ɪˈsenʃəl/', pos:'adj.', cn:'必不可少的', ex:'Sleep is essential for health.', ex_cn:'睡眠对健康至关重要。'},
+        {word:'attentively', pron:'/əˈtentɪvli/', pos:'adv.', cn:'专注地', ex:'Listen attentively in class.', ex_cn:'上课要认真听讲。'},
+        {word:'impression', pron:'/ɪmˈpreʃən/', pos:'n.', cn:'印象', ex:'First impressions matter.', ex_cn:'第一印象很重要。'},
+        {word:'interrupt', pron:'/ˌɪntəˈrʌpt/', pos:'v.', cn:'打断', ex:'Don\'t interrupt me.', ex_cn:'不要打断我。'},
+        {word:'valued', pron:'/ˈvæljuːd/', pos:'adj.', cn:'被重视的', ex:'You are a valued friend.', ex_cn:'你是一位被珍视的朋友。'}
+      ],
+      grammar:[
+        {
+          title:'not only...but also... — 不仅……而且……',
+          rules:['连接两个并列成分（名词、形容词、动词短语等）','强调两个方面都重要','也可写作 not just...but also...'],
+          examples:[{en:'He is <em>not only</em> smart <em>but also</em> kind.', cn:'他不仅聪明而且善良。'},{en:'She can <em>not only</em> sing <em>but also</em> dance.', cn:'她不仅会唱歌还会跳舞。'}]
+        },
+        {
+          title:'动名词作主语 — Gerund as Subject',
+          rules:['动词-ing 形式可以作句子的主语','如：Making friends is important. (交朋友很重要)','如：Reading books improves your mind. (读书提高思维)'],
+          examples:[{en:'<em>Making</em> good conversation is a skill.', cn:'良好的交谈是一项技能。'},{en:'<em>Swimming</em> is good exercise.', cn:'游泳是很好的运动。'}]
+        }
+      ],
+      quiz:[
+        {q:'What is described as an "essential social skill"?', q_cn:'什么被描述为"重要的社交技能"？', opts:['Making good conversation','Playing sports','Cooking food','Reading books'], ans:0, exp:'文章开头就说 "Making good conversation is an essential social skill."', exp_en:'The passage starts with this statement.'},
+        {q:'"Not only speaking clearly ___ also listening."', q_cn:'不仅表达清晰___认真倾听。', opts:['but','and','or','so'], ans:0, exp:'"not only...but also..." 是固定搭配。', exp_en:'"Not only...but also..." is a fixed phrase.'},
+        {q:'What does "attentively" mean?', q_cn:'"attentively" 是什么意思？', opts:['专注地','随意地','快速地','安静地'], ans:0, exp:'"attentively" = 专注地，认真地。', exp_en:'"Attentively" means with careful attention.'},
+        {q:'You should avoid ___ others during conversation.', q_cn:'交谈中应避免___他人。', opts:['interrupting','helping','meeting','thanking'], ans:0, exp:'文章说 "Avoid interrupting others."', exp_en:'The passage says "Avoid interrupting others."'}
+      ],
+      fill:[
+        {before:'Making good conversation is an', blank:'essential', after:'social skill.', cn:'良好的交谈是一项___的社交技能。'},
+        {before:'It involves listening', blank:'attentively', after:'.', cn:'它要求___地倾听。'},
+        {before:'Avoid', blank:'interrupting', after:'others.', cn:'避免___他人。'},
+        {before:'Wait for a natural', blank:'pause', after:'.', cn:'等待自然的___。'},
+        {before:'Both parties feeling', blank:'valued', after:'and understood.', cn:'双方都感到被___和理解。'}
+      ]
+    }
+  ],
+  // ── Level 4: Summit 巅峰篇 (placeholder) ──
+  4: [
+    {
+      id:1, title:'The Paradox of Choice', title_cn:'选择的悖论',
+      passage:[
+        {en:'In modern society, we are confronted with an overwhelming number of choices.', cn:'在现代社会中，我们面对着数量惊人的选择。', note:'"be confronted with" = 面对；"overwhelming" = 压倒性的'},
+        {en:'Paradoxically, having too many options can lead to anxiety rather than satisfaction.', cn:'矛盾的是，过多的选择反而会导致焦虑而非满足。', note:'"paradoxically" = 矛盾地；"anxiety" = 焦虑'},
+        {en:'Psychologist Barry Schwartz argues that "maximizers" suffer more than "satisficers."', cn:'心理学家巴里·施瓦茨认为，"最优化者"比"满足者"更痛苦。', note:'"maximizer" = 追求最优的人；"satisficer" = 能满足就好的人'},
+        {en:'The fear of making the wrong decision can paralyze us entirely.', cn:'害怕做出错误决定可能会使我们完全陷入瘫痪。', note:'"paralyze" = 使瘫痪；"entirely" = 完全地'},
+        {en:'Perhaps the key lies in embracing "good enough" rather than endlessly pursuing perfection.', cn:'也许关键在于接受"足够好"，而不是无止境地追求完美。', note:'"embrace" = 接受/拥抱；"pursuing perfection" = 追求完美'}
+      ],
+      vocab:[
+        {word:'paradox', pron:'/ˈpærədɑːks/', pos:'n.', cn:'悖论；矛盾', ex:'It\'s a paradox of modern life.', ex_cn:'这是现代生活的悖论。'},
+        {word:'overwhelming', pron:'/ˌoʊvərˈwelmɪŋ/', pos:'adj.', cn:'压倒性的', ex:'The response was overwhelming.', ex_cn:'反响非常热烈。'},
+        {word:'anxiety', pron:'/æŋˈzaɪəti/', pos:'n.', cn:'焦虑', ex:'She suffers from anxiety.', ex_cn:'她受焦虑之苦。'},
+        {word:'paralyze', pron:'/ˈpærəlaɪz/', pos:'v.', cn:'使瘫痪；使不知所措', ex:'Fear can paralyze you.', ex_cn:'恐惧能使你不知所措。'},
+        {word:'embrace', pron:'/ɪmˈbreɪs/', pos:'v.', cn:'拥抱；接受', ex:'Embrace change.', ex_cn:'拥抱变化。'},
+        {word:'perfection', pron:'/pərˈfekʃən/', pos:'n.', cn:'完美', ex:'Nobody achieves perfection.', ex_cn:'没有人能达到完美。'}
+      ],
+      grammar:[
+        {
+          title:'rather than — 而不是',
+          rules:['"rather than" 连接两个对比的选项','前面是肯定的，后面是否定的','常用于正式书面语中表达对比'],
+          examples:[{en:'I prefer tea <em>rather than</em> coffee.', cn:'我更喜欢茶而不是咖啡。'},{en:'She chose to stay <em>rather than</em> leave.', cn:'她选择留下而不是离开。'}]
+        },
+        {
+          title:'动名词作主语（高级用法）',
+          rules:['复杂的动名词短语可以作主语','The fear of making... 害怕做出……','Embracing change requires... 接受变化需要……'],
+          examples:[{en:'<em>The fear of making</em> the wrong decision can paralyze us.', cn:'害怕做出错误决定能使我们瘫痪。'},{en:'<em>Embracing "good enough"</em> is the key.', cn:'接受"足够好"是关键。'}]
+        }
+      ],
+      quiz:[
+        {q:'What does the passage say about too many choices?', q_cn:'文章对过多选择怎么说？', opts:['They cause anxiety','They bring happiness','They are always good','They don\'t matter'], ans:0, exp:'文章说过多选择 "lead to anxiety rather than satisfaction"。', exp_en:'The passage says too many options "lead to anxiety rather than satisfaction."'},
+        {q:'What does "paralyze" mean in this context?', q_cn:'这里 "paralyze" 是什么意思？', opts:['使不知所措','使快乐','使聪明','使成功'], ans:0, exp:'这里指害怕做出错误决定使人无法行动。', exp_en:'Here it means the fear makes one unable to act.'},
+        {q:'What does the author suggest?', q_cn:'作者建议什么？', opts:['Accept "good enough"','Always seek the best','Avoid making choices','Ask others to decide'], ans:0, exp:'作者建议接受"足够好"而不是追求完美。', exp_en:'The author suggests embracing "good enough."'},
+        {q:'"Rather than" means:', q_cn:'"rather than" 的意思是：', opts:['而不是','因此','而且','否则'], ans:0, exp:'"rather than" = 而不是（表示对比）。', exp_en:'"Rather than" means instead of.'}
+      ],
+      fill:[
+        {before:'We are confronted with an', blank:'overwhelming', after:'number of choices.', cn:'我们面对着___的选择。'},
+        {before:'Too many options can lead to', blank:'anxiety', after:'.', cn:'过多选择导致___。'},
+        {before:'The fear can', blank:'paralyze', after:'us entirely.', cn:'恐惧能使我们完全___。'},
+        {before:'The key lies in', blank:'embracing', after:'"good enough."', cn:'关键在于___"足够好"。'},
+        {before:'Endlessly pursuing', blank:'perfection', after:'.', cn:'无止境地追求___。'}
+      ]
+    }
+  ]
+};
+
+// ── Course State ──
+var _crsView = 'home'; // 'home' | 'level' | 'lesson' | 'complete' | 'unittest'
+var _crsLevelId = 1;
+var _crsLessonIdx = 0;
+var _crsQuizScore = 0;
+var _crsQuizTotal = 0;
+var _crsUtStep = 0;
+var _crsUtScore = 0;
+var _crsUtPhase = 'mcq'; // 'mcq' | 'spell'
+var _crsUtSpellIdx = 0;
+var _crsUtSpellScore = 0;
+
+function _getCrsProgress() {
+  try { return JSON.parse(localStorage.getItem('crs_progress') || '{}'); } catch(e) { return {}; }
+}
+function _saveCrsProgress(p) {
+  localStorage.setItem('crs_progress', JSON.stringify(p));
+}
+function _getCrsXP() {
+  var p = _getCrsProgress(); return p.xp || 0;
+}
+function _addCrsXP(n) {
+  var p = _getCrsProgress();
+  p.xp = (p.xp || 0) + n;
+  _saveCrsProgress(p);
+  return p.xp;
+}
+function _getLessonStatus(lvId, lesId) {
+  var p = _getCrsProgress();
+  var key = 'lv' + lvId + '_' + lesId;
+  return p[key] || null;
+}
+function _setLessonComplete(lvId, lesId, stars, score) {
+  var p = _getCrsProgress();
+  var key = 'lv' + lvId + '_' + lesId;
+  var prev = p[key];
+  // Keep best stars
+  if (prev && prev.stars > stars) stars = prev.stars;
+  if (prev && prev.score > score) score = prev.score;
+  p[key] = {done:true, stars:stars, score:score, at:Date.now()};
+  _saveCrsProgress(p);
+}
+function _countCompletedLessons(lvId) {
+  var lessons = CRS_LESSONS[lvId] || [];
+  var count = 0;
+  lessons.forEach(function(l) {
+    if (_getLessonStatus(lvId, l.id)) count++;
+  });
+  return count;
+}
+function _isLevelUnlocked(lvId) {
+  return true; // All levels freely accessible
+}
+function _isLessonUnlocked(lvId, lessonIdx) {
+  return true; // All lessons freely accessible
+}
+
+// ── Achievement System ──
+function _getCrsAchievements() {
+  var p = _getCrsProgress(); return p.achievements || [];
+}
+function _awardAchievement(key) {
+  var p = _getCrsProgress();
+  if (!p.achievements) p.achievements = [];
+  if (p.achievements.indexOf(key) >= 0) return false;
+  p.achievements.push(key);
+  _saveCrsProgress(p);
+  // Show achievement popup
+  var a = CRS_ACHIEVEMENTS[key];
+  if (a) _showAchievement(a.icon, a.title, a.desc);
+  return true;
+}
+function _showAchievement(icon, title, desc) {
+  var overlay = document.getElementById('crs-achieve');
+  if (!overlay) return;
+  overlay.innerHTML = '<div class="crs-achieve-box"><div class="ach-icon">' + icon + '</div><h3>' + title + '</h3><p>' + desc + '</p><button class="crs-btn crs-btn-primary" onclick="document.getElementById(\'crs-achieve\').classList.remove(\'show\')" style="margin-top:16px">太棒了！Great!</button></div>';
+  overlay.classList.add('show');
+}
+function _checkAchievements() {
+  var p = _getCrsProgress();
+  var xp = p.xp || 0;
+  if (xp >= 500) _awardAchievement('xp_500');
+  if (xp >= 2000) _awardAchievement('xp_2000');
+  // Count total vocab learned
+  var totalVocab = 0;
+  CRS_LEVELS.forEach(function(lv) {
+    var lessons = CRS_LESSONS[lv.id] || [];
+    lessons.forEach(function(l) {
+      if (!l.unitTest && _getLessonStatus(lv.id, l.id)) {
+        totalVocab += (l.vocab || []).length;
+      }
+    });
+  });
+  if (totalVocab >= 100) _awardAchievement('vocab_100');
+}
+
+// ═══════════════════════════════════════
+// RENDER: Course Module
+// ═══════════════════════════════════════
+function renderCourse() {
+  var wrap = document.getElementById('crs-main');
+  if (!wrap) return;
+  _crsQuizScore = 0;
+  _crsQuizTotal = 0;
+
+  if (_crsView === 'home') return _renderCrsHome(wrap);
+  if (_crsView === 'level') return _renderCrsLevel(wrap);
+  if (_crsView === 'lesson') return _renderCrsLesson(wrap);
+  if (_crsView === 'complete') return _renderCrsComplete(wrap);
+  if (_crsView === 'unittest') return _renderCrsUnitTest(wrap);
+  _renderCrsHome(wrap);
+}
+
+// ── HOME: Level Selection ──
+function _renderCrsHome(wrap) {
+  var xp = _getCrsXP();
+  var totalDone = 0; var totalAll = 0;
+  CRS_LEVELS.forEach(function(lv) {
+    var lessons = CRS_LESSONS[lv.id] || [];
+    totalAll += lessons.length;
+    totalDone += _countCompletedLessons(lv.id);
+  });
+  var achievements = _getCrsAchievements();
+
+  var html = '<div class="crs-home">';
+
+  // Banner
+  html += '<div class="crs-banner">' +
+    '<h2>🎓 English Step by Step · 系统英语课程</h2>' +
+    '<p>四大级别 · 从零基础到母语水平<br>4 Levels — From Zero to Native-Like Fluency</p>' +
+    '<div class="crs-stats-bar">' +
+      '<div class="crs-stat">⭐ ' + xp + ' XP</div>' +
+      '<div class="crs-stat">📖 ' + totalDone + ' / ' + totalAll + ' 课时</div>' +
+      '<div class="crs-stat">🏅 ' + achievements.length + ' 成就</div>' +
+    '</div>' +
+  '</div>';
+
+  // Level cards
+  CRS_LEVELS.forEach(function(lv) {
+    var lessons = CRS_LESSONS[lv.id] || [];
+    var done = _countCompletedLessons(lv.id);
+    var unlocked = _isLevelUnlocked(lv.id);
+    var pct = lessons.length > 0 ? Math.round(done / lessons.length * 100) : 0;
+    var badge = '';
+    if (pct >= 100) badge = '<span class="crs-lv-badge done">✅ 已完成</span>';
+    else if (unlocked && done > 0) badge = '<span class="crs-lv-badge curr">📖 学习中 ' + pct + '%</span>';
+    else if (unlocked) badge = '<span class="crs-lv-badge curr">🆕 开始学习</span>';
+    else badge = '<span class="crs-lv-badge lock">🔒 未解锁</span>';
+
+    html += '<div class="crs-level-card' + (unlocked ? '' : ' locked') + '" onclick="' + (unlocked ? 'crsGoLevel(' + lv.id + ')' : '') + '">' +
+      badge +
+      '<div class="crs-lv-head">' +
+        '<div class="crs-lv-icon">' + lv.icon + '</div>' +
+        '<div class="crs-lv-info">' +
+          '<h3>Level ' + lv.id + ': ' + lv.name + ' · ' + lv.name_cn + '</h3>' +
+          '<p>' + lv.desc_cn + '<br><span style="font-size:11px;color:var(--text3)">' + lv.target + '</span></p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="crs-lv-prog"><div class="crs-lv-prog-fill" style="width:' + pct + '%;background:' + lv.color + '"></div></div>' +
+      '<div style="font-size:11px;color:var(--text3);margin-top:6px;text-align:right">' + done + ' / ' + lessons.length + ' 课时</div>' +
+    '</div>';
+  });
+
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+// ── LEVEL: Lesson List ──
+function crsGoLevel(lvId) {
+  _crsLevelId = lvId;
+  _crsView = 'level';
+  renderCourse();
+  window.scrollTo({top: document.getElementById('page-course').offsetTop - 60, behavior:'smooth'});
+}
+
+function _renderCrsLevel(wrap) {
+  var lv = CRS_LEVELS.find(function(l){ return l.id === _crsLevelId; });
+  if (!lv) return;
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+
+  var html = '<div class="crs-home">';
+
+  // Back button
+  html += '<div class="crs-back" onclick="_crsView=\'home\';renderCourse()">← 返回级别选择 Back to Levels</div>';
+
+  // Level hero
+  html += '<div class="crs-lv-hero" style="background:' + lv.gradient + '">' +
+    '<h2>' + lv.icon + ' Level ' + lv.id + ': ' + lv.name + ' · ' + lv.name_cn + '</h2>' +
+    '<p>' + lv.desc_cn + ' · ' + lv.desc + '<br><span style="opacity:.7;font-size:12px">' + lv.target + '</span></p>' +
+  '</div>';
+
+  // Lesson list
+  html += '<div class="crs-lesson-grid">';
+  lessons.forEach(function(l, idx) {
+    var status = _getLessonStatus(_crsLevelId, l.id);
+    var unlocked = _isLessonUnlocked(_crsLevelId, idx);
+    var isUT = l.unitTest;
+    var stars = status ? status.stars : 0;
+    var starsHtml = '';
+    if (status) {
+      for (var s = 0; s < 3; s++) starsHtml += (s < stars ? '⭐' : '☆');
+    }
+    var numClass = status ? 'done' : (isUT ? 'test' : (unlocked ? 'curr' : 'lock'));
+    var numText = isUT ? '📝' : (status ? '✅' : (idx + 1));
+
+    html += '<div class="crs-lesson-row' + (unlocked ? '' : ' locked') + (status ? ' completed' : '') + (isUT ? ' unit-test' : '') + '" onclick="' + (unlocked ? 'crsStartLesson(' + idx + ')' : '') + '">' +
+      '<div class="crs-lrow-num ' + numClass + '">' + numText + '</div>' +
+      '<div class="crs-lrow-body">' +
+        '<div class="crs-lrow-title">' + (isUT ? '📝 ' : '') + l.title_cn + '</div>' +
+        '<div class="crs-lrow-sub">' + l.title + (isUT ? ' · 拼写 + 选择题' : '') + '</div>' +
+      '</div>' +
+      (status ? '<div class="crs-lrow-stars">' + starsHtml + '</div>' : '') +
+      (!unlocked ? '<div class="crs-lrow-lock">🔒</div>' : '') +
+    '</div>';
+  });
+  html += '</div></div>';
+  wrap.innerHTML = html;
+}
+
+// ── START LESSON ──
+function crsStartLesson(idx) {
+  _crsLessonIdx = idx;
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var l = lessons[idx];
+  if (!l) return;
+  if (l.unitTest) {
+    _crsView = 'unittest';
+    _crsUtStep = 0;
+    _crsUtScore = 0;
+    _crsUtPhase = 'mcq';
+    _crsUtSpellIdx = 0;
+    _crsUtSpellScore = 0;
+  } else {
+    _crsView = 'lesson';
+    _crsQuizScore = 0;
+    _crsQuizTotal = 0;
+  }
+  renderCourse();
+  window.scrollTo({top: document.getElementById('page-course').offsetTop - 60, behavior:'smooth'});
+}
+
+// ── LESSON CONTENT ──
+function _renderCrsLesson(wrap) {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L) return;
+
+  var html = '<div class="crs-home">';
+  html += '<div class="crs-back" onclick="_crsView=\'level\';renderCourse()">← 返回课程列表 Back to Lessons</div>';
+
+  // Lesson title
+  html += '<div class="crs-hero">' +
+    '<h2>Lesson ' + L.id + ': ' + L.title_cn + '</h2>' +
+    '<p>' + L.title + '</p>' +
+  '</div>';
+
+  // ─── PASSAGE ───
+  html += '<div class="crs-section">' +
+    '<div class="crs-section-title"><span class="crs-ico">📖</span> 课文 · Text <span style="font-size:12px;font-weight:400;color:var(--text3)">(点击句子朗读)</span></div>' +
+    '<div class="crs-passage">';
+  L.passage.forEach(function(p, i) {
+    html += '<div class="crs-passage-line" id="crs-ln-' + i + '" onclick="crsPlayLine(' + i + ')" data-text="' + p.en.replace(/"/g,'&quot;') + '">' +
+      '<span class="crs-ln-num">' + (i + 1) + '</span>' +
+      '<div>' +
+        '<div class="crs-ln-en">' + p.en + '</div>' +
+        '<div class="crs-ln-cn">' + p.cn + '</div>' +
+        (p.note ? '<div class="crs-ln-note">\uD83D\uDCA1 ' + p.note + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  });
+  html += '</div>' +
+    '<button onclick="crsPlayAll()" style="padding:10px 22px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer">\uD83D\uDD0A 朗读全文 Listen to Full Text</button>' +
+  '</div>';
+
+  // ─── VOCABULARY ───
+  html += '<div class="crs-section">' +
+    '<div class="crs-section-title"><span class="crs-ico">📝</span> 核心词汇 Key Vocabulary</div>' +
+    '<div class="crs-vocab-grid">';
+  L.vocab.forEach(function(v, i) {
+    html += '<div class="crs-vocab-card" onclick="crsPlayWord(' + i + ')" data-word="' + v.word + '">' +
+      '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">' +
+        '<span class="crs-vocab-word">' + v.word + '</span>' +
+        '<span class="crs-vocab-pron">' + v.pron + '</span>' +
+        '<span class="crs-vocab-pos">' + v.pos + '</span>' +
+        '<span style="font-size:14px;cursor:pointer">\uD83D\uDD0A</span>' +
+      '</div>' +
+      '<div class="crs-vocab-cn">' + v.cn + '</div>' +
+      '<div class="crs-vocab-ex">"' + v.ex + '"<br><span style="color:var(--text3)">' + v.ex_cn + '</span></div>' +
+    '</div>';
+  });
+  html += '</div></div>';
+
+  // ─── GRAMMAR ───
+  html += '<div class="crs-section">' +
+    '<div class="crs-section-title"><span class="crs-ico">📐</span> 语法 Grammar</div>';
+  L.grammar.forEach(function(g) {
+    html += '<div class="crs-grammar-box">' +
+      '<div class="crs-grammar-title">' + g.title + '</div>';
+    g.rules.forEach(function(r) { html += '<div class="crs-grammar-rule">• ' + r + '</div>'; });
+    g.examples.forEach(function(ex) {
+      html += '<div class="crs-grammar-example">' + ex.en + '<br><span style="color:var(--text3);font-size:12px">' + ex.cn + '</span></div>';
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // ─── QUIZ ───
+  html += '<div class="crs-section" id="crs-quiz-section">' +
+    '<div class="crs-section-title"><span class="crs-ico">✏️</span> 测验 Quiz</div>';
+  var _quizSpeakTexts = [];
+  L.quiz.forEach(function(q, qi) {
+    var _qPlain = q.q.replace(/<[^>]*>/g,'').replace(/^"|"$/g,'');
+    _quizSpeakTexts.push(_qPlain);
+    html += '<div class="crs-quiz-q" id="crs-qq-' + qi + '">' +
+      '<div class="crs-quiz-label">Question ' + (qi + 1) + ' / ' + L.quiz.length + '</div>' +
+      '<div class="crs-quiz-text">' + q.q + ' <button onclick="_speak(\'' + _qPlain.replace(/'/g,"\\'") + '\',null,0.82)" style="border:none;background:none;cursor:pointer;font-size:18px;vertical-align:middle" title="朗读题目">🔊</button><br><span style="font-size:12px;color:var(--text3)">' + q.q_cn + '</span></div>' +
+      '<div class="crs-quiz-opts">';
+    q.opts.forEach(function(opt, oi) {
+      html += '<button class="crs-quiz-opt" id="crsqo-' + qi + '-' + oi + '" onclick="crsQuizAnswer(' + qi + ',' + oi + ',' + q.ans + ')">' + opt + '</button>';
+    });
+    html += '</div>' +
+      '<div class="crs-quiz-exp" id="crs-qexp-' + qi + '">\u2705 ' + q.exp + '<br><span style="color:var(--blue);font-style:italic">' + q.exp_en + '</span></div>' +
+    '</div>';
+  });
+  html += '</div>';
+  // Auto-speak first quiz question
+  if (_quizSpeakTexts.length > 0) {
+    setTimeout(function(){ _speak(_quizSpeakTexts[0], null, 0.82); }, 500);
+  }
+
+  // ─── FILL IN THE BLANK (multiple choice) ───
+  html += '<div class="crs-section" id="crs-fill-section">' +
+    '<div class="crs-section-title"><span class="crs-ico">✍️</span> 选词填空 Choose the Right Word</div>';
+  // Collect all blanks for generating wrong options
+  var allBlanks = L.fill.map(function(f){ return f.blank; });
+  // Add extra common distractors
+  var extraWords = ['the','a','an','it','to','for','with','but','or','not','do','does','can','will','very','this','that','they','we','he','she'];
+  L.fill.forEach(function(f, fi) {
+    // Build 4 options: 1 correct + 3 wrong
+    var wrongs = [];
+    allBlanks.forEach(function(b){ if (b.toLowerCase() !== f.blank.toLowerCase() && wrongs.indexOf(b) < 0) wrongs.push(b); });
+    var ei = 0;
+    while (wrongs.length < 3 && ei < extraWords.length) {
+      if (extraWords[ei].toLowerCase() !== f.blank.toLowerCase() && wrongs.indexOf(extraWords[ei]) < 0) wrongs.push(extraWords[ei]);
+      ei++;
+    }
+    // Shuffle and pick 3
+    wrongs.sort(function(){ return Math.random() - 0.5; });
+    wrongs = wrongs.slice(0, 3);
+    var opts = wrongs.concat([f.blank]);
+    opts.sort(function(){ return Math.random() - 0.5; });
+    var correctIdx = opts.indexOf(f.blank);
+
+    var fullSentence = (f.before + ' ' + f.blank + ' ' + f.after).replace(/\s+/g,' ').trim();
+
+    var _fillReadText = (f.before + ' blank ' + f.after).replace(/\s+/g,' ').trim();
+    html += '<div class="crs-quiz-q" id="crs-fq-' + fi + '">' +
+      '<div class="crs-quiz-label">Fill #' + (fi + 1) + ' / ' + L.fill.length + '</div>' +
+      '<div style="font-size:12px;color:var(--text3);margin-bottom:8px">' + f.cn + '</div>' +
+      '<div style="font-size:15px;color:var(--text);line-height:1.8;margin-bottom:12px">' +
+        f.before + ' <span style="border-bottom:2px dashed var(--blue);padding:2px 16px;font-weight:700;color:var(--blue)" id="crs-fb-' + fi + '">___</span> ' + f.after +
+        ' <button onclick="_speak(\'' + _fillReadText.replace(/'/g,"\\'") + '\',null,0.82)" style="border:none;background:none;cursor:pointer;font-size:18px;vertical-align:middle" title="朗读句子">🔊</button>' +
+      '</div>' +
+      '<div class="crs-quiz-opts">';
+    opts.forEach(function(opt, oi) {
+      html += '<button class="crs-quiz-opt" id="crsfo-' + fi + '-' + oi + '" onclick="crsFillMcq(' + fi + ',' + oi + ',' + correctIdx + ',\'' + fullSentence.replace(/'/g,"\\'") + '\')">' + opt + '</button>';
+    });
+    html += '</div>' +
+      '<div class="crs-fill-result" id="crs-fr-' + fi + '"></div>' +
+    '</div>';
+  });
+  html += '</div>';
+
+  // ─── COMPLETE LESSON BUTTON ───
+  html += '<div style="text-align:center;padding:20px">' +
+    '<button class="crs-btn crs-btn-primary" onclick="crsFinishLesson()" style="font-size:16px;padding:16px 40px">✅ 完成本课 Complete Lesson</button>' +
+  '</div>';
+
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+// ── LESSON COMPLETION ──
+function crsFinishLesson() {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L) return;
+
+  var total = L.quiz.length + L.fill.length;
+  var pct = total > 0 ? Math.round(_crsQuizScore / total * 100) : 100;
+  var stars = pct >= 90 ? 3 : (pct >= 60 ? 2 : 1);
+  var xpEarned = 20 + stars * 10;
+
+  _setLessonComplete(_crsLevelId, L.id, stars, pct);
+  _addCrsXP(xpEarned);
+  awardPts(xpEarned);
+
+  // Check achievements
+  var totalDone = 0;
+  CRS_LEVELS.forEach(function(lv) { totalDone += _countCompletedLessons(lv.id); });
+  if (totalDone === 1) _awardAchievement('first_lesson');
+  if (pct === 100) _awardAchievement('perfect_score');
+  if (totalDone >= 5) _awardAchievement('five_streak');
+  // Check level complete
+  var lvLessons = CRS_LESSONS[_crsLevelId] || [];
+  if (_countCompletedLessons(_crsLevelId) >= lvLessons.length) _awardAchievement('level_up');
+  _checkAchievements();
+
+  _crsView = 'complete';
+  renderCourse();
+}
+
+// ── COMPLETION SCREEN ──
+function _renderCrsComplete(wrap) {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L) return;
+  var status = _getLessonStatus(_crsLevelId, L.id);
+  var stars = status ? status.stars : 1;
+  var score = status ? status.score : 0;
+  var xp = _getCrsXP();
+
+  var starsHtml = '';
+  for (var i = 0; i < 3; i++) starsHtml += (i < stars ? '⭐' : '☆');
+
+  var msgs = ['加油！继续努力！','不错！进步很大！','太棒了！完美通关！'];
+
+  var html = '<div class="crs-complete">' +
+    '<div class="crs-complete-icon">' + (stars >= 3 ? '🎉' : stars >= 2 ? '👍' : '💪') + '</div>' +
+    '<h2>' + (L.unitTest ? '单元测试完成！' : '课程完成！') + ' Lesson Complete!</h2>' +
+    '<div class="sub">' + msgs[stars - 1] + '</div>' +
+    '<div class="crs-stars-big">' + starsHtml + '</div>' +
+    '<div class="crs-xp-burst">+' + (20 + stars * 10) + ' XP</div>' +
+    '<div class="crs-score-card">' +
+      '<div class="crs-score-row"><span class="crs-score-label">正确率 Score</span><span class="crs-score-val">' + score + '%</span></div>' +
+      '<div class="crs-score-row"><span class="crs-score-label">总经验 Total XP</span><span class="crs-score-val">' + xp + '</span></div>' +
+      '<div class="crs-score-row"><span class="crs-score-label">星级 Stars</span><span class="crs-score-val">' + starsHtml + '</span></div>' +
+    '</div>' +
+    '<div class="crs-btn-row">' +
+      '<button class="crs-btn crs-btn-ghost" onclick="_crsView=\'level\';renderCourse()">返回课程 Back</button>';
+
+  // Next lesson button
+  var nextIdx = _crsLessonIdx + 1;
+  if (nextIdx < lessons.length) {
+    html += '<button class="crs-btn crs-btn-primary" onclick="crsStartLesson(' + nextIdx + ')">下一课 Next →</button>';
+  } else {
+    html += '<button class="crs-btn crs-btn-primary" onclick="_crsView=\'home\';renderCourse()">返回首页 Home</button>';
+  }
+
+  html += '</div></div>';
+  wrap.innerHTML = html;
+  window.scrollTo({top: document.getElementById('page-course').offsetTop - 60, behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════
+// UNIT TEST
+// ═══════════════════════════════════════
+function _renderCrsUnitTest(wrap) {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L || !L.unitTest) return;
+
+  var html = '<div class="crs-home">';
+  html += '<div class="crs-back" onclick="_crsView=\'level\';renderCourse()">← 返回课程列表 Back to Lessons</div>';
+
+  if (_crsUtPhase === 'mcq') {
+    var mcq = L.mcq || [];
+    var totalQ = mcq.length;
+
+    // Progress dots
+    html += '<div style="text-align:center;margin-bottom:8px"><h2 style="font-size:20px;font-weight:800;color:var(--text)">📝 ' + L.title_cn + '</h2><p style="font-size:12px;color:var(--text3)">选择题 Multiple Choice · ' + (_crsUtStep + 1) + ' / ' + totalQ + '</p></div>';
+    html += '<div class="crs-ut-progress">';
+    for (var d = 0; d < totalQ; d++) {
+      var dc = d < _crsUtStep ? 'correct' : (d === _crsUtStep ? 'active' : '');
+      html += '<div class="crs-ut-dot ' + dc + '"></div>';
+    }
+    html += '</div>';
+
+    if (_crsUtStep < totalQ) {
+      var q = mcq[_crsUtStep];
+      // Extract plain text for TTS (strip HTML tags and quotes)
+      var _utQText = q.q.replace(/<[^>]*>/g,'').replace(/^"|"$/g,'').replace(/___/g,'blank');
+      html += '<div class="crs-section"><div class="crs-quiz-q">' +
+        '<div class="crs-quiz-text">' + q.q + '</div>' +
+        '<div class="crs-quiz-opts">';
+      q.opts.forEach(function(opt, oi) {
+        html += '<button class="crs-quiz-opt" onclick="crsUtMcqAnswer(' + oi + ',' + q.ans + ')">' + opt + '</button>';
+      });
+      html += '</div></div></div>';
+      // Auto-speak the question
+      setTimeout(function(){ _speak(_utQText, null, 0.85); }, 350);
+    }
+  } else if (_crsUtPhase === 'spell') {
+    var spelling = L.spelling || [];
+    var totalS = spelling.length;
+
+    html += '<div style="text-align:center;margin-bottom:8px"><h2 style="font-size:20px;font-weight:800;color:var(--text)">✍️ 拼写挑战 Spelling Challenge</h2><p style="font-size:12px;color:var(--text3)">' + (_crsUtSpellIdx + 1) + ' / ' + totalS + '</p></div>';
+    html += '<div class="crs-ut-progress">';
+    for (var d2 = 0; d2 < totalS; d2++) {
+      var dc2 = d2 < _crsUtSpellIdx ? 'correct' : (d2 === _crsUtSpellIdx ? 'active' : '');
+      html += '<div class="crs-ut-dot ' + dc2 + '"></div>';
+    }
+    html += '</div>';
+
+    if (_crsUtSpellIdx < totalS) {
+      var sw = spelling[_crsUtSpellIdx];
+      html += '<div class="crs-section"><div class="crs-spell-wrap">' +
+        '<div class="crs-spell-prompt">\uD83D\uDD0A 听单词，拼出来！</div>' +
+        '<div class="crs-spell-cn">中文提示：<b>' + sw.cn + '</b></div>' +
+        '<div style="font-size:12px;color:var(--text3);margin:4px 0">字母提示：' + sw.hint + '</div>' +
+        '<button onclick="_speak(\'' + sw.word.replace(/'/g,"\\'") + '\', null, 0.75)" style="padding:8px 20px;border-radius:10px;border:none;background:var(--blue);color:#fff;font-size:13px;cursor:pointer;margin:8px 0">\uD83D\uDD0A 再听一次 Listen Again</button>' +
+        '<input class="crs-spell-input" id="crs-spell-in" type="text" autocomplete="off" placeholder="type here..." onkeydown="if(event.key===\'Enter\')crsUtSpellCheck()">' +
+        '<button class="crs-btn crs-btn-primary" onclick="crsUtSpellCheck()" style="margin-top:8px">确认 Submit</button>' +
+        '<div id="crs-spell-fb" style="font-size:14px;font-weight:700;margin-top:8px;min-height:20px"></div>' +
+      '</div></div>';
+
+      // Auto-speak the word
+      setTimeout(function(){ _speak(sw.word, null, 0.75); }, 300);
+    }
+  }
+
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+// Unit Test MCQ answer
+function crsUtMcqAnswer(chosen, correct) {
+  if (chosen === correct) {
+    _crsUtScore++;
+    toast('+✅ 正确！', 'ok');
+  } else {
+    toast('❌ 不对，继续加油！', 'err');
+  }
+  _crsUtStep++;
+
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L) return;
+  var mcq = L.mcq || [];
+
+  if (_crsUtStep >= mcq.length) {
+    // Move to spelling phase
+    _crsUtPhase = 'spell';
+    _crsUtSpellIdx = 0;
+    _crsUtSpellScore = 0;
+  }
+  setTimeout(function(){ renderCourse(); }, 350);
+}
+
+// Unit Test Spelling check
+function crsUtSpellCheck() {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L) return;
+  var spelling = L.spelling || [];
+  var sw = spelling[_crsUtSpellIdx];
+  if (!sw) return;
+
+  var input = document.getElementById('crs-spell-in');
+  var fb = document.getElementById('crs-spell-fb');
+  if (!input || !fb) return;
+
+  var val = input.value.trim().toLowerCase();
+  if (val === sw.word.toLowerCase()) {
+    _crsUtSpellScore++;
+    input.classList.add('correct');
+    fb.innerHTML = '✅ 正确！Correct!';
+    fb.style.color = 'var(--green)';
+  } else {
+    input.classList.add('wrong');
+    fb.innerHTML = '❌ 正确拼写是 / Correct spelling: <b>' + sw.word + '</b>';
+    fb.style.color = 'var(--red)';
+  }
+
+  _crsUtSpellIdx++;
+  setTimeout(function(){
+    if (_crsUtSpellIdx >= spelling.length) {
+      // Unit test complete
+      var mcqLen = (L.mcq || []).length;
+      var spellLen = spelling.length;
+      var totalRight = _crsUtScore + _crsUtSpellScore;
+      var totalAll = mcqLen + spellLen;
+      var pct = totalAll > 0 ? Math.round(totalRight / totalAll * 100) : 100;
+      var stars = pct >= 90 ? 3 : (pct >= 60 ? 2 : 1);
+      var xpEarned = 30 + stars * 15;
+
+      _setLessonComplete(_crsLevelId, L.id, stars, pct);
+      _addCrsXP(xpEarned);
+      awardPts(xpEarned);
+
+      if (pct >= 90) _awardAchievement('unit_master');
+      if (_crsUtSpellScore === spellLen) _awardAchievement('spelling_ace');
+      _checkAchievements();
+
+      _crsQuizScore = totalRight;
+      _crsQuizTotal = totalAll;
+      _crsView = 'complete';
+      renderCourse();
+    } else {
+      renderCourse();
+    }
+  }, 1200);
+}
+
+// ── Course TTS ──
+function crsPlayLine(i) {
+  var el = document.getElementById('crs-ln-' + i);
+  if (!el) return;
+  var text = el.getAttribute('data-text');
+  document.querySelectorAll('.crs-passage-line').forEach(function(e){ e.classList.remove('playing'); });
+  el.classList.add('playing');
+  _speak(text, null, 0.82);
+}
+
+function crsPlayAll() {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L) return;
+  var full = L.passage.map(function(p){ return p.en; }).join('. ');
+  _speak(full, null, 0.8);
+}
+
+function crsPlayWord(i) {
+  var lessons = CRS_LESSONS[_crsLevelId] || [];
+  var L = lessons[_crsLessonIdx];
+  if (!L || !L.vocab[i]) return;
+  var v = L.vocab[i];
+  _speak(v.word + '. ' + v.ex, null, 0.82);
+}
+
+// ── Course Quiz ──
+function crsQuizAnswer(qi, oi, ans) {
+  var q = document.getElementById('crs-qq-' + qi);
+  if (q && q.dataset.done) return;
+  if (q) q.dataset.done = '1';
+
+  var opts = document.querySelectorAll('#crs-qq-' + qi + ' .crs-quiz-opt');
+  opts.forEach(function(b){ b.classList.add('locked'); });
+
+  var chosen = document.getElementById('crsqo-' + qi + '-' + oi);
+  var correct = document.getElementById('crsqo-' + qi + '-' + ans);
+  if (oi === ans) {
+    chosen.classList.add('correct');
+    _crsQuizScore++;
+    awardPts(5);
+    toast('+5分 ✅', 'ok');
+    // Auto-speak the correct answer
+    setTimeout(function(){ _speak(correct.textContent, null, 0.82); }, 400);
+  } else {
+    chosen.classList.add('wrong');
+    correct.classList.add('correct');
+  }
+  _crsQuizTotal++;
+  var exp = document.getElementById('crs-qexp-' + qi);
+  if (exp) exp.classList.add('show');
+}
+
+// ── Course Fill (Multiple Choice) ──
+function crsFillMcq(fi, oi, correctIdx, fullSentence) {
+  var q = document.getElementById('crs-fq-' + fi);
+  if (q && q.dataset.done) return;
+  if (q) q.dataset.done = '1';
+
+  var opts = document.querySelectorAll('#crs-fq-' + fi + ' .crs-quiz-opt');
+  opts.forEach(function(b){ b.classList.add('locked'); });
+
+  var chosen = document.getElementById('crsfo-' + fi + '-' + oi);
+  var correct = document.getElementById('crsfo-' + fi + '-' + correctIdx);
+  var blankSpan = document.getElementById('crs-fb-' + fi);
+  var result = document.getElementById('crs-fr-' + fi);
+
+  if (oi === correctIdx) {
+    chosen.classList.add('correct');
+    if (blankSpan) { blankSpan.textContent = correct.textContent; blankSpan.style.color = 'var(--green)'; blankSpan.style.borderColor = 'var(--green)'; }
+    if (result) { result.innerHTML = '✅ 正确！Correct!'; result.style.color = 'var(--green)'; }
+    _crsQuizScore++;
+    awardPts(3);
+    toast('+3分 ✅', 'ok');
+    // Auto-speak the full sentence after correct answer
+    setTimeout(function(){ _speak(fullSentence, null, 0.82); }, 400);
+  } else {
+    chosen.classList.add('wrong');
+    correct.classList.add('correct');
+    if (blankSpan) { blankSpan.textContent = correct.textContent; blankSpan.style.color = 'var(--red)'; blankSpan.style.borderColor = 'var(--red)'; }
+    if (result) { result.innerHTML = '❌ 正确答案是 / The answer is: <b>' + correct.textContent + '</b>'; result.style.color = 'var(--red)'; }
+    // Still auto-speak so user hears the correct sentence
+    setTimeout(function(){ _speak(fullSentence, null, 0.82); }, 600);
+  }
+  _crsQuizTotal++;
+}
+
 
 // Toast
 function toast(msg, type) {

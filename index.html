@@ -3965,16 +3965,16 @@ function _ispRenderScore() {
   var emoji, title, sub;
   if (s.score === 4) {
     emoji = '🏆'; title = 'Perfect Score!';
-    sub = '你全部答对了！地道英文表达对你来说不在话下。';
+    sub = '你全部答对了！地道英文表达对你来说不在话下。<br><span style="opacity:.7;font-size:11px">You got them all right! Idiomatic English is a breeze for you.</span>';
   } else if (s.score === 3) {
     emoji = '🎉'; title = 'Excellent!';
-    sub = '答对 3 题，你的习语功底相当不错！继续深入探索吧。';
+    sub = '答对 3 题，你的习语功底相当不错！<br><span style="opacity:.7;font-size:11px">3 out of 4 — your idiom game is strong! Keep exploring.</span>';
   } else if (s.score === 2) {
     emoji = '💪'; title = 'Good Try!';
-    sub = '答对 2 题，还有进步空间——坚持练习效果会越来越好。';
+    sub = '答对 2 题，还有进步空间——坚持练习效果会越来越好。<br><span style="opacity:.7;font-size:11px">2 out of 4 — room to grow. Practice makes perfect!</span>';
   } else {
     emoji = '🌱'; title = 'Keep Going!';
-    sub = '英语习语很有挑战性，但练习是最好的老师！';
+    sub = '英语习语很有挑战性，但练习是最好的老师！<br><span style="opacity:.7;font-size:11px">Idioms are tough, but practice is the best teacher!</span>';
   }
 
   // SVG arc for score ring
@@ -4000,20 +4000,20 @@ function _ispRenderScore() {
       '<div class="isp-score-title">' + title + '</div>' +
       '<div class="isp-score-sub">' + sub + '</div>' +
       // Learner type selector
-      '<div style="margin:20px 0 4px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6)">你是哪类学习者？为你推荐内容 👇</div>' +
+      '<div style="margin:20px 0 4px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6)">你是哪类学习者？为你推荐内容 👇<br><span style="opacity:.6;font-size:11px">What type of learner are you? We\'ll recommend content for you.</span></div>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px">' +
-        '<button onclick="closeSplashGoTo(\'learn\')" style="padding:10px 4px;background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.3);border-radius:12px;color:#fbbf24;font-size:12px;font-weight:700;cursor:pointer;line-height:1.4">🎓 学生<br><span style=\"font-size:10px;opacity:.7\">词汇 & 作业</span></button>' +
-        '<button onclick="closeSplashGoTo(\'bayarea\')" style="padding:10px 4px;background:rgba(59,130,246,.12);border:1.5px solid rgba(59,130,246,.3);border-radius:12px;color:#93c5fd;font-size:12px;font-weight:700;cursor:pointer;line-height:1.4">💼 职场人<br><span style=\"font-size:10px;opacity:.7\">湾区职场英语</span></button>' +
-        '<button onclick="closeSplashGoTo(\'quiz\')" style="padding:10px 4px;background:rgba(16,185,129,.12);border:1.5px solid rgba(16,185,129,.3);border-radius:12px;color:#6ee7b7;font-size:12px;font-weight:700;cursor:pointer;line-height:1.4">🌱 学习者<br><span style=\"font-size:10px;opacity:.7\">测验 & 冲刺</span></button>' +
+        '<button onclick="closeSplashGoTo(\'learn\')" style="padding:10px 4px;background:rgba(245,158,11,.12);border:1.5px solid rgba(245,158,11,.3);border-radius:12px;color:#fbbf24;font-size:12px;font-weight:700;cursor:pointer;line-height:1.4">🎓 学生 Student<br><span style=\"font-size:10px;opacity:.7\">词汇 & 作业<br>Vocab & Homework</span></button>' +
+        '<button onclick="closeSplashGoTo(\'bayarea\')" style="padding:10px 4px;background:rgba(59,130,246,.12);border:1.5px solid rgba(59,130,246,.3);border-radius:12px;color:#93c5fd;font-size:12px;font-weight:700;cursor:pointer;line-height:1.4">💼 职场人 Professional<br><span style=\"font-size:10px;opacity:.7\">湾区职场英语<br>Bay Area English</span></button>' +
+        '<button onclick="closeSplashGoTo(\'quiz\')" style="padding:10px 4px;background:rgba(16,185,129,.12);border:1.5px solid rgba(16,185,129,.3);border-radius:12px;color:#6ee7b7;font-size:12px;font-weight:700;cursor:pointer;line-height:1.4">🌱 学习者 Learner<br><span style=\"font-size:10px;opacity:.7\">测验 & 冲刺<br>Quiz & Sprint</span></button>' +
       '</div>' +
       '<div style="margin-bottom:12px">' +
         '<button onclick="closeSplash();openLevelAssess()" style="width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,rgba(99,102,241,.25),rgba(67,56,202,.35));border:1.5px solid rgba(99,102,241,.5);color:#a5b4fc;font-size:13px;font-weight:800;cursor:pointer;letter-spacing:.02em">' +
-          '🎯 测一测我的英语水平 → 获取个性化路径' +
+          '🎯 测一测我的英语水平 → 获取个性化路径<br><span style="font-size:11px;opacity:.7">Test My Level → Get a Personalized Path</span>' +
         '</button>' +
       '</div>' +
       '<div class="isp-cta-row">' +
-        '<button class="isp-btn-more" onclick="launchIdiomChallenge()">🎯 再来 4 题！</button>' +
-        '<button class="isp-btn-enter" onclick="closeSplash()">直接进入网站 →</button>' +
+        '<button class="isp-btn-more" onclick="launchIdiomChallenge()">🎯 再来 4 题！ 4 More!</button>' +
+        '<button class="isp-btn-enter" onclick="closeSplash()">直接进入网站 Enter Site →</button>' +
       '</div>' +
     '</div>';
 

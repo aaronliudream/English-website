@@ -5734,8 +5734,8 @@ function obPickLevel(level, el) {
   el.classList.add('selected');
 
   if (level === 1) {
-    // Beginner: skip test, go directly to result
-    setTimeout(function(){ _obShowResult(); }, 300);
+    // Beginner: skip test, go directly to course
+    setTimeout(function(){ obFinish('course'); }, 300);
   } else {
     // Non-beginner: show placement test
     _obQuizIdx = 0;

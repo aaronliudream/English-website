@@ -327,6 +327,41 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 /* WRONG BOOK */
 .wb-empty{text-align:center;padding:60px 20px;color:var(--text3)}
+/* WRONG BOOK RETEST */
+.wbr-wrap{max-width:640px;margin:0 auto;padding:4px 0 20px}
+.wbr-top{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.wbr-exit{background:transparent;border:1px solid var(--border);color:var(--text2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;flex-shrink:0;transition:all .2s}
+.wbr-exit:hover{background:var(--card2);color:var(--text1)}
+.wbr-prog{flex:1;min-width:0}
+.wbr-pbar{height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
+.wbr-pfill{height:100%;background:linear-gradient(90deg,#d97757,#c05a3c);border-radius:3px;transition:width .35s ease}
+.wbr-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text3);margin-top:6px;font-weight:600}
+.wbr-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 28px 28px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.wbr-phrase{font-size:32px;font-weight:800;color:var(--text1);letter-spacing:-.01em;margin:10px 0 6px}
+.wbr-sub{font-size:13px;color:var(--text3);margin-bottom:20px}
+.wbr-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.wbr-opt{padding:14px 18px;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;font-size:14.5px;color:var(--text1);cursor:pointer;text-align:left;line-height:1.5;transition:all .18s;font-family:inherit}
+.wbr-opt:hover:not(:disabled){background:rgba(217,119,87,.08);border-color:#d97757;transform:translateX(2px)}
+.wbr-opt:disabled{cursor:not-allowed;opacity:.72}
+.wbr-opt.correct{background:rgba(16,185,129,.12);border-color:#10b981;color:#065f46;opacity:1;font-weight:600}
+.wbr-opt.wrong{background:rgba(239,68,68,.1);border-color:#ef4444;color:#991b1b;opacity:1}
+.wbr-fb{text-align:left}
+.wbr-fbbox{margin-top:14px;padding:16px 18px;border-radius:12px;font-size:14px;font-weight:700}
+.wbr-fbbox.ok{background:rgba(16,185,129,.1);border-left:4px solid #10b981;color:#065f46}
+.wbr-fbbox.bad{background:rgba(239,68,68,.08);border-left:4px solid #ef4444;color:#991b1b}
+.wbr-right{font-size:13.5px;color:var(--text1);margin-top:6px;font-weight:600}
+.wbr-cn{font-size:12.5px;color:var(--text2);margin-top:4px;font-weight:500;font-style:italic}
+.wbr-ex{font-size:12.5px;color:var(--text2);margin-top:8px;padding:8px 12px;background:rgba(255,255,255,.4);border-radius:8px;font-style:italic;font-weight:400;line-height:1.6}
+.wbr-result{max-width:520px;margin:20px auto;text-align:center;padding:32px 24px;background:var(--card);border:1px solid var(--border);border-radius:20px}
+.wbr-res-circle{width:140px;height:140px;border:6px solid;border-radius:50%;margin:0 auto 20px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.wbr-res-big{font-size:48px;font-weight:800;color:var(--text1);line-height:1}
+.wbr-res-den{font-size:14px;color:var(--text3);margin-top:2px}
+.wbr-res-grade{font-size:22px;font-weight:800;margin-bottom:20px}
+.wbr-res-stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--text2);margin-bottom:16px}
+.wbr-removed{font-size:13px;color:#10b981;margin-bottom:18px;padding:10px 14px;background:rgba(16,185,129,.08);border-radius:10px;display:inline-block}
+.wbr-res-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.wbr-btn-pri{padding:10px 22px;background:linear-gradient(135deg,#d97757,#c05a3c);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:0 4px 14px rgba(217,119,87,.3)}
+.wbr-btn-sec{padding:10px 22px;background:transparent;color:var(--text1);border:1px solid var(--border);border-radius:12px;font-weight:700;font-size:13.5px;cursor:pointer}
 
 /* LEADERBOARD */
 .lb{max-width:600px;margin:0 auto}
@@ -499,7 +534,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .prog-grid{display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:600px){.prog-grid{grid-template-columns:1fr 1fr}}
 /* Section card */
-.prog-sec-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden;transition:box-shadow .2s,transform .15s}
+.prog-sec-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden;transition:box-shadow .25s,transform .2s,border-color .25s}
+.prog-sec-clickable{cursor:pointer}
+.prog-sec-clickable:hover{transform:translateY(-3px);box-shadow:0 12px 28px -8px rgba(30,77,123,.22);border-color:rgba(30,77,123,.35)}
+.prog-sec-arrow{display:inline-block;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;color:var(--text3);margin-left:6px;opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s,color .25s;font-size:15px}
+.prog-sec-clickable:hover .prog-sec-arrow{opacity:1;transform:translateX(0);color:#d97757}
 .prog-sec-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.12);transform:translateY(-2px)}
 .prog-sec-stripe{position:absolute;left:0;top:0;bottom:0;width:5px}
 .prog-sec-row1{display:flex;align-items:center;gap:10px;margin-bottom:4px}
@@ -514,6 +553,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .prog-3bar-learn{height:100%;background:linear-gradient(90deg,#d97706,#fbbf24);transition:width .9s ease}
 /* 3-stat boxes */
 .prog-3stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.prog-2stats{grid-template-columns:1fr 1fr;gap:10px}
 .prog-stat-box{border-radius:10px;padding:10px 6px;text-align:center;transition:transform .15s,box-shadow .15s}
 .prog-stat-box-n{font-size:22px;font-weight:900;line-height:1}
 .prog-stat-box-l{font-size:10px;font-weight:700;margin-top:4px;line-height:1.3}
@@ -1058,6 +1098,91 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .sdb-sub{font-size:11.5px;color:rgba(30,77,123,.65);margin-top:2px}
 .sdb-btn{background:#1e4d7b;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:background .2s}
 .sdb-btn:hover{background:#163a5f}
+/* ══════════════════════════════════════════════════════
+   CLASSICS · 月度文选 — Literary reading module
+   ══════════════════════════════════════════════════════ */
+.cl-wrap{max-width:1100px;margin:0 auto;padding:8px 0 60px}
+.cl-hero{background:linear-gradient(180deg,#f5ede0 0%,#ede1ce 100%);border-radius:18px;padding:54px 56px 48px;margin-bottom:32px;position:relative;overflow:hidden;border:1px solid rgba(120,90,50,.16)}
+.cl-hero::before{content:'';position:absolute;left:24px;top:24px;right:24px;bottom:24px;border:1px solid rgba(120,90,50,.18);border-radius:10px;pointer-events:none}
+.cl-hero-eyebrow{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#8b6a3a;letter-spacing:.32em;text-transform:uppercase;margin-bottom:14px;position:relative;z-index:1}
+.cl-hero-title{font-family:'Playfair Display',Georgia,serif;font-size:54px;font-weight:500;color:#2a1f10;letter-spacing:-.015em;line-height:1.05;margin:0 0 18px;position:relative;z-index:1}
+.cl-hero-title em{font-style:italic;color:#a0633a}
+.cl-hero-sub{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:18.5px;color:#5a4528;line-height:1.55;max-width:640px;position:relative;z-index:1;margin:0}
+.cl-hero-meta{display:flex;gap:32px;margin-top:28px;position:relative;z-index:1;flex-wrap:wrap}
+.cl-hero-meta-item{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8b6a3a;font-weight:600}
+.cl-hero-meta-item strong{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:18px;color:#2a1f10;letter-spacing:0;text-transform:none;font-weight:500;margin-left:8px}
+.cl-month-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:#fbf8f1;border:1px solid rgba(120,90,50,.14);border-radius:12px;margin-bottom:36px}
+.cl-month-bar label{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8b6a3a;font-weight:600;margin-right:10px}
+.cl-month-bar select{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;color:#2a1f10;background:transparent;border:none;border-bottom:1px solid rgba(120,90,50,.3);padding:4px 6px;cursor:pointer;outline:none;margin-right:18px}
+.cl-month-bar-info{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#5a4528}
+.cl-card{background:#fffdf6;border:1px solid rgba(120,90,50,.18);border-radius:14px;margin-bottom:28px;overflow:hidden;transition:box-shadow .35s,transform .35s;box-shadow:0 1px 2px rgba(80,55,20,.04),0 14px 32px -16px rgba(80,55,20,.18)}
+.cl-card:hover{box-shadow:0 2px 4px rgba(80,55,20,.06),0 28px 56px -20px rgba(80,55,20,.28);transform:translateY(-2px)}
+.cl-card-head{padding:36px 44px 28px;border-bottom:1px solid rgba(120,90,50,.12);position:relative}
+.cl-card-num{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:13px;color:#a08868;letter-spacing:.18em;margin-bottom:10px}
+.cl-card-title{font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:500;color:#1a1308;line-height:1.15;letter-spacing:-.01em;margin:0 0 8px;cursor:pointer;transition:color .2s}
+.cl-card-title:hover{color:#a0633a}
+.cl-card-byline{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:17px;color:#5a4528;margin:0 0 4px}
+.cl-card-byline strong{font-style:normal;font-weight:500;color:#2a1f10}
+.cl-card-year{font-family:'Inter',sans-serif;font-size:11px;color:#8b6a3a;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.cl-author{display:flex;gap:20px;padding:24px 44px;background:#f9f2e3;border-bottom:1px solid rgba(120,90,50,.12)}
+.cl-author-portrait{width:56px;height:56px;border-radius:50%;background:#d8c39d;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:24px;color:#5a4528;flex-shrink:0;border:1px solid rgba(120,90,50,.25)}
+.cl-author-info{flex:1;min-width:0}
+.cl-author-label{font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:#8b6a3a;font-weight:600;margin-bottom:4px}
+.cl-author-bio{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:15.5px;color:#3a2c18;line-height:1.6;margin:0}
+.cl-passage{padding:44px 56px 36px;background:#fffdf6;font-family:'Playfair Display',Georgia,serif;font-size:21px;line-height:1.85;color:#1a1308;letter-spacing:.005em;position:relative}
+.cl-passage p.cl-en{margin:0 0 22px;text-indent:0}
+.cl-passage p.cl-en+p.cl-en{text-indent:0}
+.cl-passage em{font-style:italic;color:#5a4528}
+/* Side-by-side bilingual rows */
+.cl-prow{display:grid;grid-template-columns:1fr;gap:18px;margin:0 0 22px;align-items:start}
+.cl-prow .cl-en{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:21px;line-height:1.85;color:#1a1308}
+.cl-prow .cl-zh{margin:0;font-family:'Inter','PingFang SC','Microsoft YaHei',sans-serif;font-size:16px;line-height:1.85;color:#5a4528;display:none;padding-left:18px;border-left:2px solid rgba(160,99,58,.28)}
+.cl-passage.show-cn .cl-prow{grid-template-columns:1.15fr 1fr;gap:32px}
+.cl-passage.show-cn .cl-prow .cl-zh{display:block}
+.cl-prow:first-child .cl-en::first-letter{font-family:'Playfair Display',Georgia,serif;font-size:88px;font-weight:500;float:left;line-height:.85;margin:6px 14px 0 0;color:#a0633a;font-style:normal}
+.cl-passage.show-cn .cl-prow:first-child .cl-en::first-letter{font-size:72px}
+.cl-controls{display:flex;align-items:center;gap:14px;padding:22px 44px;background:#f5ede0;border-top:1px solid rgba(120,90,50,.14);flex-wrap:wrap}
+.cl-play-btn{display:inline-flex;align-items:center;gap:10px;padding:11px 22px;background:#2a1f10;color:#fbf8f1;border:none;border-radius:30px;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;font-weight:500;cursor:pointer;transition:background .25s,transform .2s}
+.cl-play-btn:hover{background:#a0633a;transform:translateY(-1px)}
+.cl-play-btn.playing{background:#a0633a}
+.cl-speed{display:flex;align-items:center;gap:6px;padding:4px;background:#fffdf6;border:1px solid rgba(120,90,50,.18);border-radius:24px}
+.cl-speed-btn{padding:7px 14px;background:transparent;color:#5a4528;border:none;border-radius:20px;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;letter-spacing:.04em;transition:background .2s,color .2s}
+.cl-speed-btn:hover{color:#a0633a}
+.cl-speed-btn.on{background:#2a1f10;color:#fbf8f1}
+.cl-cn-toggle{margin-left:auto;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#5a4528;background:transparent;border:1px solid rgba(120,90,50,.3);border-radius:20px;padding:8px 16px;cursor:pointer;transition:all .2s}
+.cl-cn-toggle:hover,.cl-cn-toggle.on{background:#2a1f10;color:#fbf8f1;border-color:#2a1f10}
+.cl-cn{display:none;padding:24px 56px 32px;background:#f9f2e3;font-family:'Inter',sans-serif;font-size:15.5px;line-height:1.85;color:#3a2c18;border-top:1px solid rgba(120,90,50,.12)}
+.cl-cn.show{display:block}
+.cl-cn p{margin:0 0 14px}
+.cl-quiz{padding:36px 44px 32px;background:#fbf8f1;border-top:1px solid rgba(120,90,50,.14)}
+.cl-quiz-h{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:22px;color:#2a1f10;margin:0 0 24px;font-weight:500}
+.cl-q{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(120,90,50,.1)}
+.cl-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.cl-q-stem{font-family:'Playfair Display',Georgia,serif;font-size:17px;color:#1a1308;line-height:1.55;margin:0 0 14px;font-weight:500}
+.cl-q-stem .cl-qn{color:#a08868;font-style:italic;margin-right:10px}
+.cl-opts{display:grid;gap:8px}
+.cl-opt{display:flex;align-items:flex-start;gap:12px;padding:12px 18px;background:#fffdf6;border:1px solid rgba(120,90,50,.18);border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:14.5px;color:#2a1f10;line-height:1.5;transition:all .2s;text-align:left}
+.cl-opt:hover{border-color:#a0633a;background:#fff8eb}
+.cl-opt.correct{background:#e8f3e8;border-color:#5b8a4f;color:#2d4a26}
+.cl-opt.wrong{background:#f5e3df;border-color:#c4654a;color:#6b2818}
+.cl-opt-letter{font-family:'Playfair Display',Georgia,serif;font-style:italic;color:#a08868;font-weight:500;flex-shrink:0;width:18px}
+.cl-q-exp{display:none;margin-top:12px;padding:14px 18px;background:#f5ede0;border-left:3px solid #a0633a;border-radius:0 8px 8px 0;font-family:'Inter',sans-serif;font-size:13.5px;color:#3a2c18;line-height:1.65}
+.cl-q-exp.show{display:block}
+.cl-q-exp em{font-family:'Playfair Display',Georgia,serif;font-style:italic;color:#a0633a;font-weight:500}
+.cl-notes{padding:32px 44px 36px;background:#fffdf6;border-top:1px solid rgba(120,90,50,.14)}
+.cl-notes-h{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:20px;color:#2a1f10;margin:0 0 18px;font-weight:500}
+.cl-note{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:14px 0;border-bottom:1px dashed rgba(120,90,50,.18);align-items:start}
+.cl-note:last-child{border-bottom:none}
+.cl-note-term{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:#a0633a;font-style:italic;min-width:140px}
+.cl-note-def{font-family:'Inter',sans-serif;font-size:14px;color:#3a2c18;line-height:1.6}
+.cl-note-def .cl-zh{display:block;color:#8b6a3a;font-size:13px;margin-top:3px;font-style:italic;font-family:'Playfair Display',Georgia,serif}
+@media(max-width:720px){
+  .cl-hero{padding:36px 28px}
+  .cl-hero-title{font-size:38px}
+  .cl-passage{padding:32px 28px 24px;font-size:18px}
+  .cl-card-head,.cl-author,.cl-controls,.cl-quiz,.cl-notes,.cl-cn{padding-left:24px;padding-right:24px}
+  .cl-passage::first-letter{font-size:64px}
+}
 /* ── WB PRACTICE ─────────────────────────────── */
 .wb-practice{margin-top:12px;padding:12px 14px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:10px}
 .wb-practice-label{font-size:11px;font-weight:700;color:#a5b4fc;text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
@@ -1283,6 +1408,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cnq-stat{text-align:center}
 .cnq-stat .n{font-size:22px;font-weight:800;color:var(--blue)}
 .cnq-stat .l{font-size:11px;color:var(--text3);margin-top:2px}
+.cnq-setup .cnq-setup-desc{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6}
+.cnq-setup-row{max-width:620px;margin:0 auto 16px;text-align:left}
+.cnq-setup-row label{display:block;font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.cnq-opt-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.cnq-opt{padding:8px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:20px;font-size:13px;color:var(--text1);cursor:pointer;font-weight:600;transition:all .18s}
+.cnq-opt:hover{background:var(--card2);border-color:var(--blue)}
+.cnq-opt.on{background:var(--blue);color:#fff;border-color:var(--blue)}
 .cnq-start{padding:13px 40px;background:var(--blue);border:none;border-radius:10px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .2s}
 .cnq-start:hover{opacity:.85}
 .cnq-start:disabled{opacity:.35;cursor:default}
@@ -1431,6 +1563,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <button class="dd-item" onclick="ddGo('bayarea')"><span class="dd-ico">💼</span>Workplace 职场英语</button>
         <button class="dd-item" onclick="ddGo('monthly')"><span class="dd-ico">🔥</span>美国月度流行热词</button>
         <button class="dd-item" onclick="ddGo('cnen')"><span class="dd-ico">🀄</span>CN→EN 汉译英</button>
+        <button class="dd-item" onclick="ddGo('classics')"><span class="dd-ico">📜</span>美国最经典小说选读</button>
         <div class="dd-sep"></div>
         <div class="dd-label">数据</div>
         <button class="dd-item" onclick="ddGo('wrongbook')"><span class="dd-ico">📕</span>Wrong Book 错题本</button>
@@ -1696,6 +1829,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
   <div class="bay-view-tabs" id="bay-view-tabs">
     <button class="bay-vtab on" onclick="setBayView('phrases',this)">📝 职场表达 Phrases</button>
+    <button class="bay-vtab" onclick="setBayView('quiz',this)">✏️ 职场测验 Quiz</button>
     <button class="bay-vtab" onclick="setBayView('dialogue',this)">🎬 情景对话 Dialogues</button>
   </div>
   <div id="bay-phrases-view">
@@ -1708,6 +1842,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <button class="ct" onclick="setBayCat('feedback',this)">🤝 Feedback</button>
     </div>
     <div id="baylist"></div>
+  </div>
+  <div id="bay-quiz-view" style="display:none">
+    <div id="bay-quiz-main"></div>
   </div>
   <div id="bay-dialogue-view" style="display:none">
     <div class="dlg-week-row" id="dlg-week-row" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap"></div>
@@ -1802,6 +1939,35 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <!-- WORKPLACE DIALOGUE 职场情景对话 -->
 <!-- Dialogue module merged into Bay Area -->
 
+<!-- CLASSICS · 月度文选 -->
+<div class="page" id="page-classics">
+  <div class="cl-wrap">
+    <div class="cl-hero">
+      <div class="cl-hero-eyebrow">Classic American Fiction · 美国最经典小说选读</div>
+      <h1 class="cl-hero-title">Classics<em>, slowly read.</em></h1>
+      <p class="cl-hero-sub">Five short masterpieces of American letters, refreshed each month — read aloud, gently explained, and enjoyed at your own tempo.</p>
+      <div class="cl-hero-meta">
+        <div class="cl-hero-meta-item">Curated <strong>5 pieces</strong></div>
+        <div class="cl-hero-meta-item">Authors <strong>introduced</strong></div>
+        <div class="cl-hero-meta-item">Comprehension <strong>questions</strong></div>
+      </div>
+    </div>
+    <div class="cl-month-bar">
+      <div>
+        <label>Year</label>
+        <select id="cl-year" onchange="renderClassics()">
+          <option value="2026">2026</option>
+        </select>
+        <label>Month</label>
+        <select id="cl-month" onchange="renderClassics()">
+          <option value="4">April · 四月</option>
+        </select>
+      </div>
+      <div class="cl-month-bar-info" id="cl-month-info">五篇精选 · five carefully chosen pieces</div>
+    </div>
+    <div id="cl-list"><!-- Injected by JS --></div>
+  </div>
+</div>
 <!-- SHADOWING 听说练习 -->
 <!-- Shadowing module removed -->
 
@@ -2503,11 +2669,10 @@ function renderProgressDashboard() {
   var cultIds = CULTURE_DATA.map(function(a){ return a.id; });
 
   var sections = [
-    {key:'learn',   icon:'📚', name:'词汇学习 Learn',   sub:'单词 · 例句 · 练习',  color:'#1d4ed8', ids: learnIds},
-    {key:'bay',     icon:'💼', name:'Bay Area 职场',    sub:'职场英语 · 硅谷表达',  color:'#c0392b', ids: bayIds},
-    {key:'monthly', icon:'🔥', name:'美国月度流行热词',   sub:'紧跟美国潮流文化',     color:'#0d7a55', ids: monthlyIds},
-    {key:'cnen',    icon:'🀄', name:'汉译英',            sub:'中文词汇英文精译',     color:'#991b1b', ids: cnenIds},
-    {key:'cult',    icon:'🇺🇸', name:'美国文化学习',      sub:'阅读 · 词汇 · 测验',  color:'#7c3aed', ids: cultIds}
+    {key:'learn',   icon:'📚', name:'Learn 习语学习',     sub:'习语 · 例句 · 练习',   color:'#1d4ed8', ids: learnIds},
+    {key:'bay',     icon:'💼', name:'Workplace 职场英语', sub:'职场英语 · 硅谷表达',  color:'#c0392b', ids: bayIds},
+    {key:'monthly', icon:'🔥', name:'美国月度流行热词',    sub:'紧跟美国潮流文化',     color:'#0d7a55', ids: monthlyIds},
+    {key:'cnen',    icon:'🀄', name:'CN→EN 汉译英',       sub:'中文词汇英文精译',     color:'#991b1b', ids: cnenIds}
   ];
 
   var totalPass = 0, totalLearning = 0, totalAll = 0;
@@ -2554,12 +2719,8 @@ function renderProgressDashboard() {
               '<div class="prog-hstat-n">' + totalPass + '</div>' +
               '<div class="prog-hstat-l">✅ 已通过</div>' +
             '</div>' +
-            '<div class="prog-hero-stat prog-hstat-learn">' +
-              '<div class="prog-hstat-n">' + totalLearning + '</div>' +
-              '<div class="prog-hstat-l">📖 学习中</div>' +
-            '</div>' +
             '<div class="prog-hero-stat prog-hstat-pend">' +
-              '<div class="prog-hstat-n">' + totalPending + '</div>' +
+              '<div class="prog-hstat-n">' + (totalPending + totalLearning) + '</div>' +
               '<div class="prog-hstat-l">⏳ 待学习</div>' +
             '</div>' +
             '<div class="prog-hero-stat prog-hstat-total">' +
@@ -2569,7 +2730,6 @@ function renderProgressDashboard() {
           '</div>' +
           '<div class="prog-legend">' +
             '<span class="prog-legend-item"><span class="prog-legend-dot" style="background:#34d399"></span>已通过</span>' +
-            '<span class="prog-legend-item"><span class="prog-legend-dot" style="background:#fbbf24"></span>学习中</span>' +
             '<span class="prog-legend-item"><span class="prog-legend-dot" style="background:rgba(255,255,255,.18)"></span>待学习</span>' +
           '</div>' +
         '</div>' +
@@ -2591,12 +2751,12 @@ function renderProgressDashboard() {
     var _secPageMap = {learn:'learn', bay:'bayarea', monthly:'monthly', cnen:'cnen', cult:'learn'};
     var pageName = _secPageMap[sec.key] || 'learn';
     sectionHtml +=
-      '<div class="prog-sec-card">' +
+      '<div class="prog-sec-card prog-sec-clickable" onclick="show(\'' + pageName + '\')" title="点击进入 ' + sec.name + '">' +
         '<div class="prog-sec-stripe" style="background:' + sec.color + '"></div>' +
         '<div class="prog-sec-row1">' +
           '<span class="prog-sec-emoji">' + sec.icon + '</span>' +
           '<div class="prog-sec-texts">' +
-            '<div class="prog-sec-name">' + sec.name + '</div>' +
+            '<div class="prog-sec-name">' + sec.name + ' <span class="prog-sec-arrow">→</span></div>' +
             '<div class="prog-sec-sub">' + sec.sub + '</div>' +
           '</div>' +
           '<span class="prog-sec-badge" style="background:' + badgeBg + ';color:' + badgeCol + '">' + passPct + '%</span>' +
@@ -2605,17 +2765,13 @@ function renderProgressDashboard() {
           '<div class="prog-3bar-pass"  style="width:' + passPct  + '%"></div>' +
           '<div class="prog-3bar-learn" style="width:' + learnPct + '%"></div>' +
         '</div>' +
-        '<div class="prog-3stats">' +
+        '<div class="prog-3stats prog-2stats">' +
           '<div class="prog-stat-box pass">' +
             '<div class="prog-stat-box-n">' + st.pass    + '</div>' +
             '<div class="prog-stat-box-l">✅ 已通过</div>' +
           '</div>' +
-          '<div class="prog-stat-box learn" onclick="goToModuleStatus(\'' + pageName + '\',\'' + sec.key + '\',\'learning\')" title="点击查看学习中的内容">' +
-            '<div class="prog-stat-box-n">' + st.learning + '</div>' +
-            '<div class="prog-stat-box-l">📖 学习中</div>' +
-          '</div>' +
-          '<div class="prog-stat-box pend" onclick="goToModuleStatus(\'' + pageName + '\',\'' + sec.key + '\',\'pending\')" title="点击查看待学习的内容">' +
-            '<div class="prog-stat-box-n">' + st.pending  + '</div>' +
+          '<div class="prog-stat-box pend" onclick="event.stopPropagation();goToModuleStatus(\'' + pageName + '\',\'' + sec.key + '\',\'pending\')" title="点击查看待学习的内容">' +
+            '<div class="prog-stat-box-n">' + (st.pending + st.learning) + '</div>' +
             '<div class="prog-stat-box-l">⏳ 待学习</div>' +
           '</div>' +
         '</div>' +
@@ -4363,11 +4519,37 @@ function _cnqShowFeedback(isOk, q) {
   // Next button
   var nw = document.getElementById('cnq-next-wrap');
   if (!nw) return;
-  if (cnqState.cur + 1 < cnqState.total) {
+  var isLast = (cnqState.cur + 1 >= cnqState.total);
+  if (!isLast) {
     nw.innerHTML = '<button class="cnq-next" onclick="cnqNext()">下一题 →</button>';
   } else {
     nw.innerHTML = '<button class="cnq-next" onclick="cnqShowResult()">查看结果 📊</button>';
   }
+
+  // Auto-advance: smooth scroll feedback into view, then move to next question
+  // Delay longer on wrong answers so user can read the correct answer
+  var delay = isOk ? 1100 : 2000;
+  if (cnqState._autoTimer) clearTimeout(cnqState._autoTimer);
+  try {
+    setTimeout(function(){
+      if (fb && fb.scrollIntoView) fb.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 80);
+  } catch(e) {}
+  var curIdxAtFire = cnqState.cur;
+  cnqState._autoTimer = setTimeout(function(){
+    // Skip if user has already advanced manually (cur has moved) or quiz ended
+    if (cnqState.cur !== curIdxAtFire) return;
+    if (!cnqState.answered) return;
+    if (isLast) {
+      cnqShowResult();
+    } else {
+      cnqNext();
+      setTimeout(function(){
+        var card = document.querySelector('#cnen-quiz-main .cnq-card');
+        if (card && card.scrollIntoView) card.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 60);
+    }
+  }, delay);
 }
 
 function cnqNext() {
@@ -7238,9 +7420,12 @@ function setBayView(view, el) {
   document.querySelectorAll('.bay-vtab').forEach(function(b){ b.classList.remove('on'); });
   if (el) el.classList.add('on');
   var pv = document.getElementById('bay-phrases-view');
+  var qv = document.getElementById('bay-quiz-view');
   var dv = document.getElementById('bay-dialogue-view');
   if (pv) pv.style.display = view === 'phrases' ? '' : 'none';
+  if (qv) qv.style.display = view === 'quiz' ? '' : 'none';
   if (dv) dv.style.display = view === 'dialogue' ? '' : 'none';
+  if (view === 'quiz') renderBayQuizSetup();
   if (view === 'dialogue') _renderDlgInBay();
 }
 
@@ -7265,49 +7450,79 @@ function renderBayArea() {
         !(v.meaning_cn && v.meaning_cn.toLowerCase().includes(q))) return false;
     return true;
   });
-  // Sort: 需复习/未学习 → 学习中 → 已掌握 (with SRS review check)
   list.sort(function(a, b){ return _progOrderSRS('bay', a.id) - _progOrderSRS('bay', b.id); });
   var c = document.getElementById('baylist');
   if (!c) return;
+
+  // ── Pagination: idiom-style (4 per page, book-flip) ──
+  var PER_PAGE = 4;
+  var totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+  var stateKey = 'bay|' + baycat + '|' + q;
+  if (window._bayLastKey !== stateKey) { window._bayPage = 0; window._bayLastKey = stateKey; }
+  if (typeof window._bayPage !== 'number') window._bayPage = 0;
+  if (window._bayPage >= totalPages) window._bayPage = totalPages - 1;
+  if (window._bayPage < 0) window._bayPage = 0;
+  var page = window._bayPage;
+  var pageList = list.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
+
+  var flipDir = window._bayFlipDir || '';
+  c.className = 'vgrid';
+  c.classList.remove('vgrid-flip-next','vgrid-flip-prev');
+  if (flipDir) c.classList.add(flipDir === 'next' ? 'vgrid-flip-next' : 'vgrid-flip-prev');
+  window._bayFlipDir = '';
   c.innerHTML = '';
-  list.forEach(function(d) {
+
+  if (!pageList.length) {
+    c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#5a4528">暂无符合条件的内容</div>';
+    var pagerHost0 = document.getElementById('bay-pager');
+    if (pagerHost0) pagerHost0.innerHTML = '';
+    return;
+  }
+
+  pageList.forEach(function(d) {
     var tagCls = 'bt-' + d.cat;
     var tagLbl = d.cat === 'meeting'  ? '🗣️ Meeting'
                : d.cat === 'email'   ? '📧 Email & Slack'
                : d.cat === 'chat'    ? '💬 Office Chat'
                : '🤝 Feedback';
-    var el = document.createElement('div');
-    el.className = 'bay-card';
-    el.id = 'bc' + d.id;
+    var st = srsStatus(d.id);
+    var srsBadge = '';
+    var statusColor = 'transparent';
+    if      (st === 'due')    { srsBadge = '<span class="srs-tag due">Review</span>'; statusColor = '#d97757'; }
+    else if (st === 'learn')  { srsBadge = '<span class="srs-tag learn">Learning</span>'; statusColor = '#2563eb'; }
+    else if (st === 'master') { srsBadge = '<span class="srs-tag master">Mastered</span>'; statusColor = '#0a0e1a'; }
+    var numDisp = ('00' + d.id).slice(-3);
     var bayExPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
+    var el = document.createElement('div');
+    el.className = 'vc';
+    el.id = 'vcbay' + d.id;
     el.innerHTML =
-      '<div class="bay-card-head" onclick="togBay(\'' + d.id + '\')">' +
-        '<div class="bay-head-top">' +
-          '<span class="bay-card-term" style="flex:1;font-size:15px;font-weight:600">' + d.term + '</span>' +
-          '<span class="vc-arr" id="ba' + d.id + '">▼</span>' +
+      '<div class="vc-head" onclick="togBay(\'' + d.id + '\')" style="--vc-status:' + statusColor + '">' +
+        '<div class="vc-head-top">' +
+          '<span class="vc-num">' + numDisp + '</span>' +
+          '<span class="vc-phrase">' + d.term + '</span>' +
+          '<span class="vc-arr" id="vabay' + d.id + '">→</span>' +
         '</div>' +
-        '<div class="bay-head-btm">' +
-          _getMasteryLabel('bay', d.id) +
+        '<div class="vc-head-btm">' +
+          srsBadge +
           '<span class="vc-tag ' + tagCls + '">' + tagLbl + '</span>' +
           '<button class="spk-btn" id="spkbay' + d.id + '" onclick="speakPhrase(event,this)" title="朗读 · Listen">🔊</button>' +
         '</div>' +
       '</div>' +
-      '<div class="bay-card-body" id="bb' + d.id + '">' +
-        '<p class="bay-def">' + d.meaning + '</p>' +
-        '<p class="bay-def-cn">' + d.meaning_cn + '</p>' +
-        '<p class="bay-ex">&ldquo;' + d.example + '&rdquo;' +
-          '<span class="bay-ex-cn">' + d.example_cn + '</span></p>' +
+      '<div class="vc-body" id="vbbay' + d.id + '">' +
+        '<p class="vc-meaning">' + d.meaning + '</p>' +
+        '<p class="vc-meaning-cn">' + (d.meaning_cn || '') + '</p>' +
+        '<p class="vc-ex">&ldquo;' + d.example + '&rdquo;' +
+          (d.example_cn ? '<span class="vc-ex-cn">' + d.example_cn + '</span>' : '') +
+        '</p>' +
         (PHRASE_ORIGINS[d.term]
-          ? '<div style="background:#fff8e1;border-left:3px solid #f59e0b;border-radius:6px;padding:8px 12px;margin:10px 0;font-size:11.5px;line-height:1.6;color:#5a3e00">' + PHRASE_ORIGINS[d.term] + '</div>'
+          ? '<div style="background:#fff8e1;border-left:3px solid #f59e0b;border-radius:6px;padding:8px 12px;margin:10px 0;font-size:12.5px;line-height:1.6;color:#5a3e00">' + PHRASE_ORIGINS[d.term] + '</div>'
           : '') +
-        '<div class="bay-meta">' +
-          '<span class="bay-tip">' + d.tip + '</span>' +
-          '<div class="bay-btn-row">' +
-            '<button class="spk-ex-btn" id="spkexbay' + d.id + '" onclick="speakFull(event,this)">🔊 朗读例句</button>' +
-            '<a class="yg-btn" href="https://youglish.com/pronounce/' +
-              encodeURIComponent(d.term) + '/english/us" target="_blank" rel="noopener" ' +
-              'style="margin-top:0;flex-shrink:0">🎬 YouGlish</a>' +
-          '</div>' +
+        (d.tip ? '<div style="font-size:12px;color:#5a4528;font-style:italic;margin:8px 0">💡 ' + d.tip + '</div>' : '') +
+        '<div style="display:flex;flex-wrap:wrap;gap:0;align-items:center">' +
+          '<button class="spk-ex-btn" id="spkexbay' + d.id + '" onclick="speakFull(event,this)">🔊 朗读例句</button>' +
+          '<a class="yg-btn" href="https://youglish.com/pronounce/' +
+            encodeURIComponent(d.term) + '/english/us" target="_blank" rel="noopener">🎬 YouGlish</a>' +
         '</div>' +
         markPassBtn('bay_' + d.id) +
       '</div>';
@@ -7318,19 +7533,259 @@ function renderBayArea() {
     if (eb) { eb.dataset.phrase = d.term; eb.dataset.ex = bayExPlain; }
     _bindMarkPass('bay_' + d.id);
   });
-  // update count chip
+
+  // Pager
+  var pagerHost = document.getElementById('bay-pager');
+  if (!pagerHost) {
+    pagerHost = document.createElement('div');
+    pagerHost.id = 'bay-pager';
+    c.parentNode.insertBefore(pagerHost, c.nextSibling);
+  }
+  if (totalPages <= 1) { pagerHost.innerHTML = ''; }
+  else {
+    pagerHost.innerHTML =
+      '<div class="lp-pager">' +
+        '<button class="lp-btn" onclick="bayPrevPage()" ' + (page === 0 ? 'disabled' : '') + '>← Previous</button>' +
+        '<span class="lp-info"><em>Page</em> ' + (page+1) + ' <em>of</em> ' + totalPages + ' &nbsp;·&nbsp; <em>showing</em> ' + (page*PER_PAGE+1) + '–' + Math.min((page+1)*PER_PAGE,list.length) + ' <em>of</em> ' + list.length + '</span>' +
+        '<button class="lp-btn" onclick="bayNextPage()" ' + (page === totalPages-1 ? 'disabled' : '') + '>Next Page →</button>' +
+      '</div>';
+  }
+
   var cnt = document.getElementById('bay-cnt');
   if (cnt) cnt.textContent = list.length + ' terms';
 }
 
+function bayPrevPage() {
+  if ((window._bayPage||0) <= 0) return;
+  window._bayPage--;
+  window._bayFlipDir = 'prev';
+  renderBayArea();
+  if (typeof _showLearnCheer === 'function') _showLearnCheer();
+  var el = document.getElementById('baylist');
+  if (el) window.scrollTo({top: el.offsetTop - 100, behavior:'smooth'});
+}
+function bayNextPage() {
+  window._bayPage = (window._bayPage||0) + 1;
+  window._bayFlipDir = 'next';
+  renderBayArea();
+  if (typeof _showLearnCheer === 'function') _showLearnCheer();
+  var el = document.getElementById('baylist');
+  if (el) window.scrollTo({top: el.offsetTop - 100, behavior:'smooth'});
+}
+
 function togBay(id) {
-  var card = document.getElementById('bc' + id);
-  var arr  = document.getElementById('ba' + id);
+  var card = document.getElementById('vcbay' + id);
+  var arr  = document.getElementById('vabay' + id);
+  if (!card) return;
   var wasOpen = card.classList.contains('open');
-  // close all
-  document.querySelectorAll('.bay-card.open').forEach(function(x){ x.classList.remove('open'); });
-  document.querySelectorAll('.bay-card .vc-arr').forEach(function(x){ x.textContent = '▼'; });
-  if (!wasOpen) { card.classList.add('open'); arr.textContent = '▲'; setProgress('bay_' + id, 'learning'); }
+  document.querySelectorAll('.vc.open').forEach(function(x){ x.classList.remove('open'); });
+  document.querySelectorAll('.vc .vc-arr').forEach(function(x){ x.textContent = '▼'; });
+  if (!wasOpen) {
+    card.classList.add('open');
+    if (arr) arr.textContent = '▲';
+    setProgress('bay_' + id, 'learning');
+    // Auto-speak the example sentence
+    var exBtn = document.getElementById('spkexbay' + id);
+    if (exBtn) { setTimeout(function(){ exBtn.click(); }, 250); }
+    else {
+      var spkBtn = document.getElementById('spkbay' + id);
+      if (spkBtn) setTimeout(function(){ spkBtn.click(); }, 250);
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// BAY AREA QUIZ
+// ═══════════════════════════════════════
+var bayQState = null;
+function _bqShuffle(a){ a = a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+function renderBayQuizSetup() {
+  var c = document.getElementById('bay-quiz-main');
+  if (!c) return;
+  var total = (typeof FINANCE_DATA !== 'undefined') ? FINANCE_DATA.length : 0;
+  c.innerHTML =
+    '<div class="cnq-setup">' +
+      '<h3>💼 职场英语测验 Workplace Quiz</h3>' +
+      '<p class="cnq-setup-desc">从湾区职场表达中抽题，选择最贴切的中文含义 · Match the phrase to its meaning</p>' +
+      '<div class="cnq-setup-row"><label>题目数量 Questions</label>' +
+        '<div class="cnq-opt-row">' +
+          '<button class="cnq-opt on" data-val="10" onclick="_bqSetCnt(10,this)">10</button>' +
+          '<button class="cnq-opt" data-val="20" onclick="_bqSetCnt(20,this)">20</button>' +
+          '<button class="cnq-opt" data-val="' + total + '" onclick="_bqSetCnt(' + total + ',this)">All ' + total + '</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cnq-setup-row"><label>范围 Category</label>' +
+        '<div class="cnq-opt-row">' +
+          '<button class="cnq-opt on" data-cat="all" onclick="_bqSetCat(\'all\',this)">全部</button>' +
+          '<button class="cnq-opt" data-cat="meeting" onclick="_bqSetCat(\'meeting\',this)">🗣️ Meeting</button>' +
+          '<button class="cnq-opt" data-cat="email" onclick="_bqSetCat(\'email\',this)">📧 Email</button>' +
+          '<button class="cnq-opt" data-cat="chat" onclick="_bqSetCat(\'chat\',this)">💬 Chat</button>' +
+          '<button class="cnq-opt" data-cat="feedback" onclick="_bqSetCat(\'feedback\',this)">🤝 Feedback</button>' +
+        '</div>' +
+      '</div>' +
+      '<button class="cnq-start" onclick="startBayQuiz()">🚀 开始测验</button>' +
+    '</div>';
+  window._bqCnt = 10;
+  window._bqCat = 'all';
+}
+function _bqSetCnt(n, el) { window._bqCnt = n; var p = el.parentNode; p.querySelectorAll('.cnq-opt').forEach(function(b){ b.classList.remove('on'); }); el.classList.add('on'); }
+function _bqSetCat(cat, el) { window._bqCat = cat; var p = el.parentNode; p.querySelectorAll('.cnq-opt').forEach(function(b){ b.classList.remove('on'); }); el.classList.add('on'); }
+
+function startBayQuiz() {
+  var pool = FINANCE_DATA.filter(function(d){ return window._bqCat === 'all' ? true : d.cat === window._bqCat; });
+  if (pool.length < 4) { toast('该范围题库不足', 'bad'); return; }
+  var n = Math.min(window._bqCnt || 10, pool.length);
+  var picks = _bqShuffle(pool).slice(0, n);
+  bayQState = { pool: pool, picks: picks, cur: 0, score: 0, total: n, answered: false, answers: [], _timer: null };
+  _bqRender();
+}
+
+function _bqRender() {
+  var c = document.getElementById('bay-quiz-main');
+  if (!c || !bayQState) return;
+  var s = bayQState;
+  if (s.cur >= s.total) { _bqShowResult(); return; }
+  var item = s.picks[s.cur];
+  var correct = item.meaning;
+  var distractors = _bqShuffle(s.pool.filter(function(x){ return x.id !== item.id; })).slice(0, 3).map(function(x){ return x.meaning; });
+  var opts = _bqShuffle([correct].concat(distractors));
+  var pct = ((s.cur) / s.total * 100).toFixed(0);
+  var tagCls = 'bt-' + item.cat;
+  var tagLbl = item.cat === 'meeting' ? '🗣️ Meeting' : item.cat === 'email' ? '📧 Email' : item.cat === 'chat' ? '💬 Chat' : '🤝 Feedback';
+  var optsHtml = opts.map(function(o, i){
+    return '<button class="wbr-opt" id="bqopt' + i + '" onclick="bqPick(' + i + ',' + JSON.stringify(o) + ')">' + o + '</button>';
+  }).join('');
+  c.innerHTML =
+    '<div class="wbr-wrap">' +
+      '<div class="wbr-top">' +
+        '<button class="wbr-exit" onclick="exitBayQuiz()">← 退出测验</button>' +
+        '<div class="wbr-prog"><div class="wbr-pbar"><div class="wbr-pfill" style="width:' + pct + '%"></div></div>' +
+          '<div class="wbr-meta"><span>第 ' + (s.cur+1) + '/' + s.total + ' 题</span><span>正确: ' + s.score + '</span></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="wbr-card">' +
+        '<span class="vc-tag ' + tagCls + '" style="display:inline-block;margin-bottom:10px">' + tagLbl + '</span>' +
+        '<div class="wbr-phrase">' + item.term + '</div>' +
+        '<div class="wbr-sub">请选择最贴切的中文含义</div>' +
+        '<div class="wbr-opts" id="bq-opts">' + optsHtml + '</div>' +
+        '<div class="wbr-fb" id="bq-fb"></div>' +
+      '</div>' +
+    '</div>';
+}
+
+function bqPick(idx, chosen) {
+  if (!bayQState || bayQState.answered) return;
+  bayQState.answered = true;
+  var s = bayQState;
+  var item = s.picks[s.cur];
+  var correct = item.meaning;
+  var isOk = (chosen === correct);
+  if (isOk) s.score++;
+  s.answers.push({item: item, ok: isOk, chosen: chosen});
+
+  var btns = document.querySelectorAll('#bq-opts .wbr-opt');
+  btns.forEach(function(b, i){
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+    if (i === idx && !isOk) b.classList.add('wrong');
+  });
+
+  var fb = document.getElementById('bq-fb');
+  if (fb) {
+    var exHtml = item.example ? '<div class="wbr-ex">' + item.example.replace(/<[^>]+>/g,'') + (item.example_cn ? '<br><span style="color:#8b6a3a">' + item.example_cn + '</span>' : '') + '</div>' : '';
+    var cnHtml = item.meaning_cn ? '<div class="wbr-cn">' + item.meaning_cn + '</div>' : '';
+    fb.innerHTML = '<div class="wbr-fbbox ' + (isOk?'ok':'bad') + '">' +
+      (isOk ? '✅ 正确！' : '❌ 错了') +
+      '<div class="wbr-right">' + item.term + ' → ' + correct + '</div>' +
+      cnHtml + exHtml +
+    '</div>';
+  }
+
+  // Progress + wrong book
+  if (isOk) {
+    setProgress('bay_' + item.id, 'pass');
+  } else {
+    setProgress('bay_' + item.id, 'learning');
+    // Add to wrong book
+    try {
+      var exists = wb.some(function(w){ return w.id === ('bay' + item.id); });
+      if (!exists) {
+        wb.push({
+          id: 'bay' + item.id,
+          type: 'phrase',
+          phrase: item.term,
+          meaning: item.meaning,
+          meaning_cn: item.meaning_cn,
+          example: item.example,
+          example_cn: item.example_cn,
+          chosen: chosen,
+          date: _todayStr()
+        });
+        localStorage.setItem('wb', JSON.stringify(wb));
+      }
+    } catch(e){}
+  }
+
+  var delay = isOk ? 1200 : 2200;
+  var curAt = s.cur;
+  if (s._timer) clearTimeout(s._timer);
+  s._timer = setTimeout(function(){
+    if (!bayQState || bayQState.cur !== curAt) return;
+    bayQState.cur++;
+    bayQState.answered = false;
+    _bqRender();
+    setTimeout(function(){
+      var card = document.querySelector('#bay-quiz-main .wbr-card');
+      if (card && card.scrollIntoView) card.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 60);
+  }, delay);
+}
+
+function _bqShowResult() {
+  var c = document.getElementById('bay-quiz-main');
+  if (!c || !bayQState) return;
+  var s = bayQState;
+  var pct = Math.round(s.score / s.total * 100);
+  var grade, col;
+  if (pct >= 90) { grade = '🏆 职场达人'; col = 'var(--green)'; }
+  else if (pct >= 70) { grade = '👏 表达自如'; col = 'var(--blue)'; }
+  else if (pct >= 50) { grade = '💪 稳步提升'; col = 'var(--amber)'; }
+  else { grade = '📖 多练习'; col = 'var(--red)'; }
+  if (typeof awardPts === 'function') awardPts(s.score * 3);
+
+  c.innerHTML =
+    '<div class="wbr-result">' +
+      '<div class="wbr-res-circle" style="border-color:' + col + '"><div class="wbr-res-big">' + s.score + '</div><div class="wbr-res-den">/ ' + s.total + '</div></div>' +
+      '<div class="wbr-res-grade" style="color:' + col + '">' + grade + '</div>' +
+      '<div class="wbr-res-stats">' +
+        '<div><span style="color:var(--green);font-weight:800;font-size:18px">' + s.score + '</span> 正确</div>' +
+        '<div><span style="color:var(--red);font-weight:800;font-size:18px">' + (s.total - s.score) + '</span> 错误</div>' +
+        '<div><span style="color:var(--blue);font-weight:800;font-size:18px">' + pct + '%</span> 正确率</div>' +
+      '</div>' +
+      '<div class="wbr-res-row">' +
+        '<button class="wbr-btn-pri" onclick="renderBayQuizSetup()">🔄 再来一组</button>' +
+        '<button class="wbr-btn-sec" onclick="exitBayQuiz()">📝 回到表达</button>' +
+      '</div>' +
+    '</div>';
+  bayQState = null;
+}
+
+function exitBayQuiz() {
+  if (bayQState && bayQState._timer) clearTimeout(bayQState._timer);
+  bayQState = null;
+  // Switch back to phrases view
+  document.querySelectorAll('.bay-vtab').forEach(function(b, i){
+    b.classList.toggle('on', i === 0);
+  });
+  _bayView = 'phrases';
+  var pv = document.getElementById('bay-phrases-view');
+  var qv = document.getElementById('bay-quiz-view');
+  var dv = document.getElementById('bay-dialogue-view');
+  if (pv) pv.style.display = '';
+  if (qv) qv.style.display = 'none';
+  if (dv) dv.style.display = 'none';
+  renderBayArea();
 }
 
 // ═══════════════════════════════════════
@@ -8055,7 +8510,8 @@ function renderWB() {
   // Export bar
   var exportBar = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">' +
     '<span style="font-size:13px;color:var(--text2);font-weight:700">📕 ' + wb.length + ' 条错题</span>' +
-    '<div style="display:flex;gap:8px">' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+      '<button onclick="startWBRetest()" style="padding:7px 14px;background:linear-gradient(135deg,#d97757,#c05a3c);border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(217,119,87,.32)">🎯 重新测试错题</button>' +
       '<button onclick="downloadWBCSV()" style="padding:7px 14px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:10px;color:#a5b4fc;font-size:12px;font-weight:700;cursor:pointer">📤 导出 CSV</button>' +
       '<button onclick="clearWB()" style="padding:7px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;color:var(--red);font-size:12px;font-weight:700;cursor:pointer">🗑️ 清空</button>' +
     '</div>' +
@@ -8113,6 +8569,162 @@ function clearWB() {
   if (confirm('Clear all ' + wb.length + ' items from your wrong book?')) {
     wb = []; localStorage.setItem('wb', JSON.stringify(wb)); renderWB();
   }
+}
+
+// ═══════════════════════════════════════
+// WRONG BOOK — RETEST MODE
+// ═══════════════════════════════════════
+var wbrState = null;
+
+function _wbrShuffle(a){ a = a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+function startWBRetest() {
+  if (!wb.length) { toast('错题本暂无内容', 'bad'); return; }
+  wbrState = {
+    items: _wbrShuffle(wb.slice()),
+    cur: 0,
+    score: 0,
+    answered: false,
+    correctIds: [],
+    total: wb.length,
+    autoRemove: true,
+    _timer: null
+  };
+  _wbrRender();
+}
+
+function _wbrRender() {
+  var c = document.getElementById('wblist');
+  if (!c || !wbrState) return;
+  var s = wbrState;
+  if (s.cur >= s.total) { _wbrShowResult(); return; }
+  var item = s.items[s.cur];
+
+  // Build 4 MCQ options: correct meaning + 3 distractors from other wb items
+  var correct = item.meaning || '';
+  var others = wb.filter(function(w){ return w.id !== item.id && w.meaning && w.meaning !== correct; });
+  var distractors = _wbrShuffle(others).slice(0, 3).map(function(w){ return w.meaning; });
+  // If fewer than 3 distractors available, pad with generic wrong options
+  while (distractors.length < 3) {
+    distractors.push('（无其他选项）' + distractors.length);
+  }
+  var opts = _wbrShuffle([correct].concat(distractors));
+
+  var pct = ((s.cur) / s.total * 100).toFixed(0);
+  var tc = item.type==='idiom' ? 't-idiom' : item.type==='phrase' ? 't-phrase' : 't-vocab';
+  var optsHtml = opts.map(function(opt, i){
+    var safe = (opt+'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    return '<button class="wbr-opt" id="wbropt' + i + '" onclick="wbrPick(' + i + ',' + JSON.stringify(opt) + ')">' + safe + '</button>';
+  }).join('');
+
+  c.innerHTML =
+    '<div class="wbr-wrap">' +
+      '<div class="wbr-top">' +
+        '<button class="wbr-exit" onclick="exitWBRetest()">← 退出测试</button>' +
+        '<div class="wbr-prog"><div class="wbr-pbar"><div class="wbr-pfill" style="width:' + pct + '%"></div></div>' +
+          '<div class="wbr-meta"><span>第 ' + (s.cur+1) + '/' + s.total + ' 题</span><span>正确: ' + s.score + '</span></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="wbr-card">' +
+        '<span class="vc-tag ' + tc + '" style="display:inline-block;margin-bottom:10px">' + item.type + '</span>' +
+        '<div class="wbr-phrase">' + item.phrase + '</div>' +
+        '<div class="wbr-sub">请选择正确的含义 · Choose the correct meaning</div>' +
+        '<div class="wbr-opts" id="wbr-opts">' + optsHtml + '</div>' +
+        '<div class="wbr-fb" id="wbr-fb"></div>' +
+      '</div>' +
+    '</div>';
+}
+
+function wbrPick(idx, chosen) {
+  if (!wbrState || wbrState.answered) return;
+  wbrState.answered = true;
+  var s = wbrState;
+  var item = s.items[s.cur];
+  var correct = item.meaning;
+  var isOk = (chosen === correct);
+  if (isOk) { s.score++; s.correctIds.push(item.id); }
+
+  // Highlight buttons
+  var btns = document.querySelectorAll('#wbr-opts .wbr-opt');
+  btns.forEach(function(b, i){
+    b.disabled = true;
+    var txt = b.textContent;
+    if (txt === correct) b.classList.add('correct');
+    if (i === idx && !isOk) b.classList.add('wrong');
+  });
+
+  // Feedback
+  var fb = document.getElementById('wbr-fb');
+  if (fb) {
+    var exHtml = item.example ? '<div class="wbr-ex">' + item.example.replace(/<[^>]+>/g,'') + '</div>' : '';
+    var cnHtml = item.meaning_cn ? '<div class="wbr-cn">' + item.meaning_cn + '</div>' : '';
+    fb.innerHTML = '<div class="wbr-fbbox ' + (isOk?'ok':'bad') + '">' +
+      (isOk ? '✅ 正确！' : '❌ 错了') +
+      '<div class="wbr-right">' + item.phrase + ' → ' + correct + '</div>' +
+      cnHtml + exHtml +
+    '</div>';
+  }
+
+  // Auto-advance
+  var delay = isOk ? 1200 : 2200;
+  var curAt = s.cur;
+  if (s._timer) clearTimeout(s._timer);
+  s._timer = setTimeout(function(){
+    if (!wbrState || wbrState.cur !== curAt) return;
+    wbrState.cur++;
+    wbrState.answered = false;
+    _wbrRender();
+    setTimeout(function(){
+      var card = document.querySelector('#wblist .wbr-card');
+      if (card && card.scrollIntoView) card.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 60);
+  }, delay);
+}
+
+function _wbrShowResult() {
+  var c = document.getElementById('wblist');
+  if (!c || !wbrState) return;
+  var s = wbrState;
+  var pct = Math.round(s.score / s.total * 100);
+  var grade, col;
+  if (pct >= 90) { grade = '🏆 掌握扎实'; col = 'var(--green)'; }
+  else if (pct >= 70) { grade = '👏 进步明显'; col = 'var(--blue)'; }
+  else if (pct >= 50) { grade = '💪 继续努力'; col = 'var(--amber)'; }
+  else { grade = '📖 多复习一次'; col = 'var(--red)'; }
+
+  // Award points
+  if (typeof awardPts === 'function') awardPts(s.score * 2);
+
+  var removedCount = 0;
+  if (s.autoRemove && s.correctIds.length) {
+    var before = wb.length;
+    wb = wb.filter(function(w){ return s.correctIds.indexOf(w.id) === -1; });
+    removedCount = before - wb.length;
+    localStorage.setItem('wb', JSON.stringify(wb));
+  }
+
+  c.innerHTML =
+    '<div class="wbr-result">' +
+      '<div class="wbr-res-circle" style="border-color:' + col + '"><div class="wbr-res-big">' + s.score + '</div><div class="wbr-res-den">/ ' + s.total + '</div></div>' +
+      '<div class="wbr-res-grade" style="color:' + col + '">' + grade + '</div>' +
+      '<div class="wbr-res-stats">' +
+        '<div><span style="color:var(--green);font-weight:800;font-size:18px">' + s.score + '</span> 题答对</div>' +
+        '<div><span style="color:var(--red);font-weight:800;font-size:18px">' + (s.total - s.score) + '</span> 题仍需复习</div>' +
+        '<div><span style="color:var(--blue);font-weight:800;font-size:18px">' + pct + '%</span> 正确率</div>' +
+      '</div>' +
+      (removedCount > 0 ? '<div class="wbr-removed">✨ 已从错题本移除 ' + removedCount + ' 条答对的题目</div>' : '') +
+      '<div class="wbr-res-row">' +
+        '<button class="wbr-btn-pri" onclick="startWBRetest()">🔄 再测一次</button>' +
+        '<button class="wbr-btn-sec" onclick="exitWBRetest()">📕 返回错题本</button>' +
+      '</div>' +
+    '</div>';
+  wbrState = null;
+}
+
+function exitWBRetest() {
+  if (wbrState && wbrState._timer) clearTimeout(wbrState._timer);
+  wbrState = null;
+  renderWB();
 }
 
 // ═══════════════════════════════════════
@@ -31851,6 +32463,345 @@ function toast(msg, type) {
   setTimeout(function(){ t.className = 'toast'; }, dur);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// CLASSICS · 月度文选 — Monthly American literary anthology
+// ═══════════════════════════════════════════════════════════════
+window.CLASSICS_DATA = {
+  '2026-4': [
+    {
+      id:'c2604_1', title:'Of Mice and Men', author:'John Steinbeck', year:1937,
+      portrait:'S',
+      bio:'John Steinbeck (1902–1968) — Nobel laureate and Pulitzer Prize winner, the defining voice of Depression-era American fiction. His plainspoken prose dignifies migrant workers, outcasts, and the rural poor of California.',
+      bio_cn:'约翰·斯坦贝克（1902–1968）—— 诺贝尔文学奖、普利策奖得主，大萧条时期美国文学的良心。他以朴素有力的笔触，书写加州底层劳工、流浪者、乡野贫民的尊严与挣扎。',
+      passage: [
+        "Two migrant ranch hands drift across Depression-era California looking for work. George Milton is small, sharp, protective; Lennie Small is a giant of a man with the mind of a child. They share one fragile, recurring dream — to buy a little patch of land of their own, where they will keep rabbits and 'live off the fatta the lan'.'",
+        "They find jobs on a barley ranch and meet its roster of lonely souls: the aging Candy with his old dog, the proud Black stablehand Crooks, the boss's son Curley who itches for a fight, and Curley's nameless young wife who wanders the ranch starved for attention. For a moment, the dream seems within reach: Candy offers his savings, and the three plan together.",
+        "But Lennie's unthinking strength, which has cost them jobs before, tips fate against them. A flirtation turns fatal, and a lynch mob forms. George, choosing mercy over cruelty, slips away with Lennie to a quiet riverbank and, as he recites their dream of the little farm one last time, ends his friend's life before the mob can.",
+        "Steinbeck's short novel is a devastating meditation on loneliness, the fragility of the American dream, and the kind of love that must sometimes do terrible things. First published in 1937, it remains one of the most-read and most-banned works in American schools."
+      ],
+      cn: [
+        "两个流浪农工在大萧条年代的加州四处漂泊找活干。乔治·米尔顿瘦小精明，时刻守护着兰尼·斯摩尔——一个力大如牛、心智却如孩子般单纯的彪形大汉。他俩共同珍藏着一个脆弱却反复诉说的梦：攒钱买下一小块地，养兔子，靠自己的土地生活。",
+        "他们在一个大麦农场找到活干，也遇见了这里的一群孤独灵魂——老迈的坎迪和他那条老狗；倔强自尊的黑人马夫克鲁克斯；农场主儿子柯利，总想找人打架；柯利那年轻无名的妻子，在农场里游荡，渴盼一丝关注。那个梦一度似乎触手可及：坎迪愿意出钱入伙，三人开始盘算。",
+        "然而兰尼那不自知的蛮力——过去已多次让他们丢了工作——终于把他们推向命运的深渊。一次无心的亲近酿成惨剧，一支私刑队伍在外集结。乔治抉择以仁代酷，带着兰尼悄悄溜到僻静的河边；当他最后一次为兰尼描绘那座小农场时，在私刑到来之前，亲手结束了好友的生命。",
+        "斯坦贝克这部短篇杰作，是对孤独、美国梦之脆弱、以及有时不得不行的残酷之爱的一次撼人省思。1937 年初版，至今仍是美国课堂上最常被阅读、也最常被封禁的作品之一。"
+      ],
+      notes: [
+        {term:'migrant ranch hands', def:'itinerant farm laborers who move between jobs', cn:'流动性农场雇工'},
+        {term:'Depression-era', def:'from the period of the Great Depression (1929–1939)', cn:'大萧条时代的'},
+        {term:'itches for a fight', def:'is eager to start a physical fight', cn:'手痒想打架'},
+        {term:'starved for attention', def:'desperately lacking affection or acknowledgment', cn:'极度渴望被关注'},
+        {term:'lynch mob', def:'a crowd that seeks to carry out vigilante execution', cn:'私刑队伍'},
+        {term:'mercy over cruelty', def:'choosing a compassionate act over a cruel outcome', cn:'以仁代酷'}
+      ],
+      quiz: [
+        {q:'What is the shared dream that gives George and Lennie hope?', opts:['Becoming rich in California','Owning a small farm of their own','Returning to their hometown','Finding Lennie a family'], ans:1, exp:'The dream of a little farm with rabbits is the emotional engine of the entire novel. 那个养着兔子的小农场之梦，是整部小说的情感引擎。'},
+        {q:'Which theme is NOT central to the novel?', opts:['Loneliness','The fragility of the American dream','Wealth inequality in cities','The ethics of mercy killing'], ans:2, exp:'Steinbeck focuses on rural, not urban, lives — ranch workers, not city dwellers. 斯坦贝克关注的是乡野而非城市生活。'},
+        {q:'Why does George ultimately kill Lennie?', opts:['To claim a reward','To spare him a worse death by the mob','Out of anger','To take his money'], ans:1, exp:'Knowing a lynch mob is coming, George acts out of love — a devastating act of mercy. 明知私刑在即，乔治的开枪出自爱——一次撕心的仁慈。'},
+        {q:'What literary form is Of Mice and Men?', opts:['A novella','An epic poem','A play in three acts','A series of letters'], ans:0, exp:'Steinbeck wrote it as a short novel structured almost like a play — each chapter resembling a scene. 斯坦贝克将其写成接近戏剧结构的中篇小说，每章几近一幕。'}
+      ]
+    },
+    {
+      id:'c2604_2', title:'The Grapes of Wrath', author:'John Steinbeck', year:1939,
+      portrait:'S',
+      bio:'John Steinbeck (1902–1968) — the conscience of the American 1930s. The Grapes of Wrath won the Pulitzer Prize in 1940 and was central to his 1962 Nobel Prize in Literature.',
+      bio_cn:'约翰·斯坦贝克（1902–1968）——1930 年代美国文学的良心。《愤怒的葡萄》1939 年出版即斩获 1940 年普利策奖，并是他 1962 年诺贝尔文学奖的核心作品之一。',
+      passage: [
+        "The Joad family, tenant farmers in drought-ravaged Oklahoma, lose their land to the banks during the Dust Bowl. Like hundreds of thousands of others, they load a rickety truck and set out on Route 66 toward California, lured by handbills promising plentiful fruit-picking work and good wages.",
+        "The journey west is brutal. Grandpa and Grandma die along the road. Strangers warn that California is overrun with desperate 'Okies' like themselves, and that the promised wages are a cruel fiction. Still they press on — because there is nowhere else to go.",
+        "In California they meet exactly what they were warned of: migrant camps filthy with hunger and despair, landowners who collude to drive wages below survival, and a hostile local population. Tom Joad, the family's quiet eldest son, is drawn into labor organizing after his mentor, the former preacher Jim Casy, is murdered for speaking up.",
+        "Steinbeck's novel, banned and burned in some places on release, is a scalding indictment of unchecked capital and a hymn to human endurance. Its closing image — Rose of Sharon, having just lost her baby, nursing a starving stranger — remains one of the most shocking and tender scenes in American literature."
+      ],
+      cn: [
+        "乔德一家本是俄克拉荷马大草原上的佃农。干旱和黑风暴把土地从他们手里夺走，银行收走了农场。与成千上万其他难民一样，他们装上一辆破卡车，沿 66 号公路向加州进发——手里紧握着宣传单，说那里果园遍地、工资优厚。",
+        "西行之路惨烈。老爷爷、老奶奶相继死在路上。一路上，返乡的人警告他们：加州早已人满为患，招工广告全是骗局，工资低得令人绝望。可他们别无选择，只能继续向前。",
+        "到了加州，一切果然如警告所言：难民营肮脏饥饿；地主们串通压工资至饿死线之下；当地人把他们当瘟疫般仇视。长子汤姆·乔德沉默寡言，却在老牧师吉姆·凯西——他生命中的精神导师——因组织罢工被打死之后，走上了劳工组织者的道路。",
+        "这部 1939 年出版时在多地被禁、被烧的小说，是对失控资本的一次烈火般的控诉，也是一曲致人之韧性的颂歌。小说结尾——罗撒香在刚刚失去婴儿之后，用奶水哺育了一位濒死的陌生人——至今仍是美国文学中最震撼、也最温柔的画面之一。"
+      ],
+      notes: [
+        {term:'tenant farmers', def:'farmers who rent the land they work', cn:'佃农（租地耕作的农民）'},
+        {term:'Dust Bowl', def:'the severe 1930s drought and dust storms in the US plains', cn:'沙尘暴时期（1930 年代美国大平原大干旱）'},
+        {term:'rickety', def:'flimsy and in poor condition', cn:'摇摇晃晃的，破旧的'},
+        {term:'cruel fiction', def:'a harmful lie presented as truth', cn:'残酷的谎言'},
+        {term:'collude', def:'secretly cooperate, especially for an unfair purpose', cn:'合谋，串通'},
+        {term:'scalding indictment', def:'a searing, blistering accusation', cn:'烈火般的控诉'},
+        {term:'hymn to', def:'a work of praise for', cn:'对……的礼赞'}
+      ],
+      quiz: [
+        {q:'What forces the Joad family off their land?', opts:['A volcano','Drought plus bank foreclosure','A wildfire','War'], ans:1, exp:'The Dust Bowl drought and bank repossession together drive the family west. 干旱与银行收地双重夹击，逼家人西行。'},
+        {q:'The term "Okies“ in the novel refers to:', opts:['Native Americans','Migrants from Oklahoma and the Plains','California landowners','Law enforcement'], ans:1, exp:'”Okies“ was a derogatory label for refugees from the Dust Bowl states, used by hostile Californians. ”Okies"是加州人对来自俄克拉荷马等灾区移民的蔑称。'},
+        {q:'Who becomes Tom Joad\'s political and moral guide?', opts:['His father','The preacher Jim Casy','A landowner','His brother Al'], ans:1, exp:'Former preacher Casy teaches Tom to think beyond his own family to collective dignity. 老牧师凯西引导汤姆从家人之爱走向更广的同胞之爱。'},
+        {q:'The novel\'s famous final scene depicts:', opts:['A wedding','Rose of Sharon nursing a starving stranger','A house burning down','Tom getting a new job'], ans:1, exp:'In one of American literature\'s most debated images, grief transforms into a radical act of shared humanity. 这是美国文学中最具争议、也最动人的意象之一——哀恸转化为一次同胞之爱的极致表达。'}
+      ]
+    },
+    {
+      id:'c2604_3', title:'The Old Man and the Sea', author:'Ernest Hemingway', year:1952,
+      portrait:'H',
+      bio:'Ernest Hemingway (1899–1961) — Nobel Prize winner (1954) and architect of modern American prose. His famously spare, muscular sentences reshaped twentieth-century fiction worldwide.',
+      bio_cn:'欧内斯特·海明威（1899–1961）——1954 年诺贝尔文学奖得主，现代美国散文的塑造者之一。他极简克制、力道内敛的句式，重塑了二十世纪世界小说的面貌。',
+      passage: [
+        "An old Cuban fisherman named Santiago has gone eighty-four days without catching a fish. The other villagers consider him unlucky, and the boy Manolin — whom Santiago once taught to fish — has been ordered by his parents to work on a luckier boat. Still, the boy brings him coffee, sardines, and company.",
+        "On the eighty-fifth day, Santiago rows far out into the Gulf Stream alone. A giant marlin takes his bait — a fish bigger than his own skiff. For two days and two nights the old man is pulled across the sea, hands cut and back aching, unwilling to cut the line. On the third day, he finally kills the marlin and lashes it to the side of his boat.",
+        "But the blood in the water draws sharks. Santiago fights them one by one with harpoon, knife, club, and tiller — until there is nothing left of his prize but bones. He returns to his village empty-handed in everything but pride, collapses on his bed, and dreams of lions on an African beach he saw as a young man.",
+        "Hemingway's novella earned him the Pulitzer in 1953 and sealed the 1954 Nobel. It is a meditation on dignity in defeat — summed up in its most famous line, spoken by Santiago to himself as the sharks tear his fish apart."
+      ],
+      cn: [
+        "古巴老渔夫桑地亚哥已经连着 84 天没捕到鱼了。村里人觉得他晦气，连他一手教出来的孩子马诺林，也被父母命令去另一条“走运”的船上干活。可男孩仍每天给他送咖啡、沙丁鱼，陪他说话。",
+        "第 85 天，桑地亚哥独自划船远出到墨西哥湾暖流之上。一条巨大的马林鱼咬住了他的钓钩——那鱼比他那条小渔船还大。整整两天两夜，老人被鱼拉着横渡大海，掌心被绳子勒破，脊背酸痛难忍，却死也不肯割断钓绳。到第三天，他终于杀死了马林鱼，把它绑在船舷上。",
+        "可水中的血腥引来了鲨群。桑地亚哥用鱼叉、短刀、木棍、舵柄一条一条地搏斗，直到那条他用命换来的大鱼只剩一副白骨。他两手空空地回到村里——只剩下尊严未空。他倒在床上，梦见年轻时在非洲海滩上见过的狮子。",
+        "海明威这部中篇 1953 年获普利策奖，为他锁定了 1954 年诺贝尔文学奖。这是一曲关于“虽败犹荣”的凝练沉思。小说中最著名的那句话，正是老人在鲨群撕扯猎物时，对自己说的一句话。"
+      ],
+      notes: [
+        {term:'skiff', def:'a small, light rowing or sailing boat', cn:'小渔船，轻舟'},
+        {term:'lashes to', def:'ties tightly onto', cn:'牢牢绑在……上'},
+        {term:'harpoon', def:'a long spear used for fishing large sea creatures', cn:'鱼叉'},
+        {term:'tiller', def:'the lever used to steer a small boat\'s rudder', cn:'舵柄'},
+        {term:'empty-handed in everything but pride', def:'having lost the physical prize but kept one\'s dignity', cn:'两手空空，却尊严未失'},
+        {term:'dignity in defeat', def:'maintaining honor even when one has lost', cn:'虽败犹荣'}
+      ],
+      quiz: [
+        {q:'How long has Santiago gone without a catch when the novella opens?', opts:['24 days','40 days','84 days','One year'], ans:2, exp:'Eighty-four luckless days — the village has written him off. 整整 84 天一无所获，村里人都已不再看好他。'},
+        {q:'What relationship does Santiago have with Manolin?', opts:['Father and son','A mentor and his former apprentice','Strangers','Business partners'], ans:1, exp:'Santiago taught Manolin to fish as a small boy; theirs is a bond of love and respect. 桑地亚哥曾教幼时的马诺林捕鱼，两人情同父子。'},
+        {q:'What destroys Santiago\'s catch on the return trip?', opts:['Another fisherman','A storm','Sharks','Rot from the heat'], ans:2, exp:'Wave after wave of sharks, drawn by the marlin\'s blood, strip the fish to bone. 鲨群闻血而至，将马林鱼啃得只剩骨架。'},
+        {q:'The novella is most often read as a meditation on:', opts:['Wealth','Political revolution','Dignity in defeat','Romantic love'], ans:2, exp:'Hemingway\'s subject is the indomitable spirit — a man may be destroyed but not defeated. 海明威写的是"人可以被毁灭，却不能被打败"的不屈精神。'}
+      ]
+    },
+    {
+      id:'c2604_4', title:'The Catcher in the Rye', author:'J. D. Salinger', year:1951,
+      portrait:'S',
+      bio:'J. D. Salinger (1919–2010) — reclusive literary icon whose single published novel became the bible of post-war American adolescence. He published almost nothing after 1965 and lived the last decades of his life in strict seclusion.',
+      bio_cn:'J·D·塞林格（1919–2010）——隐居型美国文学偶像。他一生只出版过一部长篇小说，却奠定了战后美国青春文学的范式。1965 年后近乎封笔，隐居终老。',
+      passage: [
+        "The novel is narrated by sixteen-year-old Holden Caulfield, writing from what we gradually realize is some kind of psychiatric facility in California. He tells us about the three days he spent wandering New York City shortly before Christmas, after being expelled from Pencey Prep for failing four subjects.",
+        "Holden leaves school early and, dreading his parents, takes a train to New York and checks into a seedy hotel. Over the next 72 hours he drifts through bars, nightclubs, and hotel lobbies, lies compulsively to strangers, hires a prostitute he can't bring himself to touch, gets punched by her pimp, and grows more and more exhausted and disillusioned with every adult he meets — all of whom he labels 'phony.'",
+        "The one person Holden genuinely adores is his ten-year-old sister Phoebe. Sneaking home to see her, he tells her his only real ambition: to be 'the catcher in the rye,' standing at the edge of a cliff catching children before they fall off into the corrupt adult world.",
+        "By turns funny, vulgar, tender, and heartbreaking, Salinger's novel gave voice to a new kind of American narrator — bruised, wise-cracking, allergic to hypocrisy. Loved and banned in roughly equal measure, it has never been out of print."
+      ],
+      cn: [
+        "小说由十六岁的霍尔顿·考尔菲德叙述。随着故事推进，读者才逐渐意识到：他是在加州一家精神疗养机构里，回忆起圣诞节前夕那三天，自己因四门功课不及格被潘西中学开除后，在纽约街头漫游的经历。",
+        "霍尔顿提前离开学校，又不敢面对父母，就坐上火车到了纽约，住进一家破旧旅馆。接下来的 72 小时里，他在酒吧、夜总会、旅馆大堂之间游荡，对陌生人撒谎成瘾，请来一个妓女却下不了手，被皮条客一顿暴打，对遇到的每一个成年人都越来越失望——在他眼里，他们全都“虚伪”。",
+        "霍尔顿唯一发自内心深爱的人，是他十岁的妹妹菲比。他偷偷溜回家见她，告诉她自己唯一真正的志愿：当“麦田里的守望者”，站在悬崖边，把玩得分神的孩子们抢在他们跌进虚伪的成人世界之前，一把拉回来。",
+        "全书时而滑稽粗俗，时而温柔心碎。塞林格塑造出美国小说里一种全新的叙述声——满身伤痕、爱耍俏皮话、极度反感虚伪。小说被热爱和被封禁几乎一样多，但自初版以来从未绝版。"
+      ],
+      notes: [
+        {term:'reclusive', def:'avoiding the company of others; living in isolation', cn:'隐居的，避世的'},
+        {term:'seedy', def:'shabby and slightly disreputable', cn:'肮脏破败，不体面的'},
+        {term:'compulsively', def:'in an uncontrollable, driven way', cn:'强迫性地，忍不住地'},
+        {term:'disillusioned', def:'having lost faith in something believed in', cn:'幻想破灭的'},
+        {term:'phony', def:'(Holden\'s word) fake, pretentious, insincere', cn:'虚伪，装腔作势（霍尔顿最爱用的词）'},
+        {term:'bruised, wise-cracking', def:'emotionally wounded but quick with sarcastic jokes', cn:'伤痕累累却爱耍俏皮话的'},
+        {term:'allergic to hypocrisy', def:'unable to tolerate two-faced behavior', cn:'对虚伪过敏的'}
+      ],
+      quiz: [
+        {q:'From where is Holden narrating the story?', opts:['A classroom','A hotel','A psychiatric facility','His bedroom at home'], ans:2, exp:'The framing reveals he\'s in some kind of rest/psychiatric institution in California. 叙事框架暗示他正在加州一处休养或精神疗养机构中。'},
+        {q:'What word does Holden use most often to dismiss adults?', opts:['Boring','Phony','Stupid','Rich'], ans:1, exp:'"Phony“ is the book\'s signature term — Holden\'s shorthand for everything hypocritical. ”Phony（虚伪）"是全书最具标签性的词，也是霍尔顿对一切虚假事物的速记。'},
+        {q:'Who does Holden truly love and trust?', opts:['His teacher Mr. Antolini','His roommate Stradlater','His sister Phoebe','His brother D.B.'], ans:2, exp:'Phoebe is the one pure, honest person in Holden\'s world — his moral north. 妹妹菲比是霍尔顿世界里唯一纯净、诚实的存在，是他的道德指南针。'},
+        {q:'The title "The Catcher in the Rye“ refers to Holden\'s fantasy of:', opts:['Becoming a farmer','Saving children from falling off a cliff','Returning to his childhood school','Writing a novel'], ans:1, exp:'He misremembers a Burns poem as a line about catching children at the edge of a cliff — his only real wish. 他把一句彭斯的诗记错成”在悬崖边接住孩子"，那便是他唯一真切的心愿。'}
+      ]
+    },
+    {
+      id:'c2604_5', title:'To Kill a Mockingbird', author:'Harper Lee', year:1960,
+      portrait:'L',
+      bio:'Harper Lee (1926–2016) — Alabama-born author whose sole published novel during her lifetime won the 1961 Pulitzer Prize and became one of the most taught books in American schools. She lived quietly in her hometown of Monroeville for most of her adult life.',
+      bio_cn:'哈珀·李（1926–2016）——生于阿拉巴马州的美国作家，一生在世仅出版一部小说，却斩获 1961 年普利策奖，成为美国课堂最常教授的作品之一。她大半生都安静地住在家乡蒙罗维尔。',
+      passage: [
+        "Set in the sleepy Alabama town of Maycomb during the Great Depression, the novel is narrated by Scout Finch, a quick-witted tomboy aged six to nine over the course of the book. She lives with her older brother Jem and their widowed father Atticus Finch, the town's most respected lawyer.",
+        "The summer world of the Finch children is ruled by games, schoolyard rules, and an obsession with their reclusive neighbor 'Boo' Radley, whom no one has seen in years. But this small-town idyll is shattered when Atticus is appointed to defend Tom Robinson, a Black man falsely accused by a white woman of rape.",
+        "Atticus knows he cannot win — the town's racial hierarchy will not allow it — but he defends Tom with patience, dignity, and devastating cross-examination. When the all-white jury convicts anyway, the novel's moral weight shifts to Scout and Jem: how does a child retain her faith in justice after seeing it fail?",
+        "In the book's closing, the bitter accuser\'s father comes for the children on a dark Halloween night, and it is Boo Radley — the neighborhood phantom — who steps out of legend to save them. Lee\'s novel is read as a tender coming-of-age story wrapped around one of the sharpest moral indictments in American fiction."
+      ],
+      cn: [
+        "故事发生在大萧条时期阿拉巴马州一个叫梅科姆的小镇。叙述者是思考特·芬奇——一个机灵古怪的假小子，故事里她从六岁长到九岁。她和哥哥杰姆，还有丧偶的父亲阿提克斯·芬奇一起生活。阿提克斯是镇上最受敬重的律师。",
+        "芬奇家孩子的夏天由游戏、校园小规矩，以及对那位多年不出门的“怪人”邻居布·拉德利的执着想象构成。但这份小镇田园被打破了——阿提克斯被指派为汤姆·罗宾逊辩护。汤姆是个黑人，被一名白人女性诬告强奸。",
+        "阿提克斯明知此案必败——镇上的种族等级不容他赢——却仍以耐心、尊严与犀利的交叉盘问为汤姆辩护。当全白人陪审团最终仍判有罪，小说的道德分量便转到了思考特和杰姆身上：一个孩子眼看正义失灵后，如何继续相信正义？",
+        "小说结尾，那位心怀怨毒的原告父亲在一个漆黑的万圣夜袭击两个孩子——是邻居“怪人”布·拉德利，从街区传说中走出来，救下了他们。这部小说被读作一部温柔的成长故事，却包裹着美国文学中最锋利的道德控诉之一。"
+      ],
+      notes: [
+        {term:'sleepy', def:'(of a town) quiet and slow-paced', cn:'（小镇）安静慵懒的'},
+        {term:'quick-witted tomboy', def:'a sharp-minded girl with boyish manners', cn:'机灵的假小子'},
+        {term:'reclusive', def:'shunning contact with others', cn:'避世独居的'},
+        {term:'idyll', def:'an extremely peaceful, picturesque scene or period', cn:'田园诗般的安逸时光'},
+        {term:'cross-examination', def:'the questioning of the opposing side\'s witness in court', cn:'交叉盘问（庭审中对对方证人的质证）'},
+        {term:'moral indictment', def:'a condemnation of society\'s ethics', cn:'道德控诉'},
+        {term:'coming-of-age', def:'(of a story) dealing with a young protagonist\'s growth into maturity', cn:'成长题材的'}
+      ],
+      quiz: [
+        {q:'Who narrates the novel?', opts:['Atticus Finch','Scout Finch','Jem Finch','Boo Radley'], ans:1, exp:'Adult Scout looks back on her childhood, giving the novel its distinctive double perspective. 已成年的思考特回望童年，构成小说独特的双重视角。'},
+        {q:'What kind of case does Atticus take on?', opts:['A murder trial','Defending a Black man falsely accused of rape','A land-title dispute','A divorce case'], ans:1, exp:'Defending Tom Robinson becomes the moral center of the novel. 为汤姆·罗宾逊辩护是全书的道德核心。'},
+        {q:'The jury\'s verdict in the Robinson trial is:', opts:['Not guilty','Guilty','A hung jury','The case is dismissed'], ans:1, exp:'Despite Atticus\'s clear case, the all-white jury convicts — exposing the racial machinery of Southern justice. 尽管阿提克斯案情铁证如山，全白人陪审团仍判有罪——小镇司法的种族机器由此暴露。'},
+        {q:'Who ultimately protects the children from Bob Ewell\'s attack?', opts:['Atticus','The sheriff','Boo Radley','Jem alone'], ans:2, exp:'The reclusive neighbor the children have spent years imagining turns out to be their silent guardian. 那个孩子们想象多年的怪人邻居，最终成了他们沉默的守护者。'}
+      ]
+    }
+  ]
+};
+
+window._clActiveAudio = null;
+window._clSpeed = 1;
+
+function _clStopAll() {
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  document.querySelectorAll('.cl-play-btn.playing').forEach(function(b){
+    b.classList.remove('playing');
+    b.innerHTML = '🔊 <span>Read aloud · 朗读</span>';
+  });
+}
+
+function clPlay(id) {
+  var btn = document.getElementById('clplay_' + id);
+  var data = _clFindStory(id);
+  if (!data) return;
+  if (btn.classList.contains('playing')) { _clStopAll(); return; }
+  _clStopAll();
+  btn.classList.add('playing');
+  btn.innerHTML = '⏸ <span>Pause · 暂停</span>';
+  var fullText = data.passage.join(' ');
+  var rate = 1;
+  if (typeof _speak === 'function') {
+    _speak(fullText, btn, rate);
+  } else {
+    try {
+      var u = new SpeechSynthesisUtterance(fullText);
+      u.rate = rate; u.lang = 'en-US';
+      u.onend = function(){ btn.classList.remove('playing'); btn.innerHTML = '🔊 <span>Read aloud · 朗读</span>'; };
+      window.speechSynthesis.speak(u);
+    } catch(e){}
+  }
+  // Safety: clear playing state after estimated duration
+  var est = (fullText.split(' ').length / (2.6 * rate)) * 1000 + 2000;
+  setTimeout(function(){
+    if (btn.classList.contains('playing')) {
+      btn.classList.remove('playing');
+      btn.innerHTML = '🔊 <span>Read aloud · 朗读</span>';
+    }
+  }, est);
+}
+
+function clSetSpeed(id, rate) {
+  window._clSpeed = rate;
+  var box = document.getElementById('clsp_' + id);
+  if (box) box.querySelectorAll('.cl-speed-btn').forEach(function(b){
+    b.classList.toggle('on', parseFloat(b.dataset.rate) === rate);
+  });
+  // If playing, restart at new speed
+  var btn = document.getElementById('clplay_' + id);
+  if (btn && btn.classList.contains('playing')) {
+    _clStopAll();
+    setTimeout(function(){ clPlay(id); }, 120);
+  }
+}
+
+function clToggleCN(id) {
+  var box = document.getElementById('clpassage_' + id);
+  var btn = document.getElementById('clcnb_' + id);
+  if (!box) return;
+  var on = box.classList.toggle('show-cn');
+  if (btn) {
+    btn.classList.toggle('on', on);
+    btn.textContent = on ? '中 隐藏中文' : '中 对照中文';
+  }
+}
+
+function clAnswer(sid, qi, oi) {
+  var data = _clFindStory(sid);
+  if (!data) return;
+  var q = data.quiz[qi];
+  var wrap = document.getElementById('clq_' + sid + '_' + qi);
+  if (!wrap || wrap.dataset.done === '1') return;
+  wrap.dataset.done = '1';
+  var opts = wrap.querySelectorAll('.cl-opt');
+  opts.forEach(function(el, idx){
+    el.style.cursor = 'default';
+    el.onclick = null;
+    if (idx === q.ans) el.classList.add('correct');
+    else if (idx === oi) el.classList.add('wrong');
+  });
+  var exp = document.getElementById('clexp_' + sid + '_' + qi);
+  if (exp) exp.classList.add('show');
+}
+
+function _clFindStory(id) {
+  var data = window.CLASSICS_DATA;
+  for (var k in data) {
+    for (var i = 0; i < data[k].length; i++) if (data[k][i].id === id) return data[k][i];
+  }
+  return null;
+}
+
+function renderClassics() {
+  var yr = (document.getElementById('cl-year') || {}).value || '2026';
+  var mo = (document.getElementById('cl-month') || {}).value || '4';
+  var key = yr + '-' + mo;
+  var stories = (window.CLASSICS_DATA || {})[key] || [];
+  var host = document.getElementById('cl-list');
+  if (!host) return;
+  var info = document.getElementById('cl-month-info');
+  if (info) info.textContent = stories.length + ' 篇精选 · ' + stories.length + ' carefully chosen pieces';
+  if (!stories.length) {
+    host.innerHTML = '<div style="text-align:center;padding:60px;font-family:Playfair Display,Georgia,serif;font-style:italic;color:#8b6a3a">本月文选即将上线 · Coming soon</div>';
+    return;
+  }
+  var html = '';
+  stories.forEach(function(s, idx){
+    var num = ('0' + (idx + 1)).slice(-2);
+    var passageHtml = s.passage.map(function(p, pi){
+      var zh = (s.cn && s.cn[pi]) ? s.cn[pi] : '';
+      return '<div class="cl-prow"><p class="cl-en">' + p + '</p>' +
+             (zh ? '<p class="cl-zh">' + zh + '</p>' : '') + '</div>';
+    }).join('');
+    var notesHtml = (s.notes || []).map(function(n){
+      return '<div class="cl-note"><div class="cl-note-term">' + n.term + '</div>' +
+             '<div class="cl-note-def">' + n.def + (n.cn ? '<span class="cl-zh">' + n.cn + '</span>' : '') + '</div></div>';
+    }).join('');
+    var quizHtml = (s.quiz || []).map(function(q, qi){
+      var opts = q.opts.map(function(o, oi){
+        var letter = String.fromCharCode(65 + oi);
+        return '<button class="cl-opt" onclick="clAnswer(\'' + s.id + '\',' + qi + ',' + oi + ')">' +
+               '<span class="cl-opt-letter">' + letter + '.</span><span>' + o + '</span></button>';
+      }).join('');
+      return '<div class="cl-q" id="clq_' + s.id + '_' + qi + '">' +
+             '<p class="cl-q-stem"><span class="cl-qn">Q' + (qi + 1) + '.</span>' + q.q + '</p>' +
+             '<div class="cl-opts">' + opts + '</div>' +
+             '<div class="cl-q-exp" id="clexp_' + s.id + '_' + qi + '"><em>Answer · 解析:</em> ' + q.exp + '</div>' +
+             '</div>';
+    }).join('');
+    html +=
+      '<div class="cl-card" id="clcard_' + s.id + '">' +
+        '<div class="cl-card-head">' +
+          '<div class="cl-card-num">No. ' + num + ' · 第 ' + (idx + 1) + ' 篇</div>' +
+          '<h2 class="cl-card-title" onclick="clPlay(\'' + s.id + '\')">' + s.title + '</h2>' +
+          '<p class="cl-card-byline">by <strong>' + s.author + '</strong></p>' +
+          '<div class="cl-card-year">' + s.year + ' · Public Domain</div>' +
+        '</div>' +
+        '<div class="cl-author">' +
+          '<div class="cl-author-portrait">' + (s.portrait || s.author.charAt(0)) + '</div>' +
+          '<div class="cl-author-info">' +
+            '<div class="cl-author-label">About the Author · 作者简介</div>' +
+            '<p class="cl-author-bio">' + s.bio + (s.bio_cn ? '<br><span style="font-style:normal;font-family:\'Inter\',sans-serif;font-size:13.5px;color:#8b6a3a">' + s.bio_cn + '</span>' : '') + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cl-passage" id="clpassage_' + s.id + '">' + passageHtml + '</div>' +
+        '<div class="cl-controls">' +
+          '<button class="cl-play-btn" id="clplay_' + s.id + '" onclick="clPlay(\'' + s.id + '\')">🔊 <span>Read aloud · 朗读</span></button>' +
+          '<button class="cl-cn-toggle" id="clcnb_' + s.id + '" onclick="clToggleCN(\'' + s.id + '\')">中 对照中文</button>' +
+        '</div>' +
+        (notesHtml ? '<div class="cl-notes"><h3 class="cl-notes-h">Vocabulary &amp; Notes · 词汇精讲</h3>' + notesHtml + '</div>' : '') +
+        (quizHtml ? '<div class="cl-quiz"><h3 class="cl-quiz-h">Comprehension · 阅读理解</h3>' + quizHtml + '</div>' : '') +
+      '</div>';
+  });
+  host.innerHTML = html;
+}
+
+// Auto-render when Classics page is shown
+(function(){
+  var origShow = window.show;
+  if (typeof origShow === 'function') {
+    window.show = function(p) {
+      origShow(p);
+      if (p === 'classics') {
+        setTimeout(renderClassics, 50);
+      }
+    };
+  }
+})();
 
 </script>
 </body>

@@ -2628,7 +2628,7 @@ function _bindMarkPass(key) {
       var _prefixMap = {
         'learn_':  { cardPre:'vc',    tog:'tog',    nextPage:'learnNextPage',  gridSel:'.vgrid .vc',    idxLen:6 },
         'bay_':    { cardPre:'vcbay', tog:'togBay', nextPage:'bayNextPage',    gridSel:'#baylist .vc',  idxLen:4 },
-        'monthly_':{ cardPre:'mw',    tog:'mwFlip', nextPage:'mwNextPage',     gridSel:'.mw-card',      idxLen:8 },
+        'monthly_':{ cardPre:'mw',    tog:'togMW',  nextPage:'mwNextPage',     gridSel:'.mw-card',      idxLen:8 },
         'cnen_':   { cardPre:'vccn',  tog:'togCNEN',nextPage:null,             gridSel:'#cnen-list .vc',idxLen:5 }
       };
       var _pfx = null, _cfg = null;
@@ -3068,10 +3068,49 @@ function mwGoPage(p){ var cur = window._mwPage||0; window._mwAnimDir = p > cur ?
 function togMW(id) {
   var card = document.getElementById('mw' + id);
   var arr  = document.getElementById('mwarr' + id);
+  if (!card) return;
   var wasOpen = card.classList.contains('open');
   document.querySelectorAll('.mw-card.open').forEach(function(x){ x.classList.remove('open'); });
   document.querySelectorAll('.mw-card .vc-arr').forEach(function(x){ x.textContent = '▼'; });
-  if (!wasOpen) { card.classList.add('open'); arr.textContent = '▲'; setProgress('monthly_' + id, 'learning'); }
+  // clear any pending auto-advance timer
+  if (window._mwAutoTimer) { clearTimeout(window._mwAutoTimer); window._mwAutoTimer = null; }
+  if (!wasOpen) {
+    card.classList.add('open');
+    if (arr) arr.textContent = '▲';
+    setProgress('monthly_' + id, 'learning');
+    // Auto-scroll so the expanded card sits near the top of the viewport
+    setTimeout(function(){
+      var rect = card.getBoundingClientRect();
+      var topbar = document.querySelector('.topbar');
+      var offset = (topbar ? topbar.offsetHeight : 60) + 16;
+      var target = window.pageYOffset + rect.top - offset;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }, 60);
+    // Auto-speak the example sentence
+    setTimeout(function(){
+      var exBtn = document.getElementById('spkexmo' + id) || document.getElementById('spkmo' + id);
+      if (exBtn) exBtn.click();
+    }, 500);
+    // Auto-advance to next card after 8 seconds (user can click another card to cancel)
+    window._mwAutoTimer = setTimeout(function(){
+      window._mwAutoTimer = null;
+      // ensure this card is still the open one
+      if (!card.classList.contains('open')) return;
+      var sib = card.nextElementSibling;
+      while (sib && !sib.classList.contains('mw-card')) sib = sib.nextElementSibling;
+      if (sib) {
+        var nextId = sib.id.replace('mw','');
+        togMW(nextId);
+      } else if (typeof mwNextPage === 'function') {
+        try { toast && toast('➡️ 进入下一页…', 'ok'); } catch(e){}
+        mwNextPage();
+        setTimeout(function(){
+          var first = document.querySelector('.mw-card');
+          if (first) { var fid = first.id.replace('mw',''); togMW(fid); }
+        }, 700);
+      }
+    }, 8000);
+  }
 }
 
 // ── DAILY HOMEWORK DATA & FUNCTIONS ──────
@@ -8890,12 +8929,15 @@ function _wbrRender() {
     distractors.push('（无其他选项）' + distractors.length);
   }
   var opts = _wbrShuffle([correct].concat(distractors));
+  // Stash options on state so the click handler can look them up by index
+  // (avoids breaking the onclick attribute when option text contains quotes/special chars)
+  s._opts = opts;
 
   var pct = ((s.cur) / s.total * 100).toFixed(0);
   var tc = item.type==='idiom' ? 't-idiom' : item.type==='phrase' ? 't-phrase' : 't-vocab';
   var optsHtml = opts.map(function(opt, i){
-    var safe = (opt+'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    return '<button class="wbr-opt" id="wbropt' + i + '" onclick="wbrPick(' + i + ',' + JSON.stringify(opt) + ')">' + safe + '</button>';
+    var safe = (opt+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return '<button class="wbr-opt" id="wbropt' + i + '" onclick="wbrPick(' + i + ')">' + safe + '</button>';
   }).join('');
 
   c.innerHTML =
@@ -8922,6 +8964,10 @@ function wbrPick(idx, chosen) {
   var s = wbrState;
   var item = s.items[s.cur];
   var correct = item.meaning;
+  // Prefer the index-based lookup (new), fall back to arg for backward compat
+  if (typeof chosen === 'undefined' && s._opts && typeof idx === 'number') {
+    chosen = s._opts[idx];
+  }
   var isOk = (chosen === correct);
   if (isOk) { s.score++; s.correctIds.push(item.id); }
 
@@ -8943,7 +8989,8 @@ function wbrPick(idx, chosen) {
       (isOk ? '✅ 正确！' : '❌ 错了') +
       '<div class="wbr-right">' + item.phrase + ' → ' + correct + '</div>' +
       cnHtml + exHtml +
-    '</div>';
+    '</div>' +
+    '<button class="wbr-next-btn" onclick="wbrNext()" style="margin-top:14px;width:100%;padding:14px;background:linear-gradient(135deg,#5b8def,#3b82f6);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.3px;box-shadow:0 6px 16px rgba(91,141,239,.35);transition:transform .2s, box-shadow .2s" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 10px 22px rgba(91,141,239,.5)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'0 6px 16px rgba(91,141,239,.35)\'">下一题 Next →</button>';
   }
 
   // Auto-advance
@@ -8960,6 +9007,18 @@ function wbrPick(idx, chosen) {
       if (card && card.scrollIntoView) card.scrollIntoView({behavior:'smooth', block:'start'});
     }, 60);
   }, delay);
+}
+
+function wbrNext() {
+  if (!wbrState) return;
+  if (wbrState._timer) { clearTimeout(wbrState._timer); wbrState._timer = null; }
+  wbrState.cur++;
+  wbrState.answered = false;
+  _wbrRender();
+  setTimeout(function(){
+    var card = document.querySelector('#wblist .wbr-card');
+    if (card && card.scrollIntoView) card.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 60);
 }
 
 function _wbrShowResult() {

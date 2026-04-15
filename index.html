@@ -36431,13 +36431,13 @@ sentences:[
         '</div>' +
       '</div>' +
     '</div>';
-    var caEntry = '<div class="caprep-entry" onclick="openCAPrep()">' +
+    var caEntry = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库">' +
       '<div class="caprep-entry-ico">🎓</div>' +
       '<div class="caprep-entry-body">' +
         '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
         '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
       '</div>' +
-      '<div class="caprep-entry-arrow">→</div>' +
+      '<div class="caprep-entry-cta">进入题库 →</div>' +
     '</div>';
     c.innerHTML =
       '<div class="plmb-hero">' +
@@ -36809,13 +36809,19 @@ sentences:[
   }
 </script>
 <style>
-.caprep-entry{display:flex;align-items:center;gap:14px;padding:18px 22px;margin:20px 0 18px;background:linear-gradient(135deg,#2a3558,#4a5a7a);border-radius:14px;color:#fff;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 10px 30px rgba(42,53,88,.3)}
-.caprep-entry:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(42,53,88,.45)}
-.caprep-entry-ico{font-size:32px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
-.caprep-entry-body{flex:1}
-.caprep-entry-title{font-size:18px;font-weight:700;letter-spacing:.02em;margin-bottom:4px}
-.caprep-entry-sub{font-size:13px;color:rgba(255,255,255,.8);letter-spacing:.05em}
-.caprep-entry-arrow{font-size:24px;color:#c9a96a}
+.caprep-entry{display:flex;align-items:center;gap:18px;padding:26px 30px;margin:22px 0 22px;background:linear-gradient(135deg,#b8860b 0%,#d4a84b 40%,#c9774a 100%);border-radius:18px;color:#fff;cursor:pointer;transition:transform .25s,box-shadow .25s,filter .25s;box-shadow:0 14px 40px rgba(184,134,11,.45),inset 0 1px 0 rgba(255,255,255,.22);position:relative;overflow:hidden;border:2px solid rgba(255,235,180,.55);animation:caprepPulse 2.6s ease-in-out infinite}
+.caprep-entry::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.25),transparent 55%);pointer-events:none}
+.caprep-entry::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);animation:caprepShine 3.2s ease-in-out infinite;pointer-events:none}
+.caprep-entry:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 22px 55px rgba(184,134,11,.6),inset 0 1px 0 rgba(255,255,255,.3);filter:brightness(1.06)}
+.caprep-entry:active{transform:translateY(-1px) scale(.995)}
+.caprep-entry-ico{font-size:42px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35));position:relative;z-index:1}
+.caprep-entry-body{flex:1;position:relative;z-index:1}
+.caprep-entry-title{font-size:22px;font-weight:800;letter-spacing:.02em;margin-bottom:6px;text-shadow:0 2px 6px rgba(0,0,0,.28)}
+.caprep-entry-sub{font-size:14px;color:rgba(255,255,255,.92);letter-spacing:.04em;font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,.22)}
+.caprep-entry-cta{font-size:13px;font-weight:700;color:#fff;background:rgba(0,0,0,.28);padding:8px 16px;border-radius:999px;letter-spacing:.06em;position:relative;z-index:1;border:1px solid rgba(255,255,255,.35);white-space:nowrap}
+.caprep-entry-arrow{display:none}
+@keyframes caprepPulse{0%,100%{box-shadow:0 14px 40px rgba(184,134,11,.45),inset 0 1px 0 rgba(255,255,255,.22)}50%{box-shadow:0 18px 50px rgba(201,119,74,.55),inset 0 1px 0 rgba(255,255,255,.28)}}
+@keyframes caprepShine{0%{left:-60%}60%{left:120%}100%{left:120%}}
 .caprep-wrap{max-width:960px;margin:0 auto;padding:30px 20px 60px}
 .caprep-back{background:transparent;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:18px;font-weight:600}
 .caprep-back:hover{background:var(--card2)}

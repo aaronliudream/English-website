@@ -36431,6 +36431,14 @@ sentences:[
         '</div>' +
       '</div>' +
     '</div>';
+    var caEntry = '<div class="caprep-entry" onclick="openCAPrep()">' +
+      '<div class="caprep-entry-ico">🎓</div>' +
+      '<div class="caprep-entry-body">' +
+        '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
+        '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
+      '</div>' +
+      '<div class="caprep-entry-arrow">→</div>' +
+    '</div>';
     c.innerHTML =
       '<div class="plmb-hero">' +
         '<h1>🔧 American Plumbing Engineering English · 水管工程英语 · 零基础 20 课 + 6 综合测试</h1>' +
@@ -36444,6 +36452,7 @@ sentences:[
         '</div>' +
       '</div>' +
       dash +
+      caEntry +
       '<div class="plmb-grid">' + cards + '</div>';
   }
 
@@ -36783,6 +36792,241 @@ sentences:[
     document.addEventListener('DOMContentLoaded', renderGrid);
   } else {
     renderGrid();
+  }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     CA PLUMBER LICENSE PREP · 加州执照备考题库
+     Data file loaded separately
+     ═══════════════════════════════════════════ -->
+<script src="ca_prep_exams.js"></script>
+<style>
+.caprep-entry{display:flex;align-items:center;gap:14px;padding:18px 22px;margin:20px 0 18px;background:linear-gradient(135deg,#2a3558,#4a5a7a);border-radius:14px;color:#fff;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 10px 30px rgba(42,53,88,.3)}
+.caprep-entry:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(42,53,88,.45)}
+.caprep-entry-ico{font-size:32px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.caprep-entry-body{flex:1}
+.caprep-entry-title{font-size:18px;font-weight:700;letter-spacing:.02em;margin-bottom:4px}
+.caprep-entry-sub{font-size:13px;color:rgba(255,255,255,.8);letter-spacing:.05em}
+.caprep-entry-arrow{font-size:24px;color:#c9a96a}
+.caprep-wrap{max-width:960px;margin:0 auto;padding:30px 20px 60px}
+.caprep-back{background:transparent;border:1px solid var(--border);border-radius:6px;padding:8px 14px;font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:18px;font-weight:600}
+.caprep-back:hover{background:var(--card2)}
+.caprep-hero{background:linear-gradient(135deg,#2a3558 0%,#3d4b7a 60%,#1e2640 100%);color:#fff;padding:32px 30px;border-radius:16px;margin-bottom:22px;box-shadow:0 18px 40px rgba(26,30,56,.3)}
+.caprep-hero h2{font-family:'Playfair Display',Georgia,serif;font-size:26px;margin:0 0 6px;font-weight:500;letter-spacing:.02em;color:#f4e8d0}
+.caprep-hero p{color:rgba(244,232,208,.82);font-size:14px;line-height:1.6;margin:0}
+.caprep-sections{display:grid;grid-template-columns:1fr;gap:16px}
+.caprep-section-card{background:var(--card);border:1px solid var(--border);border-left:5px solid #c9a96a;border-radius:12px;padding:22px 24px;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s;position:relative}
+.caprep-section-card:hover{transform:translateY(-2px);background:#fcfaf4;box-shadow:0 14px 30px rgba(26,30,56,.1)}
+.caprep-section-card[data-done="true"]{border-left-color:#5f7a4a}
+.caprep-section-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.caprep-section-emoji{font-size:34px}
+.caprep-section-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:.02em}
+.caprep-section-title-en{font-size:12px;color:var(--text3);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.caprep-section-desc{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:12px}
+.caprep-section-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:12px;color:var(--text3)}
+.caprep-section-chip{background:var(--card2);padding:4px 10px;border-radius:999px;font-weight:600}
+.caprep-section-chip.score{color:#fff;font-weight:700}
+.caprep-section-bar{margin-top:10px;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.caprep-section-barfill{height:100%;background:linear-gradient(90deg,#c9a96a,#e6cd8a);border-radius:3px;transition:width .5s}
+.caprep-pager{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin:18px 0;position:sticky;top:12px;z-index:5;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.caprep-pager-info{font-size:13px;color:var(--text2);font-weight:600}
+.caprep-pager-btns{display:flex;gap:8px}
+.caprep-pager-btn{padding:7px 14px;background:var(--card2);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text)}
+.caprep-pager-btn:hover{background:#c9a96a;color:#fff;border-color:#c9a96a}
+.caprep-pager-btn:disabled{opacity:.4;cursor:not-allowed}
+.caprep-q{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:14px;transition:box-shadow .2s}
+.caprep-q:hover{box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.caprep-q-num{display:inline-block;background:#2a3558;color:#fff;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.05em}
+.caprep-q-text{font-size:15px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:500}
+.caprep-q-opts{display:flex;flex-direction:column;gap:8px}
+.caprep-q-opt{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;text-align:left;font-size:14px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.5}
+.caprep-q-opt:hover:not(:disabled){border-color:#c9a96a;background:#fdf8eb}
+.caprep-q-opt:disabled{cursor:default}
+.caprep-q-opt.correct{background:rgba(95,122,74,.12);border-color:#5f7a4a;color:#3a5030;font-weight:600}
+.caprep-q-opt.wrong{background:rgba(139,58,58,.1);border-color:#8b3a3a;color:#6e2a2a;font-weight:600}
+.caprep-q-ex{margin-top:12px;padding:10px 14px;background:rgba(201,169,106,.1);border-left:3px solid #c9a96a;border-radius:4px;font-size:13px;color:var(--text2);line-height:1.6}
+.caprep-summary{background:linear-gradient(135deg,#2a3558,#4a5a7a);color:#fff;padding:20px 24px;border-radius:12px;margin-bottom:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center}
+.caprep-sum-lbl{font-size:11px;color:rgba(244,232,208,.7);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px}
+.caprep-sum-val{font-size:22px;font-weight:800;color:#f4e8d0}
+.caprep-result{padding:22px 26px;border-radius:12px;margin:18px 0;text-align:center}
+.caprep-result.pass{background:linear-gradient(135deg,rgba(95,122,74,.14),rgba(139,165,107,.08));border:1px solid #5f7a4a;color:#3a5030}
+.caprep-result.fail{background:linear-gradient(135deg,rgba(139,58,58,.12),rgba(176,90,90,.06));border:1px solid #8b3a3a;color:#6e2a2a}
+.caprep-result-title{font-size:20px;font-weight:800;margin-bottom:6px}
+.caprep-result-sub{font-size:13px;opacity:.85}
+.caprep-reset{margin-top:14px;padding:9px 18px;background:#c9a96a;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:13px}
+.caprep-reset:hover{background:#a8884a}
+@media(max-width:600px){.caprep-summary{grid-template-columns:repeat(2,1fr)}.caprep-pager{flex-wrap:wrap;gap:8px}}
+</style>
+
+<!-- CA Prep hub container (injected into Plumber page via JS) -->
+<div id="caprep-root" style="display:none"></div>
+
+<script>
+(function(){
+  if (!window.CA_PREP) return;
+  var PAGE_SIZE = 20;
+  var state = { view:'hub', sectionId:null, page:0, answers:{} };
+
+  function loadSec(sid){ try{ var r=localStorage.getItem('caprep_'+sid); return r?JSON.parse(r):{ans:{},score:0}; }catch(e){return {ans:{},score:0};} }
+  function saveSec(sid,d){ localStorage.setItem('caprep_'+sid, JSON.stringify(d)); }
+  function getSec(sid){ return CA_PREP.sections.find(function(s){return s.id===sid;}); }
+  function secStats(sid){
+    var s=getSec(sid); if(!s) return {total:0,answered:0,score:0,pct:0,done:false,pass:false};
+    var d=loadSec(sid), tot=s.questions.length, ans=Object.keys(d.ans||{}).length;
+    var pct=tot?Math.round((d.score||0)/tot*100):0;
+    return {total:tot,answered:ans,score:d.score||0,pct:pct,done:ans>=tot,pass:ans>=tot&&pct>=CA_PREP.passPct};
+  }
+
+  window.openCAPrep = function(){
+    state.view='hub'; state.sectionId=null; state.page=0;
+    var host = findHost();
+    if (!host) return;
+    // Hide plumber's main content, show our wrapper
+    var plmbMain = document.getElementById('plmb-main');
+    if (plmbMain) plmbMain.style.display='none';
+    var root = document.getElementById('caprep-root');
+    root.style.display='block';
+    // Move root next to plumber-main if not already a sibling
+    if (plmbMain && plmbMain.parentNode && root.parentNode !== plmbMain.parentNode) {
+      plmbMain.parentNode.insertBefore(root, plmbMain.nextSibling);
+    }
+    renderHub();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  window.closeCAPrep = function(){
+    var plmbMain = document.getElementById('plmb-main');
+    if (plmbMain) plmbMain.style.display='';
+    document.getElementById('caprep-root').style.display='none';
+  };
+  function findHost(){ return document.getElementById('caprep-root'); }
+
+  function renderHub(){
+    state.view='hub';
+    var root = findHost();
+    var cards = CA_PREP.sections.map(function(s){
+      var st = secStats(s.id);
+      var statusChip = st.pass ? '<span class="caprep-section-chip score" style="background:#5f7a4a">🏆 已通过 '+st.pct+'%</span>'
+        : st.done ? '<span class="caprep-section-chip score" style="background:#8b3a3a">⚠️ 未过关 '+st.pct+'%</span>'
+        : st.answered>0 ? '<span class="caprep-section-chip score" style="background:#c9a96a">🧪 进行中 '+st.answered+'/'+st.total+'</span>'
+        : '<span class="caprep-section-chip">⬜ 未开始</span>';
+      var doneAttr = st.pass ? 'true' : 'false';
+      var pct = st.total ? Math.round(st.answered/st.total*100) : 0;
+      return '<div class="caprep-section-card" data-done="'+doneAttr+'" onclick="_caprepOpen(\''+s.id+'\')">' +
+        '<div class="caprep-section-head">' +
+          '<div class="caprep-section-emoji">'+s.emoji+'</div>' +
+          '<div><div class="caprep-section-title">'+s.title+'</div><div class="caprep-section-title-en">'+s.titleEn+'</div></div>' +
+        '</div>' +
+        '<div class="caprep-section-desc">'+s.desc+'</div>' +
+        '<div class="caprep-section-meta">' +
+          '<span class="caprep-section-chip">📝 '+s.questions.length+' 题</span>' +
+          '<span class="caprep-section-chip">🎯 过关 '+CA_PREP.passPct+'%</span>' +
+          statusChip +
+        '</div>' +
+        '<div class="caprep-section-bar"><div class="caprep-section-barfill" style="width:'+pct+'%"></div></div>' +
+      '</div>';
+    }).join('');
+    root.innerHTML =
+      '<div class="caprep-wrap">' +
+        '<button class="caprep-back" onclick="closeCAPrep()">← 返回水管工程英语</button>' +
+        '<div class="caprep-hero">' +
+          '<h2>🎓 加州水管工执照备考题库</h2>' +
+          '<p>California Plumber License Prep · 3 大板块 × 100 道中英对照选择题 · 70% 过关 · 答题与成绩自动保存</p>' +
+        '</div>' +
+        '<div class="caprep-sections">'+cards+'</div>' +
+      '</div>';
+  }
+
+  window._caprepOpen = function(sid){
+    state.view='sec'; state.sectionId=sid; state.page=0;
+    renderSection();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  window._caprepBack = function(){ renderHub(); window.scrollTo({top:0,behavior:'smooth'}); };
+  window._caprepPage = function(delta){
+    var s=getSec(state.sectionId); if(!s) return;
+    var maxPage = Math.ceil(s.questions.length/PAGE_SIZE)-1;
+    state.page = Math.max(0, Math.min(maxPage, state.page+delta));
+    renderSection();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  window._caprepAns = function(sid, qi, oi){
+    var s=getSec(sid); if(!s) return;
+    var d=loadSec(sid);
+    if (d.ans[qi] !== undefined) return;
+    d.ans[qi] = oi;
+    if (oi === s.questions[qi].a) d.score = (d.score||0)+1;
+    saveSec(sid,d);
+    renderSection();
+  };
+  window._caprepReset = function(sid){
+    if (!confirm('重置本板块所有答案? 此操作不可撤销。')) return;
+    saveSec(sid,{ans:{},score:0});
+    state.page=0;
+    renderSection();
+  };
+
+  function renderSection(){
+    var s=getSec(state.sectionId); if(!s){renderHub();return;}
+    var d=loadSec(s.id);
+    var total=s.questions.length;
+    var maxPage = Math.ceil(total/PAGE_SIZE)-1;
+    var start=state.page*PAGE_SIZE, end=Math.min(start+PAGE_SIZE,total);
+    var st=secStats(s.id);
+
+    var qsHtml = '';
+    for (var i=start; i<end; i++){
+      var qz=s.questions[i], ans=d.ans[i];
+      var opts = qz.o.map(function(opt, oi){
+        var cls='caprep-q-opt', dis='';
+        if (ans !== undefined){
+          dis='disabled';
+          if (oi===qz.a) cls+=' correct';
+          else if (oi===ans) cls+=' wrong';
+        }
+        return '<button class="'+cls+'" '+dis+' onclick="_caprepAns(\''+s.id+'\','+i+','+oi+')">'+String.fromCharCode(65+oi)+'. '+opt+'</button>';
+      }).join('');
+      var exHtml = ans !== undefined ? '<div class="caprep-q-ex">💡 '+(qz.ex||'')+'</div>' : '';
+      qsHtml += '<div class="caprep-q">' +
+        '<div class="caprep-q-num">Q'+(i+1)+' / '+total+'</div>' +
+        '<div class="caprep-q-text">'+qz.q+'</div>' +
+        '<div class="caprep-q-opts">'+opts+'</div>' +
+        exHtml +
+      '</div>';
+    }
+
+    var summary = '<div class="caprep-summary">' +
+      '<div><div class="caprep-sum-lbl">Progress 进度</div><div class="caprep-sum-val">'+st.answered+' / '+total+'</div></div>' +
+      '<div><div class="caprep-sum-lbl">Score 得分</div><div class="caprep-sum-val">'+st.score+' / '+total+'</div></div>' +
+      '<div><div class="caprep-sum-lbl">Pct 百分比</div><div class="caprep-sum-val">'+st.pct+'%</div></div>' +
+      '<div><div class="caprep-sum-lbl">Pass 过关</div><div class="caprep-sum-val" style="color:'+(st.pass?'#90c97b':st.done?'#f5a67b':'#f4e8d0')+'">'+CA_PREP.passPct+'%</div></div>' +
+    '</div>';
+
+    var result='';
+    if (st.done){
+      result = st.pass ?
+        '<div class="caprep-result pass"><div class="caprep-result-title">🏆 恭喜! 本板块通过</div><div class="caprep-result-sub">得分 '+st.score+'/'+total+' ('+st.pct+'%) · 建议继续下一板块</div></div>' :
+        '<div class="caprep-result fail"><div class="caprep-result-title">📖 还差一点</div><div class="caprep-result-sub">得分 '+st.score+'/'+total+' ('+st.pct+'%) · 需 ≥ '+CA_PREP.passPct+'%,建议复习错题重考</div></div>';
+    }
+
+    var pager = '<div class="caprep-pager">' +
+      '<div class="caprep-pager-info">📖 第 '+(state.page+1)+' / '+(maxPage+1)+' 页 · 题 '+(start+1)+'-'+end+'</div>' +
+      '<div class="caprep-pager-btns">' +
+        '<button class="caprep-pager-btn" onclick="_caprepPage(-1)" '+(state.page<=0?'disabled':'')+'>← 上一页</button>' +
+        '<button class="caprep-pager-btn" onclick="_caprepPage(1)" '+(state.page>=maxPage?'disabled':'')+'>下一页 →</button>' +
+        '<button class="caprep-pager-btn" style="background:#8b3a3a;color:#fff;border-color:#8b3a3a" onclick="_caprepReset(\''+s.id+'\')">🔄 重置</button>' +
+      '</div>' +
+    '</div>';
+
+    findHost().innerHTML =
+      '<div class="caprep-wrap">' +
+        '<button class="caprep-back" onclick="_caprepBack()">← 返回板块列表</button>' +
+        '<div class="caprep-hero">' +
+          '<h2>'+s.emoji+' '+s.title+'</h2>' +
+          '<p>'+s.titleEn+' · '+s.desc+'</p>' +
+        '</div>' +
+        summary + result + pager + qsHtml + pager +
+      '</div>';
   }
 })();
 </script>

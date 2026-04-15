@@ -36802,10 +36802,16 @@ sentences:[
      ═══════════════════════════════════════════ -->
 <script src="ca_prep_exams.js"></script>
 <script src="ca_prep_s2.js"></script>
+<script src="ca_prep_s3.js"></script>
 <script>
-  // Merge bilingual Block 2 (Law & Business) into CA_PREP
-  if (window.CA_PREP && window.CA_PREP_S2 && window.CA_PREP.sections && window.CA_PREP.sections[1]) {
-    window.CA_PREP.sections[1].questions = window.CA_PREP_S2;
+  // Merge bilingual Block 2 (Law & Business) & Block 3 (C-36 Plumbing Trade) into CA_PREP
+  if (window.CA_PREP && window.CA_PREP.sections) {
+    if (window.CA_PREP_S2 && window.CA_PREP.sections[1]) {
+      window.CA_PREP.sections[1].questions = window.CA_PREP_S2;
+    }
+    if (window.CA_PREP_S3 && window.CA_PREP.sections[2]) {
+      window.CA_PREP.sections[2].questions = window.CA_PREP_S3;
+    }
   }
 </script>
 <style>

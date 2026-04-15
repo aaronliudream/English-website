@@ -5,6 +5,137 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aaron's English Hub</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ═══════════════════════════════════════════
+   MULTI-PROFILE SHIM · 多用户档案系统
+   所有 localStorage.* 自动加前缀 p_{profile}_
+   例外：以 "__sys_" 开头的 key 全局共享
+   ═══════════════════════════════════════════ */
+(function(){
+  try {
+    var SYS = '__sys_';
+    var PKEY = SYS + 'profile';
+    var LKEY = SYS + 'profiles_list';
+    function getP(){ try{ return window.localStorage.getItem(PKEY) || 'default'; }catch(e){ return 'default'; } }
+    function setP(n){ try{ window.localStorage.setItem(PKEY, n); }catch(e){} }
+    function listP(){
+      try{
+        var raw = window.localStorage.getItem(LKEY);
+        var a = raw ? JSON.parse(raw) : null;
+        if (!a || !a.length) a = ['default'];
+        if (a.indexOf(getP()) < 0) a.push(getP());
+        return a;
+      }catch(e){ return ['default']; }
+    }
+    function saveList(a){ try{ window.localStorage.setItem(LKEY, JSON.stringify(a)); }catch(e){} }
+    function nsKey(k){ if (!k) return k; if (k.indexOf(SYS) === 0) return k; return 'p_' + getP() + '_' + k; }
+
+    // Preserve originals
+    var proto = Storage.prototype;
+    var _get = proto.getItem;
+    var _set = proto.setItem;
+    var _del = proto.removeItem;
+    var _key = proto.key;
+    proto.getItem = function(k){ return _get.call(this, nsKey(k)); };
+    proto.setItem = function(k,v){ return _set.call(this, nsKey(k), v); };
+    proto.removeItem = function(k){ return _del.call(this, nsKey(k)); };
+    // key(i) / length left alone — rarely used
+
+    // Public API for UI
+    window.__profiles = {
+      current: getP,
+      set: function(n){
+        n = (n+'').trim().replace(/[^a-zA-Z0-9_\u4e00-\u9fa5]/g,'').slice(0,20);
+        if (!n) return;
+        var a = listP();
+        if (a.indexOf(n) < 0) { a.push(n); saveList(a); }
+        setP(n);
+        try { location.reload(); } catch(e){}
+      },
+      create: function(n){
+        n = (n+'').trim().replace(/[^a-zA-Z0-9_\u4e00-\u9fa5]/g,'').slice(0,20);
+        if (!n) return;
+        var a = listP();
+        if (a.indexOf(n) < 0) { a.push(n); saveList(a); }
+        setP(n);
+        try { location.reload(); } catch(e){}
+      },
+      list: listP,
+      exportData: function(){
+        var p = getP();
+        var pref = 'p_' + p + '_';
+        var out = { profile:p, exportedAt:new Date().toISOString(), data:{} };
+        for (var i=0;i<window.localStorage.length;i++){
+          var rawKey = _key.call(window.localStorage, i);
+          if (rawKey && rawKey.indexOf(pref) === 0){
+            out.data[rawKey.slice(pref.length)] = _get.call(window.localStorage, rawKey);
+          }
+        }
+        var blob = new Blob([JSON.stringify(out,null,2)], {type:'application/json'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'aaron-english-' + p + '-' + (new Date().toISOString().slice(0,10)) + '.json';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      },
+      importData: function(file, targetName){
+        return new Promise(function(resolve, reject){
+          var r = new FileReader();
+          r.onload = function(){
+            try {
+              var obj = JSON.parse(r.result);
+              var name = (targetName || obj.profile || 'imported').trim();
+              var a = listP();
+              if (a.indexOf(name) < 0) { a.push(name); saveList(a); }
+              var pref = 'p_' + name + '_';
+              Object.keys(obj.data || {}).forEach(function(k){
+                _set.call(window.localStorage, pref + k, obj.data[k]);
+              });
+              setP(name);
+              resolve(name);
+            } catch(e){ reject(e); }
+          };
+          r.onerror = reject;
+          r.readAsText(file);
+        });
+      },
+      rename: function(oldN, newN){
+        newN = (newN+'').trim().replace(/[^a-zA-Z0-9_\u4e00-\u9fa5]/g,'').slice(0,20);
+        if (!newN || oldN===newN) return;
+        var a = listP(); var idx = a.indexOf(oldN); if (idx<0) return;
+        var oldPref = 'p_' + oldN + '_'; var newPref = 'p_' + newN + '_';
+        var moves = [];
+        for (var i=0;i<window.localStorage.length;i++){
+          var rk = _key.call(window.localStorage, i);
+          if (rk && rk.indexOf(oldPref) === 0) moves.push(rk);
+        }
+        moves.forEach(function(rk){
+          var v = _get.call(window.localStorage, rk);
+          _set.call(window.localStorage, newPref + rk.slice(oldPref.length), v);
+          _del.call(window.localStorage, rk);
+        });
+        a[idx] = newN; saveList(a);
+        if (getP() === oldN) setP(newN);
+        try{ location.reload(); }catch(e){}
+      },
+      remove: function(n){
+        if (n === 'default') return;
+        var a = listP(); var idx = a.indexOf(n); if (idx<0) return;
+        var pref = 'p_' + n + '_';
+        var toDel = [];
+        for (var i=0;i<window.localStorage.length;i++){
+          var rk = _key.call(window.localStorage, i);
+          if (rk && rk.indexOf(pref) === 0) toDel.push(rk);
+        }
+        toDel.forEach(function(rk){ _del.call(window.localStorage, rk); });
+        a.splice(idx,1); saveList(a);
+        if (getP() === n) setP('default');
+        try{ location.reload(); }catch(e){}
+      }
+    };
+  } catch(e){ console.error('[profile shim]', e); }
+})();
+</script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -146,8 +277,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .grade-card::after{content:'→';position:absolute;right:24px;bottom:24px;font-size:20px;color:var(--text3);transition:transform .25s,color .25s}
 .grade-card:hover::after{transform:translateX(6px);color:#d97757}
 .grade-card .gc-icon{font-size:24px;margin-bottom:18px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#f5f1ea;border-radius:6px}
-.grade-card .gc-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
-.grade-card .gc-title-cn{font-size:12px;color:var(--text3);margin-bottom:14px;font-weight:500;letter-spacing:.1em}
+.grade-card .gc-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.grade-card .gc-title-cn{font-size:17px;color:#4a5a7a;margin-bottom:16px;font-weight:600;letter-spacing:.04em;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+[data-theme="dark"] .grade-card .gc-title-cn{color:#a8b5d1}
 .grade-card .gc-sub{font-size:13px;color:var(--text2);line-height:1.65;font-weight:400;flex:1}
 .grade-card .gc-tag{display:inline-block;font-size:10px;font-weight:600;padding:4px 10px;border-radius:3px;margin-top:16px;letter-spacing:.1em;text-transform:uppercase;align-self:flex-start;background:transparent!important;color:#d97757;border:1px solid rgba(217,119,87,.3)}
 .hero-features{max-width:1100px;margin:0 auto;padding:60px 24px 50px}
@@ -1648,6 +1780,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <div class="dd-label">系统学习</div>
         <button class="dd-item" onclick="ddGo('course')"><span class="dd-ico">📖</span>Course 系统课程</button>
         <button class="dd-item" onclick="ddGo('bayarea')"><span class="dd-ico">💼</span>Workplace 职场英语</button>
+        <button class="dd-item" onclick="ddGo('plumber')"><span class="dd-ico">🔧</span>Plumber 水管工英语</button>
         <button class="dd-item" onclick="ddGo('monthly')"><span class="dd-ico">🔥</span>美国月度流行热词</button>
         <button class="dd-item" onclick="ddGo('cnen')"><span class="dd-ico">🀄</span>CN→EN 汉译英</button>
         <button class="dd-item" onclick="ddGo('classics')"><span class="dd-ico">📜</span>美国最经典小说选读</button>
@@ -1660,6 +1793,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:6px">
+    <button class="profile-btn" id="profile-btn" onclick="_profileOpen()" title="切换档案 / Switch profile">
+      <span class="profile-ico">👤</span><span class="profile-name" id="profile-name-lbl">default</span>
+    </button>
     <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="切换 浅色/深色 · Toggle light/dark">
       <span class="th-ico-light">☾</span><span class="th-ico-dark">☀</span>
       <span class="th-label">深色</span>
@@ -1667,6 +1803,104 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div id="tbr"></div>
   </div>
 </div>
+
+<!-- Profile modal -->
+<div id="profile-modal" class="profile-modal" style="display:none" onclick="if(event.target===this)_profileClose()">
+  <div class="profile-box">
+    <div class="profile-head">
+      <span>👤 学习档案 Profiles</span>
+      <button class="profile-x" onclick="_profileClose()">×</button>
+    </div>
+    <div class="profile-body" id="profile-body"></div>
+    <div class="profile-foot">
+      <input type="text" id="profile-new-name" placeholder="新档案名（支持中英文）" maxlength="20" class="profile-input">
+      <button class="profile-add" onclick="_profileAddNew()">＋ 新建</button>
+    </div>
+    <div class="profile-foot" style="margin-top:8px">
+      <button class="profile-io" onclick="window.__profiles.exportData()">📤 导出当前档案</button>
+      <label class="profile-io" style="cursor:pointer">
+        📥 导入档案
+        <input type="file" accept="application/json" style="display:none" onchange="_profileImport(event)">
+      </label>
+    </div>
+    <div style="font-size:11px;color:var(--text3);padding:10px 14px;line-height:1.5">
+      档案只保存在本浏览器。换电脑或浏览器,请先"导出"保存 JSON 文件,再在新设备"导入"。
+    </div>
+  </div>
+</div>
+<style>
+.profile-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;color:var(--text);font-weight:600;transition:all .2s}
+.profile-btn:hover{background:var(--card2);border-color:var(--blue)}
+.profile-ico{font-size:14px}
+.profile-name{max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.profile-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;animation:pmFade .2s}
+@keyframes pmFade{from{opacity:0}to{opacity:1}}
+.profile-box{background:var(--card);border-radius:16px;max-width:440px;width:100%;max-height:85vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);border:1px solid var(--border)}
+.profile-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;font-size:16px;font-weight:700;border-bottom:1px solid var(--border);color:var(--text)}
+.profile-x{background:none;border:none;font-size:22px;color:var(--text3);cursor:pointer;line-height:1}
+.profile-body{padding:10px}
+.profile-row{display:flex;align-items:center;gap:8px;padding:10px 12px;margin:4px 0;border-radius:10px;background:var(--card2);border:1px solid var(--border);transition:all .2s}
+.profile-row.active{background:linear-gradient(90deg,rgba(68,118,214,.1),rgba(68,118,214,.02));border-color:var(--blue)}
+.profile-row-name{flex:1;font-weight:600;color:var(--text);font-size:14px}
+.profile-row-badge{font-size:11px;color:var(--blue);font-weight:700}
+.profile-row-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;color:var(--text2);transition:all .15s}
+.profile-row-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.profile-row-btn.danger:hover{background:var(--red);border-color:var(--red)}
+.profile-foot{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border)}
+.profile-input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card2);color:var(--text);font-size:13px}
+.profile-add,.profile-io{padding:8px 14px;background:var(--blue);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.profile-io{background:var(--card2);color:var(--text);border:1px solid var(--border)}
+.profile-add:hover{opacity:.9}
+.profile-io:hover{background:var(--card);border-color:var(--blue)}
+</style>
+<script>
+window._profileOpen = function(){
+  var m = document.getElementById('profile-modal'); if (!m) return;
+  _profileRenderList();
+  m.style.display = 'flex';
+};
+window._profileClose = function(){
+  var m = document.getElementById('profile-modal'); if (m) m.style.display = 'none';
+};
+window._profileRenderList = function(){
+  var c = document.getElementById('profile-body'); if (!c) return;
+  var cur = window.__profiles.current();
+  var list = window.__profiles.list();
+  c.innerHTML = list.map(function(n){
+    var isCur = n === cur;
+    return '<div class="profile-row '+(isCur?'active':'')+'">' +
+      '<span style="font-size:18px">'+(isCur?'✅':'👤')+'</span>' +
+      '<div class="profile-row-name">'+n+(isCur?' <span class="profile-row-badge">当前</span>':'')+'</div>' +
+      (isCur ? '' : '<button class="profile-row-btn" onclick="window.__profiles.set(\''+n+'\')">切换</button>') +
+      (n !== 'default' && !isCur ? '<button class="profile-row-btn danger" onclick="_profileDelete(\''+n+'\')">删除</button>' : '') +
+    '</div>';
+  }).join('');
+};
+window._profileAddNew = function(){
+  var inp = document.getElementById('profile-new-name');
+  if (!inp || !inp.value.trim()) return;
+  window.__profiles.create(inp.value);
+};
+window._profileDelete = function(n){
+  if (!confirm('确认删除档案 "'+n+'" 的所有学习数据？此操作不可撤销。')) return;
+  window.__profiles.remove(n);
+};
+window._profileImport = function(ev){
+  var f = ev.target.files && ev.target.files[0]; if (!f) return;
+  var name = prompt('把这份档案导入为哪个名字？', f.name.replace(/^aaron-english-/,'').replace(/-\d{4}-\d{2}-\d{2}\.json$/,''));
+  if (!name) return;
+  window.__profiles.importData(f, name).then(function(n){
+    alert('导入成功！已切换到档案：' + n);
+  }).catch(function(e){ alert('导入失败：' + e.message); });
+};
+// Display current profile in button
+document.addEventListener('DOMContentLoaded', function(){
+  try {
+    var lbl = document.getElementById('profile-name-lbl');
+    if (lbl) lbl.textContent = window.__profiles.current();
+  } catch(e){}
+});
+</script>
 
 <!-- OLD NAV (hidden, kept for JS compatibility) -->
 <div class="nav" id="nav">
@@ -1676,6 +1910,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <button class="nb" onclick="show('wrongbook')">📕 Wrong Book 错题本</button>
   <button class="nb" onclick="show('lb')">🏆 Rankings 排行榜</button>
   <button class="nb" onclick="show('bayarea')">💼 Workplace 职场英语</button>
+  <button class="nb" onclick="show('plumber')">🔧 Plumber 水管工英语</button>
   <button class="nb" onclick="show('monthly')">美国月度流行热词</button>
 
   <button class="nb" onclick="show('cnen')">🀄 CN→EN 汉译英</button>
@@ -1739,6 +1974,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <div class="gc-title-cn">职场英语</div>
         <div class="gc-sub">Master meetings, emails, presentations and negotiations used at global firms — Silicon Valley, London, New York.</div>
         <span class="gc-tag">Professional</span>
+      </div>
+      <div class="grade-card" onclick="ddGo('plumber')">
+        <div class="gc-icon">🔧</div>
+        <div class="gc-title">Plumber English</div>
+        <div class="gc-title-cn">美国水管工英语 · 10课</div>
+        <div class="gc-sub">Authentic blue-collar American English — passages, dialogues, IPA vocab, grammar and quizzes for service-call scenarios.</div>
+        <span class="gc-tag">Trades</span>
       </div>
       <div class="grade-card" onclick="ddGo('learn')">
         <div class="gc-icon">📚</div>
@@ -2080,6 +2322,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <div class="page" id="page-course">
   <div id="crs-main"><!-- Injected by JS --></div>
   <div class="crs-achieve-overlay" id="crs-achieve"></div>
+</div>
+
+<!-- PLUMBER ENGLISH MODULE -->
+<div class="page" id="page-plumber">
+  <div id="plmb-main"><!-- Injected by JS --></div>
 </div>
 
 <!-- LOGIN MODAL -->
@@ -34527,5 +34774,1998 @@ window.LEARN_EXTRAS = {
   } catch(e){}
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════
+     PLUMBER ENGLISH MODULE · 美国水管工英语
+     ═══════════════════════════════════════════════════ -->
+<style>
+.plmb-hero{background:linear-gradient(135deg,#0369a1 0%,#0284c7 50%,#0ea5e9 100%);color:#fff;padding:38px 32px;border-radius:18px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 14px 40px -8px rgba(3,105,161,.35)}
+.plmb-hero::before{content:'🔧';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:140px;opacity:.12}
+.plmb-hero h1{font-size:32px;font-weight:800;margin:0 0 10px;letter-spacing:-.5px}
+.plmb-hero p{font-size:15px;opacity:.95;max-width:680px;line-height:1.6;margin:0}
+.plmb-hero-stats{display:flex;gap:24px;margin-top:18px;flex-wrap:wrap}
+.plmb-hero-stat{background:rgba(255,255,255,.15);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(8px)}
+.plmb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:32px}
+.plmb-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:22px 20px;cursor:pointer;transition:all .3s cubic-bezier(.2,.9,.3,1.2);position:relative;overflow:hidden}
+.plmb-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px -10px rgba(3,105,161,.35);border-color:#0ea5e9}
+.plmb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0369a1,#0ea5e9);opacity:0;transition:opacity .3s}
+.plmb-card:hover::before{opacity:1}
+.plmb-card-num{display:inline-block;background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;font-weight:800;font-size:13px;padding:4px 12px;border-radius:20px;margin-bottom:12px;letter-spacing:.5px}
+.plmb-card-title{font-size:18px;font-weight:700;color:var(--text1);margin-bottom:6px;line-height:1.3}
+.plmb-card-cn{font-size:13px;color:var(--text2);margin-bottom:10px}
+.plmb-card-desc{font-size:13px;color:var(--text3);line-height:1.55;margin-bottom:14px}
+.plmb-card-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:11px}
+.plmb-card-chip{background:rgba(3,105,161,.08);color:#0369a1;padding:3px 10px;border-radius:10px;font-weight:600}
+.plmb-card-progress{margin-top:12px;height:5px;background:var(--card2);border-radius:3px;overflow:hidden}
+.plmb-card-progfill{height:100%;background:linear-gradient(90deg,#10b981,#0ea5e9);border-radius:3px;transition:width .5s}
+.plmb-card{position:relative}
+.plmb-card-status{position:absolute;top:12px;right:12px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;letter-spacing:.3px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.plmb-exam-card{background:linear-gradient(135deg,rgba(107,75,214,.08),rgba(68,118,214,.04));border:2px dashed #6b4bd6}
+.plmb-exam-card:hover{background:linear-gradient(135deg,rgba(107,75,214,.14),rgba(68,118,214,.08));border-style:solid}
+[data-theme="dark"] .plmb-exam-card{background:linear-gradient(135deg,rgba(107,75,214,.18),rgba(68,118,214,.1));border-color:#8b6bf6}
+.plmb-play{background:linear-gradient(135deg,#4476d6,#6b4bd6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;box-shadow:0 2px 6px rgba(68,118,214,.25)}
+.plmb-play:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(68,118,214,.35)}
+.plmb-dash{display:flex;gap:24px;align-items:center;margin:18px 0 26px;padding:22px 26px;background:linear-gradient(135deg,#4476d6,#7c5cbf);border-radius:18px;color:#fff;box-shadow:0 10px 30px rgba(68,118,214,.25)}
+.plmb-dash-left{flex-shrink:0}
+.plmb-ring{width:130px;height:130px}
+.plmb-dash-right{flex:1}
+.plmb-dash-title{font-size:20px;font-weight:800;margin-bottom:4px}
+.plmb-dash-sub{font-size:12px;opacity:.85;margin-bottom:14px}
+.plmb-dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.plmb-dash-stat{background:rgba(255,255,255,.16);border-radius:10px;padding:10px 8px;text-align:center;backdrop-filter:blur(6px)}
+.plmb-dash-stat .ds-num{display:block;font-size:22px;font-weight:800;line-height:1.1;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.plmb-dash-stat .ds-lbl{display:block;font-size:11px;opacity:.95;margin-top:2px}
+@media (max-width:640px){ .plmb-dash{flex-direction:column;padding:18px} .plmb-dash-stats{grid-template-columns:repeat(2,1fr)} }
+.plmb-result{margin:20px 0;padding:22px 20px;border-radius:16px;text-align:center;border:2px solid;animation:plmbResult .4s}
+@keyframes plmbResult{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.plmb-result.pass{background:linear-gradient(135deg,rgba(30,158,92,.12),rgba(16,185,129,.06));border-color:#10b981}
+.plmb-result.fail{background:linear-gradient(135deg,rgba(201,125,16,.12),rgba(251,146,60,.06));border-color:#fb923c}
+.plmb-result-emoji{font-size:48px;margin-bottom:6px}
+.plmb-result-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
+.plmb-result.pass .plmb-result-title{color:#065f46}
+.plmb-result.fail .plmb-result-title{color:#9a3412}
+[data-theme="dark"] .plmb-result.pass .plmb-result-title{color:#6ee7b7}
+[data-theme="dark"] .plmb-result.fail .plmb-result-title{color:#fdba74}
+.plmb-result-score{font-size:16px;font-weight:700;color:var(--text2);margin-bottom:8px}
+.plmb-result-sub{font-size:13px;color:var(--text3);margin-bottom:16px;line-height:1.5}
+.plmb-result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.plmb-result-btn{padding:10px 18px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.plmb-result-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.plmb-result-btn.primary{background:linear-gradient(135deg,#4476d6,#7c5cbf);color:#fff;border-color:transparent}
+.plmb-result-btn.primary:hover{box-shadow:0 6px 16px rgba(68,118,214,.35)}
+[data-theme="dark"] .plmb-card-chip{background:rgba(14,165,233,.15);color:#7dd3fc}
+/* Lesson detail page */
+.plmb-lesson{max-width:900px;margin:0 auto}
+.plmb-back{background:transparent;border:1px solid var(--border);color:var(--text2);padding:8px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;margin-bottom:20px;transition:all .2s}
+.plmb-back:hover{background:var(--card2);border-color:#0ea5e9;color:#0ea5e9}
+.plmb-lh{background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;padding:28px 26px;border-radius:14px 14px 0 0;margin-bottom:0}
+.plmb-lh-num{font-size:12px;font-weight:700;letter-spacing:2px;opacity:.9}
+.plmb-lh-title{font-size:26px;font-weight:800;margin:6px 0 4px}
+.plmb-lh-cn{font-size:15px;opacity:.9}
+.plmb-tabs{display:flex;gap:2px;background:var(--card2);padding:6px;border-radius:0 0 14px 14px;margin-bottom:20px;overflow-x:auto}
+.plmb-tab{flex:1;min-width:110px;padding:12px 16px;border:none;background:transparent;color:var(--text2);font-size:13.5px;font-weight:700;cursor:pointer;border-radius:9px;transition:all .25s;white-space:nowrap}
+.plmb-tab:hover{background:rgba(14,165,233,.08);color:#0369a1}
+.plmb-tab.on{background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;box-shadow:0 4px 12px rgba(3,105,161,.3)}
+.plmb-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px 26px;margin-bottom:18px;animation:plmbFade .4s ease}
+@keyframes plmbFade{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+.plmb-sec-title{font-size:17px;font-weight:800;margin:0 0 16px;display:flex;align-items:center;gap:8px;color:var(--text1)}
+.plmb-play-all{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;margin-left:auto;box-shadow:0 4px 12px rgba(16,185,129,.3);transition:all .2s}
+.plmb-play-all:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(16,185,129,.45)}
+.plmb-play-all.playing{background:linear-gradient(135deg,#dc2626,#b91c1c);animation:plmbPulse 1.5s ease infinite}
+@keyframes plmbPulse{0%,100%{box-shadow:0 4px 12px rgba(220,38,38,.4)}50%{box-shadow:0 4px 20px rgba(220,38,38,.7)}}
+.plmb-sent{padding:12px 14px;margin-bottom:8px;border-left:3px solid transparent;border-radius:8px;background:var(--card2);cursor:pointer;transition:all .2s;display:flex;gap:12px;align-items:flex-start}
+.plmb-sent:hover{border-left-color:#0ea5e9;background:rgba(14,165,233,.06);transform:translateX(3px)}
+.plmb-sent.on{border-left-color:#0ea5e9;background:rgba(14,165,233,.12);box-shadow:0 3px 10px rgba(14,165,233,.15)}
+.plmb-sent-n{font-size:11px;font-weight:800;color:#0ea5e9;background:rgba(14,165,233,.1);padding:3px 8px;border-radius:6px;min-width:28px;text-align:center;flex-shrink:0;margin-top:2px}
+.plmb-sent-body{flex:1}
+.plmb-sent-en{font-size:15px;color:var(--text1);line-height:1.6;font-weight:500}
+.plmb-sent-cn{font-size:13px;color:var(--text2);margin-top:4px;line-height:1.55}
+.plmb-sent-spk{background:transparent;border:none;cursor:pointer;font-size:16px;opacity:.5;transition:all .2s;padding:4px 6px;border-radius:6px;flex-shrink:0}
+.plmb-sent-spk:hover{opacity:1;background:rgba(14,165,233,.1);transform:scale(1.15)}
+.plmb-dlg-turn{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.plmb-dlg-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;color:#fff;font-weight:800}
+.plmb-dlg-av.a{background:linear-gradient(135deg,#0369a1,#0ea5e9)}
+.plmb-dlg-av.b{background:linear-gradient(135deg,#dc2626,#f97316)}
+.plmb-dlg-bubble{flex:1;background:var(--card2);border-radius:14px;padding:12px 16px;position:relative;cursor:pointer;transition:all .2s}
+.plmb-dlg-bubble:hover{transform:translateX(2px)}
+.plmb-dlg-bubble.on{box-shadow:0 4px 14px rgba(14,165,233,.25);background:rgba(14,165,233,.08)}
+.plmb-dlg-name{font-size:11px;font-weight:800;color:#0369a1;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.plmb-dlg-b .plmb-dlg-name{color:#dc2626}
+.plmb-dlg-en{font-size:14.5px;color:var(--text1);line-height:1.55}
+.plmb-dlg-cn{font-size:12.5px;color:var(--text2);margin-top:4px;font-style:italic}
+.plmb-vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.plmb-voc{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;transition:all .2s}
+.plmb-voc:hover{border-color:#0ea5e9;transform:translateY(-2px);box-shadow:0 8px 20px -4px rgba(3,105,161,.2)}
+.plmb-voc-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.plmb-voc-word{font-size:16px;font-weight:800;color:var(--text1);flex:1}
+.plmb-voc-pos{font-size:10px;color:#64748b;font-style:italic;background:rgba(100,116,139,.1);padding:2px 6px;border-radius:4px}
+.plmb-voc-ipa{font-size:13px;color:#0ea5e9;font-family:Georgia,serif;font-style:italic;margin-bottom:5px;font-weight:600}
+.plmb-voc-cn{font-size:13px;color:var(--text2);line-height:1.5}
+.plmb-voc-ex{font-size:15px;color:var(--text2);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);font-style:italic;line-height:1.6;font-weight:500}
+.plmb-voc-zh{font-size:16px;color:#c2410c;margin-top:8px;padding:8px 10px;background:linear-gradient(90deg,rgba(251,146,60,.12),rgba(251,146,60,.04));border-left:3px solid #fb923c;border-radius:6px;font-weight:600;letter-spacing:.5px}
+[data-theme="dark"] .plmb-voc-zh{color:#fdba74;background:linear-gradient(90deg,rgba(251,146,60,.18),rgba(251,146,60,.06))}
+.plmb-voc-syl{font-size:13px;color:var(--text3);margin-top:6px;padding:6px 10px;background:rgba(99,102,241,.08);border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.plmb-goal{margin:14px 0 18px;padding:14px 16px;background:linear-gradient(135deg,#fef3c7,#fed7aa);border-left:4px solid #f59e0b;border-radius:10px;font-size:15px;line-height:1.65;color:#78350f;box-shadow:0 2px 8px rgba(245,158,11,.15)}
+[data-theme="dark"] .plmb-goal{background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(251,146,60,.12));color:#fcd34d}
+.plmb-goal-ico{font-size:18px;margin-right:6px}
+.plmb-sent-zh{font-size:14px;color:#c2410c;margin:4px 0;font-weight:500;letter-spacing:.3px}
+[data-theme="dark"] .plmb-sent-zh{color:#fdba74}
+.plmb-dlg-zh{font-size:13px;color:#c2410c;margin:4px 0;font-weight:500;letter-spacing:.3px;opacity:.95}
+[data-theme="dark"] .plmb-dlg-zh{color:#fdba74}
+.plmb-must{margin-top:22px;padding:16px 18px;background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:12px;border:2px solid #60a5fa}
+[data-theme="dark"] .plmb-must{background:linear-gradient(135deg,rgba(96,165,250,.18),rgba(37,99,235,.1));border-color:rgba(96,165,250,.4)}
+.plmb-must-title{font-size:15px;font-weight:700;color:#1e3a8a;margin-bottom:10px}
+[data-theme="dark"] .plmb-must-title{color:#93c5fd}
+.plmb-must-item{font-size:15px;padding:8px 12px;margin:6px 0;background:rgba(255,255,255,.7);border-radius:8px;color:#1e3a8a;font-weight:500}
+[data-theme="dark"] .plmb-must-item{background:rgba(30,58,138,.3);color:#dbeafe}
+.plmb-voc-spk{background:transparent;border:none;cursor:pointer;opacity:.6;font-size:15px;padding:2px;border-radius:6px;transition:all .2s}
+.plmb-voc-spk:hover{opacity:1;background:rgba(14,165,233,.1);transform:scale(1.15)}
+.plmb-gr{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(239,68,68,.05));border-left:4px solid #f59e0b;border-radius:10px;padding:18px 20px}
+.plmb-gr-title{font-size:15px;font-weight:800;color:#b45309;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.plmb-gr-body{font-size:14px;line-height:1.75;color:var(--text1)}
+.plmb-gr-body code{background:rgba(245,158,11,.15);color:#b45309;padding:2px 8px;border-radius:5px;font-family:Georgia,serif;font-size:13.5px;font-weight:600}
+/* Quiz */
+.plmb-quiz{display:flex;flex-direction:column;gap:14px}
+.plmb-q{background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:18px}
+.plmb-q-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.plmb-q-num{font-size:11px;font-weight:800;background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;padding:4px 10px;border-radius:8px;flex-shrink:0}
+.plmb-q-type{font-size:10px;font-weight:700;color:#0369a1;background:rgba(14,165,233,.1);padding:3px 8px;border-radius:6px;flex-shrink:0}
+.plmb-q-text{font-size:14.5px;font-weight:600;color:var(--text1);line-height:1.55;flex:1}
+.plmb-q-opts{display:flex;flex-direction:column;gap:8px}
+.plmb-q-opt{padding:11px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;text-align:left;color:var(--text1);transition:all .2s}
+.plmb-q-opt:hover:not(:disabled){border-color:#0ea5e9;background:rgba(14,165,233,.05);transform:translateX(2px)}
+.plmb-q-opt.correct{background:rgba(16,185,129,.12);border-color:#10b981;color:#065f46;font-weight:700}
+.plmb-q-opt.wrong{background:rgba(239,68,68,.1);border-color:#ef4444;color:#991b1b}
+.plmb-q-opt:disabled{cursor:default}
+.plmb-q-fill{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;background:var(--card);color:var(--text1)}
+.plmb-q-fill:focus{outline:none;border-color:#0ea5e9;box-shadow:0 0 0 3px rgba(14,165,233,.1)}
+.plmb-q-submit{margin-top:10px;padding:10px 20px;background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px}
+.plmb-q-submit:hover{transform:translateY(-1px)}
+.plmb-q-fb{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.55}
+.plmb-q-fb.ok{background:rgba(16,185,129,.1);color:#065f46;border-left:3px solid #10b981}
+.plmb-q-fb.bad{background:rgba(239,68,68,.08);color:#991b1b;border-left:3px solid #ef4444}
+.plmb-quiz-score{position:sticky;top:70px;background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;padding:14px 20px;border-radius:12px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(3,105,161,.3);z-index:5}
+.plmb-quiz-score-lbl{font-size:13px;opacity:.95;font-weight:600}
+.plmb-quiz-score-val{font-size:20px;font-weight:800}
+@media(max-width:720px){.plmb-hero h1{font-size:24px}.plmb-hero::before{font-size:80px;right:10px}.plmb-tab{min-width:auto;padding:10px 8px;font-size:12px}}
+</style>
+
+<script>
+/* ═══════════════════════════════════════════
+   PLUMBER ENGLISH DATA · 10 Lessons
+   Each lesson: passage, dialogue, vocab (with IPA), grammar, quiz
+   ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   PLUMBER ENGLISH DATA · 10 Lessons · 零基础版
+   每课: 目标 / 词汇(带谐音+拆音节) / 句子 / 对话 / 必背 / 测验
+   ═══════════════════════════════════════════ */
+window.PLMB_DATA = [
+/* ───── LESSON 1 · Hi, I'm a Plumber ───── */
+{
+id:1, title:"Hi, I'm a Plumber", titleCn:"你好，我是水管工",
+emoji:"👋", level:"零基础",
+goal:"学会用英语打招呼、说出自己是水管工、说谢谢。只需 8 个单词。",
+vocab:[
+ {w:"hi", ipa:"/haɪ/", zh:"嗨", syl:"hi", pos:"打招呼", cn:"嗨；你好", ex:"Hi!"},
+ {w:"hello", ipa:"/həˈloʊ/", zh:"哈喽", syl:"hel-lo / 哈-喽", pos:"打招呼", cn:"你好", ex:"Hello!"},
+ {w:"I", ipa:"/aɪ/", zh:"爱", syl:"I / 爱", pos:"代词", cn:"我", ex:"I am Mike."},
+ {w:"am", ipa:"/æm/", zh:"艾姆", syl:"am / 艾姆", pos:"系动词", cn:"是（我是）", ex:"I am here."},
+ {w:"a", ipa:"/ə/", zh:"厄", syl:"a / 厄(轻)", pos:"冠词", cn:"一个（不翻译）", ex:"a plumber"},
+ {w:"plumber", ipa:"/ˈplʌmər/", zh:"普拉摸儿", syl:"plumb-er / 普拉-摸儿（b 不发音）", pos:"名词", cn:"水管工", ex:"I am a plumber."},
+ {w:"good", ipa:"/ɡʊd/", zh:"古的", syl:"good / 古-的", pos:"形容词", cn:"好的", ex:"Good morning!"},
+ {w:"morning", ipa:"/ˈmɔːrnɪŋ/", zh:"摸宁", syl:"morn-ing / 摸-宁", pos:"名词", cn:"早上", ex:"Good morning."},
+ {w:"thank", ipa:"/θæŋk/", zh:"三克", syl:"thank / 三-克（th 咬舌）", pos:"动词", cn:"谢", ex:"Thank you."},
+ {w:"you", ipa:"/juː/", zh:"由", syl:"you / 由", pos:"代词", cn:"你", ex:"You are kind."}
+],
+passage:[
+ {en:"Hi!", zh:"嗨！", cn:"嗨！"},
+ {en:"Good morning.", zh:"古的 摸宁", cn:"早上好。"},
+ {en:"I am Mike.", zh:"爱 艾姆 麦克", cn:"我是麦克。"},
+ {en:"I am a plumber.", zh:"爱 艾姆 厄 普拉摸儿", cn:"我是水管工。"},
+ {en:"Thank you.", zh:"三克 由", cn:"谢谢你。"}
+],
+dialogue:[
+ {spk:"A", en:"Hi!", zh:"嗨！", cn:"嗨！"},
+ {spk:"B", en:"Hello!", zh:"哈喽！", cn:"你好！"},
+ {spk:"A", en:"Good morning. I am Mike.", zh:"古的 摸宁。爱 艾姆 麦克。", cn:"早上好。我是麦克。"},
+ {spk:"B", en:"I am Lisa.", zh:"爱 艾姆 丽莎", cn:"我是丽莎。"},
+ {spk:"A", en:"I am a plumber.", zh:"爱 艾姆 厄 普拉摸儿", cn:"我是水管工。"},
+ {spk:"B", en:"Thank you!", zh:"三克 由！", cn:"谢谢你！"}
+],
+mustKnow:[
+ "Hi! / 嗨！",
+ "I am a plumber. / 我是水管工。",
+ "Thank you. / 谢谢你。"
+],
+grammar:{
+ title:"最简单的介绍自己：I am ___",
+ body:"英语里介绍自己只要用 <code>I am</code>(爱 艾姆)加上你的名字或职业即可。<br><br>例如:<br><code>I am Mike.</code>(我是麦克)<br><code>I am a plumber.</code>(我是水管工)<br><br><b>小贴士</b>：<code>a</code> 是冠词,中文不用翻译,读作轻轻的'厄'。"
+},
+quiz:[
+ {type:"mcq", q:"'plumber' 是什么意思？", opts:["老师","水管工","医生","厨师"], a:1, ex:"plumber = 水管工（b 不发音,读 '普拉摸儿'）"},
+ {type:"mcq", q:"'Thank you' 怎么读？", opts:["古的 摸宁","三克 由","哈喽","爱 艾姆"], a:1, ex:"Thank you = 三克 由 = 谢谢你"},
+ {type:"mcq", q:"早上见到客户,应该说：", opts:["Good night","Good morning","Goodbye","Good luck"], a:1, ex:"Good morning = 古的 摸宁 = 早上好"},
+ {type:"cn2en", q:"翻译：我是水管工。", a:"I am a plumber.", hint:"I am ___"},
+ {type:"en2cn", q:"翻译：'Hi! I am Mike.'", a:"嗨！我是麦克。", hint:"I am ___"},
+ {type:"mcq", q:"'I' 读作：", opts:["爱","伊","哦","于"], a:0, ex:"I = 爱 = 我"}
+]
+},
+
+/* ───── LESSON 2 · My Tools ───── */
+{
+id:2, title:"My Tools", titleCn:"我的工具",
+emoji:"🔧", level:"零基础",
+goal:"学会水管工最常用的 8 样工具英文名,可以说'这是 ___ '。",
+vocab:[
+ {w:"tool", ipa:"/tuːl/", zh:"图哦", syl:"tool / 图-哦", pos:"名词", cn:"工具", ex:"My tool."},
+ {w:"box", ipa:"/bɑːks/", zh:"巴克斯", syl:"box / 巴-克斯", pos:"名词", cn:"箱子", ex:"Tool box."},
+ {w:"pipe", ipa:"/paɪp/", zh:"派普", syl:"pipe / 派-普", pos:"名词", cn:"管子", ex:"This is a pipe."},
+ {w:"wrench", ipa:"/rentʃ/", zh:"润驰", syl:"wrench / 润-驰（w 不发音）", pos:"名词", cn:"扳手", ex:"A big wrench."},
+ {w:"tape", ipa:"/teɪp/", zh:"忒普", syl:"tape / 忒-普", pos:"名词", cn:"胶带", ex:"White tape."},
+ {w:"knife", ipa:"/naɪf/", zh:"乃夫", syl:"knife / 乃-夫（k 不发音）", pos:"名词", cn:"刀", ex:"A small knife."},
+ {w:"pump", ipa:"/pʌmp/", zh:"棒普", syl:"pump / 棒-普", pos:"名词", cn:"水泵", ex:"The pump works."},
+ {w:"bag", ipa:"/bæɡ/", zh:"拜格", syl:"bag / 拜-格", pos:"名词", cn:"包", ex:"My tool bag."},
+ {w:"this", ipa:"/ðɪs/", zh:"贼斯", syl:"this / 贼-斯（th 咬舌）", pos:"代词", cn:"这个", ex:"This is a pipe."},
+ {w:"is", ipa:"/ɪz/", zh:"衣兹", syl:"is / 衣-兹", pos:"系动词", cn:"是", ex:"It is good."}
+],
+passage:[
+ {en:"This is my tool box.", zh:"贼斯 衣兹 买 图哦 巴克斯", cn:"这是我的工具箱。"},
+ {en:"This is a pipe.", zh:"贼斯 衣兹 厄 派普", cn:"这是一根管子。"},
+ {en:"This is a wrench.", zh:"贼斯 衣兹 厄 润驰", cn:"这是一把扳手。"},
+ {en:"I have tape and a knife.", zh:"爱 海夫 忒普 安得 厄 乃夫", cn:"我有胶带和一把刀。"},
+ {en:"My bag is big.", zh:"买 拜格 衣兹 比格", cn:"我的包很大。"}
+],
+dialogue:[
+ {spk:"A", en:"What is this?", zh:"瓦特 衣兹 贼斯？", cn:"这是什么？"},
+ {spk:"B", en:"This is a pipe.", zh:"贼斯 衣兹 厄 派普", cn:"这是一根管子。"},
+ {spk:"A", en:"And this?", zh:"安得 贼斯？", cn:"那这个呢？"},
+ {spk:"B", en:"A wrench. A big wrench.", zh:"厄 润驰。厄 比格 润驰。", cn:"一把扳手。一把大扳手。"},
+ {spk:"A", en:"Good tools!", zh:"古的 图哦兹！", cn:"好工具！"}
+],
+mustKnow:[
+ "This is a pipe. / 这是一根管子。",
+ "This is a wrench. / 这是一把扳手。",
+ "My tool box. / 我的工具箱。"
+],
+grammar:{
+ title:"介绍物品：This is a ___",
+ body:"指着东西告诉别人'这是什么',用 <code>This is a ___</code>(贼斯 衣兹 厄)。<br><br><code>This is a pipe.</code>(这是一根管子)<br><code>This is a wrench.</code>(这是一把扳手)<br><br><b>注意</b>：<code>wrench</code> 的 w 不发音,读 '润驰'；<code>knife</code> 的 k 不发音,读 '乃夫'。英语里很多字母是'哑巴',看到不要慌。"
+},
+quiz:[
+ {type:"mcq", q:"'wrench' 是什么？", opts:["管子","扳手","胶带","刀"], a:1, ex:"wrench = 润驰 = 扳手（w 不发音）"},
+ {type:"mcq", q:"'knife' 怎么读？", opts:["克乃夫","乃夫","尼夫","克妮夫"], a:1, ex:"knife 里 k 不发音,读 '乃夫'"},
+ {type:"mcq", q:"'管子' 英文是：", opts:["tape","pipe","pump","bag"], a:1, ex:"pipe = 派普 = 管子"},
+ {type:"cn2en", q:"翻译：这是一根管子。", a:"This is a pipe.", hint:"This is a ___"},
+ {type:"en2cn", q:"翻译：'This is a wrench.'", a:"这是一把扳手。", hint:"wrench = 扳手"},
+ {type:"mcq", q:"'tool box' 意思是：", opts:["工具箱","水管","胶带包","工具袋"], a:0, ex:"tool = 工具, box = 箱子"}
+]
+},
+
+/* ───── LESSON 3 · Water Problem ───── */
+{
+id:3, title:"Water Problem", titleCn:"水的问题",
+emoji:"💧", level:"零基础",
+goal:"学会说'有水/没水/漏水/坏了'。客户打电话最常说的几句。",
+vocab:[
+ {w:"water", ipa:"/ˈwɔːtər/", zh:"沃特儿", syl:"wa-ter / 沃-特儿", pos:"名词", cn:"水", ex:"No water!"},
+ {w:"leak", ipa:"/liːk/", zh:"利克", syl:"leak / 利-克", pos:"名/动", cn:"漏水", ex:"A big leak."},
+ {w:"broken", ipa:"/ˈbroʊkən/", zh:"不肉肯", syl:"bro-ken / 不肉-肯", pos:"形容词", cn:"坏了的", ex:"It is broken."},
+ {w:"drip", ipa:"/drɪp/", zh:"拽普", syl:"drip / 拽-普", pos:"动词", cn:"滴水", ex:"It drips."},
+ {w:"wet", ipa:"/wet/", zh:"外特", syl:"wet / 外-特", pos:"形容词", cn:"湿的", ex:"The floor is wet."},
+ {w:"no", ipa:"/noʊ/", zh:"诺", syl:"no / 诺", pos:"副词", cn:"没有；不", ex:"No water."},
+ {w:"yes", ipa:"/jes/", zh:"耶斯", syl:"yes / 耶斯", pos:"副词", cn:"是的", ex:"Yes, I see."},
+ {w:"problem", ipa:"/ˈprɑːbləm/", zh:"扑拉布伦", syl:"prob-lem / 扑拉-布伦", pos:"名词", cn:"问题", ex:"A big problem."},
+ {w:"big", ipa:"/bɪɡ/", zh:"比格", syl:"big / 比-格", pos:"形容词", cn:"大的", ex:"A big leak."},
+ {w:"small", ipa:"/smɔːl/", zh:"司末哦", syl:"small / 司末-哦", pos:"形容词", cn:"小的", ex:"A small drip."}
+],
+passage:[
+ {en:"There is a leak.", zh:"贼尔 衣兹 厄 利克", cn:"有漏水。"},
+ {en:"No water!", zh:"诺 沃特儿！", cn:"没水！"},
+ {en:"It is broken.", zh:"衣特 衣兹 不肉肯", cn:"它坏了。"},
+ {en:"The floor is wet.", zh:"则 弗劳儿 衣兹 外特", cn:"地板湿了。"},
+ {en:"A big problem.", zh:"厄 比格 扑拉布伦", cn:"一个大问题。"}
+],
+dialogue:[
+ {spk:"A", en:"Hi, a problem?", zh:"嗨,厄 扑拉布伦？", cn:"嗨,有问题吗？"},
+ {spk:"B", en:"Yes! A big leak!", zh:"耶斯！厄 比格 利克！", cn:"是的！漏得很厉害！"},
+ {spk:"A", en:"No water?", zh:"诺 沃特儿？", cn:"没水了吗？"},
+ {spk:"B", en:"No. And the floor is wet.", zh:"诺。安得 则 弗劳儿 衣兹 外特。", cn:"没水。而且地板湿了。"},
+ {spk:"A", en:"OK, I can help.", zh:"OK,爱 砍 嗨哦普。", cn:"好,我可以帮忙。"}
+],
+mustKnow:[
+ "No water! / 没水！",
+ "It is broken. / 它坏了。",
+ "There is a leak. / 有漏水。"
+],
+grammar:{
+ title:"描述问题：It is ___ / There is ___",
+ body:"告诉别人出了什么事,最常用两句:<br><br>1) <code>It is broken.</code>(衣特 衣兹 不肉肯) = 它坏了<br>2) <code>There is a leak.</code>(贼尔 衣兹 厄 利克) = 有漏水<br><br><b>小贴士</b>：<code>no</code>(诺)放句首表示'没有',比如 <code>No water!</code>(没水!)、<code>No problem!</code>(没问题!)——非常实用。"
+},
+quiz:[
+ {type:"mcq", q:"'leak' 是什么意思？", opts:["水","漏水","管子","扳手"], a:1, ex:"leak = 利克 = 漏水"},
+ {type:"mcq", q:"'It is broken.' 的意思是：", opts:["它很好","它坏了","它是新的","它在漏水"], a:1, ex:"broken = 不肉肯 = 坏了的"},
+ {type:"mcq", q:"'没水' 英文怎么说？", opts:["No wet","No leak","No water","No problem"], a:2, ex:"No water! = 诺 沃特儿 = 没水！"},
+ {type:"cn2en", q:"翻译：地板湿了。", a:"The floor is wet.", hint:"The floor ___"},
+ {type:"en2cn", q:"翻译：'A big problem.'", a:"一个大问题。", hint:"big = 大"},
+ {type:"mcq", q:"'water' 读作：", opts:["外特","沃特儿","威特","瓦特"], a:1, ex:"water = 沃特儿"}
+]
+},
+
+/* ───── LESSON 4 · Where? ───── */
+{
+id:4, title:"Where?", titleCn:"在哪里？",
+emoji:"📍", level:"零基础",
+goal:"学会问'在哪里'、说出家里常见的几个地方。水管工上门必备。",
+vocab:[
+ {w:"where", ipa:"/wer/", zh:"外儿", syl:"where / 外-儿", pos:"疑问词", cn:"在哪里", ex:"Where is it?"},
+ {w:"here", ipa:"/hɪr/", zh:"黑儿", syl:"here / 黑-儿", pos:"副词", cn:"这里", ex:"It is here."},
+ {w:"there", ipa:"/ðer/", zh:"贼儿", syl:"there / 贼-儿（th 咬舌）", pos:"副词", cn:"那里", ex:"Over there."},
+ {w:"kitchen", ipa:"/ˈkɪtʃən/", zh:"克齐恩", syl:"kitch-en / 克齐-恩", pos:"名词", cn:"厨房", ex:"In the kitchen."},
+ {w:"bathroom", ipa:"/ˈbæθruːm/", zh:"拜思入姆", syl:"bath-room / 拜思-入姆", pos:"名词", cn:"卫生间", ex:"The bathroom."},
+ {w:"sink", ipa:"/sɪŋk/", zh:"森克", syl:"sink / 森-克", pos:"名词", cn:"水槽；洗手池", ex:"Kitchen sink."},
+ {w:"toilet", ipa:"/ˈtɔɪlət/", zh:"拖依勒特", syl:"toi-let / 拖依-勒特", pos:"名词", cn:"马桶", ex:"The toilet."},
+ {w:"floor", ipa:"/flɔːr/", zh:"弗劳儿", syl:"floor / 弗劳-儿", pos:"名词", cn:"地板", ex:"On the floor."},
+ {w:"in", ipa:"/ɪn/", zh:"因", syl:"in / 因", pos:"介词", cn:"在…里面", ex:"In the kitchen."},
+ {w:"on", ipa:"/ɑːn/", zh:"昂", syl:"on / 昂", pos:"介词", cn:"在…上面", ex:"On the floor."}
+],
+passage:[
+ {en:"Where is the leak?", zh:"外儿 衣兹 则 利克？", cn:"漏水在哪里？"},
+ {en:"In the kitchen.", zh:"因 则 克齐恩", cn:"在厨房。"},
+ {en:"The kitchen sink.", zh:"则 克齐恩 森克", cn:"厨房的水槽。"},
+ {en:"Water on the floor.", zh:"沃特儿 昂 则 弗劳儿", cn:"地板上有水。"},
+ {en:"The bathroom is here.", zh:"则 拜思入姆 衣兹 黑儿", cn:"卫生间在这里。"}
+],
+dialogue:[
+ {spk:"A", en:"Where is the problem?", zh:"外儿 衣兹 则 扑拉布伦？", cn:"问题在哪里？"},
+ {spk:"B", en:"In the kitchen.", zh:"因 则 克齐恩", cn:"在厨房。"},
+ {spk:"A", en:"The sink?", zh:"则 森克？", cn:"水槽吗？"},
+ {spk:"B", en:"Yes. Water on the floor.", zh:"耶斯。沃特儿 昂 则 弗劳儿。", cn:"是的。地板上有水。"},
+ {spk:"A", en:"OK. Let me see.", zh:"OK。勒特 米 西。", cn:"好,我看看。"}
+],
+mustKnow:[
+ "Where is the leak? / 漏水在哪里？",
+ "In the kitchen. / 在厨房。",
+ "On the floor. / 在地板上。"
+],
+grammar:{
+ title:"问地点：Where is ___ ?  答：in / on ___",
+ body:"问'在哪里'用 <code>Where is ___ ?</code>(外儿 衣兹)。<br><br>回答可以用两个小词:<br>· <code>in</code>(因) = 在…里面  → <code>In the kitchen.</code><br>· <code>on</code>(昂) = 在…上面  → <code>On the floor.</code><br><br><b>记住</b>：房间用 <code>in</code>(里面),平面用 <code>on</code>(上面)。"
+},
+quiz:[
+ {type:"mcq", q:"'kitchen' 是什么？", opts:["卫生间","厨房","卧室","客厅"], a:1, ex:"kitchen = 克齐恩 = 厨房"},
+ {type:"mcq", q:"'Where is it?' 意思是：", opts:["这是什么","它在哪里","什么时候","多少钱"], a:1, ex:"where = 外儿 = 在哪里"},
+ {type:"mcq", q:"'在地板上' 英文是：", opts:["in the floor","on the floor","at the floor","the floor in"], a:1, ex:"平面上用 on,读 '昂'"},
+ {type:"cn2en", q:"翻译：在厨房。", a:"In the kitchen.", hint:"in ___"},
+ {type:"en2cn", q:"翻译：'The bathroom is here.'", a:"卫生间在这里。", hint:"here = 这里"},
+ {type:"mcq", q:"'sink' 通常指：", opts:["马桶","水槽/洗手池","浴缸","水管"], a:1, ex:"sink = 森克 = 水槽"}
+]
+},
+
+/* ───── LESSON 5 · I Can Fix It ───── */
+{
+id:5, title:"I Can Fix It",titleCn:"我可以修",
+emoji:"🛠️", level:"零基础",
+goal:"学会说'我能修'、'我来看看'、'我需要 ___ '。让客户放心。",
+vocab:[
+ {w:"fix", ipa:"/fɪks/", zh:"费克斯", syl:"fix / 费-克斯", pos:"动词", cn:"修", ex:"I fix it."},
+ {w:"check", ipa:"/tʃek/", zh:"切克", syl:"check / 切-克", pos:"动词", cn:"检查", ex:"Let me check."},
+ {w:"look", ipa:"/lʊk/", zh:"路克", syl:"look / 路-克", pos:"动词", cn:"看", ex:"Take a look."},
+ {w:"see", ipa:"/siː/", zh:"西", syl:"see / 西", pos:"动词", cn:"看见", ex:"I see."},
+ {w:"help", ipa:"/help/", zh:"嗨哦普", syl:"help / 嗨哦-普", pos:"动词", cn:"帮助", ex:"I can help."},
+ {w:"can", ipa:"/kæn/", zh:"砍", syl:"can / 砍", pos:"情态动词", cn:"能；可以", ex:"I can do it."},
+ {w:"need", ipa:"/niːd/", zh:"尼德", syl:"need / 尼-德", pos:"动词", cn:"需要", ex:"I need tape."},
+ {w:"it", ipa:"/ɪt/", zh:"衣特", syl:"it / 衣-特", pos:"代词", cn:"它", ex:"I fix it."},
+ {w:"new", ipa:"/nuː/", zh:"纽", syl:"new / 纽", pos:"形容词", cn:"新的", ex:"A new pipe."},
+ {w:"let", ipa:"/let/", zh:"勒特", syl:"let / 勒-特", pos:"动词", cn:"让", ex:"Let me see."}
+],
+passage:[
+ {en:"I can fix it.", zh:"爱 砍 费克斯 衣特", cn:"我能修它。"},
+ {en:"Let me check.", zh:"勒特 米 切克", cn:"让我检查一下。"},
+ {en:"I need a new pipe.", zh:"爱 尼德 厄 纽 派普", cn:"我需要一根新管子。"},
+ {en:"I can help you.", zh:"爱 砍 嗨哦普 由", cn:"我可以帮你。"},
+ {en:"Let me take a look.", zh:"勒特 米 忒克 厄 路克", cn:"让我看一下。"}
+],
+dialogue:[
+ {spk:"A", en:"Can you fix it?", zh:"砍 由 费克斯 衣特？", cn:"你能修吗？"},
+ {spk:"B", en:"Yes. Let me check.", zh:"耶斯。勒特 米 切克。", cn:"可以。让我检查一下。"},
+ {spk:"B", en:"I need a new pipe.", zh:"爱 尼德 厄 纽 派普。", cn:"我需要一根新管子。"},
+ {spk:"A", en:"OK. How long?", zh:"OK。嚎 龙？", cn:"好。要多久？"},
+ {spk:"B", en:"One hour. I can help.", zh:"万 阿瓦儿。爱 砍 嗨哦普。", cn:"一小时。我能搞定。"}
+],
+mustKnow:[
+ "I can fix it. / 我能修。",
+ "Let me check. / 让我检查一下。",
+ "I need ___ . / 我需要 ___ 。"
+],
+grammar:{
+ title:"万能句型：I can ___ / Let me ___",
+ body:"这两个句型能让你表达 '我会做' 和 '我来做':<br><br>· <code>I can ___</code>(爱 砍) = 我能 ___<br>  → <code>I can fix it.</code>(我能修)<br>  → <code>I can help.</code>(我能帮忙)<br><br>· <code>Let me ___</code>(勒特 米) = 让我 ___<br>  → <code>Let me check.</code>(让我检查)<br>  → <code>Let me see.</code>(让我看看)<br><br>只要换后面一个动词,就能说无数句话!"
+},
+quiz:[
+ {type:"mcq", q:"'fix' 是什么意思？", opts:["看","修","买","坏"], a:1, ex:"fix = 费克斯 = 修"},
+ {type:"mcq", q:"'Let me check.' 意思是：", opts:["让我买","让我走","让我检查一下","让我吃"], a:2, ex:"check = 切克 = 检查"},
+ {type:"mcq", q:"'我能帮你' 英文是：", opts:["I help can you","I can help you","Help I can you","You can help"], a:1, ex:"I can help you = 爱 砍 嗨哦普 由"},
+ {type:"cn2en", q:"翻译：我需要一根新管子。", a:"I need a new pipe.", hint:"I need ___"},
+ {type:"en2cn", q:"翻译：'I can fix it.'", a:"我能修它。", hint:"can = 能"},
+ {type:"mcq", q:"'need' 读作：", opts:["尼德","奈德","尼的","奈特"], a:0, ex:"need = 尼德 = 需要"}
+]
+},
+
+/* ───── LESSON 6 · Leaky Faucet ───── */
+{
+id:6, title:"Leaky Faucet", titleCn:"漏水的水龙头",
+emoji:"🚰", level:"零基础",
+goal:"修最常见的漏水龙头。把 L1-L5 的词组合起来用。",
+vocab:[
+ {w:"faucet", ipa:"/ˈfɔːsət/", zh:"发瑟特", syl:"fau-cet / 发-瑟特", pos:"名词", cn:"水龙头", ex:"The faucet drips."},
+ {w:"hot", ipa:"/hɑːt/", zh:"哈特", syl:"hot / 哈-特", pos:"形容词", cn:"热的", ex:"Hot water."},
+ {w:"cold", ipa:"/koʊld/", zh:"靠哦德", syl:"cold / 靠哦-德", pos:"形容词", cn:"冷的", ex:"Cold water."},
+ {w:"handle", ipa:"/ˈhændl/", zh:"汉到", syl:"han-dle / 汉-到", pos:"名词", cn:"把手", ex:"The handle is loose."},
+ {w:"tight", ipa:"/taɪt/", zh:"泰特", syl:"tight / 泰-特", pos:"形容词", cn:"紧的", ex:"Make it tight."},
+ {w:"loose", ipa:"/luːs/", zh:"噜斯", syl:"loose / 噜-斯", pos:"形容词", cn:"松的", ex:"It is loose."},
+ {w:"stop", ipa:"/stɑːp/", zh:"斯他普", syl:"stop / 斯-他普", pos:"动词", cn:"停止", ex:"Stop the leak."},
+ {w:"done", ipa:"/dʌn/", zh:"蛋", syl:"done / 蛋", pos:"形容词", cn:"完成了的", ex:"All done."},
+ {w:"minute", ipa:"/ˈmɪnət/", zh:"米尼特", syl:"min-ute / 米-尼特", pos:"名词", cn:"分钟", ex:"Five minutes."},
+ {w:"now", ipa:"/naʊ/", zh:"闹", syl:"now / 闹", pos:"副词", cn:"现在", ex:"Now it works."}
+],
+passage:[
+ {en:"The faucet drips.", zh:"则 发瑟特 拽普斯", cn:"水龙头在滴水。"},
+ {en:"The handle is loose.", zh:"则 汉到 衣兹 噜斯", cn:"把手松了。"},
+ {en:"Hot or cold?", zh:"哈特 奥尔 靠哦德？", cn:"热水还是冷水？"},
+ {en:"I can fix it in ten minutes.", zh:"爱 砍 费克斯 衣特 因 腾 米尼特斯", cn:"十分钟就能修好。"},
+ {en:"All done. It stops now.", zh:"奥哦 蛋。衣特 斯他普斯 闹。", cn:"好了。不漏了。"}
+],
+dialogue:[
+ {spk:"A", en:"The kitchen faucet drips.", zh:"则 克齐恩 发瑟特 拽普斯", cn:"厨房水龙头在滴水。"},
+ {spk:"B", en:"Hot or cold?", zh:"哈特 奥尔 靠哦德？", cn:"热水还是冷水？"},
+ {spk:"A", en:"The cold handle.", zh:"则 靠哦德 汉到", cn:"冷水那边的把手。"},
+ {spk:"B", en:"It is loose. Let me check.", zh:"衣特 衣兹 噜斯。勒特 米 切克。", cn:"它松了。我看一下。"},
+ {spk:"B", en:"OK. All done!", zh:"OK。奥哦 蛋！", cn:"好了,修好了！"}
+],
+mustKnow:[
+ "The faucet drips. / 水龙头在滴水。",
+ "Hot or cold? / 热水还是冷水？",
+ "All done. / 修好了。"
+],
+grammar:{
+ title:"问选择：Hot or cold?",
+ body:"让对方二选一,只要在两个词中间加 <code>or</code>(奥尔,意思是'或者'):<br><br>· <code>Hot or cold?</code>(哈特 奥尔 靠哦德?) = 热的还是冷的?<br>· <code>Big or small?</code>(比格 奥尔 司末哦?) = 大的还是小的?<br>· <code>Now or later?</code>(闹 奥尔 类特儿?) = 现在还是之后?<br><br>收工报告: <code>All done!</code>(奥哦 蛋!) = 全部搞定!"
+},
+quiz:[
+ {type:"mcq", q:"'faucet' 是什么？", opts:["水管","水龙头","马桶","洗碗机"], a:1, ex:"faucet = 发瑟特 = 水龙头"},
+ {type:"mcq", q:"'loose' 意思是：", opts:["紧的","松的","热的","冷的"], a:1, ex:"loose = 噜斯 = 松的"},
+ {type:"mcq", q:"'All done' 是什么意思？", opts:["全部卖完","全部修好","全部坏了","全部冷了"], a:1, ex:"All done = 奥哦 蛋 = 都做完了"},
+ {type:"cn2en", q:"翻译：热水还是冷水？", a:"Hot or cold?", hint:"___ or ___"},
+ {type:"en2cn", q:"翻译：'The handle is loose.'", a:"把手松了。", hint:"handle = 把手"},
+ {type:"mcq", q:"'现在' 英文是：", opts:["new","now","no","know"], a:1, ex:"now = 闹 = 现在"}
+]
+},
+
+/* ───── LESSON 7 · Clogged Toilet ───── */
+{
+id:7, title:"Clogged Toilet", titleCn:"马桶堵了",
+emoji:"🚽", level:"零基础",
+goal:"处理堵塞马桶——最常见、最急的上门任务。",
+vocab:[
+ {w:"clog", ipa:"/klɑːɡ/", zh:"克拉格", syl:"clog / 克拉-格", pos:"动/名", cn:"堵塞", ex:"A clog."},
+ {w:"clogged", ipa:"/klɑːɡd/", zh:"克拉格德", syl:"clogged / 克拉格-德", pos:"形容词", cn:"堵住的", ex:"It is clogged."},
+ {w:"flush", ipa:"/flʌʃ/", zh:"弗拉什", syl:"flush / 弗拉-什", pos:"动词", cn:"冲水", ex:"Don't flush."},
+ {w:"paper", ipa:"/ˈpeɪpər/", zh:"佩普儿", syl:"pa-per / 佩-普儿", pos:"名词", cn:"纸", ex:"Too much paper."},
+ {w:"plunger", ipa:"/ˈplʌndʒər/", zh:"扑蓝者儿", syl:"plun-ger / 扑蓝-者儿", pos:"名词", cn:"马桶搋子", ex:"Use a plunger."},
+ {w:"push", ipa:"/pʊʃ/", zh:"普什", syl:"push / 普-什", pos:"动词", cn:"推；压", ex:"Push down."},
+ {w:"pull", ipa:"/pʊl/", zh:"普哦", syl:"pull / 普-哦", pos:"动词", cn:"拉；抽", ex:"Pull up."},
+ {w:"out", ipa:"/aʊt/", zh:"奥特", syl:"out / 奥-特", pos:"副词", cn:"出来", ex:"Take it out."},
+ {w:"don't", ipa:"/doʊnt/", zh:"懂特", syl:"do-n't / 懂-特", pos:"助动词", cn:"不要", ex:"Don't flush!"},
+ {w:"use", ipa:"/juːz/", zh:"由兹", syl:"use / 由-兹", pos:"动词", cn:"使用", ex:"Use this."}
+],
+passage:[
+ {en:"The toilet is clogged.", zh:"则 拖依勒特 衣兹 克拉格德", cn:"马桶堵了。"},
+ {en:"Don't flush!", zh:"懂特 弗拉什！", cn:"不要冲水！"},
+ {en:"I use a plunger.", zh:"爱 由兹 厄 扑蓝者儿", cn:"我用搋子。"},
+ {en:"Push down, pull up.", zh:"普什 当,普哦 啊普", cn:"往下压,往上拉。"},
+ {en:"The water goes down now.", zh:"则 沃特儿 勾斯 当 闹", cn:"现在水下去了。"}
+],
+dialogue:[
+ {spk:"A", en:"The toilet is clogged!", zh:"则 拖依勒特 衣兹 克拉格德！", cn:"马桶堵了！"},
+ {spk:"B", en:"Don't flush it again.", zh:"懂特 弗拉什 衣特 厄盖因。", cn:"别再冲水了。"},
+ {spk:"A", en:"OK. What do you need?", zh:"OK。瓦特 督 由 尼德？", cn:"好。你要用什么？"},
+ {spk:"B", en:"A plunger. I push and pull.", zh:"厄 扑蓝者儿。爱 普什 安得 普哦。", cn:"搋子。我上下压。"},
+ {spk:"B", en:"All done. It works.", zh:"奥哦 蛋。衣特 沃克斯。", cn:"好了,通了。"}
+],
+mustKnow:[
+ "The toilet is clogged. / 马桶堵了。",
+ "Don't flush! / 不要冲水！",
+ "Use a plunger. / 用搋子。"
+],
+grammar:{
+ title:"警告别人：Don't ___ !",
+ body:"叫人'不要做某事',用 <code>Don't ___ !</code>(懂特):<br><br>· <code>Don't flush!</code>(懂特 弗拉什!) = 不要冲水!<br>· <code>Don't push!</code>(懂特 普什!) = 别推!<br>· <code>Don't use it!</code>(懂特 由兹 衣特!) = 别用它!<br><br><b>温馨提醒</b>：<code>don't</code> 是 <code>do not</code> 的缩写,一个音就行。零基础就用缩写,更像本地人。"
+},
+quiz:[
+ {type:"mcq", q:"'clogged' 意思是：", opts:["干的","堵住的","新的","漏的"], a:1, ex:"clogged = 克拉格德 = 堵住的"},
+ {type:"mcq", q:"'Don't flush!' 意思是：", opts:["请冲水","别冲水","慢慢冲","多冲几次"], a:1, ex:"Don't = 懂特 = 不要"},
+ {type:"mcq", q:"'plunger' 是什么？", opts:["马桶搋子","扳手","水管","胶带"], a:0, ex:"plunger = 扑蓝者儿 = 搋子"},
+ {type:"cn2en", q:"翻译：马桶堵了。", a:"The toilet is clogged.", hint:"___ is clogged"},
+ {type:"en2cn", q:"翻译：'Push down, pull up.'", a:"往下压,往上拉。", hint:"push/pull"},
+ {type:"mcq", q:"'use' 读作：", opts:["由斯","由兹","乌斯","优斯"], a:1, ex:"use(动词)= 由兹"}
+]
+},
+
+/* ───── LESSON 8 · No Hot Water ───── */
+{
+id:8, title:"No Hot Water", titleCn:"没热水了",
+emoji:"🔥", level:"零基础",
+goal:"处理热水器问题。学会说'没热水'、'打开/关闭'、'旧/新'。",
+vocab:[
+ {w:"heater", ipa:"/ˈhiːtər/", zh:"黑特儿", syl:"heat-er / 黑-特儿", pos:"名词", cn:"加热器", ex:"Water heater."},
+ {w:"gas", ipa:"/ɡæs/", zh:"盖斯", syl:"gas / 盖-斯", pos:"名词", cn:"燃气", ex:"Gas is off."},
+ {w:"old", ipa:"/oʊld/", zh:"欧哦德", syl:"old / 欧哦-德", pos:"形容词", cn:"旧的；老的", ex:"Too old."},
+ {w:"work", ipa:"/wɜːrk/", zh:"沃克", syl:"work / 沃-克", pos:"动词", cn:"工作；运转", ex:"It works."},
+ {w:"off", ipa:"/ɔːf/", zh:"奥夫", syl:"off / 奥-夫", pos:"副词", cn:"关；停", ex:"Turn off."},
+ {w:"on", ipa:"/ɑːn/", zh:"昂", syl:"on / 昂", pos:"副词", cn:"开", ex:"Turn on."},
+ {w:"turn", ipa:"/tɜːrn/", zh:"特恩", syl:"turn / 特-恩", pos:"动词", cn:"转动", ex:"Turn it on."},
+ {w:"try", ipa:"/traɪ/", zh:"踹", syl:"try / 踹", pos:"动词", cn:"试试", ex:"Let me try."},
+ {w:"again", ipa:"/əˈɡen/", zh:"厄盖因", syl:"a-gain / 厄-盖因", pos:"副词", cn:"再一次", ex:"Try again."},
+ {w:"hour", ipa:"/aʊər/", zh:"阿瓦儿", syl:"hour / 阿-瓦儿（h 不发音）", pos:"名词", cn:"小时", ex:"One hour."}
+],
+passage:[
+ {en:"No hot water.", zh:"诺 哈特 沃特儿", cn:"没热水。"},
+ {en:"The heater is old.", zh:"则 黑特儿 衣兹 欧哦德", cn:"热水器旧了。"},
+ {en:"I turn off the gas.", zh:"爱 特恩 奥夫 则 盖斯", cn:"我关掉燃气。"},
+ {en:"Let me try again.", zh:"勒特 米 踹 厄盖因", cn:"我再试一次。"},
+ {en:"Now it works.", zh:"闹 衣特 沃克斯", cn:"现在好了。"}
+],
+dialogue:[
+ {spk:"A", en:"No hot water in the shower.", zh:"诺 哈特 沃特儿 因 则 啥瓦儿。", cn:"淋浴没热水。"},
+ {spk:"B", en:"The heater is old?", zh:"则 黑特儿 衣兹 欧哦德？", cn:"热水器旧了吗？"},
+ {spk:"A", en:"Yes. Ten years old.", zh:"耶斯。腾 伊儿斯 欧哦德。", cn:"是的。十年了。"},
+ {spk:"B", en:"Let me turn off the gas.", zh:"勒特 米 特恩 奥夫 则 盖斯。", cn:"让我先关燃气。"},
+ {spk:"B", en:"OK. Turn on. Try again.", zh:"OK。特恩 昂。踹 厄盖因。", cn:"好。开。再试一次。"}
+],
+mustKnow:[
+ "No hot water. / 没热水。",
+ "Turn it on. / 打开。",
+ "Let me try again. / 我再试一次。"
+],
+grammar:{
+ title:"开/关 用 turn on / turn off",
+ body:"中文的'开'和'关',英语用两个小组合:<br><br>· <code>turn on</code>(特恩 昂) = 打开<br>· <code>turn off</code>(特恩 奥夫) = 关闭<br><br>把东西代词放中间:<br>→ <code>Turn it on.</code>(把它打开)<br>→ <code>Turn it off.</code>(把它关上)<br><br><b>注意</b>：<code>hour</code>(小时) 里 h 不发音,读 '阿瓦儿',跟 <code>our</code>(我们的)同音。"
+},
+quiz:[
+ {type:"mcq", q:"'heater' 是什么？", opts:["电视","加热器","冰箱","空调"], a:1, ex:"heater = 黑特儿 = 加热器"},
+ {type:"mcq", q:"'Turn it on.' 意思是：", opts:["关掉它","打开它","拆掉它","拿走它"], a:1, ex:"on = 昂 = 开"},
+ {type:"mcq", q:"'old' 意思是：", opts:["新的","旧的","热的","冷的"], a:1, ex:"old = 欧哦德 = 旧的"},
+ {type:"cn2en", q:"翻译：我再试一次。", a:"Let me try again.", hint:"try again"},
+ {type:"en2cn", q:"翻译：'Now it works.'", a:"现在好了。/ 现在能用了。", hint:"work = 运转"},
+ {type:"mcq", q:"'hour' 里不发音的字母是：", opts:["o","h","u","r"], a:1, ex:"hour = 阿瓦儿,h 不发音"}
+]
+},
+
+/* ───── LESSON 9 · How Much? ───── */
+{
+id:9, title:"How Much?", titleCn:"多少钱？",
+emoji:"💵", level:"零基础",
+goal:"学会问价、报价、收钱。生意人必学。",
+vocab:[
+ {w:"how", ipa:"/haʊ/", zh:"嚎", syl:"how / 嚎", pos:"疑问词", cn:"怎么；多", ex:"How much?"},
+ {w:"much", ipa:"/mʌtʃ/", zh:"马吃", syl:"much / 马-吃", pos:"形容词", cn:"多少（量）", ex:"How much?"},
+ {w:"money", ipa:"/ˈmʌni/", zh:"马尼", syl:"mon-ey / 马-尼", pos:"名词", cn:"钱", ex:"Save money."},
+ {w:"dollar", ipa:"/ˈdɑːlər/", zh:"到勒儿", syl:"dol-lar / 到-勒儿", pos:"名词", cn:"美元", ex:"Fifty dollars."},
+ {w:"cash", ipa:"/kæʃ/", zh:"凯什", syl:"cash / 凯-什", pos:"名词", cn:"现金", ex:"Cash only."},
+ {w:"card", ipa:"/kɑːrd/", zh:"卡德", syl:"card / 卡-德", pos:"名词", cn:"卡（信用卡）", ex:"Credit card."},
+ {w:"pay", ipa:"/peɪ/", zh:"佩", syl:"pay / 佩", pos:"动词", cn:"付钱", ex:"I pay you."},
+ {w:"fifty", ipa:"/ˈfɪfti/", zh:"飞夫提", syl:"fif-ty / 飞夫-提", pos:"数词", cn:"五十", ex:"Fifty dollars."},
+ {w:"hundred", ipa:"/ˈhʌndrəd/", zh:"航拽德", syl:"hun-dred / 航-拽德", pos:"数词", cn:"一百", ex:"One hundred."},
+ {w:"total", ipa:"/ˈtoʊtəl/", zh:"透透哦", syl:"to-tal / 透-透哦", pos:"名词", cn:"总共", ex:"The total."}
+],
+passage:[
+ {en:"How much is it?", zh:"嚎 马吃 衣兹 衣特？", cn:"多少钱？"},
+ {en:"Fifty dollars.", zh:"飞夫提 到勒儿斯", cn:"五十美元。"},
+ {en:"Cash or card?", zh:"凯什 奥尔 卡德？", cn:"现金还是刷卡？"},
+ {en:"The total is one hundred.", zh:"则 透透哦 衣兹 万 航拽德", cn:"一共一百。"},
+ {en:"Thank you for paying.", zh:"三克 由 弗 佩因", cn:"谢谢付款。"}
+],
+dialogue:[
+ {spk:"A", en:"All done. How much?", zh:"奥哦 蛋。嚎 马吃？", cn:"修好了。多少钱？"},
+ {spk:"B", en:"Fifty dollars.", zh:"飞夫提 到勒儿斯", cn:"五十美元。"},
+ {spk:"A", en:"Cash or card?", zh:"凯什 奥尔 卡德？", cn:"现金还是刷卡？"},
+ {spk:"B", en:"Card is good.", zh:"卡德 衣兹 古的。", cn:"刷卡可以。"},
+ {spk:"A", en:"Here. Thank you.", zh:"黑儿。三克 由。", cn:"给你。谢谢。"}
+],
+mustKnow:[
+ "How much? / 多少钱？",
+ "Fifty dollars. / 五十美元。",
+ "Cash or card? / 现金还是刷卡？"
+],
+grammar:{
+ title:"问价必备：How much ___ ?",
+ body:"问价格只记一句 <code>How much?</code>(嚎 马吃?) = 多少钱? 就够用。<br><br>完整一些:<br>· <code>How much is it?</code>(嚎 马吃 衣兹 衣特?) = 它多少钱?<br>· <code>How much for this?</code>(嚎 马吃 弗 贼斯?) = 这个多少钱?<br><br>付款方式也只问一句: <code>Cash or card?</code>(凯什 奥尔 卡德?) = 现金还是刷卡?"
+},
+quiz:[
+ {type:"mcq", q:"'How much?' 是在问：", opts:["在哪里","什么时候","多少钱","谁"], a:2, ex:"How much = 嚎 马吃 = 多少钱"},
+ {type:"mcq", q:"'fifty' 是：", opts:["五","十五","五十","一百"], a:2, ex:"fifty = 飞夫提 = 50"},
+ {type:"mcq", q:"'Cash or card?' 意思是：", opts:["现金还是刷卡","冷水还是热水","大的还是小的","现在还是以后"], a:0, ex:"cash/card = 现金/卡"},
+ {type:"cn2en", q:"翻译：一共一百。", a:"The total is one hundred.", hint:"total ___"},
+ {type:"en2cn", q:"翻译：'Fifty dollars.'", a:"五十美元。", hint:"dollar = 美元"},
+ {type:"mcq", q:"'money' 读作：", opts:["马尼","摸尼","蒙尼","曼尼"], a:0, ex:"money = 马尼 = 钱"}
+]
+},
+
+/* ───── LESSON 10 · All Done, Goodbye ───── */
+{
+id:10, title:"All Done, Goodbye", titleCn:"完工告别",
+emoji:"👋", level:"零基础",
+goal:"收尾告别,让客户感觉专业又舒服。把 10 课最重要的句子再复习一遍。",
+vocab:[
+ {w:"test", ipa:"/test/", zh:"忒斯特", syl:"test / 忒-斯特", pos:"动词", cn:"测试", ex:"Test the water."},
+ {w:"great", ipa:"/ɡreɪt/", zh:"阁瑞特", syl:"great / 阁-瑞特", pos:"形容词", cn:"很棒的", ex:"Great job!"},
+ {w:"welcome", ipa:"/ˈwelkəm/", zh:"外哦肯", syl:"wel-come / 外哦-肯", pos:"形容词", cn:"欢迎的", ex:"You're welcome."},
+ {w:"bye", ipa:"/baɪ/", zh:"拜", syl:"bye / 拜", pos:"告别语", cn:"再见", ex:"Bye!"},
+ {w:"goodbye", ipa:"/ɡʊdˈbaɪ/", zh:"古的拜", syl:"good-bye / 古的-拜", pos:"告别语", cn:"再见", ex:"Goodbye."},
+ {w:"call", ipa:"/kɔːl/", zh:"靠哦", syl:"call / 靠哦", pos:"动词", cn:"打电话", ex:"Call me."},
+ {w:"me", ipa:"/miː/", zh:"米", syl:"me / 米", pos:"代词", cn:"我（宾格）", ex:"Help me."},
+ {w:"anytime", ipa:"/ˈeniˌtaɪm/", zh:"安尼泰姆", syl:"any-time / 安尼-泰姆", pos:"副词", cn:"任何时候", ex:"Call anytime."},
+ {w:"problem", ipa:"/ˈprɑːbləm/", zh:"扑拉布伦", syl:"prob-lem / 扑拉-布伦", pos:"名词", cn:"问题", ex:"No problem."},
+ {w:"have", ipa:"/hæv/", zh:"嗨夫", syl:"have / 嗨-夫", pos:"动词", cn:"有", ex:"Have a good day."}
+],
+passage:[
+ {en:"All done!", zh:"奥哦 蛋！", cn:"全部修好了！"},
+ {en:"Let me test the water.", zh:"勒特 米 忒斯特 则 沃特儿", cn:"我来试一下水。"},
+ {en:"Great! It works.", zh:"阁瑞特！衣特 沃克斯。", cn:"很好！能用了。"},
+ {en:"Thank you very much.", zh:"三克 由 外瑞 马吃", cn:"非常感谢。"},
+ {en:"Call me anytime. Goodbye!", zh:"靠哦 米 安尼泰姆。古的拜！", cn:"随时打给我。再见！"}
+],
+dialogue:[
+ {spk:"A", en:"All done. Let me test it.", zh:"奥哦 蛋。勒特 米 忒斯特 衣特。", cn:"修好了。我试一下。"},
+ {spk:"B", en:"Great! No leak now.", zh:"阁瑞特！诺 利克 闹。", cn:"太好了！不漏了。"},
+ {spk:"A", en:"You're welcome. Any problem, call me.", zh:"由尔 外哦肯。安尼 扑拉布伦,靠哦 米。", cn:"不客气。有问题打我电话。"},
+ {spk:"B", en:"Thank you very much!", zh:"三克 由 外瑞 马吃！", cn:"非常感谢！"},
+ {spk:"A", en:"Have a good day. Bye!", zh:"嗨夫 厄 古的 岱。拜！", cn:"祝你愉快。再见！"}
+],
+mustKnow:[
+ "All done! / 修好了！",
+ "You're welcome. / 不客气。",
+ "Call me anytime. / 随时打我电话。"
+],
+grammar:{
+ title:"告别三件套",
+ body:"收工时照这个顺序说,就像本地老师傅一样:<br><br>1. <code>All done!</code>(奥哦 蛋!) = 修好啦!<br>2. <code>You're welcome.</code>(由尔 外哦肯) = 不客气(客户说谢谢你之后)<br>3. <code>Call me anytime. Bye!</code>(靠哦 米 安尼泰姆。拜!) = 随时打我。再见!<br><br><b>温馨提醒</b>：英语里 <code>Thanks</code> 之后不要只回 <code>Yes</code>,要回 <code>You're welcome</code> 才礼貌。"
+},
+quiz:[
+ {type:"mcq", q:"'You're welcome.' 用在什么时候？", opts:["别人谢你之后","别人骂你之后","别人笑你之后","别人付钱之后"], a:0, ex:"welcome = 外哦肯,对方说 Thanks 时回这句"},
+ {type:"mcq", q:"'Call me anytime.' 意思是：", opts:["别打给我","随时打给我","现在打给我","明天打给我"], a:1, ex:"anytime = 安尼泰姆 = 任何时候"},
+ {type:"mcq", q:"'Great!' 意思是：", opts:["坏了","很棒","很贵","很慢"], a:1, ex:"great = 阁瑞特 = 很棒"},
+ {type:"cn2en", q:"翻译：非常感谢。", a:"Thank you very much.", hint:"very much"},
+ {type:"en2cn", q:"翻译：'Have a good day.'", a:"祝你愉快。", hint:"day = 一天"},
+ {type:"mcq", q:"'bye' 和 'goodbye' 的区别：", opts:["意思完全不同","一样,都是再见,bye 更随意","bye 是 hi","goodbye 是谢谢"], a:1, ex:"都表示再见,bye 更轻松"}
+]
+}
+,
+/* ───── LESSON 11 · What Time? ───── */
+{
+id:11, title:"What Time?", titleCn:"约几点？",
+emoji:"🕐", level:"零基础",
+goal:"学会问时间、约时间。客户打电话第一个问题往往是'你几点能来'。",
+vocab:[
+ {w:"time", ipa:"/taɪm/", zh:"泰姆", syl:"time / 泰姆", pos:"名词", cn:"时间", ex:"What time?"},
+ {w:"today", ipa:"/təˈdeɪ/", zh:"兔呆", syl:"to-day / 兔-呆", pos:"副词", cn:"今天", ex:"Today is Monday."},
+ {w:"tomorrow", ipa:"/təˈmɔːroʊ/", zh:"兔莫肉", syl:"to-mor-row / 兔-莫-肉", pos:"副词", cn:"明天", ex:"See you tomorrow."},
+ {w:"morning", ipa:"/ˈmɔːrnɪŋ/", zh:"摸宁", syl:"morn-ing / 摸-宁", pos:"名词", cn:"早上", ex:"In the morning."},
+ {w:"afternoon", ipa:"/ˌæftərˈnuːn/", zh:"艾夫特努恩", syl:"af-ter-noon / 艾夫-特-努恩", pos:"名词", cn:"下午", ex:"In the afternoon."},
+ {w:"nine", ipa:"/naɪn/", zh:"奈因", syl:"nine / 奈-因", pos:"数词", cn:"九", ex:"Nine o'clock."},
+ {w:"ten", ipa:"/ten/", zh:"腾", syl:"ten / 腾", pos:"数词", cn:"十", ex:"Ten AM."},
+ {w:"o'clock", ipa:"/əˈklɑːk/", zh:"厄克拉克", syl:"o-clock / 厄-克拉克", pos:"名词", cn:"…点钟", ex:"Five o'clock."},
+ {w:"at", ipa:"/æt/", zh:"艾特", syl:"at / 艾特", pos:"介词", cn:"在(某时)", ex:"At 9 AM."},
+ {w:"see", ipa:"/siː/", zh:"西", syl:"see / 西", pos:"动词", cn:"见；看", ex:"See you!"}
+],
+passage:[
+ {en:"What time can you come?", zh:"瓦特 泰姆 砍 由 砍姆？", cn:"你几点能来？"},
+ {en:"Tomorrow at 9 AM.", zh:"兔莫肉 艾特 奈因 AM", cn:"明早九点。"},
+ {en:"In the afternoon is good.", zh:"因 则 艾夫特努恩 衣兹 古的", cn:"下午可以。"},
+ {en:"Today or tomorrow?", zh:"兔呆 奥尔 兔莫肉？", cn:"今天还是明天？"},
+ {en:"See you at ten.", zh:"西 由 艾特 腾", cn:"十点见。"}
+],
+dialogue:[
+ {spk:"B", en:"What time can you come?", zh:"瓦特 泰姆 砍 由 砍姆？", cn:"你几点能来？"},
+ {spk:"A", en:"Tomorrow morning. At nine.", zh:"兔莫肉 摸宁。艾特 奈因。", cn:"明天早上。九点。"},
+ {spk:"B", en:"Nine is good.", zh:"奈因 衣兹 古的", cn:"九点可以。"},
+ {spk:"A", en:"OK, see you tomorrow at nine.", zh:"OK,西 由 兔莫肉 艾特 奈因。", cn:"好,明早九点见。"},
+ {spk:"B", en:"Thank you!", zh:"三克 由！", cn:"谢谢！"}
+],
+mustKnow:[
+ "What time? / 几点？",
+ "At 9 AM. / 早上九点。",
+ "See you tomorrow. / 明天见。"
+],
+grammar:{
+ title:"约时间：At + 点钟 / In + 早上",
+ body:"记住两个小介词:<br><br>· <code>at</code>(艾特) + 具体几点 → <code>at 9</code>(九点)、<code>at 10 AM</code>(上午十点)<br>· <code>in</code>(因) + 早/下午/晚上 → <code>in the morning</code>(早上)<br><br>AM = 上午,PM = 下午,美国人写时间常用 9 AM、3 PM,不说 '九点整'。"
+},
+quiz:[
+ {type:"mcq", q:"'tomorrow' 意思是：", opts:["今天","明天","昨天","后天"], a:1, ex:"tomorrow = 兔莫肉 = 明天"},
+ {type:"mcq", q:"'At 9 AM' 意思是：", opts:["九点晚上","早上九点","九天后","九个人"], a:1, ex:"AM = 上午"},
+ {type:"mcq", q:"'See you!' 意思是：", opts:["见到你","再见","你好","谢谢"], a:1, ex:"See you = 西 由 = 回头见"},
+ {type:"cn2en", q:"翻译：明早九点。", a:"Tomorrow at 9 AM.", hint:"Tomorrow at ___"},
+ {type:"en2cn", q:"翻译：'In the afternoon.'", a:"下午。", hint:"afternoon = 下午"},
+ {type:"mcq", q:"'morning' 的谐音是：", opts:["忙宁","摸宁","么宁","蒙宁"], a:1, ex:"morning = 摸宁"}
+]
+},
+
+/* ───── LESSON 12 · Under the Sink ───── */
+{
+id:12, title:"Under the Sink", titleCn:"水槽下面",
+emoji:"🍽️", level:"零基础",
+goal:"处理厨房水槽下面的问题——厨余处理器、下水慢、异味。",
+vocab:[
+ {w:"under", ipa:"/ˈʌndər/", zh:"昂得儿", syl:"un-der / 昂-得儿", pos:"介词", cn:"在…下面", ex:"Under the sink."},
+ {w:"disposal", ipa:"/dɪˈspoʊzl/", zh:"地斯破周", syl:"dis-pos-al / 地斯-破-周", pos:"名词", cn:"厨余处理器", ex:"The disposal is stuck."},
+ {w:"drain", ipa:"/dreɪn/", zh:"拽因", syl:"drain / 拽-因", pos:"名/动", cn:"下水道", ex:"The drain is slow."},
+ {w:"slow", ipa:"/sloʊ/", zh:"斯漏", syl:"slow / 斯-漏", pos:"形容词", cn:"慢的", ex:"Water drains slow."},
+ {w:"food", ipa:"/fuːd/", zh:"弗德", syl:"food / 弗-德", pos:"名词", cn:"食物", ex:"Food in the drain."},
+ {w:"grease", ipa:"/ɡriːs/", zh:"格瑞斯", syl:"grease / 格瑞-斯", pos:"名词", cn:"油脂", ex:"Grease is bad."},
+ {w:"smell", ipa:"/smel/", zh:"司么哦", syl:"smell / 司么-哦", pos:"动/名", cn:"闻；气味", ex:"A bad smell."},
+ {w:"bad", ipa:"/bæd/", zh:"拜德", syl:"bad / 拜德", pos:"形容词", cn:"坏的；糟的", ex:"A bad smell."},
+ {w:"stuck", ipa:"/stʌk/", zh:"司塔克", syl:"stuck / 司塔-克", pos:"形容词", cn:"卡住的", ex:"It is stuck."},
+ {w:"reset", ipa:"/riːˈset/", zh:"瑞瑟特", syl:"re-set / 瑞-瑟特", pos:"动词", cn:"重置", ex:"Press reset."}
+],
+passage:[
+ {en:"Look under the sink.", zh:"路克 昂得儿 则 森克", cn:"看水槽下面。"},
+ {en:"The drain is slow.", zh:"则 拽因 衣兹 斯漏", cn:"下水很慢。"},
+ {en:"A bad smell.", zh:"厄 拜德 司么哦", cn:"有异味。"},
+ {en:"Food and grease make a clog.", zh:"弗德 安得 格瑞斯 妹克 厄 克拉格", cn:"食物和油脂堵住了。"},
+ {en:"Press the reset button.", zh:"普瑞斯 则 瑞瑟特 巴腾", cn:"按复位键。"}
+],
+dialogue:[
+ {spk:"B", en:"The disposal is stuck.", zh:"则 地斯破周 衣兹 司塔克", cn:"厨余处理器卡住了。"},
+ {spk:"A", en:"Let me look under the sink.", zh:"勒特 米 路克 昂得儿 则 森克。", cn:"我看看水槽下面。"},
+ {spk:"A", en:"Press this reset button.", zh:"普瑞斯 贼斯 瑞瑟特 巴腾。", cn:"按这个复位键。"},
+ {spk:"B", en:"It works now! And the smell?", zh:"衣特 沃克斯 闹！安得 则 司么哦？", cn:"能用了！那味道呢？"},
+ {spk:"A", en:"Grease. Don't pour grease down the drain.", zh:"格瑞斯。懂特 泼 格瑞斯 当 则 拽因。", cn:"油脂。别把油倒进下水。"}
+],
+mustKnow:[
+ "Under the sink. / 在水槽下面。",
+ "The drain is slow. / 下水很慢。",
+ "Don't pour grease. / 别倒油。"
+],
+grammar:{
+ title:"位置词：under / in / on",
+ body:"表示东西在哪里,三个介词必会:<br><br>· <code>under</code>(昂得儿) = 在下面 → <code>under the sink</code>(水槽下)<br>· <code>in</code>(因) = 在里面 → <code>in the drain</code>(下水里)<br>· <code>on</code>(昂) = 在上面 → <code>on the floor</code>(地板上)<br><br>地板是 <code>on</code>,抽屉里是 <code>in</code>,柜子下是 <code>under</code>——记这三个够用了。"
+},
+quiz:[
+ {type:"mcq", q:"'under the sink' 意思是：", opts:["水槽上面","水槽里面","水槽下面","水槽旁边"], a:2, ex:"under = 昂得儿 = 下面"},
+ {type:"mcq", q:"'grease' 是什么？", opts:["水","油脂","食物","盐"], a:1, ex:"grease = 格瑞斯 = 油脂"},
+ {type:"mcq", q:"'A bad smell' 意思是：", opts:["好气味","坏气味/异味","没气味","甜气味"], a:1, ex:"bad smell = 拜德 司么哦"},
+ {type:"cn2en", q:"翻译：下水很慢。", a:"The drain is slow.", hint:"drain is ___"},
+ {type:"en2cn", q:"翻译：'Press the reset button.'", a:"按复位键。", hint:"reset = 重置"},
+ {type:"mcq", q:"'stuck' 意思是：", opts:["动了","卡住了","坏了","修好了"], a:1, ex:"stuck = 司塔克 = 卡住"}
+]
+},
+
+/* ───── LESSON 13 · Shower Problems ───── */
+{
+id:13, title:"Shower Problems", titleCn:"淋浴问题",
+emoji:"🚿", level:"零基础",
+goal:"处理淋浴水小、喷头堵塞。学会形容'强/弱/低/高'。",
+vocab:[
+ {w:"shower", ipa:"/ˈʃaʊər/", zh:"啥瓦儿", syl:"show-er / 啥-瓦儿", pos:"名词", cn:"淋浴", ex:"The shower is weak."},
+ {w:"head", ipa:"/hed/", zh:"黑德", syl:"head / 黑-德", pos:"名词", cn:"头(喷头)", ex:"Shower head."},
+ {w:"weak", ipa:"/wiːk/", zh:"威克", syl:"weak / 威-克", pos:"形容词", cn:"弱的", ex:"Water is weak."},
+ {w:"strong", ipa:"/strɔːŋ/", zh:"死壮", syl:"strong / 死-壮", pos:"形容词", cn:"强的", ex:"Strong water."},
+ {w:"pressure", ipa:"/ˈpreʃər/", zh:"普瑞舍儿", syl:"pres-sure / 普瑞-舍儿", pos:"名词", cn:"压力；水压", ex:"Low pressure."},
+ {w:"low", ipa:"/loʊ/", zh:"漏", syl:"low / 漏", pos:"形容词", cn:"低的", ex:"Low pressure."},
+ {w:"high", ipa:"/haɪ/", zh:"嗨", syl:"high / 嗨", pos:"形容词", cn:"高的", ex:"High pressure."},
+ {w:"clean", ipa:"/kliːn/", zh:"克林", syl:"clean / 克-林", pos:"动/形", cn:"清洁；干净的", ex:"I clean the head."},
+ {w:"dirty", ipa:"/ˈdɜːrti/", zh:"得提", syl:"dir-ty / 得-提", pos:"形容词", cn:"脏的", ex:"The head is dirty."},
+ {w:"change", ipa:"/tʃeɪndʒ/", zh:"吃因举", syl:"change / 吃因-举", pos:"动词", cn:"换；改变", ex:"Change the head."}
+],
+passage:[
+ {en:"The shower is weak.", zh:"则 啥瓦儿 衣兹 威克", cn:"淋浴水很小。"},
+ {en:"Low water pressure.", zh:"漏 沃特儿 普瑞舍儿", cn:"水压低。"},
+ {en:"The shower head is dirty.", zh:"则 啥瓦儿 黑德 衣兹 得提", cn:"喷头脏了。"},
+ {en:"Let me clean it.", zh:"勒特 米 克林 衣特", cn:"我来洗一下。"},
+ {en:"Or I change the head.", zh:"奥尔 爱 吃因举 则 黑德", cn:"或者我换个喷头。"}
+],
+dialogue:[
+ {spk:"B", en:"The shower is weak.", zh:"则 啥瓦儿 衣兹 威克", cn:"淋浴水很小。"},
+ {spk:"A", en:"Low pressure or dirty head?", zh:"漏 普瑞舍儿 奥尔 得提 黑德？", cn:"水压低还是喷头脏？"},
+ {spk:"B", en:"I don't know.", zh:"爱 懂特 诺。", cn:"我不知道。"},
+ {spk:"A", en:"Let me check. The head is dirty.", zh:"勒特 米 切克。则 黑德 衣兹 得提。", cn:"我看看。喷头脏了。"},
+ {spk:"A", en:"I clean it. Now it is strong.", zh:"爱 克林 衣特。闹 衣特 衣兹 死壮。", cn:"我清洁了。现在水大了。"}
+],
+mustKnow:[
+ "The shower is weak. / 淋浴水小。",
+ "Low water pressure. / 水压低。",
+ "I clean it. / 我来清洁。"
+],
+grammar:{
+ title:"形容状态：___ is weak / strong / low / high",
+ body:"告诉客户东西什么状态,用 <code>主语 + is + 形容词</code>:<br><br>· <code>The water is weak.</code> = 水很小<br>· <code>The pressure is low.</code> = 水压低<br>· <code>The head is dirty.</code> = 喷头脏了<br><br><b>一对对记</b>：weak(弱)↔strong(强)、low(低)↔high(高)、dirty(脏)↔clean(干净)。"
+},
+quiz:[
+ {type:"mcq", q:"'weak' 意思是：", opts:["强的","弱的","脏的","新的"], a:1, ex:"weak = 威克 = 弱"},
+ {type:"mcq", q:"'Low water pressure' 意思是：", opts:["水压高","水压低","水很凉","水很烫"], a:1, ex:"low pressure = 水压低"},
+ {type:"mcq", q:"'dirty' 的反义词是：", opts:["wet","clean","strong","old"], a:1, ex:"dirty 脏 ↔ clean 干净"},
+ {type:"cn2en", q:"翻译：我换个喷头。", a:"I change the head.", hint:"change the ___"},
+ {type:"en2cn", q:"翻译：'Let me clean it.'", a:"让我洗一下。", hint:"clean = 洗"},
+ {type:"mcq", q:"'pressure' 的谐音是：", opts:["普瑞舍儿","普瑞特","派斯","布瑞斯"], a:0, ex:"pressure = 普瑞舍儿"}
+]
+},
+
+/* ───── LESSON 14 · Washing Machine ───── */
+{
+id:14, title:"Washing Machine", titleCn:"洗衣机",
+emoji:"🧺", level:"零基础",
+goal:"给洗衣机接冷热水管、装排水管。",
+vocab:[
+ {w:"washer", ipa:"/ˈwɔːʃər/", zh:"沃啥儿", syl:"wash-er / 沃-啥儿", pos:"名词", cn:"洗衣机", ex:"The washer."},
+ {w:"line", ipa:"/laɪn/", zh:"赖恩", syl:"line / 赖-恩", pos:"名词", cn:"管；线", ex:"Hot line."},
+ {w:"hose", ipa:"/hoʊz/", zh:"后斯", syl:"hose / 后-斯", pos:"名词", cn:"软管", ex:"Drain hose."},
+ {w:"connect", ipa:"/kəˈnekt/", zh:"可耐克特", syl:"con-nect / 可-耐克特", pos:"动词", cn:"连接", ex:"Connect the hose."},
+ {w:"back", ipa:"/bæk/", zh:"拜克", syl:"back / 拜克", pos:"名/副", cn:"后面；回去", ex:"The back of the washer."},
+ {w:"behind", ipa:"/bɪˈhaɪnd/", zh:"逼嗨因德", syl:"be-hind / 逼-嗨因德", pos:"介词", cn:"在…后面", ex:"Behind the washer."},
+ {w:"ready", ipa:"/ˈredi/", zh:"瑞提", syl:"read-y / 瑞-提", pos:"形容词", cn:"准备好的", ex:"It is ready."},
+ {w:"two", ipa:"/tuː/", zh:"图", syl:"two / 图", pos:"数词", cn:"二；两", ex:"Two lines."},
+ {w:"one", ipa:"/wʌn/", zh:"万", syl:"one / 万", pos:"数词", cn:"一", ex:"One hose."},
+ {w:"open", ipa:"/ˈoʊpən/", zh:"欧盆", syl:"o-pen / 欧-盆", pos:"动词", cn:"打开", ex:"Open the valve."}
+],
+passage:[
+ {en:"Behind the washer.", zh:"逼嗨因德 则 沃啥儿", cn:"在洗衣机后面。"},
+ {en:"Two lines: hot and cold.", zh:"图 赖恩斯:哈特 安得 靠哦德", cn:"两根管:热水和冷水。"},
+ {en:"Connect the drain hose.", zh:"可耐克特 则 拽因 后斯", cn:"接上排水管。"},
+ {en:"Make it tight.", zh:"妹克 衣特 泰特", cn:"拧紧。"},
+ {en:"Open the water. Ready!", zh:"欧盆 则 沃特儿。瑞提！", cn:"开水。准备好了！"}
+],
+dialogue:[
+ {spk:"A", en:"Look behind the washer.", zh:"路克 逼嗨因德 则 沃啥儿。", cn:"看洗衣机后面。"},
+ {spk:"B", en:"I see two lines.", zh:"爱 西 图 赖恩斯。", cn:"我看到两根管。"},
+ {spk:"A", en:"Hot and cold. Connect them tight.", zh:"哈特 安得 靠哦德。可耐克特 赞姆 泰特。", cn:"热水和冷水。拧紧。"},
+ {spk:"A", en:"And the drain hose goes here.", zh:"安得 则 拽因 后斯 勾斯 黑儿。", cn:"排水管放这里。"},
+ {spk:"B", en:"Ready to wash!", zh:"瑞提 兔 沃什！", cn:"可以洗了！"}
+],
+mustKnow:[
+ "Hot and cold. / 热水和冷水。",
+ "Connect the hose. / 接上水管。",
+ "Make it tight. / 拧紧。"
+],
+grammar:{
+ title:"数词 + 复数：one / two",
+ body:"英语里名词有'单/复数':<br><br>· <code>one line</code>(一根管) ← 单数<br>· <code>two lines</code>(两根管) ← 复数,尾部加 <code>s</code><br><br>多数词后面基本加 s:<br>→ <code>three hoses</code>(三根软管)<br>→ <code>two washers</code>(两台洗衣机)<br><br>客户听到 <code>two</code> 就知道你在数数了。"
+},
+quiz:[
+ {type:"mcq", q:"'behind the washer' 意思是：", opts:["洗衣机前面","洗衣机后面","洗衣机里面","洗衣机上面"], a:1, ex:"behind = 逼嗨因德 = 后面"},
+ {type:"mcq", q:"'two lines' 意思是：", opts:["一根管","两根管","三根管","一排管"], a:1, ex:"two = 图 = 二"},
+ {type:"mcq", q:"'hose' 是：", opts:["水管/软管","扳手","电线","钉子"], a:0, ex:"hose = 后斯 = 软管"},
+ {type:"cn2en", q:"翻译：接上排水管。", a:"Connect the drain hose.", hint:"connect ___"},
+ {type:"en2cn", q:"翻译：'Make it tight.'", a:"拧紧。", hint:"tight = 紧"},
+ {type:"mcq", q:"'connect' 的谐音是：", opts:["可内","可耐克特","可乃","康耐"], a:1, ex:"connect = 可耐克特"}
+]
+},
+
+/* ───── LESSON 15 · Dishwasher ───── */
+{
+id:15, title:"Dishwasher", titleCn:"洗碗机",
+emoji:"🍽️", level:"零基础",
+goal:"安装洗碗机——接水、插电、测试。",
+vocab:[
+ {w:"dishwasher", ipa:"/ˈdɪʃˌwɔːʃər/", zh:"地士沃啥儿", syl:"dish-wash-er / 地士-沃-啥儿", pos:"名词", cn:"洗碗机", ex:"New dishwasher."},
+ {w:"install", ipa:"/ɪnˈstɔːl/", zh:"因斯偷哦", syl:"in-stall / 因-斯偷哦", pos:"动词", cn:"安装", ex:"I install it."},
+ {w:"plug", ipa:"/plʌɡ/", zh:"扑拉格", syl:"plug / 扑拉-格", pos:"动/名", cn:"插(插头)", ex:"Plug it in."},
+ {w:"outlet", ipa:"/ˈaʊtlet/", zh:"奥特勒特", syl:"out-let / 奥特-勒特", pos:"名词", cn:"插座", ex:"Power outlet."},
+ {w:"power", ipa:"/ˈpaʊər/", zh:"泡瓦儿", syl:"pow-er / 泡-瓦儿", pos:"名词", cn:"电源", ex:"Power on."},
+ {w:"supply", ipa:"/səˈplaɪ/", zh:"色普赖", syl:"sup-ply / 色-普赖", pos:"名词", cn:"供给", ex:"Water supply."},
+ {w:"counter", ipa:"/ˈkaʊntər/", zh:"考恩特儿", syl:"coun-ter / 考恩-特儿", pos:"名词", cn:"台面", ex:"Under the counter."},
+ {w:"button", ipa:"/ˈbʌtn/", zh:"巴腾", syl:"but-ton / 巴-腾", pos:"名词", cn:"按钮", ex:"Press the button."},
+ {w:"start", ipa:"/stɑːrt/", zh:"斯塔特", syl:"start / 斯-塔特", pos:"动词", cn:"开始", ex:"Start the test."},
+ {w:"works", ipa:"/wɜːrks/", zh:"沃克斯", syl:"works / 沃-克斯", pos:"动词", cn:"运转；好用", ex:"It works."}
+],
+passage:[
+ {en:"I install the dishwasher.", zh:"爱 因斯偷哦 则 地士沃啥儿", cn:"我装洗碗机。"},
+ {en:"Under the counter.", zh:"昂得儿 则 考恩特儿", cn:"在台面下面。"},
+ {en:"Plug it in.", zh:"扑拉格 衣特 因", cn:"插上电。"},
+ {en:"Turn on the water supply.", zh:"特恩 昂 则 沃特儿 色普赖", cn:"打开水源。"},
+ {en:"Press start. It works!", zh:"普瑞斯 斯塔特。衣特 沃克斯！", cn:"按开始。能用了！"}
+],
+dialogue:[
+ {spk:"B", en:"Can you install a dishwasher?", zh:"砍 由 因斯偷哦 厄 地士沃啥儿？", cn:"你能装洗碗机吗？"},
+ {spk:"A", en:"Sure. Where is the outlet?", zh:"秀儿。外儿 衣兹 则 奥特勒特？", cn:"可以。插座在哪？"},
+ {spk:"B", en:"Under the counter.", zh:"昂得儿 则 考恩特儿。", cn:"台面下。"},
+ {spk:"A", en:"Good. I plug it in and connect water.", zh:"古的。爱 扑拉格 衣特 因 安得 可耐克特 沃特儿。", cn:"好。我插上电接水。"},
+ {spk:"A", en:"Press start. It works!", zh:"普瑞斯 斯塔特。衣特 沃克斯！", cn:"按开始。能用了！"}
+],
+mustKnow:[
+ "Plug it in. / 插上电。",
+ "Water supply on. / 开水源。",
+ "It works! / 能用了！"
+],
+grammar:{
+ title:"两字动词：plug in / turn on / turn off",
+ body:"英语有很多'动词+小词'的搭配,非常口语:<br><br>· <code>plug in</code>(扑拉格 因) = 插上插头<br>· <code>turn on</code>(特恩 昂) = 打开<br>· <code>turn off</code>(特恩 奥夫) = 关闭<br><br>小技巧:中间塞代词 it —<br>→ <code>Plug it in.</code>(把它插上)<br>→ <code>Turn it on.</code>(把它打开)"
+},
+quiz:[
+ {type:"mcq", q:"'install' 意思是：", opts:["拆除","安装","测试","使用"], a:1, ex:"install = 因斯偷哦 = 安装"},
+ {type:"mcq", q:"'Plug it in.' 意思是：", opts:["拔掉它","插上它","打开它","关掉它"], a:1, ex:"plug in = 插上"},
+ {type:"mcq", q:"'outlet' 是：", opts:["出口","插座","按钮","开关"], a:1, ex:"outlet = 奥特勒特 = 插座"},
+ {type:"cn2en", q:"翻译：按开始按钮。", a:"Press the start button.", hint:"press the ___"},
+ {type:"en2cn", q:"翻译：'Under the counter.'", a:"在台面下面。", hint:"counter = 台面"},
+ {type:"mcq", q:"'Power on' 意思是：", opts:["停电","通电","省电","费电"], a:1, ex:"on = 开"}
+]
+},
+
+/* ───── LESSON 16 · Basement Flood ───── */
+{
+id:16, title:"Basement Flood", titleCn:"地下室进水",
+emoji:"🌊", level:"初级",
+goal:"处理地下室积水和排水泵。紧急情况常见词汇。",
+vocab:[
+ {w:"basement", ipa:"/ˈbeɪsmənt/", zh:"呗斯门特", syl:"base-ment / 呗斯-门特", pos:"名词", cn:"地下室", ex:"The basement."},
+ {w:"flood", ipa:"/flʌd/", zh:"弗拉德", syl:"flood / 弗拉-德", pos:"名/动", cn:"洪水；淹", ex:"A flood."},
+ {w:"sump", ipa:"/sʌmp/", zh:"桑普", syl:"sump / 桑-普", pos:"名词", cn:"集水坑", ex:"Sump pump."},
+ {w:"pump", ipa:"/pʌmp/", zh:"棒普", syl:"pump / 棒-普", pos:"名词", cn:"泵", ex:"The pump."},
+ {w:"storm", ipa:"/stɔːrm/", zh:"斯托姆", syl:"storm / 斯托-姆", pos:"名词", cn:"暴雨", ex:"After the storm."},
+ {w:"battery", ipa:"/ˈbætəri/", zh:"拜特瑞", syl:"bat-te-ry / 拜-特-瑞", pos:"名词", cn:"电池", ex:"Battery is dead."},
+ {w:"dead", ipa:"/ded/", zh:"得德", syl:"dead / 得-德", pos:"形容词", cn:"死的；没电", ex:"Battery is dead."},
+ {w:"dry", ipa:"/draɪ/", zh:"拽", syl:"dry / 拽", pos:"形容词", cn:"干的", ex:"Keep it dry."},
+ {w:"keep", ipa:"/kiːp/", zh:"克普", syl:"keep / 克-普", pos:"动词", cn:"保持", ex:"Keep it safe."},
+ {w:"safe", ipa:"/seɪf/", zh:"赛夫", syl:"safe / 赛-夫", pos:"形容词", cn:"安全的", ex:"You are safe."}
+],
+passage:[
+ {en:"The basement is flooded.", zh:"则 呗斯门特 衣兹 弗拉迪德", cn:"地下室进水了。"},
+ {en:"The sump pump is off.", zh:"则 桑普 棒普 衣兹 奥夫", cn:"排水泵没运转。"},
+ {en:"No power. Battery is dead.", zh:"诺 泡瓦儿。拜特瑞 衣兹 得德。", cn:"没电。电池没电。"},
+ {en:"After the storm.", zh:"艾夫特儿 则 斯托姆", cn:"暴雨之后。"},
+ {en:"I fix the pump. Keep it dry.", zh:"爱 费克斯 则 棒普。克普 衣特 拽。", cn:"我修好泵。保持干燥。"}
+],
+dialogue:[
+ {spk:"B", en:"Help! My basement is flooded!", zh:"嗨哦普！买 呗斯门特 衣兹 弗拉迪德！", cn:"救命！地下室进水了！"},
+ {spk:"A", en:"After the storm?", zh:"艾夫特儿 则 斯托姆？", cn:"暴雨之后吗？"},
+ {spk:"B", en:"Yes. The sump pump is off.", zh:"耶斯。则 桑普 棒普 衣兹 奥夫。", cn:"是的。泵不转。"},
+ {spk:"A", en:"Battery is dead. I change it now.", zh:"拜特瑞 衣兹 得德。爱 吃因举 衣特 闹。", cn:"电池没电。我现在换。"},
+ {spk:"A", en:"OK, dry now. You are safe.", zh:"OK,拽 闹。由 阿儿 赛夫。", cn:"好,干了。你安全了。"}
+],
+mustKnow:[
+ "The basement is flooded. / 地下室进水了。",
+ "Battery is dead. / 电池没电。",
+ "You are safe. / 你安全了。"
+],
+grammar:{
+ title:"被动状态：is flooded / is dead",
+ body:"描述东西'被怎么样了',常见说法:<br><br>· <code>is flooded</code>(进水了)<br>· <code>is broken</code>(坏了)<br>· <code>is dead</code>(没电了/坏了)<br>· <code>is stuck</code>(卡住了)<br><br><b>结构</b>: 名词 + is + 过去分词(形容词化)。零基础不需要背术语,记住这几个现成短语就够。"
+},
+quiz:[
+ {type:"mcq", q:"'basement' 意思是：", opts:["屋顶","地下室","厨房","阁楼"], a:1, ex:"basement = 呗斯门特"},
+ {type:"mcq", q:"'Battery is dead.' 意思是：", opts:["电池很新","电池没电了","电池很好","电池烫手"], a:1, ex:"dead(电池)= 没电"},
+ {type:"mcq", q:"'storm' 是：", opts:["小雨","暴雨","太阳","雪"], a:1, ex:"storm = 斯托姆 = 暴雨"},
+ {type:"cn2en", q:"翻译：保持干燥。", a:"Keep it dry.", hint:"keep + adj"},
+ {type:"en2cn", q:"翻译：'You are safe.'", a:"你安全了。", hint:"safe = 安全"},
+ {type:"mcq", q:"'pump' 的谐音是：", opts:["邦普","棒普","潘普","朋普"], a:1, ex:"pump = 棒普 = 泵"}
+]
+},
+
+/* ───── LESSON 17 · Outdoor Faucet ───── */
+{
+id:17, title:"Outdoor Faucet", titleCn:"户外水龙头防冻",
+emoji:"❄️", level:"初级",
+goal:"冬天前关户外水源防止冻裂。重点记'outside / freeze / cover'。",
+vocab:[
+ {w:"outside", ipa:"/ˌaʊtˈsaɪd/", zh:"奥特赛德", syl:"out-side / 奥特-赛德", pos:"副/名", cn:"外面", ex:"Go outside."},
+ {w:"yard", ipa:"/jɑːrd/", zh:"压德", syl:"yard / 压-德", pos:"名词", cn:"院子", ex:"The back yard."},
+ {w:"freeze", ipa:"/friːz/", zh:"弗瑞兹", syl:"freeze / 弗瑞-兹", pos:"动词", cn:"冻结", ex:"Water can freeze."},
+ {w:"winter", ipa:"/ˈwɪntər/", zh:"温特儿", syl:"win-ter / 温-特儿", pos:"名词", cn:"冬天", ex:"In winter."},
+ {w:"cover", ipa:"/ˈkʌvər/", zh:"卡瓦儿", syl:"cov-er / 卡-瓦儿", pos:"动词", cn:"盖住", ex:"Cover it."},
+ {w:"shut", ipa:"/ʃʌt/", zh:"啥特", syl:"shut / 啥-特", pos:"动词", cn:"关闭", ex:"Shut it off."},
+ {w:"burst", ipa:"/bɜːrst/", zh:"波斯特", syl:"burst / 波-斯特", pos:"动词", cn:"爆裂", ex:"Pipes burst."},
+ {w:"before", ipa:"/bɪˈfɔːr/", zh:"逼否儿", syl:"be-fore / 逼-否儿", pos:"介词", cn:"在…之前", ex:"Before winter."},
+ {w:"so", ipa:"/soʊ/", zh:"搜", syl:"so / 搜", pos:"连词", cn:"所以", ex:"So be careful."},
+ {w:"careful", ipa:"/ˈkerfəl/", zh:"凯儿佛哦", syl:"care-ful / 凯儿-佛哦", pos:"形容词", cn:"小心的", ex:"Be careful."}
+],
+passage:[
+ {en:"The outdoor faucet.", zh:"则 奥特多儿 发瑟特", cn:"户外的水龙头。"},
+ {en:"Before winter, shut it off.", zh:"逼否儿 温特儿,啥特 衣特 奥夫", cn:"冬天前,关掉它。"},
+ {en:"Cold water can freeze.", zh:"靠哦德 沃特儿 砍 弗瑞兹", cn:"冷水会冻住。"},
+ {en:"Frozen pipes can burst.", zh:"弗肉森 派普斯 砍 波斯特", cn:"冻住的管会爆。"},
+ {en:"Cover it to stay safe.", zh:"卡瓦儿 衣特 兔 斯呆 赛夫", cn:"盖上保平安。"}
+],
+dialogue:[
+ {spk:"A", en:"Winter is coming.", zh:"温特儿 衣兹 砍明。", cn:"冬天要来了。"},
+ {spk:"A", en:"Shut off the outdoor faucet.", zh:"啥特 奥夫 则 奥特多儿 发瑟特。", cn:"关掉户外水龙头。"},
+ {spk:"B", en:"Why?", zh:"外？", cn:"为什么？"},
+ {spk:"A", en:"So pipes don't freeze and burst.", zh:"搜 派普斯 懂特 弗瑞兹 安得 波斯特。", cn:"这样管子就不会冻爆。"},
+ {spk:"B", en:"Oh! I cover it too.", zh:"欧！爱 卡瓦儿 衣特 兔。", cn:"哦！我再盖上。"}
+],
+mustKnow:[
+ "Shut it off. / 关掉。",
+ "Water can freeze. / 水会冻住。",
+ "Cover it. / 盖上。"
+],
+grammar:{
+ title:"'可以/会'：can + 动词",
+ body:"表示'可能会发生什么',用 <code>can</code>(砍):<br><br>· <code>Water can freeze.</code> = 水会冻住<br>· <code>Pipes can burst.</code> = 管子会爆<br>· <code>I can help.</code> = 我能帮忙<br><br><b>对比</b>: <code>can</code>(砍)=能/会;否定 <code>can't</code>(砍特)=不能/不会,中间没变化,就多个 't'。"
+},
+quiz:[
+ {type:"mcq", q:"'freeze' 意思是：", opts:["沸腾","冻结","流动","加热"], a:1, ex:"freeze = 弗瑞兹 = 冻住"},
+ {type:"mcq", q:"'Before winter' 意思是：", opts:["冬天里","冬天后","冬天前","整个冬天"], a:2, ex:"before = 逼否儿 = 之前"},
+ {type:"mcq", q:"'Pipes can burst.' 意思是：", opts:["管子很硬","管子会爆","管子是新的","管子会冷"], a:1, ex:"burst = 波斯特 = 爆"},
+ {type:"cn2en", q:"翻译：盖上它。", a:"Cover it.", hint:"cover + it"},
+ {type:"en2cn", q:"翻译：'Be careful.'", a:"小心。", hint:"careful = 小心"},
+ {type:"mcq", q:"'outside' 是：", opts:["里面","外面","上面","下面"], a:1, ex:"outside = 奥特赛德 = 外面"}
+]
+},
+
+/* ───── LESSON 18 · Main Valve ───── */
+{
+id:18, title:"Main Valve", titleCn:"总闸阀",
+emoji:"🚨", level:"初级",
+goal:"告诉客户总阀位置,紧急关水救命。每个家庭都应学。",
+vocab:[
+ {w:"main", ipa:"/meɪn/", zh:"门", syl:"main / 门", pos:"形容词", cn:"主要的", ex:"Main valve."},
+ {w:"valve", ipa:"/vælv/", zh:"瓦儿夫", syl:"valve / 瓦儿-夫", pos:"名词", cn:"阀门", ex:"Water valve."},
+ {w:"emergency", ipa:"/ɪˈmɜːrdʒənsi/", zh:"医么真西", syl:"e-mer-gen-cy / 医-么-真-西", pos:"名词", cn:"紧急情况", ex:"An emergency!"},
+ {w:"fast", ipa:"/fæst/", zh:"发斯特", syl:"fast / 发-斯特", pos:"副词", cn:"快地", ex:"Go fast!"},
+ {w:"find", ipa:"/faɪnd/", zh:"范德", syl:"find / 范-德", pos:"动词", cn:"找到", ex:"Find the valve."},
+ {w:"know", ipa:"/noʊ/", zh:"诺", syl:"know / 诺（k 不发音）", pos:"动词", cn:"知道", ex:"You know."},
+ {w:"every", ipa:"/ˈevri/", zh:"艾夫瑞", syl:"ev-ery / 艾-夫瑞", pos:"形容词", cn:"每个", ex:"Every house."},
+ {w:"house", ipa:"/haʊs/", zh:"浩斯", syl:"house / 浩-斯", pos:"名词", cn:"房子", ex:"My house."},
+ {w:"outside", ipa:"/ˌaʊtˈsaɪd/", zh:"奥特赛德", syl:"out-side / 奥特-赛德", pos:"副词", cn:"外面", ex:"Outside the house."},
+ {w:"now", ipa:"/naʊ/", zh:"闹", syl:"now / 闹", pos:"副词", cn:"现在", ex:"Do it now!"}
+],
+passage:[
+ {en:"Every house has a main valve.", zh:"艾夫瑞 浩斯 海斯 厄 门 瓦儿夫", cn:"每个家都有总阀。"},
+ {en:"Know where it is.", zh:"诺 外儿 衣特 衣兹", cn:"要知道它在哪。"},
+ {en:"In an emergency, shut it off fast.", zh:"因 恩 医么真西,啥特 衣特 奥夫 发斯特", cn:"紧急时快速关掉。"},
+ {en:"It stops all the water.", zh:"衣特 斯他普斯 奥哦 则 沃特儿", cn:"它能关掉全部的水。"},
+ {en:"Usually outside the house.", zh:"尤儒哦利 奥特赛德 则 浩斯", cn:"一般在房子外面。"}
+],
+dialogue:[
+ {spk:"A", en:"Where is your main valve?", zh:"外儿 衣兹 优儿 门 瓦儿夫？", cn:"你家总阀在哪？"},
+ {spk:"B", en:"I don't know!", zh:"爱 懂特 诺！", cn:"我不知道！"},
+ {spk:"A", en:"Let me show you. It is outside.", zh:"勒特 米 肖 由。衣特 衣兹 奥特赛德。", cn:"我带你看。在外面。"},
+ {spk:"B", en:"OK, I can find it now.", zh:"OK,爱 砍 范德 衣特 闹。", cn:"好,我能找到了。"},
+ {spk:"A", en:"In an emergency, shut it off fast!", zh:"因 恩 医么真西,啥特 衣特 奥夫 发斯特！", cn:"紧急时赶紧关！"}
+],
+mustKnow:[
+ "Where is the main valve? / 总阀在哪？",
+ "Shut it off fast! / 快点关掉！",
+ "Know your house. / 要熟悉你的家。"
+],
+grammar:{
+ title:"否定：I don't + 动词",
+ body:"不会/不知道/不要,用 <code>don't</code>(懂特):<br><br>· <code>I don't know.</code>(爱 懂特 诺) = 我不知道<br>· <code>I don't see it.</code> = 我没看到<br>· <code>Don't touch!</code>(懂特 踏吃) = 别碰!<br><br><b>记住</b>: <code>know</code>(诺) 里 k 不发音,跟 <code>no</code>(诺) 同音。"
+},
+quiz:[
+ {type:"mcq", q:"'main valve' 是：", opts:["水龙头","总阀","热水器","马桶"], a:1, ex:"main = 门, valve = 瓦儿夫"},
+ {type:"mcq", q:"'emergency' 意思是：", opts:["普通","紧急","平静","慢慢"], a:1, ex:"emergency = 医么真西 = 紧急"},
+ {type:"mcq", q:"'I don't know.' 意思是：", opts:["我知道","我不知道","我不要","我在看"], a:1, ex:"don't = 不"},
+ {type:"cn2en", q:"翻译：快点关掉！", a:"Shut it off fast!", hint:"shut off"},
+ {type:"en2cn", q:"翻译：'Every house has a main valve.'", a:"每个房子都有总阀。", hint:"every = 每个"},
+ {type:"mcq", q:"'know' 的 k 是：", opts:["重读","轻读","不发音","爆破音"], a:2, ex:"know = 诺,k 不发音"}
+]
+},
+
+/* ───── LESSON 19 · Smell Gas ───── */
+{
+id:19, title:"Smell Gas", titleCn:"闻到燃气",
+emoji:"⚠️", level:"初级",
+goal:"闻到燃气必会的救命英语。这一课一定要牢记。",
+vocab:[
+ {w:"gas", ipa:"/ɡæs/", zh:"盖斯", syl:"gas / 盖-斯", pos:"名词", cn:"燃气", ex:"Gas leak."},
+ {w:"smell", ipa:"/smel/", zh:"司么哦", syl:"smell / 司么-哦", pos:"动词", cn:"闻到", ex:"I smell gas."},
+ {w:"danger", ipa:"/ˈdeɪndʒər/", zh:"丹者儿", syl:"dan-ger / 丹-者儿", pos:"名词", cn:"危险", ex:"Big danger!"},
+ {w:"leave", ipa:"/liːv/", zh:"利夫", syl:"leave / 利-夫", pos:"动词", cn:"离开", ex:"Leave now!"},
+ {w:"touch", ipa:"/tʌtʃ/", zh:"踏吃", syl:"touch / 踏-吃", pos:"动词", cn:"碰；触摸", ex:"Don't touch."},
+ {w:"light", ipa:"/laɪt/", zh:"赖特", syl:"light / 赖特", pos:"名词", cn:"灯；火", ex:"No light."},
+ {w:"switch", ipa:"/swɪtʃ/", zh:"斯维吃", syl:"switch / 斯维-吃", pos:"名词", cn:"开关", ex:"The switch."},
+ {w:"call", ipa:"/kɔːl/", zh:"靠哦", syl:"call / 靠哦", pos:"动词", cn:"打电话", ex:"Call 911."},
+ {w:"company", ipa:"/ˈkʌmpəni/", zh:"砍普尼", syl:"com-pa-ny / 砍-普-尼", pos:"名词", cn:"公司", ex:"Gas company."},
+ {w:"nine-one-one", ipa:"/naɪn wʌn wʌn/", zh:"奈因-万-万", syl:"nine-one-one / 奈因-万-万", pos:"号码", cn:"911紧急电话", ex:"Call 911."}
+],
+passage:[
+ {en:"I smell gas.", zh:"爱 司么哦 盖斯", cn:"我闻到燃气了。"},
+ {en:"Big danger!", zh:"比格 丹者儿！", cn:"很危险！"},
+ {en:"Don't touch a light switch.", zh:"懂特 踏吃 厄 赖特 斯维吃", cn:"别碰灯开关。"},
+ {en:"Leave the house now.", zh:"利夫 则 浩斯 闹", cn:"马上离开房子。"},
+ {en:"Call 911 or the gas company.", zh:"靠哦 奈因-万-万 奥尔 则 盖斯 砍普尼", cn:"打911或燃气公司。"}
+],
+dialogue:[
+ {spk:"B", en:"I smell gas in the kitchen!", zh:"爱 司么哦 盖斯 因 则 克齐恩！", cn:"厨房有燃气味！"},
+ {spk:"A", en:"Leave now! Don't touch anything.", zh:"利夫 闹！懂特 踏吃 艾尼辛。", cn:"马上走！别碰任何东西。"},
+ {spk:"A", en:"No lights. No phone calls inside.", zh:"诺 赖特斯。诺 佛恩 靠哦斯 因赛德。", cn:"不要开灯。不要在屋里打电话。"},
+ {spk:"B", en:"OK, I am outside.", zh:"OK,爱 艾姆 奥特赛德。", cn:"好,我出来了。"},
+ {spk:"A", en:"Now call the gas company. It is a big danger.", zh:"闹 靠哦 则 盖斯 砍普尼。衣特 衣兹 厄 比格 丹者儿。", cn:"现在打给燃气公司。这很危险。"}
+],
+mustKnow:[
+ "I smell gas. / 我闻到燃气。",
+ "Leave now! / 马上走！",
+ "Don't touch. / 别碰。"
+],
+grammar:{
+ title:"警告句式：Don't + 动词",
+ body:"危险时用这几句保命英语:<br><br>· <code>Don't touch!</code>(懂特 踏吃!) = 别碰!<br>· <code>Don't move!</code>(懂特 母夫!) = 别动!<br>· <code>Leave now!</code>(利夫 闹!) = 立刻走!<br>· <code>Call 911!</code>(靠哦 奈因-万-万!) = 叫 911!<br><br><b>救命记住</b>: <code>smell gas</code> → <code>leave</code> → <code>call 911</code>。"
+},
+quiz:[
+ {type:"mcq", q:"'I smell gas.' 意思是：", opts:["我看到气","我闻到燃气","我喝到气","我摸到气"], a:1, ex:"smell = 司么哦 = 闻"},
+ {type:"mcq", q:"闻到燃气第一件事是：", opts:["开灯","打电话","离开","拍照"], a:2, ex:"Leave first!"},
+ {type:"mcq", q:"'Don't touch.' 意思是：", opts:["碰一下","别碰","再碰","轻碰"], a:1, ex:"don't = 不要"},
+ {type:"cn2en", q:"翻译：打911。", a:"Call 911.", hint:"call + 号码"},
+ {type:"en2cn", q:"翻译：'Big danger!'", a:"非常危险！", hint:"danger = 危险"},
+ {type:"mcq", q:"'switch' 是：", opts:["开关","按钮","插座","把手"], a:0, ex:"switch = 斯维吃"}
+]
+},
+
+/* ───── LESSON 20 · Warranty & Goodbye ───── */
+{
+id:20, title:"Warranty & Goodbye", titleCn:"保修与告别",
+emoji:"🎁", level:"初级",
+goal:"告诉客户保修,承诺回访。把 20 课最常用的客气话再巩固一次。",
+vocab:[
+ {w:"warranty", ipa:"/ˈwɔːrənti/", zh:"沃润提", syl:"war-ran-ty / 沃-润-提", pos:"名词", cn:"保修", ex:"One year warranty."},
+ {w:"guarantee", ipa:"/ˌɡerənˈtiː/", zh:"盖润提", syl:"guar-an-tee / 盖-润-提", pos:"动词", cn:"保证", ex:"I guarantee it."},
+ {w:"year", ipa:"/jɪr/", zh:"伊儿", syl:"year / 伊儿", pos:"名词", cn:"年", ex:"One year."},
+ {w:"month", ipa:"/mʌnθ/", zh:"曼斯", syl:"month / 曼-斯", pos:"名词", cn:"月", ex:"Six months."},
+ {w:"free", ipa:"/friː/", zh:"弗瑞", syl:"free / 弗瑞", pos:"形容词", cn:"免费的", ex:"Free service."},
+ {w:"promise", ipa:"/ˈprɑːməs/", zh:"扑拉米斯", syl:"prom-ise / 扑拉-米斯", pos:"动/名", cn:"承诺", ex:"I promise."},
+ {w:"happy", ipa:"/ˈhæpi/", zh:"海皮", syl:"hap-py / 海-皮", pos:"形容词", cn:"高兴的", ex:"You are happy."},
+ {w:"anytime", ipa:"/ˈeniˌtaɪm/", zh:"安尼泰姆", syl:"any-time / 安尼-泰姆", pos:"副词", cn:"任何时候", ex:"Call anytime."},
+ {w:"trust", ipa:"/trʌst/", zh:"踹斯特", syl:"trust / 踹-斯特", pos:"动词", cn:"信任", ex:"Trust me."},
+ {w:"best", ipa:"/best/", zh:"呗斯特", syl:"best / 呗-斯特", pos:"形容词", cn:"最好的", ex:"Best service."}
+],
+passage:[
+ {en:"One year warranty.", zh:"万 伊儿 沃润提", cn:"保修一年。"},
+ {en:"Any problem, call me.", zh:"艾尼 扑拉布伦,靠哦 米", cn:"有问题打我。"},
+ {en:"I come back free.", zh:"爱 砍姆 拜克 弗瑞", cn:"我免费回访。"},
+ {en:"I promise good work.", zh:"爱 扑拉米斯 古的 沃克", cn:"我保证活儿好。"},
+ {en:"Trust me. Be happy!", zh:"踹斯特 米。逼 海皮！", cn:"相信我。开心!"}
+],
+dialogue:[
+ {spk:"A", en:"All done! One year warranty.", zh:"奥哦 蛋！万 伊儿 沃润提。", cn:"搞定！保修一年。"},
+ {spk:"B", en:"Free?", zh:"弗瑞？", cn:"免费吗？"},
+ {spk:"A", en:"Yes, free service for one year.", zh:"耶斯,弗瑞 瑟维斯 弗 万 伊儿。", cn:"是,一年免费服务。"},
+ {spk:"A", en:"Any problem, call me anytime.", zh:"艾尼 扑拉布伦,靠哦 米 安尼泰姆。", cn:"有事随时打我。"},
+ {spk:"B", en:"Thank you. You are the best!", zh:"三克 由。由 阿儿 则 呗斯特！", cn:"谢谢,你最棒了！"}
+],
+mustKnow:[
+ "One year warranty. / 保修一年。",
+ "Call me anytime. / 随时打我。",
+ "Trust me. / 相信我。"
+],
+grammar:{
+ title:"做承诺：I promise / I guarantee",
+ body:"赢得客户信任的两句话:<br><br>· <code>I promise ___</code>(爱 扑拉米斯) = 我保证 ___<br>  → <code>I promise good work.</code>(我保证活儿好)<br>· <code>I guarantee it.</code>(爱 盖润提 衣特) = 我担保<br><br><b>时间表达</b>: <code>one year</code>(一年)、<code>six months</code>(六个月),复数加 s。"
+},
+quiz:[
+ {type:"mcq", q:"'warranty' 是：", opts:["钱","保修","工具","车"], a:1, ex:"warranty = 沃润提 = 保修"},
+ {type:"mcq", q:"'free' 意思是：", opts:["贵","免费","慢","难"], a:1, ex:"free = 弗瑞 = 免费"},
+ {type:"mcq", q:"'Trust me.' 意思是：", opts:["谢谢我","相信我","跟着我","帮帮我"], a:1, ex:"trust = 踹斯特 = 信任"},
+ {type:"cn2en", q:"翻译：我保证活儿好。", a:"I promise good work.", hint:"I promise ___"},
+ {type:"en2cn", q:"翻译：'You are the best!'", a:"你最棒了！", hint:"best = 最好"},
+ {type:"mcq", q:"'six months' 是：", opts:["六天","六周","六个月","六年"], a:2, ex:"month = 曼斯 = 月"}
+]
+}
+
+];
+
+window.PLMB_EXAMS = [
+{
+id:"E1", title:"综合测试 ①", afterLesson:3, covers:"L1-L3",
+listening:[
+ {audio:"Hello, I am a plumber.", opts:["你好,我是水管工","你好,我是医生","再见,水管工","谢谢你"], a:0},
+ {audio:"This is a wrench.", opts:["这是水","这是扳手","这是管子","这是门"], a:1},
+ {audio:"Water is leaking.", opts:["水管是新的","水在漏","水很热","没有水"], a:1},
+ {audio:"Do you have a problem?", opts:["你有工具吗?","你有问题吗?","你是水管工吗?","你好吗?"], a:1},
+ {audio:"Yes, I can help.", opts:["不,我不行","是的,我可以帮忙","请再说一遍","我不懂"], a:1}
+],
+vocab:[
+ {w:"plumber", opts:["医生","老师","水管工","司机"], a:2},
+ {w:"water", opts:["火","水","风","土"], a:1},
+ {w:"leak", opts:["漏","关","修","买"], a:0},
+ {w:"tool", opts:["书","工具","车","钱"], a:1},
+ {w:"problem", opts:["问题","答案","名字","时间"], a:0}
+],
+sentences:[
+ {q:"翻译：'I am a plumber.'", opts:["我是老师","我是水管工","我有工具","你是谁"], a:1},
+ {q:"翻译：'water is leaking'", opts:["水在漏","水很多","开水","买水"], a:0},
+ {q:"'Hi, how are you?' 最自然回答：", opts:["I am fine, thank you.","Yes.","No problem.","Goodbye."], a:0}
+]
+},
+{
+id:"E2", title:"综合测试 ②", afterLesson:6, covers:"L4-L6",
+listening:[
+ {audio:"Where is the problem?", opts:["问题是什么?","问题在哪里?","谁有问题?","没有问题"], a:1},
+ {audio:"In the kitchen.", opts:["在厨房","在浴室","在卧室","在外面"], a:0},
+ {audio:"I can fix it today.", opts:["我明天修","我今天可以修","我不能修","我修不好"], a:1},
+ {audio:"The faucet is leaking.", opts:["水龙头漏了","门坏了","灯灭了","水满了"], a:0},
+ {audio:"No problem, I will help.", opts:["有问题,走开","没问题,我会帮忙","我很忙","明天再说"], a:1}
+],
+vocab:[
+ {w:"kitchen", opts:["卧室","厨房","客厅","阳台"], a:1},
+ {w:"bathroom", opts:["浴室","厨房","书房","车库"], a:0},
+ {w:"fix", opts:["买","卖","修理","丢"], a:2},
+ {w:"today", opts:["昨天","今天","明天","后天"], a:1},
+ {w:"faucet", opts:["水龙头","马桶","水槽","浴缸"], a:0}
+],
+sentences:[
+ {q:"翻译：'Where is the leak?'", opts:["谁在漏?","什么在漏?","漏在哪里?","为什么漏?"], a:2},
+ {q:"翻译：'I can fix the faucet.'", opts:["我能修水龙头","我能买水龙头","水龙头很贵","水龙头坏了"], a:0},
+ {q:"客户说 'The kitchen sink is leaking.' 意思：", opts:["厨房的水槽在漏","浴室的水槽在漏","厨房没水","水槽很新"], a:0}
+]
+},
+{
+id:"E3", title:"综合测试 ③", afterLesson:9, covers:"L7-L9",
+listening:[
+ {audio:"The toilet is clogged.", opts:["马桶堵了","马桶是新的","马桶很干净","马桶漏了"], a:0},
+ {audio:"There is no hot water.", opts:["水很热","没有热水","水很冷","水很多"], a:1},
+ {audio:"How much is it?", opts:["多远?","多少钱?","多长时间?","多重?"], a:1},
+ {audio:"It costs one hundred dollars.", opts:["十美元","一百美元","一千美元","一万美元"], a:1},
+ {audio:"I will come at nine.", opts:["我九点来","我不来","我明天来","我在家"], a:0}
+],
+vocab:[
+ {w:"toilet", opts:["水龙头","马桶","浴缸","水槽"], a:1},
+ {w:"clogged", opts:["堵住","打开","破了","新的"], a:0},
+ {w:"hot", opts:["冷","热","快","慢"], a:1},
+ {w:"dollar", opts:["人民币","美元","欧元","日元"], a:1},
+ {w:"hundred", opts:["十","百","千","万"], a:1}
+],
+sentences:[
+ {q:"翻译：'How much does it cost?'", opts:["这是什么?","多少钱?","好不好?","在哪买?"], a:1},
+ {q:"翻译：'No hot water.'", opts:["没水","没有热水","水太热","关热水"], a:1},
+ {q:"'The toilet is clogged.' 意思：", opts:["马桶堵了","马桶是新的","马桶漏了","马桶响了"], a:0}
+]
+},
+{
+id:"E4", title:"综合测试 ④", afterLesson:12, covers:"L10-L12",
+listening:[
+ {audio:"Have a good day.", opts:["晚安","祝你愉快","明天见","别走"], a:1},
+ {audio:"See you tomorrow.", opts:["今天见","明天见","昨天见","下周见"], a:1},
+ {audio:"What time is good?", opts:["什么时候方便?","现在几点?","几点了?","时间不够"], a:0},
+ {audio:"At ten o'clock.", opts:["十点整","九点半","十一点","两点"], a:0},
+ {audio:"The drain is slow.", opts:["排水很慢","排水很快","排水堵了","排水很新"], a:0}
+],
+vocab:[
+ {w:"tomorrow", opts:["昨天","今天","明天","周末"], a:2},
+ {w:"morning", opts:["早上","中午","下午","晚上"], a:0},
+ {w:"drain", opts:["排水口","马桶","水龙头","水槽"], a:0},
+ {w:"smell", opts:["闻起来","看起来","听起来","尝起来"], a:0},
+ {w:"bad", opts:["好","坏","大","小"], a:1}
+],
+sentences:[
+ {q:"翻译：'See you at nine tomorrow.'", opts:["明天九点见","今天九点见","明天下午见","后天见"], a:0},
+ {q:"翻译：'The drain smells bad.'", opts:["排水口气味难闻","排水口很干净","水很香","水龙头坏了"], a:0},
+ {q:"'Have a good day.' 最接近的意思：", opts:["今天过得好吗","祝你今天愉快","今天在哪","今天几号"], a:1}
+]
+},
+{
+id:"E5", title:"综合测试 ⑤", afterLesson:15, covers:"L13-L15",
+listening:[
+ {audio:"The shower pressure is low.", opts:["淋浴水压低","淋浴很热","淋浴坏了","淋浴很新"], a:0},
+ {audio:"I will change the shower head.", opts:["我会换花洒","我会洗澡","我会关水","我会修门"], a:0},
+ {audio:"Please open the back.", opts:["请打开后面","请关门","请开前面","请等一下"], a:0},
+ {audio:"Connect the hose here.", opts:["把管子接在这里","拔掉管子","管子坏了","管子很长"], a:0},
+ {audio:"Press the start button.", opts:["按停止键","按启动键","按回车键","按删除键"], a:1}
+],
+vocab:[
+ {w:"shower", opts:["淋浴","浴缸","水槽","马桶"], a:0},
+ {w:"pressure", opts:["压力/水压","温度","时间","重量"], a:0},
+ {w:"hose", opts:["管子/软管","盒子","绳子","架子"], a:0},
+ {w:"outlet", opts:["插座","开关","电线","灯泡"], a:0},
+ {w:"start", opts:["停止","启动","结束","暂停"], a:1}
+],
+sentences:[
+ {q:"翻译：'The water pressure is very low.'", opts:["水压很低","水压很高","水很冷","水很脏"], a:0},
+ {q:"翻译：'Connect the hose to the washer.'", opts:["把软管接到洗衣机上","断开洗衣机","打开洗衣机","买一个洗衣机"], a:0},
+ {q:"'Press start and it works.' 意思：", opts:["按启动键就好了","启动坏了","按下后关机","机器不工作"], a:0}
+]
+},
+{
+id:"E6", title:"综合测试 ⑥", afterLesson:18, covers:"L16-L18",
+listening:[
+ {audio:"The basement is flooded.", opts:["地下室被淹了","地下室很干","地下室关了","地下室很新"], a:0},
+ {audio:"Cover the outdoor faucet before winter.", opts:["冬天前盖好室外水龙头","冬天后换水龙头","夏天用水龙头","水龙头漏了"], a:0},
+ {audio:"Find the main valve now.", opts:["现在去找总阀门","现在关灯","现在打电话","现在离开"], a:0},
+ {audio:"Shut off the water fast.", opts:["快关水","快开水","慢慢走","打开门"], a:0},
+ {audio:"This is an emergency.", opts:["这是紧急情况","这是小事","这是好消息","这是玩笑"], a:0}
+],
+vocab:[
+ {w:"basement", opts:["地下室","阁楼","院子","车库"], a:0},
+ {w:"flood", opts:["洪水/水淹","火灾","地震","刮风"], a:0},
+ {w:"valve", opts:["阀门","门","窗","灯"], a:0},
+ {w:"emergency", opts:["紧急情况","日常情况","好消息","坏主意"], a:0},
+ {w:"freeze", opts:["结冰","融化","烧开","流动"], a:0}
+],
+sentences:[
+ {q:"翻译：'Shut off the main valve.'", opts:["关掉总阀门","打开总阀门","买一个阀门","修一下阀门"], a:0},
+ {q:"翻译：'The pipe will burst in winter.'", opts:["冬天水管会爆裂","夏天水管会漏","水管是新的","水管很粗"], a:0},
+ {q:"客户喊 'Emergency! Water everywhere!' 最紧急要做的：", opts:["去找主阀门关水","先喝杯水","拍张照片","明天再说"], a:0}
+]
+}
+];
+
+/* ═══════════════════════════════════════════
+   PLUMBER ENGLISH LOGIC · rendering, TTS, quiz
+   ═══════════════════════════════════════════ */
+(function(){
+  var state = { view:'grid', lessonId:null, examId:null, tab:'passage', quiz:{}, examAns:{} };
+  var EXAM_PASS_PCT = 70;
+  var _ssVoice = null;
+  function pickBestVoice(){
+    try {
+      var vs = speechSynthesis.getVoices() || [];
+      if (!vs.length) return null;
+      // Preferred natural en-US voices in priority order
+      var preferred = [
+        /Google US English/i,
+        /Microsoft Aria/i, /Microsoft Jenny/i, /Microsoft Guy/i, /Microsoft Ava/i, /Microsoft Andrew/i,
+        /Samantha/i, /Alex/i, /Ava \(Enhanced\)/i, /Evan \(Enhanced\)/i, /Allison/i, /Tom/i,
+        /en-US.*Neural/i, /Natural/i, /Enhanced/i, /Premium/i
+      ];
+      for (var i=0;i<preferred.length;i++){
+        for (var j=0;j<vs.length;j++){
+          if (preferred[i].test(vs[j].name) && /en[-_]?US/i.test(vs[j].lang || 'en-US')) return vs[j];
+        }
+      }
+      // Fallback: any en-US voice that is NOT the low-quality "Microsoft David/Zira/Mark"
+      for (var k=0;k<vs.length;k++){
+        if (/en-US/i.test(vs[k].lang) && !/David|Zira|Mark/i.test(vs[k].name)) return vs[k];
+      }
+      // Last resort: any en-US voice
+      for (var m=0;m<vs.length;m++){ if (/en-US/i.test(vs[m].lang)) return vs[m]; }
+      return vs[0];
+    } catch(e){ return null; }
+  }
+  // Voices load async in Chrome — refresh when available
+  try {
+    if (typeof speechSynthesis !== 'undefined'){
+      speechSynthesis.onvoiceschanged = function(){ _ssVoice = pickBestVoice(); };
+      _ssVoice = pickBestVoice();
+    }
+  } catch(e){}
+  function speak(text, opts){
+    opts = opts || {};
+    try {
+      if (typeof speechSynthesis === 'undefined') return;
+      if (!opts.queue) speechSynthesis.cancel();
+      if (!_ssVoice) _ssVoice = pickBestVoice();
+      var u = new SpeechSynthesisUtterance(text);
+      if (_ssVoice) u.voice = _ssVoice;
+      u.lang = (_ssVoice && _ssVoice.lang) || 'en-US';
+      u.rate = opts.rate || 0.95;
+      u.pitch = opts.pitch || 1.0;
+      u.volume = 1.0;
+      if (opts.onend) u.onend = opts.onend;
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+  function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} }
+  window._plmbSpeak = speak;
+
+  function prog(lid, tab){
+    var key = 'plmb_' + lid + '_' + tab;
+    return localStorage.getItem(key) === '1';
+  }
+  function markProg(lid, tab){
+    localStorage.setItem('plmb_' + lid + '_' + tab, '1');
+  }
+  function lessonPct(lid){
+    var tabs = ['passage','dialogue','vocab','grammar','quiz'];
+    var done = 0;
+    tabs.forEach(function(t){ if (prog(lid,t)) done++; });
+    return Math.round(done/tabs.length*100);
+  }
+  // Quiz persistence and pass/fail
+  var PASS_PCT = 80;
+  function loadQuiz(lid){
+    try {
+      var raw = localStorage.getItem('plmbq_' + lid);
+      if (raw) return JSON.parse(raw);
+    } catch(e){}
+    return { answers:{}, score:0 };
+  }
+  function saveQuiz(lid, q){
+    try { localStorage.setItem('plmbq_' + lid, JSON.stringify(q)); } catch(e){}
+  }
+  function quizStats(lid){
+    var ls = PLMB_DATA.find(function(x){return x.id===lid;});
+    if (!ls) return { total:0, answered:0, score:0, pct:0, done:false, pass:false };
+    var q = state.quiz[lid] || loadQuiz(lid);
+    var total = ls.quiz.length;
+    var answered = Object.keys(q.answers||{}).length;
+    var done = answered === total && total > 0;
+    var pct = total ? Math.round((q.score||0) / total * 100) : 0;
+    return { total:total, answered:answered, score:q.score||0, pct:pct, done:done, pass: done && pct >= PASS_PCT };
+  }
+  function lessonStatus(lid){
+    var qs = quizStats(lid);
+    if (qs.pass) return { key:'pass', label:'✅ 通过', color:'#1e9e5c', pct:qs.pct };
+    if (qs.done) return { key:'retry', label:'⚠️ 需复习', color:'#c97d10', pct:qs.pct };
+    var tabs = ['passage','dialogue','vocab','grammar','quiz'];
+    var touched = 0;
+    tabs.forEach(function(t){ if (prog(lid,t)) touched++; });
+    if (touched > 0) return { key:'learn', label:'📖 学习中', color:'#4476d6', pct:lessonPct(lid) };
+    return { key:'new', label:'⬜ 未开始', color:'#a89880', pct:0 };
+  }
+  function courseOverall(){
+    var EXAMS = window.PLMB_EXAMS || [];
+    var total = PLMB_DATA.length + EXAMS.length;
+    var passed = 0, learning = 0, retry = 0;
+    PLMB_DATA.forEach(function(L){
+      var s = lessonStatus(L.id);
+      if (s.key === 'pass') passed++;
+      else if (s.key === 'retry') retry++;
+      else if (s.key === 'learn') learning++;
+    });
+    EXAMS.forEach(function(E){
+      var s = examStatus(E.id);
+      if (s.key === 'pass') passed++;
+      else if (s.key === 'retry') retry++;
+      else if (s.key === 'learn') learning++;
+    });
+    return { total:total, passed:passed, learning:learning, retry:retry, pct: Math.round(passed / total * 100) };
+  }
+  window._plmbResetQuiz = function(lid){
+    if (!confirm('重做测试将清空本课所有答案,确定吗？')) return;
+    state.quiz[lid] = { answers:{}, score:0 };
+    saveQuiz(lid, state.quiz[lid]);
+    try { localStorage.removeItem('plmb_' + lid + '_quiz'); } catch(e){}
+    renderLesson();
+  };
+
+
+  /* ═══ Exam helpers ═══ */
+  function loadExam(eid){ try{ var r=localStorage.getItem('plmbexam_'+eid); return r?JSON.parse(r):{answers:{},score:0}; }catch(e){return {answers:{},score:0};} }
+  function saveExam(eid,e){ localStorage.setItem('plmbexam_'+eid, JSON.stringify(e)); }
+  function examQCount(ex){ return (ex.listening||[]).length + (ex.vocab||[]).length + (ex.sentences||[]).length; }
+  function examStats(eid){
+    var ex = (window.PLMB_EXAMS||[]).find(function(x){return x.id===eid;}); if(!ex) return {total:0,answered:0,score:0,pct:0,done:false,pass:false};
+    var e = state.examAns[eid] || loadExam(eid);
+    var total = examQCount(ex), answered = Object.keys(e.answers||{}).length, score = e.score||0;
+    var pct = total ? Math.round(score/total*100) : 0;
+    return { total:total, answered:answered, score:score, pct:pct, done: answered>=total, pass: answered>=total && pct>=EXAM_PASS_PCT };
+  }
+  function examStatus(eid){
+    var s = examStats(eid);
+    if (s.pass) return {key:'pass', label:'🏆 已通过', color:'#1e9e5c', pct:s.pct};
+    if (s.done) return {key:'retry', label:'🔁 需重考', color:'#c97d10', pct:s.pct};
+    if (s.answered>0) return {key:'learn', label:'🧪 测试中', color:'#6b4bd6', pct:Math.round(s.answered/s.total*100)};
+    return {key:'new', label:'⬜ 未开始', color:'#a89880', pct:0};
+  }
+  function examTile(ex){
+    var st = examStatus(ex.id);
+    return '<div class="plmb-card plmb-exam-card" onclick="_plmbOpenExam(\''+ex.id+'\')">' +
+      '<div class="plmb-card-status" style="background:'+st.color+'">'+st.label+'</div>' +
+      '<span class="plmb-card-num" style="background:rgba(107,75,214,.18);color:#6b4bd6">🧪 EXAM '+ex.id+'</span>' +
+      '<div class="plmb-card-title">🧪 '+ex.title+'</div>' +
+      '<div class="plmb-card-cn">综合测试 · 覆盖 '+ex.covers+'</div>' +
+      '<div class="plmb-card-desc">👂 听力 '+ex.listening.length+' 题 · 📚 词汇 '+ex.vocab.length+' 题 · ✍️ 句子 '+ex.sentences.length+' 题 · 过关线 '+EXAM_PASS_PCT+'%</div>' +
+      '<div class="plmb-card-progress"><div class="plmb-card-progfill" style="width:'+st.pct+'%;background:'+st.color+'"></div></div>' +
+      '<div style="text-align:right;font-size:11px;color:var(--text3);margin-top:4px;font-weight:600">'+st.pct+'% ' + (st.key==='pass'?'(得分)':'完成') + '</div>' +
+    '</div>';
+  }
+  window._plmbOpenExam = function(eid){
+    state.view = 'exam'; state.examId = eid; state.lessonId = null;
+    if (!state.examAns[eid]) state.examAns[eid] = loadExam(eid);
+    renderExam();
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+  window._plmbResetExam = function(eid){
+    if (!confirm('重做综合测试将清空本次所有答案,确定吗?')) return;
+    state.examAns[eid] = {answers:{},score:0};
+    saveExam(eid, state.examAns[eid]);
+    renderExam();
+  };
+  window._plmbAnsExam = function(eid, qi, oi){
+    var ex = (window.PLMB_EXAMS||[]).find(function(x){return x.id===eid;}); if(!ex) return;
+    if (!state.examAns[eid]) state.examAns[eid] = loadExam(eid);
+    var e = state.examAns[eid];
+    if (e.answers[qi] !== undefined) return;
+    // Flatten questions index: listening (0..nl-1), vocab (nl..nl+nv-1), sentences (...)
+    var nl = ex.listening.length, nv = ex.vocab.length;
+    var correct;
+    if (qi < nl) correct = ex.listening[qi].a;
+    else if (qi < nl+nv) correct = ex.vocab[qi-nl].a;
+    else correct = ex.sentences[qi-nl-nv].a;
+    e.answers[qi] = oi;
+    if (oi === correct) e.score++;
+    saveExam(eid, e);
+    renderExam();
+  };
+  function renderExam(){
+    var c = document.getElementById('plmb-main'); if (!c) return;
+    var ex = (window.PLMB_EXAMS||[]).find(function(x){return x.id===state.examId;});
+    if (!ex) { _plmbBack(); return; }
+    if (!state.examAns[ex.id]) state.examAns[ex.id] = loadExam(ex.id);
+    var e = state.examAns[ex.id];
+    var nl = ex.listening.length, nv = ex.vocab.length;
+    var total = examQCount(ex), stats = examStats(ex.id);
+
+    function renderMCQ(qi, prompt, opts, extra){
+      var ans = e.answers[qi];
+      var optsHtml = opts.map(function(o, oi){
+        var cls = 'plmb-q-opt', dis = '';
+        // determine correct
+        var correct;
+        if (qi<nl) correct = ex.listening[qi].a;
+        else if (qi<nl+nv) correct = ex.vocab[qi-nl].a;
+        else correct = ex.sentences[qi-nl-nv].a;
+        if (ans !== undefined) {
+          dis = 'disabled';
+          if (oi===correct) cls += ' correct';
+          else if (oi===ans) cls += ' wrong';
+        }
+        return '<button class="'+cls+'" '+dis+' onclick="_plmbAnsExam(\''+ex.id+'\','+qi+','+oi+')">'+String.fromCharCode(65+oi)+'. '+o+'</button>';
+      }).join('');
+      return '<div class="plmb-q">' +
+        '<div class="plmb-q-head"><span class="plmb-q-num">Q'+(qi+1)+'</span>'+(extra||'')+'<div class="plmb-q-text">'+prompt+'</div></div>' +
+        '<div class="plmb-q-opts">'+optsHtml+'</div>' +
+      '</div>';
+    }
+
+    var listHtml = '<div class="plmb-sec-title">👂 Listening · 听力 (共 '+nl+' 题) — 点 🔊 播放,再选中文意思</div>' +
+      ex.listening.map(function(q, i){
+        var qi = i;
+        var playBtn = '<button class="plmb-play" onclick="event.stopPropagation();_plmbSpeak('+JSON.stringify(q.audio).replace(/"/g,'&quot;')+')" style="margin-right:8px">🔊 播放</button>';
+        return renderMCQ(qi, playBtn + '<span style="color:var(--text3);font-size:12px">(只听,不看英文)</span>', q.opts, '<span class="plmb-q-type">👂 LISTEN</span>');
+      }).join('');
+
+    var vocHtml = '<div class="plmb-sec-title">📚 Vocabulary · 词汇 (共 '+nv+' 题)</div>' +
+      ex.vocab.map(function(q, i){
+        var qi = nl + i;
+        return renderMCQ(qi, '<b style="font-size:22px;color:var(--text1)">'+q.w+'</b> 的中文意思是?', q.opts, '<span class="plmb-q-type">📚 VOCAB</span>');
+      }).join('');
+
+    var sentHtml = '<div class="plmb-sec-title">✍️ Sentences · 句子综合 (共 '+ex.sentences.length+' 题)</div>' +
+      ex.sentences.map(function(q, i){
+        var qi = nl + nv + i;
+        return renderMCQ(qi, q.q, q.opts, '<span class="plmb-q-type">✍️ SENT</span>');
+      }).join('');
+
+    var pct = stats.pct, result = '';
+    if (stats.done) {
+      if (stats.pass) result = '<div class="plmb-result pass">' +
+        '<div class="plmb-result-emoji">🏆</div>' +
+        '<div class="plmb-result-title">综合测试通过！</div>' +
+        '<div class="plmb-result-score">得分 '+stats.score+' / '+total+'（'+pct+'%）· 过关线 '+EXAM_PASS_PCT+'%</div>' +
+        '<div class="plmb-result-sub">你已牢固掌握 '+ex.covers+' 的内容,可以继续下一阶段学习。</div>' +
+        '<div class="plmb-result-actions">' +
+          '<button class="plmb-result-btn primary" onclick="_plmbBack()">📚 返回课程列表</button>' +
+          '<button class="plmb-result-btn" onclick="_plmbResetExam(\''+ex.id+'\')">🔄 再测一次</button>' +
+        '</div>' +
+      '</div>';
+      else result = '<div class="plmb-result fail">' +
+        '<div class="plmb-result-emoji">📖</div>' +
+        '<div class="plmb-result-title">还差一点,回去再复习</div>' +
+        '<div class="plmb-result-score">得分 '+stats.score+' / '+total+'（'+pct+'%）· 需 ≥ '+EXAM_PASS_PCT+'%</div>' +
+        '<div class="plmb-result-sub">建议回看 '+ex.covers+' 的单词和句子,然后重做测试。</div>' +
+        '<div class="plmb-result-actions">' +
+          '<button class="plmb-result-btn primary" onclick="_plmbBack()">📚 回课程列表复习</button>' +
+          '<button class="plmb-result-btn" onclick="_plmbResetExam(\''+ex.id+'\')">🔄 重做测试</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    c.innerHTML =
+      '<div class="plmb-lesson">' +
+        '<button class="plmb-back" onclick="_plmbBack()">← 返回课程列表</button>' +
+        '<div class="plmb-lh" style="background:linear-gradient(135deg,#6b4bd6,#4476d6);color:#fff">' +
+          '<div class="plmb-lh-num" style="color:rgba(255,255,255,.8)">🧪 EXAM '+ex.id+' · 综合测试</div>' +
+          '<div class="plmb-lh-title" style="color:#fff">🧪 '+ex.title+'</div>' +
+          '<div class="plmb-lh-cn" style="color:rgba(255,255,255,.9)">覆盖 '+ex.covers+' · 共 '+total+' 题 · 过关线 '+EXAM_PASS_PCT+'%</div>' +
+        '</div>' +
+        '<div class="plmb-quiz-score">' +
+          '<div><div class="plmb-quiz-score-lbl">Progress 进度</div><div class="plmb-quiz-score-val">'+stats.answered+' / '+total+'</div></div>' +
+          '<div><div class="plmb-quiz-score-lbl">Score 得分</div><div class="plmb-quiz-score-val">'+stats.score+' / '+total+'</div></div>' +
+          '<div><div class="plmb-quiz-score-lbl">Pass 过关线</div><div class="plmb-quiz-score-val" style="color:'+(stats.pass?'#1e9e5c':stats.done?'#c97d10':'#6b4bd6')+'">'+pct+'% / '+EXAM_PASS_PCT+'%</div></div>' +
+        '</div>' +
+        (stats.done ? result : '') +
+        '<div class="plmb-section">'+listHtml+'</div>' +
+        '<div class="plmb-section">'+vocHtml+'</div>' +
+        '<div class="plmb-section">'+sentHtml+'</div>' +
+        (stats.done ? result : '') +
+      '</div>';
+  }
+  window._plmbSpeak = function(txt){ stopSpeak(); speak(txt); };
+
+  function renderGrid(){
+    var c = document.getElementById('plmb-main');
+    if (!c) return;
+    var overall = courseOverall();
+    var cards = '';
+    PLMB_DATA.forEach(function(L){
+      var st = lessonStatus(L.id);
+      var qs = quizStats(L.id);
+      var scoreChip = qs.done ? '<span class="plmb-card-chip" style="background:'+st.color+';color:#fff;font-weight:700">🎯 '+qs.score+' / '+qs.total+' ('+qs.pct+'%)</span>' : '';
+      var statusBadge = '<div class="plmb-card-status" style="background:'+st.color+'">'+st.label+'</div>';
+      var card = '<div class="plmb-card" onclick="_plmbOpen('+L.id+')">' +
+        statusBadge +
+        '<span class="plmb-card-num">Lesson ' + L.id + '</span>' +
+        '<div class="plmb-card-title">' + L.emoji + ' ' + L.title + '</div>' +
+        '<div class="plmb-card-cn">' + L.titleCn + '</div>' +
+        '<div class="plmb-card-desc">' + (L.goal || L.desc || '') + '</div>' +
+        '<div class="plmb-card-meta">' +
+          '<span class="plmb-card-chip">📚 ' + L.vocab.length + ' 词</span>' +
+          '<span class="plmb-card-chip">📖 ' + L.passage.length + ' 句</span>' +
+          '<span class="plmb-card-chip">💬 ' + L.dialogue.length + ' 轮对话</span>' +
+          '<span class="plmb-card-chip">' + L.level + '</span>' +
+          scoreChip +
+        '</div>' +
+        '<div class="plmb-card-progress"><div class="plmb-card-progfill" style="width:'+st.pct+'%;background:'+st.color+'"></div></div>' +
+        '<div style="text-align:right;font-size:11px;color:var(--text3);margin-top:4px;font-weight:600">' + st.pct + '% ' + (st.key==='pass' ? '(测试得分)' : '完成') + '</div>' +
+      '</div>';
+      cards += card;
+      // Insert exam tile after lessons 3,6,9,12,15,18
+      var exam = (window.PLMB_EXAMS||[]).find(function(e){ return e.afterLesson === L.id; });
+      if (exam) cards += examTile(exam);
+    });
+    var dashRing = '<svg class="plmb-ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,.25)" stroke-width="10" fill="none"/>' +
+      '<circle cx="60" cy="60" r="52" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" ' +
+      'stroke-dasharray="'+(2*Math.PI*52)+'" stroke-dashoffset="'+(2*Math.PI*52*(1-overall.pct/100))+'" transform="rotate(-90 60 60)"/>' +
+      '<text x="60" y="66" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">'+overall.pct+'%</text></svg>';
+    var dash = '<div class="plmb-dash">' +
+      '<div class="plmb-dash-left">' + dashRing + '</div>' +
+      '<div class="plmb-dash-right">' +
+        '<div class="plmb-dash-title">📊 我的课程进度</div>' +
+        '<div class="plmb-dash-sub">整门课需测试通过 ≥ ' + PASS_PCT + '% 才算过关</div>' +
+        '<div class="plmb-dash-stats">' +
+          '<div class="plmb-dash-stat"><span class="ds-num" style="color:#1e9e5c">'+overall.passed+'</span><span class="ds-lbl">✅ 已通过</span></div>' +
+          '<div class="plmb-dash-stat"><span class="ds-num" style="color:#c97d10">'+overall.retry+'</span><span class="ds-lbl">⚠️ 需复习</span></div>' +
+          '<div class="plmb-dash-stat"><span class="ds-num" style="color:#4476d6">'+overall.learning+'</span><span class="ds-lbl">📖 学习中</span></div>' +
+          '<div class="plmb-dash-stat"><span class="ds-num" style="color:#a89880">'+(overall.total-overall.passed-overall.retry-overall.learning)+'</span><span class="ds-lbl">⬜ 未开始</span></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+    c.innerHTML =
+      '<div class="plmb-hero">' +
+        '<h1>🔧 American Plumber English · 零基础 20 课 + 6 综合测试</h1>' +
+        '<p>专为只会 26 个字母的学习者设计 — 每课 8-12 个单词 + 5 句必备 + 中文谐音 + 美式发音 + 测试过关。</p>' +
+        '<div class="plmb-hero-stats">' +
+          '<div class="plmb-hero-stat">📚 20 课</div>' +
+          '<div class="plmb-hero-stat">🧪 6 综合测试</div>' +
+          '<div class="plmb-hero-stat">🎵 中文谐音</div>' +
+          '<div class="plmb-hero-stat">🗣️ 真人发音</div>' +
+          '<div class="plmb-hero-stat">🎯 测试 ≥'+PASS_PCT+'% 过关</div>' +
+        '</div>' +
+      '</div>' +
+      dash +
+      '<div class="plmb-grid">' + cards + '</div>';
+  }
+
+  window._plmbOpen = function(id){
+    state.view = 'lesson'; state.lessonId = id; state.tab = 'passage';
+    renderLesson();
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+  window._plmbBack = function(){
+    stopSpeak();
+    state.view = 'grid'; state.lessonId = null; state.examId = null;
+    renderGrid();
+    window.scrollTo({top:0, behavior:'smooth'});
+  };
+  window._plmbTab = function(t){
+    stopSpeak();
+    state.tab = t;
+    renderLesson();
+  };
+
+  function L(){ return PLMB_DATA.find(function(x){return x.id===state.lessonId;}); }
+
+  function tabBtn(key, label){
+    return '<button class="plmb-tab'+(state.tab===key?' on':'')+'" onclick="_plmbTab(\''+key+'\')">'+label+'</button>';
+  }
+
+  function renderLesson(){
+    var c = document.getElementById('plmb-main');
+    if (!c) return;
+    var ls = L();
+    if (!ls) { _plmbBack(); return; }
+    markProg(ls.id, state.tab);
+
+    var header = '<div class="plmb-lesson">' +
+      '<button class="plmb-back" onclick="_plmbBack()">← 返回课程列表</button>' +
+      '<div class="plmb-lh">' +
+        '<div class="plmb-lh-num">LESSON ' + ls.id + ' · ' + (ls.level||'').toUpperCase() + '</div>' +
+        '<div class="plmb-lh-title">' + ls.emoji + ' ' + ls.title + '</div>' +
+        '<div class="plmb-lh-cn">' + ls.titleCn + (ls.desc ? ' · ' + ls.desc : '') + '</div>' +
+      '</div>' +
+      (ls.goal ? '<div class="plmb-goal"><span class="plmb-goal-ico">🎯</span><b>本课目标：</b>' + ls.goal + '</div>' : '') +
+      '<div class="plmb-tabs">' +
+        tabBtn('vocab','📚 ①单词 Vocab') +
+        tabBtn('passage','📖 ②句子 Sentences') +
+        tabBtn('dialogue','💬 ③对话 Dialogue') +
+        tabBtn('grammar','✍️ ④用法 Usage') +
+        tabBtn('quiz','📝 ⑤测试 Quiz') +
+      '</div>';
+
+    var body = '';
+    if (state.tab === 'passage') body = renderPassage(ls);
+    else if (state.tab === 'dialogue') body = renderDialogue(ls);
+    else if (state.tab === 'vocab') body = renderVocab(ls);
+    else if (state.tab === 'grammar') body = renderGrammar(ls);
+    else if (state.tab === 'quiz') body = renderQuiz(ls);
+
+    c.innerHTML = header + body + '</div>';
+  }
+
+  function renderPassage(ls){
+    var sents = ls.passage.map(function(s, i){
+      return '<div class="plmb-sent" id="plmb-s-'+i+'" onclick="_plmbPlaySent('+i+')">' +
+        '<span class="plmb-sent-n">'+(i+1)+'</span>' +
+        '<div class="plmb-sent-body">' +
+          '<div class="plmb-sent-en">'+s.en+'</div>' +
+          (s.zh ? '<div class="plmb-sent-zh">🔊 '+s.zh+'</div>' : '') +
+          '<div class="plmb-sent-cn">'+s.cn+'</div>' +
+        '</div>' +
+        '<button class="plmb-sent-spk" onclick="event.stopPropagation();_plmbPlaySent('+i+')">🔊</button>' +
+      '</div>';
+    }).join('');
+    var must = '';
+    if (ls.mustKnow && ls.mustKnow.length){
+      must = '<div class="plmb-must"><div class="plmb-must-title">⭐ 本课必背 3 句</div>' +
+        ls.mustKnow.map(function(m){ return '<div class="plmb-must-item">'+m+'</div>'; }).join('') +
+      '</div>';
+    }
+    return '<div class="plmb-section">' +
+      '<div class="plmb-sec-title">📖 本课句子（点句子听发音） <button class="plmb-play-all" id="plmb-play-all" onclick="_plmbPlayAll()">▶ 全部朗读</button></div>' +
+      sents +
+      must +
+    '</div>';
+  }
+
+  window._plmbPlaySent = function(i){
+    stopSpeak();
+    var ls = L(); if (!ls) return;
+    var s = ls.passage[i]; if (!s) return;
+    document.querySelectorAll('.plmb-sent.on').forEach(function(e){e.classList.remove('on');});
+    var el = document.getElementById('plmb-s-'+i);
+    if (el) el.classList.add('on');
+    speak(s.en);
+  };
+
+  window._plmbPlayAll = function(){
+    var btn = document.getElementById('plmb-play-all');
+    if (btn && btn.classList.contains('playing')) { stopSpeak(); btn.classList.remove('playing'); btn.innerHTML='▶ 全部朗读'; return; }
+    if (btn) { btn.classList.add('playing'); btn.innerHTML='⏸ 停止'; }
+    var ls = L(); if (!ls) return;
+    var items = state.tab === 'dialogue' ? ls.dialogue : ls.passage;
+    var idx = 0;
+    function next(){
+      if (idx >= items.length) {
+        if (btn) { btn.classList.remove('playing'); btn.innerHTML='▶ 全部朗读'; }
+        return;
+      }
+      document.querySelectorAll('.plmb-sent.on, .plmb-dlg-bubble.on').forEach(function(e){e.classList.remove('on');});
+      var el = document.getElementById(state.tab === 'dialogue' ? 'plmb-d-'+idx : 'plmb-s-'+idx);
+      if (el) { el.classList.add('on'); try{el.scrollIntoView({behavior:'smooth', block:'center'});}catch(e){} }
+      speak(items[idx].en, { onend: function(){
+        idx++;
+        if (btn && btn.classList.contains('playing')) setTimeout(next, 350);
+      }});
+    }
+    next();
+  };
+
+  function renderDialogue(ls){
+    var turns = ls.dialogue.map(function(d, i){
+      var who = d.spk === 'A' ? 'a' : 'b';
+      var initial = d.spk === 'A' ? '🔧' : '🏠';
+      var label = d.spk === 'A' ? '水管工' : '客户';
+      return '<div class="plmb-dlg-turn plmb-dlg-'+who+'">' +
+        '<div class="plmb-dlg-av '+who+'">'+initial+'</div>' +
+        '<div class="plmb-dlg-bubble" id="plmb-d-'+i+'" onclick="_plmbPlayTurn('+i+')">' +
+          '<div class="plmb-dlg-name">'+label+'</div>' +
+          '<div class="plmb-dlg-en">'+d.en+'</div>' +
+          (d.zh ? '<div class="plmb-dlg-zh">🔊 '+d.zh+'</div>' : '') +
+          '<div class="plmb-dlg-cn">'+d.cn+'</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    return '<div class="plmb-section">' +
+      '<div class="plmb-sec-title">💬 Dialogue · 对话 <button class="plmb-play-all" id="plmb-play-all" onclick="_plmbPlayAll()">▶ 全部朗读</button></div>' +
+      turns +
+    '</div>';
+  }
+
+  window._plmbPlayTurn = function(i){
+    stopSpeak();
+    var ls = L(); if (!ls) return;
+    var d = ls.dialogue[i]; if (!d) return;
+    document.querySelectorAll('.plmb-dlg-bubble.on').forEach(function(e){e.classList.remove('on');});
+    var el = document.getElementById('plmb-d-'+i);
+    if (el) el.classList.add('on');
+    speak(d.en);
+  };
+
+  function renderVocab(ls){
+    window._PLMB_VOC_CUR = ls.vocab;
+    var words = ls.vocab.map(function(v, i){
+      return '<div class="plmb-voc" onclick="_plmbVocClick('+i+')" style="cursor:pointer">' +
+        '<div class="plmb-voc-top">' +
+          '<div class="plmb-voc-word">'+v.w+'</div>' +
+          '<span class="plmb-voc-pos">'+v.pos+'</span>' +
+          '<button class="plmb-voc-spk" onclick="event.stopPropagation();_plmbVocClick('+i+')">🔊 点击跟读</button>' +
+        '</div>' +
+        '<div class="plmb-voc-ipa">'+v.ipa+'</div>' +
+        (v.zh ? '<div class="plmb-voc-zh">🎵 中文谐音：<b>'+v.zh+'</b></div>' : '') +
+        (v.syl ? '<div class="plmb-voc-syl">📐 拆音节：'+v.syl+'</div>' : '') +
+        '<div class="plmb-voc-cn">意思：'+v.cn+'</div>' +
+        (v.ex ? '<div class="plmb-voc-ex">例句："'+v.ex+'"</div>' : '') +
+      '</div>';
+    }).join('');
+    return '<div class="plmb-section">' +
+      '<div class="plmb-sec-title">📚 Vocabulary · 单词（'+ls.vocab.length+'）</div>' +
+      '<div class="plmb-vocab-grid">'+words+'</div>' +
+    '</div>';
+  }
+
+  window._plmbSpeak = function(text){ stopSpeak(); speak(text); };
+  window._plmbVocClick = function(idx){
+    var list = window._PLMB_VOC_CUR || [];
+    var v = list[idx]; if (!v) return;
+    stopSpeak();
+    speak(v.w, { onend: function(){
+      if (v.ex) { setTimeout(function(){ speak(v.ex, { queue:true }); }, 350); }
+    }});
+  };
+
+  function renderGrammar(ls){
+    return '<div class="plmb-section">' +
+      '<div class="plmb-sec-title">✍️ Grammar · 语法讲解</div>' +
+      '<div class="plmb-gr">' +
+        '<div class="plmb-gr-title">💡 '+ls.grammar.title+'</div>' +
+        '<div class="plmb-gr-body">'+ls.grammar.body+'</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderQuiz(ls){
+    if (!state.quiz[ls.id]) state.quiz[ls.id] = loadQuiz(ls.id);
+    var q = state.quiz[ls.id];
+    var items = ls.quiz.map(function(qz, i){
+      var ans = q.answers[i];
+      var typeLbl = qz.type==='mcq' ? 'MCQ 选择' : qz.type==='en2cn' ? 'EN→CN 英译汉' : 'CN→EN 汉译英';
+      var head = '<div class="plmb-q-head">' +
+        '<span class="plmb-q-num">Q'+(i+1)+'</span>' +
+        '<span class="plmb-q-type">'+typeLbl+'</span>' +
+        '<div class="plmb-q-text">'+qz.q+'</div>' +
+      '</div>';
+      var body = '';
+      if (qz.type === 'mcq') {
+        body = '<div class="plmb-q-opts">' + qz.opts.map(function(opt, oi){
+          var cls = 'plmb-q-opt';
+          var disabled = '';
+          if (ans !== undefined) {
+            disabled = 'disabled';
+            if (oi === qz.a) cls += ' correct';
+            else if (oi === ans) cls += ' wrong';
+          }
+          return '<button class="'+cls+'" '+disabled+' onclick="_plmbAnsMCQ('+ls.id+','+i+','+oi+')">'+(String.fromCharCode(65+oi))+'. '+opt+'</button>';
+        }).join('') + '</div>';
+      } else {
+        var inputId = 'plmb-fill-'+ls.id+'-'+i;
+        var val = (ans && ans.val) || '';
+        var dis = (ans !== undefined) ? 'disabled' : '';
+        body = '<input type="text" class="plmb-q-fill" id="'+inputId+'" placeholder="在此输入答案..." value="'+val.replace(/"/g,'&quot;')+'" '+dis+'>' +
+          (ans === undefined ? '<button class="plmb-q-submit" onclick="_plmbAnsFill('+ls.id+','+i+')">提交 Submit</button>' : '');
+      }
+      var fb = '';
+      if (ans !== undefined) {
+        var isOk, correctText = '';
+        if (qz.type === 'mcq') { isOk = (ans === qz.a); correctText = '正确答案: ' + String.fromCharCode(65+qz.a) + '. ' + qz.opts[qz.a]; }
+        else { isOk = ans.ok; correctText = '参考答案: ' + qz.a; }
+        fb = '<div class="plmb-q-fb '+(isOk?'ok':'bad')+'">' +
+          '<b>'+(isOk?'✅ 正确':'❌ 不太对')+'</b> · ' + correctText +
+          (qz.ex ? '<br><span style="opacity:.8">💡 '+qz.ex+'</span>' : '') +
+          (qz.hint && !isOk ? '<br><span style="opacity:.7">提示: '+qz.hint+'</span>' : '') +
+        '</div>';
+      }
+      return '<div class="plmb-q">'+head+body+fb+'</div>';
+    }).join('');
+    var answered = Object.keys(q.answers).length;
+    var total = ls.quiz.length;
+    var pct = total ? Math.round(q.score / total * 100) : 0;
+    var done = answered === total && total > 0;
+    var pass = done && pct >= PASS_PCT;
+    var result = '';
+    if (done) {
+      if (pass) {
+        var nextId = ls.id + 1;
+        var nextBtn = (nextId <= PLMB_DATA.length)
+          ? '<button class="plmb-result-btn primary" onclick="_plmbOpen('+nextId+')">➡️ 学习 Lesson '+nextId+'</button>'
+          : '<button class="plmb-result-btn primary" onclick="_plmbBack()">🎉 回到课程总览</button>';
+        result = '<div class="plmb-result pass">' +
+          '<div class="plmb-result-emoji">🏆</div>' +
+          '<div class="plmb-result-title">恭喜！本课通过！</div>' +
+          '<div class="plmb-result-score">得分 '+q.score+' / '+total+'（'+pct+'%）</div>' +
+          '<div class="plmb-result-sub">你已经掌握本课核心内容,可以进入下一课了。</div>' +
+          '<div class="plmb-result-actions">' +
+            nextBtn +
+            '<button class="plmb-result-btn" onclick="_plmbResetQuiz('+ls.id+')">🔄 再测一次</button>' +
+          '</div>' +
+        '</div>';
+      } else {
+        result = '<div class="plmb-result fail">' +
+          '<div class="plmb-result-emoji">📖</div>' +
+          '<div class="plmb-result-title">还没过关,再来一次</div>' +
+          '<div class="plmb-result-score">得分 '+q.score+' / '+total+'（'+pct+'%）· 需 ≥ '+PASS_PCT+'%</div>' +
+          '<div class="plmb-result-sub">建议先回到单词/句子 Tab 再复习一遍,然后重做测试。</div>' +
+          '<div class="plmb-result-actions">' +
+            '<button class="plmb-result-btn primary" onclick="_plmbTab(\'vocab\')">📚 回看单词</button>' +
+            '<button class="plmb-result-btn primary" onclick="_plmbTab(\'passage\')">📖 回看句子</button>' +
+            '<button class="plmb-result-btn" onclick="_plmbResetQuiz('+ls.id+')">🔄 重做测试</button>' +
+          '</div>' +
+        '</div>';
+      }
+    }
+    return '<div class="plmb-quiz-score">' +
+      '<div><div class="plmb-quiz-score-lbl">Progress 进度</div><div class="plmb-quiz-score-val">'+answered+' / '+total+'</div></div>' +
+      '<div><div class="plmb-quiz-score-lbl">Score 得分</div><div class="plmb-quiz-score-val">'+q.score+' / '+total+'</div></div>' +
+      '<div><div class="plmb-quiz-score-lbl">Pass Line 过关线</div><div class="plmb-quiz-score-val" style="color:'+(pass?'#1e9e5c':done?'#c97d10':'#4476d6')+'">'+pct+'% / '+PASS_PCT+'%</div></div>' +
+    '</div>' +
+    (done ? result : '') +
+    '<div class="plmb-quiz">'+items+'</div>' +
+    (done ? result : '');
+  }
+
+  window._plmbAnsMCQ = function(lid, qi, oi){
+    var ls = PLMB_DATA.find(function(x){return x.id===lid;});
+    if (!state.quiz[lid]) state.quiz[lid] = loadQuiz(lid);
+    var q = state.quiz[lid];
+    if (q.answers[qi] !== undefined) return;
+    q.answers[qi] = oi;
+    if (oi === ls.quiz[qi].a) q.score++;
+    saveQuiz(lid, q);
+    renderLesson();
+  };
+  window._plmbAnsFill = function(lid, qi){
+    var ls = PLMB_DATA.find(function(x){return x.id===lid;});
+    if (!state.quiz[lid]) state.quiz[lid] = loadQuiz(lid);
+    var q = state.quiz[lid];
+    if (q.answers[qi] !== undefined) return;
+    var inp = document.getElementById('plmb-fill-'+lid+'-'+qi);
+    if (!inp) return;
+    var val = (inp.value||'').trim();
+    if (!val) { inp.focus(); return; }
+    var correct = (ls.quiz[qi].a+'').trim();
+    // Lenient comparison for CN/EN: strip punctuation & case
+    function norm(s){ return (s+'').toLowerCase().replace(/[\.\,\!\?\;\:\"\'\s—。，！？、：；""'']+/g,''); }
+    var ok = norm(val) === norm(correct);
+    if (!ok) {
+      // Partial credit: ≥60% character overlap
+      var a = norm(val), b = norm(correct);
+      if (a && b) {
+        var matches = 0;
+        for (var c = 0; c < a.length; c++) if (b.indexOf(a[c]) >= 0) matches++;
+        if (matches / Math.max(a.length, b.length) >= 0.7) ok = true;
+      }
+    }
+    q.answers[qi] = { val: val, ok: ok };
+    if (ok) q.score++;
+    saveQuiz(lid, q);
+    renderLesson();
+  };
+
+  // Hook into show()
+  var _origShow = window.show;
+  window.show = function(p){
+    var r = _origShow ? _origShow.apply(this, arguments) : undefined;
+    if (p === 'plumber') {
+      if (state.view === 'grid') renderGrid();
+      else if (state.view === 'exam') renderExam();
+      else renderLesson();
+    }
+    return r;
+  };
+  var _origDD = window.ddGo;
+  window.ddGo = function(p){
+    var r = _origDD ? _origDD.apply(this, arguments) : undefined;
+    if (p === 'plumber') { show('plumber'); }
+    return r;
+  };
+
+  // Initial render on DOM ready (so it's there when first viewed)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderGrid);
+  } else {
+    renderGrid();
+  }
+})();
+</script>
+
 </body>
 </html>

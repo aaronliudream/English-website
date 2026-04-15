@@ -2001,7 +2001,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <div class="gc-icon">📚</div>
         <div class="gc-title">Idiomatic Fluency</div>
         <div class="gc-title-cn">地道表达 · 习语精修</div>
-        <div class="gc-sub">250+ authentic expressions native speakers actually use — with origin stories, scenes, and pronunciation drills.</div>
+        <div class="gc-sub">300+ authentic expressions native speakers actually use — with origin stories, scenes, and pronunciation drills.</div>
         <span class="gc-tag">Conversational</span>
       </div>
       <div class="grade-card" onclick="openRing('monthly')">
@@ -2106,8 +2106,8 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
   <input class="sbar" id="lsearch" placeholder="Search a word, phrase, or meaning…" oninput="renderLearn()">
   <div class="ctabs">
-    <button class="ct on" onclick="setCat('all',this)">All<span class="ct-cnt">250</span></button>
-    <button class="ct" onclick="setCat('idiom',this)">Idioms<span class="ct-cnt">100</span></button>
+    <button class="ct on" onclick="setCat('all',this)">All<span class="ct-cnt">300</span></button>
+    <button class="ct" onclick="setCat('idiom',this)">Idioms<span class="ct-cnt">150</span></button>
     <button class="ct" onclick="setCat('phrase',this)">Phrases<span class="ct-cnt">100</span></button>
     <button class="ct" onclick="setCat('vocab',this)">Vocabulary<span class="ct-cnt">50</span></button>
     <button class="ct" onclick="setCat('due',this)" id="tab-due">Due Today<span class="ct-cnt due-cnt" id="due-cnt">0</span></button>
@@ -2121,8 +2121,8 @@ document.addEventListener('DOMContentLoaded', function(){
     <h2>Test Your Knowledge</h2>
     <p>Choose a category and question type</p>
     <div class="qopts" id="qcat-opts">
-      <div class="qo on" data-v="all" onclick="selQO(this,'cat')"><div class="qo-icon">🌐</div><div class="qo-lbl">All</div><div class="qo-desc">250 expressions</div></div>
-      <div class="qo" data-v="idiom" onclick="selQO(this,'cat')"><div class="qo-icon">💬</div><div class="qo-lbl">Idioms</div><div class="qo-desc">100 idioms</div></div>
+      <div class="qo on" data-v="all" onclick="selQO(this,'cat')"><div class="qo-icon">🌐</div><div class="qo-lbl">All</div><div class="qo-desc">300 expressions</div></div>
+      <div class="qo" data-v="idiom" onclick="selQO(this,'cat')"><div class="qo-icon">💬</div><div class="qo-lbl">Idioms</div><div class="qo-desc">150 idioms</div></div>
       <div class="qo" data-v="phrase" onclick="selQO(this,'cat')"><div class="qo-icon">📢</div><div class="qo-lbl">Phrases</div><div class="qo-desc">100 phrases</div></div>
       <div class="qo" data-v="vocab" onclick="selQO(this,'cat')"><div class="qo-icon">📖</div><div class="qo-lbl">Vocab</div><div class="qo-desc">50 words</div></div>
       <div class="qo" data-v="bayarea" onclick="selQO(this,'cat')"><div class="qo-icon">💼</div><div class="qo-lbl">Bay Area</div><div class="qo-desc">80 职场表达</div></div>
@@ -2612,6 +2612,58 @@ var DATA = [
 {id:99,type:'idiom',phrase:'you cannot have your cake and eat it too',meaning:'You cannot have everything at once.',meaning_cn:'鱼与熊掌不可兼得',example:'<em>You cannot have your cake and eat it too</em> — choose one.',example_cn:'鱼与熊掌不可兼得——选一个吧。',scene:'Choosing between two incompatible things.'},
 {id:100,type:'idiom',phrase:'pull it off',meaning:'To succeed at something difficult.',meaning_cn:'成功做到；做成了难事',example:'I did not think we could do it but we <em>pulled it off</em>.',example_cn:'我以为我们做不到，但我们成功了。',scene:'Achieving something challenging.'},
 
+// ── 50 NEW TRENDING 2026 IDIOMS (Z-gen / Workplace / Daily) ──
+{id:'idn_01',type:'idiom',phrase:'main character energy',meaning:'Confident self-assurance as if you are the protagonist of your own life.',meaning_cn:'主角光环；自信地活出自己的人生主角姿态',example:'She walked into the meeting with total <em>main character energy</em>.',example_cn:'她带着十足的主角光环走进了会议室。',scene:'Someone acting boldly and self-assured.'},
+{id:'idn_02',type:'idiom',phrase:'rent free',meaning:'Occupying your thoughts constantly without you wanting it to.',meaning_cn:'免费占据脑海；挥之不去地想着某事',example:'That embarrassing moment is living <em>rent free</em> in my head.',example_cn:'那个尴尬的瞬间一直在我脑海里挥之不去。',scene:'Can not stop thinking about something.'},
+{id:'idn_03',type:'idiom',phrase:'the ick',meaning:'A sudden, irrational feeling of disgust or turnoff toward someone.',meaning_cn:'突然的反感；莫名的厌恶感（2024-2026流行）',example:'He chewed with his mouth open and I instantly got <em>the ick</em>.',example_cn:'他张着嘴咀嚼，我瞬间对他心生厌恶。',scene:'A small habit ruins your view of someone.'},
+{id:'idn_04',type:'idiom',phrase:'no cap',meaning:'No lie; seriously; I am being honest.',meaning_cn:'不骗你；说真的（Z世代高频语）',example:'This coffee is the best I have ever had, <em>no cap</em>.',example_cn:'这咖啡是我喝过最好喝的，真的不骗你。',scene:'Emphasizing truth in casual conversation.'},
+{id:'idn_05',type:'idiom',phrase:'its giving',meaning:'It conveys a certain vibe or aesthetic.',meaning_cn:'给人一种......的感觉；有点……的味道',example:'That outfit — <em>its giving</em> old money.',example_cn:'那套搭配——很有老钱风的感觉。',scene:'Describing the vibe of something.'},
+{id:'idn_06',type:'idiom',phrase:'understood the assignment',meaning:'Perfectly met or exceeded expectations for a task.',meaning_cn:'完美领会任务；精准交付',example:'Her presentation was flawless — she <em>understood the assignment</em>.',example_cn:'她的演示无懈可击——完全领会了任务。',scene:'Praising someone for nailing the task.'},
+{id:'idn_07',type:'idiom',phrase:'chronically online',meaning:'Too immersed in internet culture to grasp real-world perspectives.',meaning_cn:'过度沉迷网络；网瘾深度脱离现实',example:'Only a <em>chronically online</em> person would think that tweet was serious.',example_cn:'只有常年泡网的人才会觉得那条推文是认真的。',scene:'Criticizing disconnected internet behavior.'},
+{id:'idn_08',type:'idiom',phrase:'glow up',meaning:'A dramatic positive transformation in appearance or life.',meaning_cn:'蜕变升级；脱胎换骨的改变',example:'After a year abroad, his <em>glow up</em> was unreal.',example_cn:'出国一年回来，他整个人脱胎换骨。',scene:'Someone changes dramatically for the better.'},
+{id:'idn_09',type:'idiom',phrase:'vibe check',meaning:'A quick assessment of someone’s mood or an atmosphere.',meaning_cn:'氛围检查；瞅瞅状态如何',example:'Let me do a quick <em>vibe check</em> before I bring up the bad news.',example_cn:'我先看看气氛再说坏消息。',scene:'Gauging the mood before acting.'},
+{id:'idn_10',type:'idiom',phrase:'delulu',meaning:'Playfully delusional; believing in unrealistic optimism.',meaning_cn:'愉快地自我欺骗；盲目乐观（开玩笑）',example:'Im being <em>delulu</em> thinking I can still catch that flight.',example_cn:'我还以为能赶上那趟飞机——纯属自我欺骗。',scene:'Joking about unrealistic hopes.'},
+{id:'idn_11',type:'idiom',phrase:'mid',meaning:'Mediocre; unremarkable; neither great nor terrible.',meaning_cn:'平平无奇；一般般；不好不坏',example:'The movie was just <em>mid</em> — nothing to write home about.',example_cn:'这电影真的很一般——没什么好说的。',scene:'Dismissing something as average.'},
+{id:'idn_12',type:'idiom',phrase:'it hits different',meaning:'Feels uniquely impactful compared to similar things.',meaning_cn:'感觉就是不一样；格外有冲击力',example:'Coming home after months away — <em>it hits different</em>.',example_cn:'离家数月后再回家——那种感觉完全不同。',scene:'When something feels more meaningful than usual.'},
+{id:'idn_13',type:'idiom',phrase:'touch grass',meaning:'Go outside and reconnect with real life; stop being online.',meaning_cn:'出去走走；摸摸草（脱离网络回归现实）',example:'You have been arguing with strangers online all day — go <em>touch grass</em>.',example_cn:'你一整天都在网上和陌生人吵架——出去走走吧。',scene:'Advice for someone too online.'},
+{id:'idn_14',type:'idiom',phrase:'spill the tea',meaning:'Share juicy gossip or inside information.',meaning_cn:'爆料；说八卦',example:'Okay, <em>spill the tea</em> — what happened at the party?',example_cn:'快说快说——派对上到底发生了什么？',scene:'Asking for the latest gossip.'},
+{id:'idn_15',type:'idiom',phrase:'red flag',meaning:'A warning sign of problematic behavior in a person or situation.',meaning_cn:'危险信号；预警（人或情境中的不良迹象）',example:'He talks over everyone — thats a major <em>red flag</em>.',example_cn:'他总打断别人——这是很明显的危险信号。',scene:'Identifying warning signs.'},
+{id:'idn_16',type:'idiom',phrase:'green flag',meaning:'A positive sign indicating someone is a healthy choice.',meaning_cn:'绿旗；好兆头（说明对方是靠谱选择）',example:'He remembers your coffee order — huge <em>green flag</em>.',example_cn:'他记得你点的咖啡——这可是大大的加分项。',scene:'Recognizing healthy behavior.'},
+{id:'idn_17',type:'idiom',phrase:'ghosting',meaning:'Abruptly cutting all communication without explanation.',meaning_cn:'玩消失；突然断联不回消息',example:'We had three great dates and then he started <em>ghosting</em> me.',example_cn:'我们约会了三次都很棒，然后他就玩消失了。',scene:'Dating or friendship disappearing act.'},
+{id:'idn_18',type:'idiom',phrase:'breadcrumbing',meaning:'Leading someone on with minimal, sporadic contact.',meaning_cn:'面包屑勾引；若即若离地吊着对方',example:'He texts once a week just to keep me interested — classic <em>breadcrumbing</em>.',example_cn:'他每周只发一次信息来吊着我——典型的"面包屑"操作。',scene:'Someone giving just enough attention.'},
+{id:'idn_19',type:'idiom',phrase:'soft launch',meaning:'Subtly hinting at a relationship or product without full reveal.',meaning_cn:'软公开；低调亮相（恋情或产品）',example:'She did a <em>soft launch</em> of her new boyfriend with a blurry hand photo.',example_cn:'她发了一张模糊的手照，低调公开了新男友。',scene:'Quietly introducing something new.'},
+{id:'idn_20',type:'idiom',phrase:'hard launch',meaning:'Publicly and clearly revealing something with a big announcement.',meaning_cn:'硬公开；高调正式宣布',example:'After a year together they finally did a <em>hard launch</em> on Instagram.',example_cn:'交往一年后，他们终于在Instagram上高调公开。',scene:'Official big reveal.'},
+{id:'idn_21',type:'idiom',phrase:'big yikes',meaning:'An exclamation marking something very awkward or bad.',meaning_cn:'大尴尬；糟糕透顶',example:'He sent that text to the group chat instead of her? <em>Big yikes</em>.',example_cn:'他把那条信息发到群里而不是发给她？真是尴尬到爆。',scene:'Reacting to something cringeworthy.'},
+{id:'idn_22',type:'idiom',phrase:'quiet firing',meaning:'Subtly pushing an employee out by making work miserable.',meaning_cn:'安静解雇；用冷处理逼员工主动离职',example:'They cut her hours and ignored her in meetings — total <em>quiet firing</em>.',example_cn:'他们减少了她的工时，开会也不理她——完全是在逼她走。',scene:'Workplace pushing someone out indirectly.'},
+{id:'idn_23',type:'idiom',phrase:'loud budgeting',meaning:'Openly declaring you cannot afford something to resist spending pressure.',meaning_cn:'大声预算；公开说"我没预算"来拒绝消费压力',example:'<em>Loud budgeting</em> helped her save $8,000 this year.',example_cn:'大声预算法帮她今年省下了八千美元。',scene:'Being transparent about financial limits.'},
+{id:'idn_24',type:'idiom',phrase:'coffee badging',meaning:'Showing up to the office briefly just to be seen before leaving.',meaning_cn:'咖啡打卡；去办公室露个脸就走',example:'Half the team is just <em>coffee badging</em> to satisfy the RTO rule.',example_cn:'半数人只是去办公室刷个脸，应付返岗政策。',scene:'Minimal office presence to appear compliant.'},
+{id:'idn_25',type:'idiom',phrase:'bare minimum Monday',meaning:'Doing only essential work on Mondays to ease back into the week.',meaning_cn:'最低限度周一；周一只做最基础的工作',example:'<em>Bare minimum Monday</em> saved my burnout.',example_cn:'最低限度周一把我从职业倦怠里救了出来。',scene:'Starting the week slowly.'},
+{id:'idn_26',type:'idiom',phrase:'career cushioning',meaning:'Quietly exploring other opportunities while still employed.',meaning_cn:'职业缓冲；在职同时暗中寻找其他机会',example:'With layoffs looming, half the team is <em>career cushioning</em>.',example_cn:'眼看要裁员了，半数同事都在悄悄骑驴找马。',scene:'Preparing a backup plan while working.'},
+{id:'idn_27',type:'idiom',phrase:'dry promotion',meaning:'A promotion in title or duties but without a raise.',meaning_cn:'干巴巴晋升；升职不加薪',example:'They offered her a <em>dry promotion</em> and she politely declined.',example_cn:'公司给了她一个升职不加薪的机会，她礼貌拒绝了。',scene:'New role with no financial reward.'},
+{id:'idn_28',type:'idiom',phrase:'boomerang employee',meaning:'Someone who leaves a company and later returns.',meaning_cn:'回旋镖员工；离职后又回到同一家公司',example:'Hes a <em>boomerang employee</em> — back after two years at a startup.',example_cn:'他是个回旋镖员工——在创业公司干了两年后又回来了。',scene:'Rehiring a former employee.'},
+{id:'idn_29',type:'idiom',phrase:'low-hanging fruit',meaning:'The easiest wins or simplest tasks to tackle first.',meaning_cn:'唾手可得的果实；最容易拿下的机会',example:'Lets go after the <em>low-hanging fruit</em> before the hard cases.',example_cn:'我们先拿下容易的再啃硬骨头。',scene:'Prioritizing easy wins.'},
+{id:'idn_30',type:'idiom',phrase:'boil the ocean',meaning:'Attempt something impossibly broad or ambitious.',meaning_cn:'煮沸大海；妄图做不可能完成的大工程',example:'Lets not <em>boil the ocean</em> — start with one team pilot.',example_cn:'别一口吃成胖子——先在一个团队试点。',scene:'Warning against over-ambitious scope.'},
+{id:'idn_31',type:'idiom',phrase:'put a pin in it',meaning:'Set something aside to revisit later.',meaning_cn:'先搁置；标记一下回头再议',example:'Lets <em>put a pin in it</em> and come back after lunch.',example_cn:'我们先搁一下，午餐后再聊。',scene:'Pausing a meeting topic.'},
+{id:'idn_32',type:'idiom',phrase:'drink the Kool-Aid',meaning:'Uncritically accept a groups beliefs or ideology.',meaning_cn:'盲目追随；毫无保留地相信某团体理念',example:'Hes really <em>drinking the Kool-Aid</em> on that startup.',example_cn:'他对那家创业公司的信念简直是盲目崇拜。',scene:'Uncritical belief in a group.'},
+{id:'idn_33',type:'idiom',phrase:'move the goalposts',meaning:'Unfairly change the criteria mid-game.',meaning_cn:'中途移动球门；不公地更改标准',example:'Every time I hit the target, they <em>move the goalposts</em>.',example_cn:'我每次达标，他们就改标准。',scene:'Unfair changing rules.'},
+{id:'idn_34',type:'idiom',phrase:'align on',meaning:'Reach agreement or shared understanding.',meaning_cn:'达成一致；对齐共识',example:'Lets <em>align on</em> the timeline before committing to the client.',example_cn:'我们先对齐时间线，再向客户承诺。',scene:'Team syncing up.'},
+{id:'idn_35',type:'idiom',phrase:'ping me',meaning:'Send me a quick message to get my attention.',meaning_cn:'发个消息叫我；简短联系一下',example:'<em>Ping me</em> when the doc is ready for review.',example_cn:'文档准备好审查时叫我一下。',scene:'Requesting a quick notification.'},
+{id:'idn_36',type:'idiom',phrase:'doom loop',meaning:'A self-reinforcing negative spiral that keeps getting worse.',meaning_cn:'末日循环；不断恶化的自强化负面螺旋',example:'The city is stuck in a <em>doom loop</em> of empty offices and falling tax revenue.',example_cn:'这座城市陷入了空置办公楼和税收下滑的恶性循环。',scene:'A downward cycle feeding itself.'},
+{id:'idn_37',type:'idiom',phrase:'permacrisis',meaning:'An extended period of instability and successive crises with no clear end.',meaning_cn:'永久危机；连续不断的动荡状态',example:'Were living in a <em>permacrisis</em> — pandemic, war, inflation, AI upheaval.',example_cn:'我们生活在永久危机中——疫情、战争、通胀、AI冲击接连不断。',scene:'Describing ongoing global turmoil.'},
+{id:'idn_38',type:'idiom',phrase:'enshittification',meaning:'The gradual decline of an online platform as it prioritizes profit over users.',meaning_cn:'平台腐化；互联网服务逐渐变烂的过程',example:'The <em>enshittification</em> of that app is why I deleted it.',example_cn:'那款应用越来越烂，所以我卸载了。',scene:'An online service deteriorating over time.'},
+{id:'idn_39',type:'idiom',phrase:'AI-pilled',meaning:'Fully convinced that AI will transform everything.',meaning_cn:'AI入脑；深信AI将改变一切',example:'Hes completely <em>AI-pilled</em> — rewrites his whole workflow every month.',example_cn:'他对AI深信不疑——每个月都重构一次工作流。',scene:'Someone obsessed with AI potential.'},
+{id:'idn_40',type:'idiom',phrase:'gatekeep',meaning:'Restrict access to information or a community to maintain exclusivity.',meaning_cn:'把关；故意不分享让圈子保持小众',example:'Stop <em>gatekeeping</em> that restaurant — let everyone enjoy it!',example_cn:'别再藏着那家餐厅了——让大家都去尝尝！',scene:'Accusing someone of hoarding access.'},
+{id:'idn_41',type:'idiom',phrase:'have rizz',meaning:'Possess natural charm or charisma in romantic contexts.',meaning_cn:'有魅力；自然散发恋爱吸引力（Z世代新词）',example:'He doesnt even try — he just <em>has rizz</em>.',example_cn:'他根本不用刻意——天生就有魅力。',scene:'Describing someone naturally charismatic.'},
+{id:'idn_42',type:'idiom',phrase:'bussin',meaning:'Extremely good, usually referring to food.',meaning_cn:'绝了；特别好吃/特别棒（尤指食物）',example:'This ramen is <em>bussin</em> — I need to come back.',example_cn:'这碗拉面绝了——我一定要再来吃。',scene:'Praising delicious food.'},
+{id:'idn_43',type:'idiom',phrase:'simp',meaning:'Show excessive admiration or affection toward someone, often unreciprocated.',meaning_cn:'舔狗；过度讨好或崇拜某人',example:'Stop <em>simping</em> for your ex and move on.',example_cn:'别再舔前任了，向前看吧。',scene:'Criticizing over-the-top affection.'},
+{id:'idn_44',type:'idiom',phrase:'cheugy',meaning:'Out of date or trying too hard to be trendy.',meaning_cn:'过气潮流；刻意跟风反而显得老土',example:'Millennials still using that phrase? Pretty <em>cheugy</em>.',example_cn:'千禧一代还在用那个词？有点过气了。',scene:'Mocking outdated trends.'},
+{id:'idn_45',type:'idiom',phrase:'living my best life',meaning:'Enjoying life to the fullest and unapologetically.',meaning_cn:'活出最好的自己；享受当下',example:'Beach, books, no emails — <em>living my best life</em>.',example_cn:'海滩、书本、没有邮件——活出最好的自己。',scene:'Celebrating personal happiness.'},
+{id:'idn_46',type:'idiom',phrase:'in my X era',meaning:'Currently in a particular phase or identity of life.',meaning_cn:'处于某个人生阶段；"XX纪元"',example:'Im <em>in my quiet era</em> — less socializing, more reading.',example_cn:'我正处于"安静纪元"——少社交，多读书。',scene:'Describing a current life phase.'},
+{id:'idn_47',type:'idiom',phrase:'clapback',meaning:'A sharp, witty retort to criticism or an insult.',meaning_cn:'犀利回怼；霸气反击',example:'Her <em>clapback</em> on Twitter went viral.',example_cn:'她在推特上的霸气回怼火遍全网。',scene:'Sharp verbal comeback.'},
+{id:'idn_48',type:'idiom',phrase:'lowkey',meaning:'Slightly, secretly, or subtly (adverb).',meaning_cn:'有点儿；偷偷地（年轻人口头语）',example:'Im <em>lowkey</em> excited about the new phone.',example_cn:'我对新手机有点小激动。',scene:'Expressing subtle feelings.'},
+{id:'idn_49',type:'idiom',phrase:'dont sleep on it',meaning:'Do not underestimate or overlook something valuable.',meaning_cn:'别忽视；别错过（此事/此人很值得注意）',example:'<em>Dont sleep on</em> that indie band — they are going to blow up.',example_cn:'别忽视那支独立乐队——他们要火了。',scene:'Urging attention to something underrated.'},
+{id:'idn_50',type:'idiom',phrase:'read the room',meaning:'Sense the mood or atmosphere and adjust your behavior accordingly.',meaning_cn:'看场合说话；察觉气氛再行动',example:'That joke was tone-deaf — you need to <em>read the room</em>.',example_cn:'这个玩笑太不合时宜——你得学会看气氛。',scene:'Reminding someone to be socially aware.'},
+
 // ── 100 PHRASES ─────────────────────────
 {id:101,type:'phrase',phrase:'double down',meaning:'To increase commitment even under pressure.',meaning_cn:'加倍坚持；在压力下反而更强硬',example:'Instead of apologizing he <em>doubled down</em> on his claims.',example_cn:'他没有道歉，反而在声明上加倍坚持。',scene:'Someone refuses to back down.'},
 {id:102,type:'phrase',phrase:'circle back',meaning:'To return to a topic later.',meaning_cn:'稍后再谈；回头再说',example:'Let us <em>circle back</em> to this after the break.',example_cn:'休息后我们再来讨论这个话题。',scene:'A meeting agenda item is postponed.'},
@@ -2950,7 +3002,32 @@ var MONTHLY_DATA = {
       {id:'m2604_02',term:'open source',pos:'adj./n.',def:'Software whose source code is publicly available for anyone to view, modify, and distribute freely.',def_cn:'开源——源代码公开可用、任何人都可以查看、修改和自由分发的软件。是科技行业最重要的协作模式。',ex:'Meta\'s decision to release Llama as <em>open source</em> changed the entire AI competitive landscape.',ex_cn:'Meta决定将Llama开源，改变了整个AI竞争格局。',origin:'🔓 <b>历史：</b>Richard Stallman于1983年发起GNU项目，Linus Torvalds于1991年创建Linux。「open source」这一术语由Eric Raymond和Bruce Perens于1998年正式定义，如今全球90%的软件包含开源组件。'},
       {id:'m2604_03',term:'sustainable investing',pos:'n.',def:'Investing strategies that consider Environmental, Social, and Governance (ESG) factors alongside financial returns.',def_cn:'可持续投资——在关注财务回报的同时，将环境(E)、社会(S)和治理(G)因素纳入投资决策的策略。',ex:'The fund shifted to <em>sustainable investing</em> after clients increasingly demanded ESG-aligned portfolios.',ex_cn:'基金转向可持续投资，因为越来越多的客户要求与ESG目标一致的投资组合。',origin:'🌿 <b>发展历程：</b>起源于1970年代社会责任投资运动(SRI)，2006年联合国推出责任投资原则(PRI)推动主流化。2026年全球ESG资产规模预计突破50万亿美元，已成为资产管理行业不可忽视的力量。'},
       {id:'m2604_04',term:'fintech',pos:'n.',def:'Financial technology — startups and companies using software and technology to improve or disrupt traditional financial services.',def_cn:'金融科技——使用软件和技术改善或颠覆传统金融服务的初创公司和行业总称。',ex:'Bay Area <em>fintech</em> startups are now raising money to tackle the underserved credit market with AI-driven underwriting.',ex_cn:'湾区金融科技初创公司正在筹集资金，用AI驱动的信贷核保来解决服务不足的信贷市场。',origin:'💳 <b>词源：</b>缩写词，约在1990年代末开始使用，随智能手机和移动支付兴起而爆发。Stripe、Square、Robinhood等代表性公司均诞生于Bay Area，使其成为全球金融科技创新中心。'},
-      {id:'m2604_05',term:'tokenization',pos:'n.',def:'Converting rights to real-world assets (real estate, art, equity) into digital tokens on a blockchain for easier trading and fractional ownership.',def_cn:'资产代币化——将现实世界资产（房产、艺术品、股权）的权益转换为区块链上的数字token，便于交易和碎片化所有权。',ex:'<em>Tokenization</em> could allow small investors to own fractional shares of commercial real estate for as little as $100.',ex_cn:'资产代币化可以让小投资者以100美元就持有商业房产的碎片化份额。',origin:'🔗 <b>技术背景：</b>区块链技术的核心应用之一。2024年贝莱德推出代币化基金，标志着主流金融机构对区块链应用的认可。2025-2026年，资产代币化被视为下一个万亿美元级市场。'}
+      {id:'m2604_05',term:'tokenization',pos:'n.',def:'Converting rights to real-world assets (real estate, art, equity) into digital tokens on a blockchain for easier trading and fractional ownership.',def_cn:'资产代币化——将现实世界资产（房产、艺术品、股权）的权益转换为区块链上的数字token，便于交易和碎片化所有权。',ex:'<em>Tokenization</em> could allow small investors to own fractional shares of commercial real estate for as little as $100.',ex_cn:'资产代币化可以让小投资者以100美元就持有商业房产的碎片化份额。',origin:'🔗 <b>技术背景：</b>区块链技术的核心应用之一。2024年贝莱德推出代币化基金，标志着主流金融机构对区块链应用的认可。2025-2026年，资产代币化被视为下一个万亿美元级市场。'},
+      {id:'m2604_06',term:'rizz',pos:'n.',def:'Natural charm or romantic appeal — the ability to attract others through personality and confidence.',def_cn:'天生魅力；自然散发的恋爱吸引力。2023年牛津年度词汇，2026年依然是Z世代最高频词之一。',ex:'He doesnt even try — he just <em>has rizz</em>.',ex_cn:'他根本不用刻意——天生就有魅力。',origin:'💫 <b>词源：</b>由YouTuber Kai Cenat于2021年发明，是"charisma"的缩写。2023年被牛津词典选为年度词汇，2024-2026年在Z世代中彻底主流化，成为描述魅力的标准用语。'},
+      {id:'m2604_07',term:'delulu',pos:'adj.',def:'Playfully delusional — believing in unrealistic positive outcomes, used humorously.',def_cn:'愉快的自我欺骗；开玩笑地盲目乐观，相信不切实际的好事。',ex:'Im being <em>delulu</em> thinking that email from the CEO means Im getting promoted.',ex_cn:'我真是盲目乐观——以为CEO那封邮件意味着要升职了。',origin:'🌟 <b>词源：</b>源自K-pop粉丝圈，原指对偶像的妄想式迷恋。2023-2024年经TikTok扩散，衍生口号"delulu is the solulu"（盲目乐观就是最终方案），2026年成为Z世代自嘲口头语。'},
+      {id:'m2604_08',term:'the ick',pos:'n.',def:'A sudden, visceral feeling of disgust or turnoff toward a romantic interest, often over a trivial habit.',def_cn:'突然的反感；莫名对恋爱对象产生的厌恶感，往往由小习惯触发。',ex:'He chewed with his mouth open and I instantly got <em>the ick</em>.',ex_cn:'他张着嘴咀嚼——我瞬间对他心生厌恶。',origin:'💔 <b>流行背景：</b>源于2017年英国真人秀Love Island，2022年经TikTok病毒式传播全球。2024-2026年成为约会文化中描述"瞬间幻灭感"的标准词汇。'},
+      {id:'m2604_09',term:'main character energy',pos:'n.',def:'Confident self-assurance in living life as if you are the protagonist of your own story.',def_cn:'主角能量；活出自己人生主角姿态的自信光环。',ex:'She walked into the interview with total <em>main character energy</em>.',ex_cn:'她带着十足的主角光环走进面试现场。',origin:'🎬 <b>词源：</b>2020年TikTok博主Ashley Ward发起的运动，鼓励人们"treat yourself as the main character"。2022-2026年持续发酵，演变为对抗自我忽视、追求自我价值的生活哲学。'},
+      {id:'m2604_10',term:'its giving',pos:'phrase',def:'Conveys a certain vibe or aesthetic — used to describe the essence or feel of something.',def_cn:'给人一种……感觉；有某种味道/氛围',ex:'That outfit — <em>its giving</em> old money.',ex_cn:'那套搭配——很有老钱风的感觉。',origin:'🎤 <b>词源：</b>源自美国黑人社群与drag文化，后经TikTok普及。2022-2024年被主流Z世代吸收，成为描述"氛围感"的万能句式，搭配无数名词（"its giving Y2K", "its giving cringe"）。'},
+      {id:'m2604_11',term:'understood the assignment',pos:'phrase',def:'Perfectly met or exceeded expectations — nailed exactly what was required.',def_cn:'完美领会任务；精准交付，表现无懈可击。',ex:'Her outfit for the gala — she <em>understood the assignment</em>.',ex_cn:'她晚宴的造型——完全领会了主题。',origin:'🎯 <b>流行背景：</b>2021年由TikTok创作者Latto使用后爆红，本用于赞美服装造型与主题契合。如今广泛用于职场、学术、生活场景，形容"精准执行到位"。'},
+      {id:'m2604_12',term:'no cap',pos:'phrase',def:'No lie; Im being serious; used to emphasize truth in casual speech.',def_cn:'不骗你；说真的。Z世代高频语气词。',ex:'This ramen is the best in town, <em>no cap</em>.',ex_cn:'这家拉面全城最好吃，真的没骗你。',origin:'🎩 <b>词源：</b>源自美国黑人非正式英语AAVE。"Cap"原本意思是"谎言"，所以"no cap"即"不撒谎"。2017年起随嘻哈音乐普及，2020-2026年彻底进入主流词汇。'},
+      {id:'m2604_13',term:'glow up',pos:'n./v.',def:'A dramatic positive transformation — in appearance, career, confidence, or overall life.',def_cn:'蜕变升级；脱胎换骨的正向改变（外貌/事业/心态）。',ex:'After a year abroad, her <em>glow up</em> was unreal.',ex_cn:'出国一年回来，她整个人脱胎换骨。',origin:'✨ <b>词源：</b>出自Chief Keef于2013年的歌曲Gotta Glow Up One Day。2017年后经社交媒体"before/after"对比视频爆红，2026年已是全球通用的"蜕变"代名词。'},
+      {id:'m2604_14',term:'touch grass',pos:'phrase',def:'Go outside and reconnect with real life — a retort for someone spending too much time online.',def_cn:'出去走走；摸草脱离网络，回归现实世界。',ex:'Youve been arguing with strangers online all day — go <em>touch grass</em>.',ex_cn:'你一整天都在网上和陌生人吵架——出去走走吧。',origin:'🌱 <b>词源：</b>源自游戏社区与Reddit，约2015年起使用。2020年后随疫情远程工作与社交媒体过载爆红。2024-2026年成为讽刺"过度沉迷网络"的标准用语。'},
+      {id:'m2604_15',term:'vibe check',pos:'n.',def:'A quick assessment of someones mood or the atmosphere of a space.',def_cn:'氛围检查；快速判断状态或气氛。',ex:'Let me do a <em>vibe check</em> before I bring up the bad news.',ex_cn:'我先看看气氛再说坏消息。',origin:'🔮 <b>流行背景：</b>2019年经Twitter与TikTok爆火，源于说唱音乐中对情绪/能量的评估文化。2020年起进入主流对话，2026年在职场也常被使用，成为读气氛的标准动作。'},
+      {id:'m2604_16',term:'mid',pos:'adj.',def:'Mediocre, average, unremarkable — often used dismissively.',def_cn:'平平无奇；一般般；不好不坏（带贬义）。',ex:'The new season was just <em>mid</em> — nothing special.',ex_cn:'新一季真的很一般——没什么亮点。',origin:'📉 <b>词源：</b>源自游戏社区，原指"middle of the road"（中游水平）。2020年后在TikTok等平台用于快速评价，成为Z世代拒绝平庸作品的高频评语。'},
+      {id:'m2604_17',term:'red flag',pos:'n.',def:'A warning sign that someone or something has problematic traits or risk.',def_cn:'危险信号；预警对方有问题或情境有风险。',ex:'He talks over everyone — thats a major <em>red flag</em>.',ex_cn:'他总打断别人——这是很明显的危险信号。',origin:'🚩 <b>用法演变：</b>军事/航海信号词，原指"危险警告"。2010年后在约会App语境中爆红，2020-2026年随"healthy relationship"话题持续发酵，成为识别不健康关系的标配术语。'},
+      {id:'m2604_18',term:'green flag',pos:'n.',def:'A positive indicator that a person or situation is healthy and desirable.',def_cn:'绿旗；好兆头（对方是靠谱/健康的选择）。',ex:'He remembers your coffee order — huge <em>green flag</em>.',ex_cn:'他记得你点的咖啡——这可是大大的加分项。',origin:'🟢 <b>流行背景：</b>作为"red flag"的正向对立词，于2021年TikTok爆红。与"red flag"形成固定搭配，反映了Z世代对情感健康的主动识别与讨论文化。'},
+      {id:'m2604_19',term:'ghosting',pos:'n./v.',def:'Abruptly cutting off all communication with someone without explanation.',def_cn:'玩消失；突然断联不回消息。',ex:'We had three great dates and then he started <em>ghosting</em> me.',ex_cn:'我们约会了三次都很棒，然后他就玩消失了。',origin:'👻 <b>词源：</b>2010年代随Tinder等约会App普及。2015年入选柯林斯词典年度候选词，2026年已从约会场景延伸到职场（面试后断联的ghost hire）。'},
+      {id:'m2604_20',term:'breadcrumbing',pos:'n./v.',def:'Leading someone on with minimal, sporadic contact — just enough to keep interest alive.',def_cn:'面包屑勾引；若即若离地吊着对方。',ex:'He texts once a week just to keep me interested — classic <em>breadcrumbing</em>.',ex_cn:'他每周只发一次信息来吊着我——典型的"面包屑"操作。',origin:'🍞 <b>词源：</b>借用《Hansel and Gretel》童话中的面包屑比喻——留下一点痕迹诱导前进。2017年后随现代约会文化爆红，2024-2026年成为恋爱心理学高频词。'},
+      {id:'m2604_21',term:'soft launch',pos:'n./v.',def:'Subtly hinting at a relationship or product without a full reveal — often a blurry photo or vague post.',def_cn:'软公开；低调亮相（恋情或产品），不完全揭晓。',ex:'She did a <em>soft launch</em> of her new boyfriend with a blurry hand photo.',ex_cn:'她发了一张模糊的手照，低调公开了新男友。',origin:'📸 <b>流行背景：</b>原为产品营销术语。2021年后被约会文化借用，在Instagram/TikTok描述"初次不完全公开恋情"的风潮。2026年在创作者经济中也广泛用于产品预热。'},
+      {id:'m2604_22',term:'hard launch',pos:'n./v.',def:'Publicly and clearly revealing something with a big, explicit announcement.',def_cn:'硬公开；高调正式宣布。',ex:'After a year together they finally did a <em>hard launch</em> on Instagram.',ex_cn:'交往一年后，他们终于在Instagram上高调公开。',origin:'📢 <b>对立词：</b>作为soft launch的对立概念同时流行。2023-2026年，"when are you hard launching?"已成为情侣之间的常见调侃。'},
+      {id:'m2604_23',term:'quiet firing',pos:'n.',def:'Subtly pushing an employee out by making their work life unpleasant — cutting hours, excluding from meetings, stalling promotions.',def_cn:'安静解雇；用冷处理逼员工主动离职。',ex:'They cut her hours and ignored her in meetings — total <em>quiet firing</em>.',ex_cn:'他们减少了她的工时，开会也不理她——完全是在逼她走。',origin:'🏢 <b>词源：</b>作为"quiet quitting"的镜像概念，2022-2023年由劳工维权者与HR专家提出。2024-2026年，在科技行业裁员潮中成为热议话题。'},
+      {id:'m2604_24',term:'loud budgeting',pos:'n.',def:'Openly declaring "I cannot afford that" to resist social spending pressure.',def_cn:'大声预算；公开说"我没预算"来拒绝消费压力。',ex:'<em>Loud budgeting</em> helped her save $8,000 this year.',ex_cn:'大声预算法帮她今年省下了八千美元。',origin:'💰 <b>词源：</b>由TikTok创作者Lukas Battle于2024年初提出，迅速成为2024-2026年Gen Z与Millennial的理财运动。反对传统"silent financial shame"，主张透明表达经济限制。'},
+      {id:'m2604_25',term:'coffee badging',pos:'n./v.',def:'Showing up at the office briefly — just long enough to be seen and have your badge registered — before leaving.',def_cn:'咖啡打卡；去办公室露个脸刷卡就走。',ex:'Half the team is just <em>coffee badging</em> to satisfy the RTO rule.',ex_cn:'半数人只是去办公室刷个脸，应付返岗政策。',origin:'☕ <b>背景：</b>2023年随强制返岗(RTO)政策出现。2024年Owl Labs调查显示58%的混合办公员工承认过"coffee badging"，2026年在大型科技公司中依然普遍。'},
+      {id:'m2604_26',term:'career cushioning',pos:'n.',def:'Quietly exploring other job opportunities and maintaining options while still employed at your current company.',def_cn:'职业缓冲；在职同时暗中寻找其他机会。',ex:'With layoffs looming, half the team is <em>career cushioning</em>.',ex_cn:'眼看要裁员了，半数同事都在悄悄骑驴找马。',origin:'🛟 <b>词源：</b>借用情感关系中的"cushioning"概念，2022-2024年经LinkedIn博主与HR专家推广。随裁员不确定性成为职场新常态，career cushioning被视为现代职场生存策略。'},
+      {id:'m2604_27',term:'dry promotion',pos:'n.',def:'A promotion in title or responsibilities without an accompanying salary increase.',def_cn:'干巴巴晋升；升职不加薪。',ex:'They offered her a <em>dry promotion</em> and she politely declined.',ex_cn:'公司给了她一个升职不加薪的机会，她礼貌拒绝了。',origin:'💼 <b>背景：</b>2024年华尔街日报报道显示，受预算紧缩影响，dry promotion在大型公司越来越普遍。2025-2026年已成为员工拒绝虚假晋升的关键识别词。'},
+      {id:'m2604_28',term:'bare minimum Monday',pos:'n.',def:'Doing only essential tasks on Mondays to ease into the week and prevent burnout.',def_cn:'最低限度周一；周一只做最基础的工作以避免倦怠。',ex:'<em>Bare minimum Monday</em> saved me from burnout.',ex_cn:'最低限度周一把我从职业倦怠里救了出来。',origin:'🛌 <b>词源：</b>由TikTok创作者Marisa Jo Mayes于2023年提出，迅速成为"反996文化"代表。2024-2026年在远程工作者中广泛实践，被视为可持续工作节奏的温和方案。'},
+      {id:'m2604_29',term:'enshittification',pos:'n.',def:'The gradual decline of an online platform as it shifts from serving users, to serving business partners, to purely maximizing profit.',def_cn:'平台腐化；互联网服务逐渐变烂的过程。',ex:'The <em>enshittification</em> of that app is why I deleted it.',ex_cn:'那款应用越来越烂，所以我卸载了。',origin:'🗑️ <b>词源：</b>由作家Cory Doctorow于2022年底提出，精准描述了Twitter/X、Google搜索、Amazon等平台的衰退轨迹。2023年成为美国方言协会年度词汇，2024-2026年持续在科技评论中高频出现。'},
+      {id:'m2604_30',term:'AI-pilled',pos:'adj.',def:'Fully convinced that AI will fundamentally transform every aspect of work and life.',def_cn:'AI入脑；深信AI将改变一切。',ex:'Hes completely <em>AI-pilled</em> — rewrites his whole workflow every month.',ex_cn:'他对AI深信不疑——每个月都重构一次工作流。',origin:'💊 <b>词源：</b>源自"-pilled"后缀构词法（如"red-pilled"，出自《黑客帝国》）。2024年随Claude、GPT等工具普及，"AI-pilled"用于描述拥抱AI变革的群体，2026年在硅谷文化中高频出现。'}
     ]
   }
 };
@@ -5271,7 +5348,7 @@ function renderCNEN() {
     el.className = 'vc';               // ← 使用 idiom 风格
     el.id = 'vccn' + w.id;
     var cnExPlain = w.ex_en ? w.ex_en.replace(/<[^>]+>/g,'') : '';
-    var numDisp = ('00' + w.id).slice(-3);
+    var numDisp = typeof w.id === 'number' ? ('00' + w.id).slice(-3) : String(w.id).replace(/^idn_/i,'N').toUpperCase();
     var trendCls  = 'cnen-trend-' + (w.trend||'rising');
     var trendLbl  = trendLabels[w.trend] || w.trend || '';
     var tagLbl    = tagLabels[w.tag] || w.tag || '';
@@ -8160,7 +8237,7 @@ function renderBayArea() {
     if      (st === 'due')    { srsBadge = '<span class="srs-tag due">Review</span>'; statusColor = '#d97757'; }
     else if (st === 'learn')  { srsBadge = '<span class="srs-tag learn">Learning</span>'; statusColor = '#2563eb'; }
     else if (st === 'master') { srsBadge = '<span class="srs-tag master">Mastered</span>'; statusColor = '#0a0e1a'; }
-    var numDisp = ('00' + d.id).slice(-3);
+    var numDisp = typeof d.id === 'number' ? ('00' + d.id).slice(-3) : String(d.id).replace(/^idn_/i,'N').toUpperCase();
     var bayExPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
     var el = document.createElement('div');
     el.className = 'vc';
@@ -8492,8 +8569,16 @@ function renderLearn() {
     }
     return true;
   });
-  // Sort: 学习中 → 待学习 → 已通过
-  list.sort(function(a, b){ return _progOrder('learn', a.id) - _progOrder('learn', b.id); });
+  // Sort: 学习中 → 待学习 → 已通过; 同组内新词(idn_*)优先
+  list.sort(function(a, b){
+    var po = _progOrder('learn', a.id) - _progOrder('learn', b.id);
+    if (po !== 0) return po;
+    var aNew = typeof a.id === 'string' && a.id.indexOf('idn_') === 0;
+    var bNew = typeof b.id === 'string' && b.id.indexOf('idn_') === 0;
+    if (aNew && !bNew) return -1;
+    if (!aNew && bNew) return 1;
+    return 0;
+  });
   document.getElementById('lcount').textContent = list.length + ' shown';
   var c = document.getElementById('llist');
   c.innerHTML = '';
@@ -8548,9 +8633,10 @@ function renderLearn() {
     el.className = 'vc';
     el.id = 'vc' + d.id;
     var exPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
-    var numDisp = ('00' + d.id).slice(-3);
+    var numDisp = typeof d.id === 'number' ? ('00' + d.id).slice(-3) : String(d.id).replace(/^idn_/i,'N').toUpperCase();
+    var idArg = JSON.stringify(d.id);
     el.innerHTML =
-      '<div class="vc-head" onclick="tog(' + d.id + ')" style="--vc-status:' + statusColor + '">' +
+      '<div class="vc-head" onclick="tog(' + idArg + ')" style="--vc-status:' + statusColor + '">' +
         '<div class="vc-head-top">' +
           '<span class="vc-num">' + numDisp + '</span>' +
           '<span class="vc-phrase">' + d.phrase + '</span>' +
@@ -8558,7 +8644,7 @@ function renderLearn() {
         '</div>' +
         '<div class="vc-head-btm">' +
           srsBadge +
-          '<button class="spk-btn" id="spkb' + d.id + '" onclick="speakPhrase(event,this,' + d.id + ')" title="Listen · 朗读">🔊</button>' +
+          '<button class="spk-btn" id="spkb' + d.id + '" onclick="speakPhrase(event,this,' + idArg + ')" title="Listen · 朗读">🔊</button>' +
         '</div>' +
       '</div>' +
       '<div class="vc-body" id="vb' + d.id + '">' +
@@ -8568,7 +8654,7 @@ function renderLearn() {
           (d.example_cn ? '<span class="vc-ex-cn">' + d.example_cn + '</span>' : '') +
         '</p>' +
         '<div style="display:flex;flex-wrap:wrap;gap:0;align-items:center">' +
-          '<button class="spk-ex-btn" id="spkex' + d.id + '" onclick="speakFull(event,this,' + d.id + ')">🔊 朗读例句</button>' +
+          '<button class="spk-ex-btn" id="spkex' + d.id + '" onclick="speakFull(event,this,' + idArg + ')">🔊 朗读例句</button>' +
           '<a class="yg-btn" href="https://youglish.com/pronounce/' + encodeURIComponent(d.phrase) + '/english/us" target="_blank" rel="noopener">🎬 YouGlish</a>' +
         '</div>' +
         markPassBtn('learn_' + d.id) +
@@ -38117,6 +38203,9 @@ window.CA_PREP_S1 = [
 .caprep-reset:hover{background:#a8884a}
 .caprep-mistakes-entry{background:linear-gradient(135deg,#8b3a3a 0%,#6e2a2a 50%,#c9a96a 100%);border-radius:14px;padding:20px 24px;margin-bottom:18px;cursor:pointer;display:flex;align-items:center;gap:16px;color:#fff;box-shadow:0 10px 28px rgba(139,58,58,.25);transition:transform .2s,box-shadow .2s;border:1px solid rgba(255,255,255,.12)}
 .caprep-mistakes-entry:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(139,58,58,.35)}
+.caprep-lessons-entry{background:linear-gradient(135deg,#2d6a8b 0%,#3d8ba8 50%,#5fa0a8 100%);border-radius:14px;padding:20px 24px;margin-bottom:14px;cursor:pointer;display:flex;align-items:center;gap:16px;color:#fff;box-shadow:0 10px 28px rgba(45,106,139,.28);transition:transform .2s,box-shadow .2s;border:1px solid rgba(255,255,255,.14)}
+.caprep-lessons-entry:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(45,106,139,.38)}
+.caprep-lessons-entry .caprep-mistakes-badge{background:rgba(255,255,255,.22)}
 .caprep-mistakes-entry.empty{background:linear-gradient(135deg,#3d4b7a 0%,#2a3558 100%);cursor:default;opacity:.85}
 .caprep-mistakes-entry.empty:hover{transform:none;box-shadow:0 10px 28px rgba(26,30,56,.2)}
 .caprep-mistakes-ico{font-size:38px;flex-shrink:0}
@@ -38255,6 +38344,16 @@ window.CA_PREP_S1 = [
           '<div class="caprep-mistakes-badge">暂无错题</div>' +
         '</div>';
 
+    // Banner linking to the 20-lesson + 6-exam foundation course
+    var lessonsEntry = '<div class="caprep-lessons-entry" onclick="closeCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();closeCAPrep();}" title="点击进入 20 课基础英语 + 6 综合测试">' +
+      '<div class="caprep-mistakes-ico">🔧</div>' +
+      '<div class="caprep-mistakes-body">' +
+        '<div class="caprep-mistakes-title">水管工程英语精修 · 入门 + 沟通</div>' +
+        '<div class="caprep-mistakes-sub">零基础 20 课 × 8-12 词 / 课 + 6 综合测试 · 工地打招呼、报工具、修漏水、收款对话 — 一个个场景练到能开口</div>' +
+      '</div>' +
+      '<div class="caprep-mistakes-badge">进入课程 →</div>' +
+    '</div>';
+
     root.innerHTML =
       '<div class="caprep-wrap">' +
         '<button class="caprep-back" onclick="closeCAPrep()">← 返回加州水管工英语精修</button>' +
@@ -38262,6 +38361,7 @@ window.CA_PREP_S1 = [
           '<h2>🎓 加州水管工执照备考题库</h2>' +
           '<p>California Plumber License Prep · 3 大板块 × 100 道中英对照选择题 · 70% 过关 · 答题与成绩自动保存</p>' +
         '</div>' +
+        lessonsEntry +
         mistakesEntry +
         '<div class="caprep-sections">'+cards+'</div>' +
       '</div>';

@@ -1795,7 +1795,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <div class="dd-label">系统学习</div>
         <button class="dd-item" onclick="ddGo('course')"><span class="dd-ico">📖</span>Course 系统课程</button>
         <button class="dd-item" onclick="ddGo('bayarea')"><span class="dd-ico">💼</span>Workplace 职场英语</button>
-        <button class="dd-item" onclick="ddGo('plumber')"><span class="dd-ico">🔧</span>Plumbing Engineering 水管工程英语</button>
+        <button class="dd-item" onclick="ddGo('plumber')"><span class="dd-ico">🔧</span>CA Plumber English 加州水管工英语精修</button>
         <button class="dd-item" onclick="ddGo('monthly')"><span class="dd-ico">🔥</span>美国月度流行热词</button>
         <button class="dd-item" onclick="ddGo('cnen')"><span class="dd-ico">🀄</span>CN→EN 汉译英</button>
         <button class="dd-item" onclick="ddGo('classics')"><span class="dd-ico">📜</span>美国最经典小说选读</button>
@@ -1925,7 +1925,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <button class="nb" onclick="show('wrongbook')">📕 Wrong Book 错题本</button>
   <button class="nb" onclick="show('lb')">🏆 Rankings 排行榜</button>
   <button class="nb" onclick="show('bayarea')">💼 Workplace 职场英语</button>
-  <button class="nb" onclick="show('plumber')">🔧 Plumbing Engineering 水管工程英语</button>
+  <button class="nb" onclick="show('plumber')">🔧 CA Plumber English 加州水管工英语精修</button>
   <button class="nb" onclick="show('monthly')">美国月度流行热词</button>
 
   <button class="nb" onclick="show('cnen')">🀄 CN→EN 汉译英</button>
@@ -1992,9 +1992,9 @@ document.addEventListener('DOMContentLoaded', function(){
       </div>
       <div class="grade-card" onclick="openRing('plumber')">
         <div class="gc-icon">🔧</div>
-        <div class="gc-title">Plumbing Engineering English</div>
-        <div class="gc-title-cn">美国水管工程英语 · 20课 + 6综合测试</div>
-        <div class="gc-sub">Authentic American plumbing & service-call English — 20 零基础 lessons + 6 comprehensive exams with 中文谐音, IPA, dialogues, grammar and listening tests.</div>
+        <div class="gc-title">CA Plumber English Mastery</div>
+        <div class="gc-title-cn">加州水管工英语精修 · 20课 + 6综合测试 + 执照备考</div>
+        <div class="gc-sub">Authentic American plumbing English + California C-36 license prep — 20 零基础 lessons, 6 comprehensive exams, 300+ bilingual MCQs covering CSLB regulations, law & business, and plumbing trade.</div>
         <span class="gc-tag">Trades</span>
       </div>
       <div class="grade-card" onclick="openRing('learn')">
@@ -2386,6 +2386,111 @@ var SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 var sbEnabled = (SURL.indexOf('supabase.co') !== -1 && SURL !== 'YOUR_SUPABASE_URL');
 var sb = null;
 try { if(sbEnabled) sb = supabase.createClient(SURL, SKEY); } catch(e){ sbEnabled=false; }
+
+// ═══════════════════════════════════════
+// PROGRESS CLOUD SYNC — store all learning
+// progress in Supabase `user_progress` table
+// so it follows the user across devices.
+// ═══════════════════════════════════════
+var SYNC_PREFIXES = [
+  'plmbq_','plmbexam_','caprep_','caprep-',
+  'vocab_','srs_','srs-','idiom_','idiomResults',
+  'cnen_','cnenQuiz','monthly_','monthlyQuiz',
+  'bayarea_','bayareaQuiz','learn_','learnQuiz',
+  'streak','streakData','dailyStats','daily_',
+  'pts','localPts','localName','localQuizzes','localCorrect',
+  'lesson_','quiz_','score_','answers_','completed_',
+  'profile_','achievement_','ob_'
+];
+function _isSyncKey(k){
+  if (!k) return false;
+  for (var i=0;i<SYNC_PREFIXES.length;i++){ if (k.indexOf(SYNC_PREFIXES[i])===0) return true; }
+  return false;
+}
+function _collectProgressData(){
+  var out = {};
+  try {
+    for (var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if (_isSyncKey(k)){ try { out[k] = localStorage.getItem(k); } catch(e){} }
+    }
+  } catch(e){}
+  return out;
+}
+var _syncUploadTimer = null;
+async function uploadProgressToCloud(){
+  if (!sbEnabled || typeof user==='undefined' || !user) return;
+  try {
+    var data = _collectProgressData();
+    var res = await sb.from('user_progress').upsert({
+      user_id: user.id, data: data, updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' });
+    if (res.error) console.warn('[sync] upload error', res.error);
+  } catch(e){ console.warn('[sync] upload failed', e); }
+}
+function scheduleCloudUpload(){
+  if (!sbEnabled || typeof user==='undefined' || !user) return;
+  if (_syncUploadTimer) clearTimeout(_syncUploadTimer);
+  _syncUploadTimer = setTimeout(uploadProgressToCloud, 1500);
+}
+function _mergeEntry(localVal, cloudVal){
+  if (cloudVal==null) return localVal;
+  if (localVal==null) return cloudVal;
+  if (localVal===cloudVal) return localVal;
+  try {
+    var l = JSON.parse(localVal), c = JSON.parse(cloudVal);
+    if (l && c && typeof l==='object' && typeof c==='object'){
+      // Quiz/exam shape with ans or answers map — union the keys, take max score
+      if (l.ans || c.ans){
+        var ans = Object.assign({}, c.ans||{}, l.ans||{});
+        var merged = Object.assign({}, c, l, { ans: ans });
+        if (l.score!=null || c.score!=null) merged.score = Math.max(l.score||0, c.score||0);
+        return JSON.stringify(merged);
+      }
+      if (l.answers || c.answers){
+        var ans2 = Object.assign({}, c.answers||{}, l.answers||{});
+        var m2 = Object.assign({}, c, l, { answers: ans2 });
+        if (l.score!=null || c.score!=null) m2.score = Math.max(l.score||0, c.score||0);
+        return JSON.stringify(m2);
+      }
+      // Generic object: shallow merge, local wins
+      return JSON.stringify(Object.assign({}, c, l));
+    }
+  } catch(e){}
+  // Number: take max
+  var ln = parseFloat(localVal), cn = parseFloat(cloudVal);
+  if (!isNaN(ln) && !isNaN(cn)) return String(Math.max(ln, cn));
+  // String: keep the longer (rough "more progress")
+  return localVal.length >= cloudVal.length ? localVal : cloudVal;
+}
+async function downloadProgressFromCloud(){
+  if (!sbEnabled || typeof user==='undefined' || !user) return;
+  try {
+    var r = await sb.from('user_progress').select('data').eq('user_id', user.id).maybeSingle();
+    if (r.error){ console.warn('[sync] download error', r.error); return; }
+    var cloud = r.data && r.data.data ? r.data.data : {};
+    var local = _collectProgressData();
+    var allKeys = {};
+    Object.keys(cloud).forEach(function(k){ allKeys[k]=1; });
+    Object.keys(local).forEach(function(k){ allKeys[k]=1; });
+    Object.keys(allKeys).forEach(function(k){
+      var merged = _mergeEntry(local[k], cloud[k]);
+      if (merged!=null){ try { localStorage.setItem(k, merged); } catch(e){} }
+    });
+    // Persist merged back to cloud
+    await uploadProgressToCloud();
+  } catch(e){ console.warn('[sync] download failed', e); }
+}
+// Monkey-patch setItem so every write triggers a debounced cloud upload
+(function(){
+  try {
+    var orig = localStorage.setItem.bind(localStorage);
+    localStorage.setItem = function(k, v){
+      orig(k, v);
+      if (_isSyncKey(k)) scheduleCloudUpload();
+    };
+  } catch(e){ console.warn('[sync] patch failed', e); }
+})();
 
 // ═══════════════════════════════════════
 // DATA — April 2026 · 250 Expressions
@@ -7607,10 +7712,18 @@ async function setUser(u) {
     }
     profile = r.data;
   } catch(e) { profile = null; }
+  // Pull cloud progress and merge with local — this is what makes
+  // progress follow the user across devices.
+  try { await downloadProgressFromCloud(); } catch(e){}
   updateTopbar();
   closeModal('login');
   closeModal('register');
-  toast('Signed in as ' + (profile ? profile.username : u.email.split('@')[0]), 'ok');
+  toast('Signed in as ' + (profile ? profile.username : u.email.split('@')[0]) + ' · 进度已同步', 'ok');
+  // Rerender any currently-open learning views so they show synced data
+  try {
+    if (typeof renderGrid === 'function' && document.getElementById('plmb-main')) renderGrid();
+    if (typeof _caprepBack === 'function' && document.getElementById('caprep-root') && document.getElementById('caprep-root').style.display !== 'none') _caprepBack();
+  } catch(e){}
 }
 
 function _getUserLevel(pts) {
@@ -37504,10 +37617,419 @@ window.CA_PREP_S3 = [
  ex:"加州 SB 854: 公共工程 > $1,000 承包商和所有下游分包商须 DIR 注册,支付 prevailing wage,按周提交 CPR,违者重罚。"}
 ];
 
+
+/* CA Contractor Regulations — Block 1 (100 Bilingual MCQs)
+   加州建筑承包商法规 · CSLB, licensing, bonding, liens, prompt payment, labor. */
+window.CA_PREP_S1 = [
+{q_en:"Which agency issues contractor licenses in California?",q_cn:"哪个机构在加州颁发承包商执照?",
+ o_en:["CSLB (Contractors State License Board)","DMV (Department of Motor Vehicles)","DWR (Department of Water Resources)","DIR (Department of Industrial Relations)"],
+ o_cn:["CSLB 加州承包商执照局","DMV 车管所","DWR 水资源局","DIR 劳工关系部"],a:0,
+ ex:"CSLB 隶属于 Department of Consumer Affairs,专门负责颁发和管理承包商执照。"},
+{q_en:"What does CSLB stand for?",q_cn:"CSLB 的全称是?",
+ o_en:["Contractors State License Board","California State Labor Board","Commercial Safety License Bureau","Construction Site Licensing Board"],
+ o_cn:["承包商执照局","加州劳工局","商业安全执照局","工地执照委员会"],a:0,
+ ex:"CSLB = Contractors State License Board,加州承包商执照委员会。"},
+{q_en:"What contract value threshold above which a contractor's license is required in California?",q_cn:"在加州,工程总价超过多少必须持牌?",
+ o_en:["$500 total (labor + materials)","$1,000","$5,000","License required regardless of amount"],
+ o_cn:["$500 总价(工料合计)","$1,000","$5,000","不管多少都要牌照"],a:0,
+ ex:"B&P Code §7028: 工料合计 $500 或以上的承建工程须持牌;$499 及以下可不持牌(casual/minor work 豁免)。"},
+{q_en:"The classification for plumbing contractors in California is:",q_cn:"加州水管工承包商的执照分类是?",
+ o_en:["C-36","C-10","C-39","B"],
+ o_cn:["C-36","C-10 (电工)","C-39 (屋顶)","B (通用建筑)"],a:0,
+ ex:"C-36 = Plumbing Contractor;C-10 电工;C-39 屋顶;B 通用建筑。"},
+{q_en:"A General Engineering contractor holds what classification?",q_cn:"通用工程承包商的执照类别是?",
+ o_en:["Class A","Class B","Class C","Class D"],
+ o_cn:["A 级","B 级","C 级","D 级"],a:0,
+ ex:"A 级 = General Engineering (道路、桥梁等专业工程);B 级 = General Building。"},
+{q_en:"A General Building contractor holds what classification?",q_cn:"通用建筑承包商的执照类别是?",
+ o_en:["Class A","Class B","Class C","Class D"],
+ o_cn:["A 级","B 级","C 级","D 级"],a:1,
+ ex:"Class B General Building 指结构型建筑,须至少涉及两种互不相关的工种。"},
+{q_en:"A Class B (General Building) contractor may take a contract involving only one trade if that trade is:",q_cn:"B 级承包商只涉及单一工种的合同时,该工种必须是?",
+ o_en:["Framing and carpentry","Plumbing","Electrical","Roofing"],
+ o_cn:["木作结构 (framing/carpentry)","水管","电工","屋顶"],a:0,
+ ex:"B&P §7057: B 级可单独做 framing/carpentry;其他单一专业工种须持 C 级牌。"},
+{q_en:"How many years of journey-level experience are generally required to qualify for a contractor license?",q_cn:"申请承包商执照通常需要几年专业级工作经验?",
+ o_en:["4 years","1 year","10 years","No experience needed"],
+ o_cn:["4 年","1 年","10 年","不需经验"],a:0,
+ ex:"CSLB 要求过去 10 年内至少 4 年 journey-level 及以上经验,由他人签字证明。"},
+{q_en:"What is a Qualifying Individual (Qualifier)?",q_cn:"资格人 (Qualifier) 是什么?",
+ o_en:["A licensed person (RME/RMO) representing the company's technical qualifications","A lawyer","An accountant","An insurance agent"],
+ o_cn:["代表公司具备技术资格的持牌人 (RME/RMO)","律师","会计师","保险代理人"],a:0,
+ ex:"Qualifier 是公司法律上的技术代表,分 RME (雇员) 和 RMO (高管/股东)。"},
+{q_en:"RME stands for:",q_cn:"RME 的全称是?",
+ o_en:["Responsible Managing Employee","Regional Manager Engineer","Registered Mechanical Examiner","Real Management Entity"],
+ o_cn:["责任管理雇员","区域经理工程师","注册机械检验员","实际管理实体"],a:0,
+ ex:"RME 作为雇员担任资格人,必须每周工作至少 32 小时或 80% 工作时间在公司。"},
+{q_en:"RMO stands for:",q_cn:"RMO 的全称是?",
+ o_en:["Responsible Managing Officer","Regional Mechanical Officer","Registered Master Operator","Remote Management Order"],
+ o_cn:["责任管理官员","区域机械官员","注册主操作员","远程管理命令"],a:0,
+ ex:"RMO 是高管/股东身份的资格人,通常持公司部分股份或任 officer。"},
+{q_en:"How often is a contractor license renewed?",q_cn:"承包商执照多久续一次?",
+ o_en:["Every 2 years","Every year","Every 5 years","Every 10 years"],
+ o_cn:["每 2 年","每年","每 5 年","每 10 年"],a:0,
+ ex:"CSLB 执照每 2 年续一次,续费须在到期前完成。"},
+{q_en:"If a license expires, how long do you have to renew it before you must reapply from scratch?",q_cn:"执照过期多久内可续牌而不必重新申请?",
+ o_en:["Within 5 years","Within 30 days","Within 1 year","Anytime"],
+ o_cn:["5 年内","30 天内","1 年内","随时"],a:0,
+ ex:"过期 5 年内可 renewal;超过须重新考试和申请。"},
+{q_en:"What is the current Contractor Bond amount required in California (as of 2023+)?",q_cn:"加州承包商保证金金额 (2023 年起) 是多少?",
+ o_en:["$25,000","$12,500","$15,000","$100,000"],
+ o_cn:["$25,000","$12,500","$15,000","$100,000"],a:0,
+ ex:"自 2023 年 1 月 1 日起 Contractor Bond 从 $15,000 提高到 $25,000。"},
+{q_en:"The Contractor Bond protects:",q_cn:"承包商保证金保护的对象是?",
+ o_en:["Consumers, employees (unpaid wages), and the State of California","Only the contractor","The insurance company","Material suppliers"],
+ o_cn:["消费者、雇员(欠薪)、加州政府","只有承包商自己","保险公司","建材供应商"],a:0,
+ ex:"Bond 赔付 (1) 因违规受损的消费者 (2) 被欠薪的雇员 (3) 加州政府的税金/罚款。"},
+{q_en:"In addition to the Contractor Bond, an RMO/RME Qualifier may also need:",q_cn:"除 Contractor Bond 外,RMO/RME 资格人可能还需要?",
+ o_en:["Bond of Qualifying Individual ($25,000)","Health insurance","Notary stamp","Real estate license"],
+ o_cn:["资格人保证金 $25,000","健康保险","公证员章","房地产执照"],a:0,
+ ex:"RMO 非独资股东或 RME 担任资格人时,须再加 $25,000 的 Bond of Qualifying Individual。"},
+{q_en:"Workers' compensation insurance is required for:",q_cn:"加州哪些承包商必须购买工伤保险?",
+ o_en:["Any contractor with employees; C-39 roofers must carry it whether or not they have employees","Only large companies","Voluntary","C-36 plumbers are exempt"],
+ o_cn:["凡有雇员的承包商;C-39 屋顶工不论是否有雇员都必须买","只有大公司","自愿购买","C-36 水管工不需要"],a:0,
+ ex:"有雇员必须买 WC;C-39 Roofing 无论是否有雇员都必须有 workers' comp。"},
+{q_en:"Under California law, a contractor with no employees:",q_cn:"加州法律下,无雇员的承包商?",
+ o_en:["May file an 'Exemption from Workers' Compensation'","Must still carry workers' comp","Can only hire independent contractors","Cannot take any contract"],
+ o_cn:["可提交'Exemption from Workers' Comp'声明免缴","仍必须买工伤保险","只能雇独立承包商","不得承接任何合同"],a:0,
+ ex:"无雇员可签 Exemption;一旦雇用任何人(含短工)须 7 日内购保并通知 CSLB。"},
+{q_en:"A contractor must display the license number on:",q_cn:"承包商必须在哪里展示执照号?",
+ o_en:["All ads, business cards, contracts, and vehicles used for advertising","Only on contracts","Only on business cards","Not required"],
+ o_cn:["所有广告、名片、合同、车辆广告","只在合同上","只在名片上","不需要展示"],a:0,
+ ex:"B&P §7030.5 要求所有广告(网站、车辆广告、名片、合同)都须展示执照号。"},
+{q_en:"The maximum down payment on a home improvement contract is:",q_cn:"家装合同最高首期款是多少?",
+ o_en:["$1,000 or 10% of contract price, whichever is less","50% of contract price","30% of contract price","No limit"],
+ o_cn:["$1,000 或合同价 10%,取较低者","合同价 50%","合同价 30%","没有上限"],a:0,
+ ex:"B&P §7159: HIC 首期款不得超过 $1,000 或合同价 10%,取较低者。"},
+{q_en:"What is a Home Improvement Contract (HIC)?",q_cn:"什么是家装合同 (HIC)?",
+ o_en:["Residential improvement contract over $500","Only kitchen renovations","Only contracts over $10,000","Commercial construction contract"],
+ o_cn:["总额 > $500 的住宅装修合同","仅厨房翻新",">$10,000 才算","商业工程合同"],a:0,
+ ex:"HIC 指针对现有住宅改建、修理、现代化等 > $500 (工料合计) 的合同。"},
+{q_en:"An HIC must be in writing and include:",q_cn:"家装合同书面形式必须包含?",
+ o_en:["Contractor name/address/license #, price, payment schedule, description of work, cancellation rights","Just the amount","Just signatures","Oral agreement is OK"],
+ o_cn:["承包商姓名/地址/执照号、合同价、付款进度、工程描述、撤销权等","只写金额即可","只要签字即可","口头约定即可"],a:0,
+ ex:"HIC 须书面,含约 12 项强制信息,否则合同可能无效。"},
+{q_en:"The 'Three-Day Right to Cancel' for home improvement contracts means:",q_cn:"家装合同'三天撤销权'指?",
+ o_en:["Consumer may cancel within 3 business days of signing with no reason","Contractor may cancel in 3 days","Insurer has 3 days to approve","Government has 3 days to approve"],
+ o_cn:["消费者签约后 3 个工作日内可无理由取消","承包商 3 天内可反悔","保险公司 3 天内须审批","政府 3 天内须批准"],a:0,
+ ex:"签约后 3 个工作日可书面无理由撤销,合同必须附 Notice of Cancellation 表格。"},
+{q_en:"For senior citizens (65+), the right to cancel a home improvement contract is:",q_cn:"65 岁以上老人的家装合同撤销期是?",
+ o_en:["5 business days","3 business days","7 business days","30 business days"],
+ o_cn:["5 个工作日","3 个工作日","7 个工作日","30 个工作日"],a:0,
+ ex:"65 岁及以上消费者享有 5 个工作日撤销期(比普通多 2 天)。"},
+{q_en:"A contractor selling home improvement in person must register as:",q_cn:"现场向消费者推销家装的人必须注册为?",
+ o_en:["Home Improvement Salesperson (HIS)","Realtor","Insurance Broker","CPA"],
+ o_cn:["家装推销员 HIS","房产经纪","保险经纪","注册会计师"],a:0,
+ ex:"HIS 须在 CSLB 注册并由持牌承包商雇用。"},
+{q_en:"The $500 'minor work' exemption applies only when:",q_cn:"$500 以下'minor work' 豁免持牌的条件是?",
+ o_en:["A single project totals less than $500 and is NOT part of a larger job split into pieces","Always applies","As long as customer agrees","As long as amount is not stated in contract"],
+ o_cn:["单一项目工料 < $500 且不属于更大项目的分段","任何时候都适用","只要客户同意","只要合同不写金额"],a:0,
+ ex:"不能把大工程拆成若干 <$500 合同以规避(splitting 是违法)。"},
+{q_en:"Acting as an unlicensed contractor on licensed work is:",q_cn:"无牌承接需持牌工作属于?",
+ o_en:["A misdemeanor (up to 6 months jail + $5,000 fine)","A civil infraction","A felony","Legal"],
+ o_cn:["轻罪(最多 6 个月监禁+$5,000 罚款)","民事违规","重罪","完全合法"],a:0,
+ ex:"初犯 misdemeanor;再犯加重。"},
+{q_en:"An unlicensed contractor generally CANNOT:",q_cn:"无牌承包商通常不能?",
+ o_en:["Sue a consumer in court to collect payment","Buy materials from stores","Advertise","Hire employees"],
+ o_cn:["在法院起诉消费者收款","在商店买材料","打广告","雇员工"],a:0,
+ ex:"B&P §7031: 无牌承包商无权诉讼讨要 compensation;消费者反可追回全部已付款。"},
+{q_en:"A Class B contractor who subcontracts specialty work must:",q_cn:"B 级承包商分包专业工作时必须?",
+ o_en:["Only subcontract to properly licensed C-class specialty contractors","Subcontract to anyone","Not subcontract at all","Subcontract at most 20%"],
+ o_cn:["仅分包给持牌的 C 级专业承包商","任何人都行","不得分包","最多分包 20%"],a:0,
+ ex:"B 级必须只雇持牌 C 级专业承包商做专业部分。"},
+{q_en:"A Mechanics Lien is a legal tool for:",q_cn:"建工留置权 (Mechanics Lien) 是什么?",
+ o_en:["Unpaid contractors/subs/suppliers to place a priority claim on the owner's property","Consumer protection against the contractor","A government tax tool","An insurance claim process"],
+ o_cn:["未收款的承包商/分包/供应商对业主财产主张优先求偿权","消费者保护","政府税务工具","保险赔偿程序"],a:0,
+ ex:"Mechanics Lien 让未付款的承包商/劳工/供应商在业主房产上登记债权。"},
+{q_en:"A Preliminary Notice (20-day notice) must be served within how many days of first furnishing labor/materials?",q_cn:"初步通知须在供货/施工后几天内送达?",
+ o_en:["Within 20 days","Within 5 days","Within 90 days","Within 6 months"],
+ o_cn:["20 天内","5 天内","90 天内","6 个月内"],a:0,
+ ex:"Civil Code §8204: Preliminary 20-day Notice 须在首次提供劳务或材料后 20 天内送达给业主、总包、贷款人。"},
+{q_en:"Who must send a Preliminary Notice to preserve lien rights?",q_cn:"谁需要送初步通知才能保留留置权?",
+ o_en:["Subs and suppliers who don't contract directly with the owner","Only the prime","Everyone including the prime","No one"],
+ o_cn:["所有未与业主直接签约的分包和供应商","只有总包","所有人含总包","无人需要"],a:0,
+ ex:"直接与业主签约的 prime 无需;其他角色须送以保留 lien 权。"},
+{q_en:"The deadline to record a Mechanics Lien after work completion (general rule):",q_cn:"工程完工后记录留置权的期限是?",
+ o_en:["Prime: 60 days after NOC / Subs: 90 days from completion (general)","1 year","30 days","10 years"],
+ o_cn:["总包: NOC 后 60 天 / 分包: 完工后 90 天 (一般)","1 年","30 天","10 年"],a:0,
+ ex:"简化规则: 业主记录 NOC 后总包 60 天,其他人 90 天 from completion/cessation。"},
+{q_en:"After recording a Mechanics Lien, the lienholder must file a foreclosure lawsuit within:",q_cn:"记录留置权后须在多久内起诉止赎?",
+ o_en:["90 days","30 days","1 year","5 years"],
+ o_cn:["90 天","30 天","1 年","5 年"],a:0,
+ ex:"Civil Code §8460: 记录后 90 天内必须起诉止赎,否则 lien 失效。"},
+{q_en:"Prompt Payment statutes require prime contractors to pay subcontractors within:",q_cn:"准时付款法规要求总包在收进度款后多久内付给分包?",
+ o_en:["7 days (private works)","30 days","60 days","90 days"],
+ o_cn:["7 天内 (私人工程)","30 天","60 天","90 天"],a:0,
+ ex:"B&P §7108.5: 私人工程 7 天;公共工程通常 10 天 (未付视为违规并可受罚)。"},
+{q_en:"Retention withheld from a subcontractor's progress payment generally cannot exceed:",q_cn:"扣留保留金通常不得超过多少?",
+ o_en:["5% on public works; per contract on private","50%","1%","None may be withheld"],
+ o_cn:["公共工程 5%;私人按合同","50%","1%","不得扣留"],a:0,
+ ex:"公共工程一般 ≤ 5%;私人按合同但不宜超过业主扣留比例。"},
+{q_en:"A change order must generally be:",q_cn:"变更单通常必须?",
+ o_en:["Written, signed, with price and schedule impact documented","Oral agreement OK","A text message","Unilateral by contractor"],
+ o_cn:["书面、签字、注明金额与工期影响","口头约定即可","只需发短信","承包商单方决定"],a:0,
+ ex:"变更单应书面、双方签字、注明价格/工期变动以避免争议。"},
+{q_en:"A contractor who violates CSLB rules may face:",q_cn:"违反 CSLB 规定可能面临?",
+ o_en:["Fines, license suspension/revocation, civil penalties","Only verbal warning","No action","Handled by insurer"],
+ o_cn:["罚款、执照暂停或吊销、公民处罚","只有口头警告","不予追究","由保险公司处理"],a:0,
+ ex:"CSLB 可处罚款、citation、license suspension/revocation,并可起诉。"},
+{q_en:"A CSLB administrative citation can be issued for:",q_cn:"CSLB 行政罚单可因下列情况?",
+ o_en:["Violation of license law, unlicensed operation, false advertising","Customer complaint","No reason needed","Only tax issues"],
+ o_cn:["违反执照法规、无牌营业、虚假广告等","客户投诉","无需理由","只有税务问题"],a:0,
+ ex:"Citation 最高 $30,000 (无牌案),同时可附改正令。"},
+{q_en:"Consumers file complaints against contractors with:",q_cn:"消费者投诉承包商应向?",
+ o_en:["CSLB","FBI","DMV","IRS"],
+ o_cn:["CSLB","FBI","DMV","IRS"],a:0,
+ ex:"向 CSLB 提交 Complaint Form;调查后可能转给法务部门。"},
+{q_en:"Arbitration for CSLB disputes may be:",q_cn:"CSLB 仲裁机制?",
+ o_en:["Mandatory up to $15,000; Voluntary up to $50,000","Entirely voluntary","Court-mandated","Large cases only"],
+ o_cn:["≤ $15,000 强制仲裁,≤ $50,000 自愿仲裁","完全自愿","法院强制","仅限大案"],a:0,
+ ex:"CSLB 提供 $15,000 以下的 Mandatory Arbitration 和最高 $50,000 的 Voluntary Arbitration。"},
+{q_en:"A contractor must obtain building permits when required by:",q_cn:"承包商必须申请建筑许可证的依据是?",
+ o_en:["Local building department (city/county)","Federal law","Insurance company","Customer agreement"],
+ o_cn:["当地司法辖区的建筑法规 (city/county)","联邦法律","保险公司","客户同意即可"],a:0,
+ ex:"当地 building department 决定哪些工程须 permit;承包商 (非业主) 应代为申请。"},
+{q_en:"Failing to obtain required permits can result in:",q_cn:"未申请必需许可证可能导致?",
+ o_en:["Fines, stop-work order, double permit fee, even demolition","No consequences","Only a warning","Insurance voided"],
+ o_cn:["罚款、停工令、双倍 permit 费、甚至拆除","无后果","仅警告","保险无效"],a:0,
+ ex:"可能 double fee、stop work order、甚至要求拆除未批工程。"},
+{q_en:"CSLB must be notified of changes such as:",q_cn:"CSLB 须在哪些变更时通知?",
+ o_en:["Address, business name, members, qualifier change","Customer complaints","Employee birthdays","Weather changes"],
+ o_cn:["地址、商号、公司成员、资格人变更","客户投诉","员工生日","天气变化"],a:0,
+ ex:"地址、qualifier、业务结构、公司成员变更等须 90 天内通知 CSLB。"},
+{q_en:"A contractor changing business address must notify CSLB within:",q_cn:"承包商搬迁须多久内通知 CSLB?",
+ o_en:["90 days","1 day","1 year","Not required"],
+ o_cn:["90 天内","1 天内","1 年内","无需通知"],a:0,
+ ex:"B&P §7083: 业务地址变更须 90 天内通知。"},
+{q_en:"A corporate licensee that loses its qualifier has how long to replace them?",q_cn:"公司执照失去资格人后多久内须补新人?",
+ o_en:["90 days","30 days","1 year","Immediately"],
+ o_cn:["90 天内","30 天内","1 年内","立刻"],a:0,
+ ex:"90 天内须申请 replacement of qualifier;超期 license auto-suspend。"},
+{q_en:"False or misleading advertising by a contractor violates:",q_cn:"承包商虚假或误导广告违反?",
+ o_en:["B&P Code §7161","California Plumbing Code","OSHA","IRS tax code"],
+ o_cn:["B&P §7161","CPC 管道规范","OSHA","IRS 税法"],a:0,
+ ex:"B&P §7161 明确禁止误导性陈述/许诺/虚假信息。"},
+{q_en:"Entering into contracts outside your license classification is:",q_cn:"签订不属于本类别工作的合同属于?",
+ o_en:["Illegal — outside scope of license","Legal","OK if customer agrees","No impact"],
+ o_cn:["违法 — 超出执照范围","合法","只要客户同意即可","无影响"],a:0,
+ ex:"承包商只能做 license classification 覆盖的工作 (B 级可做其包含的工种)。"},
+{q_en:"The 'Incidental and Supplemental' rule (B&P §7059) allows a specialty contractor to:",q_cn:"附带与补充规则 (§7059) 允许专业承包商?",
+ o_en:["Perform minor incidental work of other trades within their primary contract","Cross all trades","Subcontract to anyone","Have no limits"],
+ o_cn:["在主专业合同中做附带的其他工种小量工作","跨越所有工种","分包给任何人","无任何限制"],a:0,
+ ex:"C-36 水管在管道工程合同中可做附带挖沟、混凝土修补等 (属必要辅助部分)。"},
+{q_en:"Progress payments on a home improvement contract should reasonably relate to:",q_cn:"家装合同进度款应合理对应?",
+ o_en:["Work performed and materials delivered","Customer's mood","Contractor's cash needs","Arbitrary agreement"],
+ o_cn:["已完成工作量和已安装材料价值","客户心情","承包商缺钱程度","随意约定"],a:0,
+ ex:"B&P §7159(d): 每笔 progress payment 须与已完成工作及到场材料价值合理对应。"},
+{q_en:"A contract's 'Notice to Owner' (Mechanics Lien Warning) is:",q_cn:"合同中的'业主须知' (留置权警告) 是?",
+ o_en:["A mandatory notice warning owner of lien rights","Optional appendix","Insurance policy","Bank form"],
+ o_cn:["告知业主关于留置权风险的强制性通知","可选附录","保险单","银行表格"],a:0,
+ ex:"HIC 必须附带 Mechanics Lien 风险 Notice to Owner (Civil Code §8200s)。"},
+{q_en:"Which is required on all home improvement contracts?",q_cn:"家装合同必须包含哪项?",
+ o_en:["Two copies of a proper Notice of Cancellation form","Competitors' bids","Customer's ID copy","Contractor's resume"],
+ o_cn:["2 份撤销权 Notice of Cancellation 表格","竞争对手报价","客户身份证复印件","承包商简历"],a:0,
+ ex:"Notice of Cancellation 必须附 2 份副本,使用规定格式,交给消费者。"},
+{q_en:"A contractor doing service and repair under $750 may:",q_cn:"承接 < $750 的服务维修工作可?",
+ o_en:["Use a shortened Service & Repair Contract form","No contract needed","No license needed","Oral agreement OK"],
+ o_cn:["可签 Service & Repair Contract (简化格式)","不必签合同","无需执照","可以口头"],a:0,
+ ex:"B&P §7159.10: 合同总价 ≤ $750 有简化格式,但仍须书面。"},
+{q_en:"CSLB 'Disciplinary Guidelines' are used for:",q_cn:"CSLB 纪律指南用于?",
+ o_en:["Deciding penalty levels (revocation/suspension/fine)","Employee training","Consumer education","Tax audits"],
+ o_cn:["决定违规处罚等级 (吊销/暂停/罚款)","员工培训","消费者教育","税务审计"],a:0,
+ ex:"纪律指南为 ALJ (行政法官) 裁定 license 处罚提供量裁依据。"},
+{q_en:"Under the 'Citation Program,' a licensee may:",q_cn:"罚单程序下持牌人可以?",
+ o_en:["Appeal within 15 working days in writing","Only pay the fine","Only criminal process","No choice"],
+ o_cn:["收到 citation 后 15 个工作日内可书面请求听证","只能认罚","只能走刑事程序","无选择"],a:0,
+ ex:"收到 citation 后 15 个工作日内可书面请求听证申诉。"},
+{q_en:"An automatic license suspension can occur due to:",q_cn:"自动暂停执照的情形包括?",
+ o_en:["Unpaid taxes, expired WC insurance, unsatisfied judgments, qualifier leaving","Customer complaints","New hires","Equipment purchases"],
+ o_cn:["欠税、工伤保险过期、未赔偿法院判决、资格人离职","客户投诉","新员工入职","购买新设备"],a:0,
+ ex:"以上都是 auto-suspension 常见原因;恢复须补缴/补保/换人。"},
+{q_en:"A corporation's license and an individual's license are:",q_cn:"公司执照与个人执照的关系是?",
+ o_en:["Separate — cannot be used interchangeably","Interchangeable","The same one","Only one is needed"],
+ o_cn:["各自独立,不可互换","可互换","是同一张","只能用一个"],a:0,
+ ex:"Corp license 和 individual license 是两张不同执照,须分别申请和保持。"},
+{q_en:"When a sole proprietor incorporates, the contractor must:",q_cn:"独资户改公司时必须?",
+ o_en:["Apply for a new license for the corporation","No action needed","Just inform the bank","Just update W-9"],
+ o_cn:["为公司新申请执照","无需任何行动","只告诉银行","仅改 W-9"],a:0,
+ ex:"Individual 执照不能转给公司;须新申请 corp license (资格人相同可免考)。"},
+{q_en:"Advertising without the license number can be cited with fine up to:",q_cn:"广告未标执照号最高罚款?",
+ o_en:["$1,000 per citation","$10","$100","No fine"],
+ o_cn:["每次 $1,000","$10","$100","无罚款"],a:0,
+ ex:"B&P §7030.5 违反: citation 通常 $1,000;未改正加重。"},
+{q_en:"To obtain a C-36 license, an applicant must pass:",q_cn:"取得 C-36 执照须通过?",
+ o_en:["Law & Business exam + C-36 Trade exam","Law only","Trade only","No exam required"],
+ o_cn:["Law & Business 考试 + C-36 Trade 考试","只考 Law","只考 Trade","无需考试"],a:0,
+ ex:"CSLB 要求每位 qualifier 通过 Law & Business 和 Trade 两个考试。"},
+{q_en:"The passing score for CSLB exams is:",q_cn:"CSLB 考试通过分数?",
+ o_en:["73% (most exams)","60%","90%","100%"],
+ o_cn:["73% (多数考试)","60%","90%","100%"],a:0,
+ ex:"多数 CSLB 考试通过线 73% (约 90/120 题);题数和时间因考试而异。"},
+{q_en:"Builder's Risk insurance covers:",q_cn:"建筑商风险保险 (Builder's Risk) 覆盖?",
+ o_en:["The building under construction against fire, theft, etc.","The owner's car","Employee dental","Customer's furniture"],
+ o_cn:["施工中的建筑物因火灾、盗窃等损失","老板的汽车","员工的牙科","客户的家具"],a:0,
+ ex:"Builder's Risk 是 course-of-construction 保险,覆盖在建工程本身。"},
+{q_en:"General Liability insurance protects against:",q_cn:"一般责任保险保护什么?",
+ o_en:["Third-party bodily injury and property damage","Employee injury","Own tools","Contract breach"],
+ o_cn:["第三方人身伤害和财产损失","员工受伤","自有工具","合同违约"],a:0,
+ ex:"GL 保险对 third-party bodily injury 和 property damage 理赔;员工伤亡由 WC。"},
+{q_en:"Commercial Auto insurance is required when:",q_cn:"商业车辆保险何时必须?",
+ o_en:["Vehicles are used for business (tools, materials, employees)","Only trucks","Personal insurance covers it","Not required"],
+ o_cn:["车辆用于商用 (工具/材料/员工)","只有卡车才需","个人保险即可","不需要"],a:0,
+ ex:"商用车须商业车险;单人车 BOP 可能包含,但须与保险公司确认。"},
+{q_en:"Which is NOT a typical CSLB license requirement?",q_cn:"下列哪项不是 CSLB 执照必备要求?",
+ o_en:["College degree","4 years experience","Pass exams","Post a bond"],
+ o_cn:["大学学位","4 年经验","通过考试","缴纳保证金"],a:0,
+ ex:"CSLB 不要求大学学位。"},
+{q_en:"For a Joint Venture (JV) to hold a CSLB license:",q_cn:"合资经营体 (JV) 取得 CSLB 执照时?",
+ o_en:["Each participating contractor must already be individually licensed","Anyone can join","No licensing needed","Only one must be licensed"],
+ o_cn:["每位成员必须已独立持牌","任何人都可","不必持牌","只需其一持牌"],a:0,
+ ex:"JV license 要求每位成员 currently licensed;JV 执照仅对该 JV 项目有效。"},
+{q_en:"If a contractor's license is revoked, the qualifier is also:",q_cn:"执照被吊销后,资格人也?",
+ o_en:["Barred for 3 years from qualifying another entity","No consequences","Reinstated in 1 month","Only that company affected"],
+ o_cn:["3 年内不得再担任任何持牌实体的资格人","没有后果","1 月内恢复","只影响本公司"],a:0,
+ ex:"Revocation 通常连带 3 年内 qualifier 不得再挂靠其他公司。"},
+{q_en:"A contractor using a fictitious business name (DBA) must:",q_cn:"使用虚拟商号 (DBA) 必须?",
+ o_en:["Register with CSLB and file FBN with the county","Use freely","Oral notice only","Only the registered name"],
+ o_cn:["在 CSLB 登记并在 county 备案 FBN","任意使用","只需口头告知","只能用注册名"],a:0,
+ ex:"DBA 须在 CSLB 登记并在 county clerk 办理 Fictitious Business Name 备案。"},
+{q_en:"If a licensee's personal name changes, they must notify CSLB within:",q_cn:"个人持牌人改名须多久内通知?",
+ o_en:["90 days","1 day","5 years","Not required"],
+ o_cn:["90 天内","1 天内","5 年内","不必通知"],a:0,
+ ex:"B&P §7083 相似规则: 名称变更 90 天内报 CSLB。"},
+{q_en:"The Contractor's Bond protects workers for:",q_cn:"承包商保证金如何保护工人?",
+ o_en:["Unpaid wage claims up to 1 year from accrual","All workplace injuries","Dental insurance","Retirement"],
+ o_cn:["未支付工资索赔,从应付日起 1 年内","所有工伤","牙科保险","退休金"],a:0,
+ ex:"工资索赔由 bond 赔付,须 from accrual 日起 1 年内提出。"},
+{q_en:"If the bond is insufficient to pay all claims:",q_cn:"保证金不足赔付所有索赔时?",
+ o_en:["Pro-rated; consumers generally have priority","First-come first-served","Government paid first","All denied"],
+ o_cn:["按比例分配,消费者通常优先","先到先得","仅赔政府","全部拒赔"],a:0,
+ ex:"Bond 按法定优先级: 先消费者,再雇员 (工资),再政府。"},
+{q_en:"Which may be a ground for license denial?",q_cn:"哪项可作为拒牌依据?",
+ o_en:["Recent felony conviction or major license-related violation","Age over 60","Being female","Recent immigration"],
+ o_cn:["近期重罪前科或严重执照相关违规","年龄 > 60","女性身份","新移民身份"],a:0,
+ ex:"CSLB 审查 criminal history 与行业相关性;无关旧案未必拒牌,须申报。"},
+{q_en:"A contractor convicted of a 'substantially related' crime may face:",q_cn:"被判行业密切相关罪行的承包商会?",
+ o_en:["License revocation, suspension, or denial","No effect","Automatic upgrade","Exam waiver"],
+ o_cn:["吊销、暂停或拒牌","无影响","自动加牌","免考"],a:0,
+ ex:"CSLB 可基于与工程行业有重要关联的定罪采取纪律处分。"},
+{q_en:"CSLB 'Senior Scams Prevention' rules target:",q_cn:"CSLB 老人诈骗防范规则针对?",
+ o_en:["Extra protection for consumers 65+","Young consumers","Overseas customers","Corporate customers"],
+ o_cn:["对 65 岁以上消费者的额外保护","年轻人","海外客户","企业客户"],a:0,
+ ex:"对 senior 有额外 5 天撤销权、单独签字等保护。"},
+{q_en:"A contractor advertising 'free estimate' must:",q_cn:"标'免费估价'的承包商必须?",
+ o_en:["Truly offer free and no-obligation estimate","Charge a small fee","Only verbal notice","No special rules"],
+ o_cn:["真正免费且无附带购买条件","可收小额费","只能口头告知","无特别规定"],a:0,
+ ex:"'Free' 意味无义务;若要求签约才免费则属虚假广告。"},
+{q_en:"A subcontractor's direct relationship with the owner exists when:",q_cn:"分包与业主的直接关系何时存在?",
+ o_en:["Rarely — subs usually contract with the prime, not the owner","Always","Only on large projects","Only residential"],
+ o_cn:["很少;分包通常与总包签约,不直接与业主","永远是","只有大项目","仅住宅"],a:0,
+ ex:"Prime 与业主签约;subs 与 prime 签约;少数情况下 subs 与业主有直接合同。"},
+{q_en:"The Statute of Limitations for breach of written contract in California is:",q_cn:"加州书面合同违约诉讼时效是?",
+ o_en:["4 years","2 years","10 years","Unlimited"],
+ o_cn:["4 年","2 年","10 年","无限"],a:0,
+ ex:"CCP §337: 书面合同 4 年;口头合同 2 年。"},
+{q_en:"Latent defect claims against a contractor must generally be filed within:",q_cn:"隐蔽缺陷索赔时效通常是?",
+ o_en:["10 years from substantial completion","1 year","30 days","Forever"],
+ o_cn:["实质完工后 10 年内","1 年","30 天","永远可以"],a:0,
+ ex:"CCP §337.15: latent construction defect 10 年 statute of repose。"},
+{q_en:"Patent (obvious) defects have a statute of limitations of:",q_cn:"显性缺陷时效是?",
+ o_en:["4 years","10 years","1 year","30 days"],
+ o_cn:["4 年","10 年","1 年","30 天"],a:0,
+ ex:"CCP §337.1: patent defect 4 年。"},
+{q_en:"A licensee must inform CSLB of a judgment against him within:",q_cn:"持牌人收到法庭判决须在多久内通知 CSLB?",
+ o_en:["90 days","1 day","1 year","No notice required"],
+ o_cn:["90 天内","1 天内","1 年内","无需通知"],a:0,
+ ex:"B&P §7071.17: 工作相关 unpaid judgment 须 90 天内通知,否则 license auto-suspend。"},
+{q_en:"California's Mechanics Lien law is primarily located in:",q_cn:"加州留置权法主要位于?",
+ o_en:["Civil Code §§ 8000-9566","B&P Code","Labor Code","Penal Code"],
+ o_cn:["Civil Code §§ 8000-9566","B&P Code","Labor Code","Penal Code"],a:0,
+ ex:"2012 年重编后留置权法集中于 Civil Code §§ 8000+。"},
+{q_en:"A 'Notice of Completion' (NOC) may be recorded by:",q_cn:"完工通知 (NOC) 可由谁记录?",
+ o_en:["The owner or owner's agent","Any subcontractor","A neighbor","Insurance company"],
+ o_cn:["业主或其代表","任何分包","邻居","保险公司"],a:0,
+ ex:"业主在实质完成后 15 天内可 record NOC,缩短他人 lien 期限至 30 天。"},
+{q_en:"If no NOC is recorded, lien claimants generally have how long to record a lien?",q_cn:"无 NOC 时多久内可记录 lien?",
+ o_en:["90 days from cessation/completion","1 year","10 days","Forever"],
+ o_cn:["自 cessation/completion 90 天","1 年","10 天","永远"],a:0,
+ ex:"一般人员 90 天 from cessation/completion (无 NOC 情况下)。"},
+{q_en:"A 'Stop Payment Notice' is used to:",q_cn:"停止付款通知 (Stop Payment Notice) 用于?",
+ o_en:["Force the owner to withhold funds from the prime (private works)","Stop bank withdrawals","Cancel contract","Stop work"],
+ o_cn:["阻止业主把剩余款项付给总包 (私人工程)","阻止银行取款","取消合同","停工"],a:0,
+ ex:"Stop Payment Notice 让未付款方保留足够款项应对分包/供应商索赔。"},
+{q_en:"Mechanics Liens cannot be placed on:",q_cn:"Mechanics Lien 不能针对?",
+ o_en:["Public property (use Stop Notice / Payment Bond instead)","Private homes","Commercial buildings","Self-built condos"],
+ o_cn:["公共财产 (公共工程改用 Stop Notice/Payment Bond)","私人住宅","商业楼","自建公寓"],a:0,
+ ex:"公共工程无法留置公有地;替代机制是 Stop Payment Notice 和 Payment Bond 索赔。"},
+{q_en:"A contractor subcontracting 100% of the work to others:",q_cn:"承包商把 100% 工作全分包给他人?",
+ o_en:["Is not illegal per se, but prime remains responsible for the whole job","Always illegal","Equivalent to unlicensed","Only for public works"],
+ o_cn:["并不违法,但总包仍对整体工程负责","总是违法","等于无牌","只能用于公共工程"],a:0,
+ ex:"可以全部分包,但总包仍对最终工程对业主负责 (监督、协调、责任)。"},
+{q_en:"The 'specialty contractor' may do incidental work:",q_cn:"专业承包商做附带工作的限制?",
+ o_en:["Only if incidental/supplemental and not the main work","Up to 50%","Up to 20%","May not do any"],
+ o_cn:["附带必须属辅助性,不得构成主要工作","50%","20%","不能做"],a:0,
+ ex:"B&P §7059: 专业承包商可做 incidental/supplemental 但不能主导其他工种。"},
+{q_en:"When is a Mechanics Lien Release required?",q_cn:"留置权免除书何时需要?",
+ o_en:["At each progress payment to protect the owner","At contract signing","At job start","Not required"],
+ o_cn:["每次进度付款时,保护业主","合同签订时","工程开工时","不必要"],a:0,
+ ex:"业主付款常要求 conditional/unconditional lien release,保护其不被重复索赔。"},
+{q_en:"A 'Conditional' lien release becomes effective:",q_cn:"有条件留置权免除书何时生效?",
+ o_en:["When payment actually clears the bank","Immediately upon signing","One year later","Never"],
+ o_cn:["款项实际到账/支票结清后","签字即生效","一年后","永不"],a:0,
+ ex:"Conditional release 签字时不生效,款到账后才生效;Unconditional 立即生效。"},
+{q_en:"Workers' Compensation Fraud can lead to:",q_cn:"工伤保险欺诈会导致?",
+ o_en:["License revocation + criminal prosecution","Just a warning","Only a fine","Contract cancellation"],
+ o_cn:["吊销执照 + 刑事追诉","只是警告","经济罚款","合同解除"],a:0,
+ ex:"WC fraud 属刑事犯罪,CSLB 亦会吊销执照。"},
+{q_en:"An employer pays workers' compensation through:",q_cn:"雇主通过何种方式支付工伤保险?",
+ o_en:["Purchasing a policy from State Fund or a private carrier","Deducting from employee wages","Deducting from taxes","No need to pay"],
+ o_cn:["通过 State Fund 或私人保险公司购买保单","从员工工资扣","从税款扣除","不必支付"],a:0,
+ ex:"WC premium 由雇主 100% 承担;不得从员工工资扣。"},
+{q_en:"Misclassifying an employee as an independent contractor is:",q_cn:"把员工错分为独立承包商属于?",
+ o_en:["Illegal; penalties for WC, payroll tax, and CSLB","Legal","Only big firms penalized","Minor issue"],
+ o_cn:["违法;面临工伤、工资税、CSLB 多项罚款","合法","只有大公司被罚","小瑕疵"],a:0,
+ ex:"AB5 + Labor Code 对 misclassification 有 $5,000-25,000/次 罚款,外加补税、补保。"},
+{q_en:"The ABC test under AB5 requires all three to classify as independent contractor:",q_cn:"AB5 下 ABC 测试要求同时满足?",
+ o_en:["A: control, B: outside usual business, C: independent trade","Written agreement only","Based on wage level","Based on duration"],
+ o_cn:["A 控制权、B 业务外、C 独立业务 三项全通","只需双方书面同意","看工资数额","按时间长短"],a:0,
+ ex:"只有同时满足 A/B/C 三条件才视为独立承包商;否则按员工处理。"},
+{q_en:"'Prevailing Wage' applies to:",q_cn:"现行工资 (Prevailing Wage) 适用于?",
+ o_en:["California public works projects","All projects","Restaurant workers","Household cleaners"],
+ o_cn:["加州公共工程项目","所有工程","餐厅工人","家庭保洁"],a:0,
+ ex:"加州公共工程须按 DIR 公布的 prevailing wage 支付工人,且必须 registered。"},
+{q_en:"Contractors on public works must register annually with:",q_cn:"公共工程承包商须每年注册于?",
+ o_en:["DIR (Department of Industrial Relations)","DMV","CSLB (one-time only)","No registration needed"],
+ o_cn:["DIR 劳工关系部","DMV","CSLB (只登记一次)","无需登记"],a:0,
+ ex:"DIR Public Works Contractor Registration 每年续,约 $400/年 (含部分减免)。"},
+{q_en:"Certified payroll reports for public works are filed with:",q_cn:"公共工程经核证薪资报告提交给?",
+ o_en:["DIR (Labor Commissioner) and/or the awarding body","IRS","CSLB","Post Office"],
+ o_cn:["DIR (劳工专员) 与业主","IRS","CSLB","邮局"],a:0,
+ ex:"Certified payroll records (CPR) 向 DIR 提交,通常 weekly。"},
+{q_en:"A 'Retainage' may be held back by:",q_cn:"保留金 (Retainage) 由谁扣留?",
+ o_en:["Owner / prime as quality guarantee","Bank mandatory","Government withholds","Insurance company"],
+ o_cn:["业主/总包作为工程质量保障","银行强制扣","政府代扣","保险公司"],a:0,
+ ex:"一般业主/总包扣留约 5% (公共) 的合同款至工程验收/保修期结束。"},
+{q_en:"CSLB license fee for 2-year renewal (approximate):",q_cn:"CSLB 执照 2 年续费 (约数)?",
+ o_en:["Around $450 (Active, individual)","$10","$10,000","Free"],
+ o_cn:["约 $450 (Active 个人)","$10","$10,000","免费"],a:0,
+ ex:"费用以 CSLB 最新 fee schedule 为准;Active Renewal 个人 ~$450,公司 ~$700 (概数)。"},
+{q_en:"Inactive license status means the contractor:",q_cn:"非活跃执照 (Inactive) 表示承包商?",
+ o_en:["Cannot bid/work but may keep license at lower fee","May still work","License voided","Public works only"],
+ o_cn:["不得承接工作,但可保留执照(低费)","可继续工作","自动作废","只能做公共工程"],a:0,
+ ex:"Inactive license 保留但不得 bid/perform;重新 Active 须重新缴 bond 并有 workers' comp。"},
+{q_en:"A license may be placed on 'Suspension' due to:",q_cn:"执照被暂停的情形?",
+ o_en:["Unpaid taxes, lapsed bond, expired WC, unpaid judgment","Birthday","Employee quitting","Market downturn"],
+ o_cn:["欠税、保证金失效、WC 失效、未付法院判决等","生日到期","员工辞职","市场下滑"],a:0,
+ ex:"CSLB 对多种触发点自动 suspend,直到整改后才可 reinstate。"}
+];
+
 </script>
 <script>
-  // Merge bilingual Block 2 (Law & Business) & Block 3 (C-36 Plumbing Trade) into CA_PREP
+  // Merge bilingual Block 1/2/3 into CA_PREP
   if (window.CA_PREP && window.CA_PREP.sections) {
+    if (window.CA_PREP_S1 && window.CA_PREP.sections[0]) {
+      window.CA_PREP.sections[0].questions = window.CA_PREP_S1;
+    }
     if (window.CA_PREP_S2 && window.CA_PREP.sections[1]) {
       window.CA_PREP.sections[1].questions = window.CA_PREP_S2;
     }
@@ -37560,8 +38082,8 @@ window.CA_PREP_S3 = [
 .caprep-q:hover{box-shadow:0 4px 14px rgba(0,0,0,.05)}
 .caprep-q-num{display:inline-block;background:#2a3558;color:#fff;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.05em}
 .caprep-q-text{font-size:15px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:500}
-.caprep-q-text .caprep-q-en{color:#f4e8d0;font-weight:600;margin-bottom:4px;line-height:1.55}
-.caprep-q-text .caprep-q-cn{color:#cdd6e8;font-size:14px;line-height:1.55;font-weight:400}
+.caprep-q-text .caprep-q-en{color:#1e2640;font-weight:700;margin-bottom:6px;line-height:1.55;font-size:15px}
+.caprep-q-text .caprep-q-cn{color:#6b4a2a;font-size:14px;line-height:1.55;font-weight:500}
 .caprep-q-opts{display:flex;flex-direction:column;gap:8px}
 .caprep-q-opt-en{display:block;font-weight:600;line-height:1.5}
 .caprep-q-opt-cn{display:block;font-size:13px;opacity:.82;margin-top:3px;line-height:1.5}
@@ -37581,7 +38103,33 @@ window.CA_PREP_S3 = [
 .caprep-result-sub{font-size:13px;opacity:.85}
 .caprep-reset{margin-top:14px;padding:9px 18px;background:#c9a96a;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:13px}
 .caprep-reset:hover{background:#a8884a}
-@media(max-width:600px){.caprep-summary{grid-template-columns:repeat(2,1fr)}.caprep-pager{flex-wrap:wrap;gap:8px}}
+.caprep-mistakes-entry{background:linear-gradient(135deg,#8b3a3a 0%,#6e2a2a 50%,#c9a96a 100%);border-radius:14px;padding:20px 24px;margin-bottom:18px;cursor:pointer;display:flex;align-items:center;gap:16px;color:#fff;box-shadow:0 10px 28px rgba(139,58,58,.25);transition:transform .2s,box-shadow .2s;border:1px solid rgba(255,255,255,.12)}
+.caprep-mistakes-entry:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(139,58,58,.35)}
+.caprep-mistakes-entry.empty{background:linear-gradient(135deg,#3d4b7a 0%,#2a3558 100%);cursor:default;opacity:.85}
+.caprep-mistakes-entry.empty:hover{transform:none;box-shadow:0 10px 28px rgba(26,30,56,.2)}
+.caprep-mistakes-ico{font-size:38px;flex-shrink:0}
+.caprep-mistakes-body{flex:1;min-width:0}
+.caprep-mistakes-title{font-size:17px;font-weight:800;letter-spacing:.03em;margin-bottom:4px}
+.caprep-mistakes-sub{font-size:12px;color:rgba(255,255,255,.82);line-height:1.5}
+.caprep-mistakes-badge{background:rgba(255,255,255,.18);padding:6px 14px;border-radius:999px;font-weight:800;font-size:13px;letter-spacing:.05em;white-space:nowrap}
+.caprep-mistake-card{background:var(--card);border:1px solid var(--border);border-left:5px solid #8b3a3a;border-radius:10px;padding:18px 22px;margin-bottom:14px}
+.caprep-mistake-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.caprep-mistake-src{font-size:11px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.caprep-mistake-retry{background:#5f7a4a;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;transition:background .2s}
+.caprep-mistake-retry:hover{background:#486139}
+.caprep-mistake-ans{display:flex;gap:14px;margin:10px 0;padding:10px 14px;background:#fdf3f0;border-radius:8px;border:1px solid #e8c5bc;font-size:13px;line-height:1.55}
+.caprep-mistake-ans-lbl{font-weight:800;color:#8b3a3a;flex-shrink:0}
+.caprep-mistake-correct{display:flex;gap:14px;margin-bottom:10px;padding:10px 14px;background:#f0f7ec;border-radius:8px;border:1px solid #b8d4a6;font-size:13px;line-height:1.55}
+.caprep-mistake-correct-lbl{font-weight:800;color:#3a5030;flex-shrink:0}
+.caprep-mistake-explain{background:linear-gradient(135deg,#fff8e8,#fdf4dc);border:1px solid #e6cd8a;border-radius:8px;padding:12px 16px;font-size:13px;color:#5b4a2a;line-height:1.65}
+.caprep-mistake-explain b{color:#8b6a2a}
+.caprep-filter{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
+.caprep-filter-btn{background:var(--card2);border:1px solid var(--border);padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text2);transition:all .2s}
+.caprep-filter-btn:hover{border-color:#c9a96a}
+.caprep-filter-btn.on{background:#2a3558;color:#fff;border-color:#2a3558}
+.caprep-filter-btn.wrong.on{background:#8b3a3a;border-color:#8b3a3a}
+.caprep-section-chip.mistakes{background:#8b3a3a;color:#fff;cursor:pointer}
+@media(max-width:600px){.caprep-summary{grid-template-columns:repeat(2,1fr)}.caprep-pager{flex-wrap:wrap;gap:8px}.caprep-mistakes-entry{flex-direction:column;text-align:center}}
 </style>
 
 <!-- CA Prep hub container (injected into Plumber page via JS) -->
@@ -37591,17 +38139,33 @@ window.CA_PREP_S3 = [
 (function(){
   if (!window.CA_PREP) return;
   var PAGE_SIZE = 20;
-  var state = { view:'hub', sectionId:null, page:0, answers:{} };
+  // filter: 'all' | 'wrong' | 'unanswered'
+  var state = { view:'hub', sectionId:null, page:0, filter:'all' };
 
   function loadSec(sid){ try{ var r=localStorage.getItem('caprep_'+sid); return r?JSON.parse(r):{ans:{},score:0}; }catch(e){return {ans:{},score:0};} }
   function saveSec(sid,d){ localStorage.setItem('caprep_'+sid, JSON.stringify(d)); }
   function getSec(sid){ return CA_PREP.sections.find(function(s){return s.id===sid;}); }
   function secStats(sid){
-    var s=getSec(sid); if(!s) return {total:0,answered:0,score:0,pct:0,done:false,pass:false};
-    var d=loadSec(sid), tot=s.questions.length, ans=Object.keys(d.ans||{}).length;
-    var pct=tot?Math.round((d.score||0)/tot*100):0;
-    return {total:tot,answered:ans,score:d.score||0,pct:pct,done:ans>=tot,pass:ans>=tot&&pct>=CA_PREP.passPct};
+    var s=getSec(sid); if(!s) return {total:0,answered:0,correct:0,wrong:0,unanswered:0,score:0,pct:0,done:false,pass:false,wrongIdx:[],unansweredIdx:[]};
+    var d=loadSec(sid), tot=s.questions.length;
+    var ansKeys = Object.keys(d.ans||{});
+    var correct=0, wrong=0, wrongIdx=[], unansweredIdx=[];
+    for (var i=0;i<tot;i++){
+      if (d.ans[i] === undefined) { unansweredIdx.push(i); }
+      else if (d.ans[i] === s.questions[i].a) { correct++; }
+      else { wrong++; wrongIdx.push(i); }
+    }
+    var answered = ansKeys.length;
+    var pct = tot ? Math.round(correct/tot*100) : 0;
+    var pctOfAnswered = answered ? Math.round(correct/answered*100) : 0;
+    return {
+      total:tot, answered:answered, correct:correct, wrong:wrong, unanswered:tot-answered,
+      score:correct, pct:pct, pctOfAnswered:pctOfAnswered,
+      done:answered>=tot, pass:answered>=tot&&pct>=CA_PREP.passPct,
+      wrongIdx:wrongIdx, unansweredIdx:unansweredIdx
+    };
   }
+  function firstUnanswered(sid){ var st=secStats(sid); return st.unansweredIdx[0]; }
 
   window.openCAPrep = function(){
     state.view='hub'; state.sectionId=null; state.page=0;
@@ -37637,6 +38201,9 @@ window.CA_PREP_S3 = [
         : '<span class="caprep-section-chip">⬜ 未开始</span>';
       var doneAttr = st.pass ? 'true' : 'false';
       var pct = st.total ? Math.round(st.answered/st.total*100) : 0;
+      var mistakesChip = st.wrong>0
+        ? '<span class="caprep-section-chip mistakes" onclick="event.stopPropagation();_caprepMistakes(\''+s.id+'\')">📕 错题 '+st.wrong+' 题</span>'
+        : '';
       return '<div class="caprep-section-card" data-done="'+doneAttr+'" onclick="_caprepOpen(\''+s.id+'\')">' +
         '<div class="caprep-section-head">' +
           '<div class="caprep-section-emoji">'+s.emoji+'</div>' +
@@ -37647,18 +38214,134 @@ window.CA_PREP_S3 = [
           '<span class="caprep-section-chip">📝 '+s.questions.length+' 题</span>' +
           '<span class="caprep-section-chip">🎯 过关 '+CA_PREP.passPct+'%</span>' +
           statusChip +
+          mistakesChip +
         '</div>' +
         '<div class="caprep-section-bar"><div class="caprep-section-barfill" style="width:'+pct+'%"></div></div>' +
       '</div>';
     }).join('');
+
+    // Aggregate mistakes across all sections
+    var totalWrong = 0, totalUnans = 0;
+    CA_PREP.sections.forEach(function(s){
+      var st = secStats(s.id); totalWrong += st.wrong; totalUnans += st.unanswered;
+    });
+    var mistakesEntry = totalWrong>0
+      ? '<div class="caprep-mistakes-entry" onclick="_caprepMistakes(\'all\')">' +
+          '<div class="caprep-mistakes-ico">📕</div>' +
+          '<div class="caprep-mistakes-body">' +
+            '<div class="caprep-mistakes-title">我的错题本 · My Mistakes Notebook</div>' +
+            '<div class="caprep-mistakes-sub">集中复习所有做错的题目 · 查看正确答案解释 · 支持错题重做加深记忆</div>' +
+          '</div>' +
+          '<div class="caprep-mistakes-badge">'+totalWrong+' 道错题 →</div>' +
+        '</div>'
+      : '<div class="caprep-mistakes-entry empty">' +
+          '<div class="caprep-mistakes-ico">📕</div>' +
+          '<div class="caprep-mistakes-body">' +
+            '<div class="caprep-mistakes-title">我的错题本 · My Mistakes Notebook</div>' +
+            '<div class="caprep-mistakes-sub">做过的题目一旦答错会自动收录到这里 · 可查看解释并重做</div>' +
+          '</div>' +
+          '<div class="caprep-mistakes-badge">暂无错题</div>' +
+        '</div>';
+
     root.innerHTML =
       '<div class="caprep-wrap">' +
-        '<button class="caprep-back" onclick="closeCAPrep()">← 返回水管工程英语</button>' +
+        '<button class="caprep-back" onclick="closeCAPrep()">← 返回加州水管工英语精修</button>' +
         '<div class="caprep-hero">' +
           '<h2>🎓 加州水管工执照备考题库</h2>' +
           '<p>California Plumber License Prep · 3 大板块 × 100 道中英对照选择题 · 70% 过关 · 答题与成绩自动保存</p>' +
         '</div>' +
+        mistakesEntry +
         '<div class="caprep-sections">'+cards+'</div>' +
+      '</div>';
+  }
+
+  // === Mistakes Notebook ===
+  window._caprepMistakes = function(sid){
+    state.view='mistakes'; state.mistakesScope = sid || 'all';
+    renderMistakes();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  window._caprepRetry = function(sid, qi){
+    var d = loadSec(sid);
+    if (d.ans && d.ans[qi] !== undefined) {
+      var s = getSec(sid);
+      // if the old answer was correct, decrement score (edge case)
+      if (s && s.questions[qi] && d.ans[qi] === s.questions[qi].a) {
+        d.score = Math.max(0,(d.score||0)-1);
+      }
+      delete d.ans[qi];
+      saveSec(sid,d);
+    }
+    // Jump into the section at the page containing this question
+    state.view='sec'; state.sectionId=sid; state.page = Math.floor(qi / PAGE_SIZE);
+    renderSection();
+    setTimeout(function(){
+      var el = document.getElementById('caprep-q-'+sid+'-'+qi);
+      if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 60);
+  };
+
+  function renderMistakes(){
+    var root = findHost();
+    var scope = state.mistakesScope || 'all';
+    var items = []; // {sid, sectionTitle, emoji, qi, qz, userAns}
+    CA_PREP.sections.forEach(function(s){
+      if (scope!=='all' && scope!==s.id) return;
+      var d = loadSec(s.id);
+      s.questions.forEach(function(qz, qi){
+        if (d.ans[qi] !== undefined && d.ans[qi] !== qz.a){
+          items.push({ sid:s.id, sectionTitle:s.title, emoji:s.emoji, qi:qi, qz:qz, userAns:d.ans[qi] });
+        }
+      });
+    });
+
+    var filterBtns = '<div class="caprep-filter">' +
+      '<button class="caprep-filter-btn '+(scope==='all'?'on':'')+'" onclick="_caprepMistakes(\'all\')">全部错题 '+
+        (function(){var t=0;CA_PREP.sections.forEach(function(s){t+=secStats(s.id).wrong;});return t;})()+
+      '</button>' +
+      CA_PREP.sections.map(function(s){
+        var w = secStats(s.id).wrong;
+        return '<button class="caprep-filter-btn '+(scope===s.id?'on':'')+'" onclick="_caprepMistakes(\''+s.id+'\')">'+s.emoji+' '+s.title+' '+w+'</button>';
+      }).join('') +
+    '</div>';
+
+    var cards;
+    if (items.length === 0){
+      cards = '<div class="caprep-result pass"><div class="caprep-result-title">🎉 太棒了!</div>' +
+              '<div class="caprep-result-sub">此范围内没有错题。继续保持 · Keep up the great work!</div></div>';
+    } else {
+      cards = items.map(function(it){
+        var qz = it.qz, isBi = !!qz.q_en;
+        var qText = isBi
+          ? '<div class="caprep-q-text"><div class="caprep-q-en">'+qz.q_en+'</div><div class="caprep-q-cn">'+qz.q_cn+'</div></div>'
+          : '<div class="caprep-q-text">'+qz.q+'</div>';
+        var userLbl = String.fromCharCode(65+it.userAns);
+        var correctLbl = String.fromCharCode(65+qz.a);
+        var userOpt = isBi ? (qz.o_en[it.userAns]+' / '+qz.o_cn[it.userAns]) : qz.o[it.userAns];
+        var correctOpt = isBi ? (qz.o_en[qz.a]+' / '+qz.o_cn[qz.a]) : qz.o[qz.a];
+        var explain = qz.ex ? '<div class="caprep-mistake-explain"><b>💡 解释 · Explanation:</b><br>'+qz.ex+'</div>' : '';
+        return '<div class="caprep-mistake-card">' +
+          '<div class="caprep-mistake-head">' +
+            '<div class="caprep-mistake-src">'+it.emoji+' '+it.sectionTitle+' · Q'+(it.qi+1)+'</div>' +
+            '<button class="caprep-mistake-retry" onclick="_caprepRetry(\''+it.sid+'\','+it.qi+')">🔁 重做此题</button>' +
+          '</div>' +
+          qText +
+          '<div class="caprep-mistake-ans"><span class="caprep-mistake-ans-lbl">❌ 你选了</span><span>'+userLbl+'. '+userOpt+'</span></div>' +
+          '<div class="caprep-mistake-correct"><span class="caprep-mistake-correct-lbl">✅ 正确答案</span><span>'+correctLbl+'. '+correctOpt+'</span></div>' +
+          explain +
+        '</div>';
+      }).join('');
+    }
+
+    root.innerHTML =
+      '<div class="caprep-wrap">' +
+        '<button class="caprep-back" onclick="_caprepBack()">← 返回板块列表</button>' +
+        '<div class="caprep-hero">' +
+          '<h2>📕 我的错题本</h2>' +
+          '<p>My Mistakes Notebook · 集中复习 · 查看正确答案与解释 · 点击"重做此题"重新作答</p>' +
+        '</div>' +
+        filterBtns +
+        cards +
       '</div>';
   }
 
@@ -37777,8 +38460,6 @@ window.CA_PREP_S3 = [
 .ring-overlay.on{display:flex;opacity:1}
 .ring-stage{position:relative;width:min(86vw,720px);height:min(86vw,720px);max-height:86vh;animation:ringZoom .55s cubic-bezier(.34,1.56,.64,1)}
 @keyframes ringZoom{0%{transform:scale(.72) rotate(-18deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
-.ring-stage.spinning{animation:ringSpinOnce 1.6s cubic-bezier(.5,.05,.3,1) forwards}
-@keyframes ringSpinOnce{0%{transform:scale(.72) rotate(0deg);opacity:0}12%{transform:scale(1) rotate(60deg);opacity:1}100%{transform:scale(1) rotate(380deg);opacity:1}}
 .ring-easter{position:fixed;inset:0;z-index:10002;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .35s}
 .ring-easter.on{opacity:1}
 .ring-easter-bubble{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:clamp(34px,7vw,84px);font-weight:900;color:#fff;text-align:center;line-height:1.25;letter-spacing:.04em;text-shadow:0 8px 40px rgba(201,169,106,.55),0 2px 12px rgba(0,0,0,.5);background:linear-gradient(135deg,rgba(201,169,106,.28),rgba(74,90,122,.35));padding:40px 56px;border-radius:28px;border:2px solid rgba(201,169,106,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transform:scale(.4) rotate(-8deg);transition:transform .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 30px 80px rgba(0,0,0,.5)}
@@ -37789,8 +38470,7 @@ window.CA_PREP_S3 = [
 .ring-close{position:absolute;top:-6px;right:-6px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s;z-index:3}
 .ring-close:hover{background:rgba(201,169,106,.35);transform:rotate(90deg)}
 .ring-hub{position:absolute;top:50%;left:50%;width:32%;aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#2a3558 0%,#3d4b7a 55%,#1e2640 100%);box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.1),0 0 0 1px rgba(201,169,106,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:18px;text-align:center;z-index:2}
-.ring-hub::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(201,169,106,.35);animation:ringSpin 32s linear infinite}
-@keyframes ringSpin{to{transform:rotate(360deg)}}
+.ring-hub::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(201,169,106,.35)}
 .ring-hub-emoji{font-size:34px;margin-bottom:6px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
 .ring-hub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;letter-spacing:.04em;color:#f4e8d0;font-weight:500;line-height:1.2}
 .ring-hub-sub{font-size:11px;color:rgba(244,232,208,.7);margin-top:6px;letter-spacing:.15em;text-transform:uppercase}
@@ -37825,14 +38505,6 @@ window.CA_PREP_S3 = [
     <div class="ring-hint">点击任意节点进入 · <b>ESC</b> 关闭</div>
   </div>
 </div>
-<div class="ring-easter" id="ringEaster">
-  <div class="ring-easter-bubble">
-    <div class="ring-easter-emoji">🌀</div>
-    晕了吗？<br>逗你一下，嘿嘿 😜
-    <div class="ring-easter-sub">Choose a track · 开始学习</div>
-  </div>
-</div>
-
 <script>
 (function(){
   var TRACKS = [
@@ -37860,27 +38532,11 @@ window.CA_PREP_S3 = [
     }
     document.getElementById('ringNodes').innerHTML = html;
   }
-  var _ringSeen = false;
   window.openRing = function(active){
-    layout(active || null);
-    var ov = document.getElementById('ringOv');
-    var stage = document.getElementById('ringStage');
-    var easter = document.getElementById('ringEaster');
-    ov.classList.add('on');
-    document.body.style.overflow = 'hidden';
-    // First time each session: spin 360° then pop easter-egg message
-    if (!_ringSeen) {
-      _ringSeen = true;
-      stage.classList.add('spinning');
-      setTimeout(function(){
-        easter.classList.add('on');
-        setTimeout(function(){
-          easter.classList.remove('on');
-        }, 1600);
-      }, 1500);
-      setTimeout(function(){
-        stage.classList.remove('spinning');
-      }, 1650);
+    // Ring overlay disabled per user request — navigate directly to track
+    if (active){
+      if (typeof ddGo === 'function') ddGo(active);
+      else if (typeof show === 'function') show(active);
     }
   };
   window.closeRing = function(){

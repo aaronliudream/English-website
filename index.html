@@ -36801,6 +36801,13 @@ sentences:[
      Data file loaded separately
      ═══════════════════════════════════════════ -->
 <script src="ca_prep_exams.js"></script>
+<script src="ca_prep_s2.js"></script>
+<script>
+  // Merge bilingual Block 2 (Law & Business) into CA_PREP
+  if (window.CA_PREP && window.CA_PREP_S2 && window.CA_PREP.sections && window.CA_PREP.sections[1]) {
+    window.CA_PREP.sections[1].questions = window.CA_PREP_S2;
+  }
+</script>
 <style>
 .caprep-entry{display:flex;align-items:center;gap:14px;padding:18px 22px;margin:20px 0 18px;background:linear-gradient(135deg,#2a3558,#4a5a7a);border-radius:14px;color:#fff;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 10px 30px rgba(42,53,88,.3)}
 .caprep-entry:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(42,53,88,.45)}
@@ -36839,7 +36846,11 @@ sentences:[
 .caprep-q:hover{box-shadow:0 4px 14px rgba(0,0,0,.05)}
 .caprep-q-num{display:inline-block;background:#2a3558;color:#fff;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.05em}
 .caprep-q-text{font-size:15px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:500}
+.caprep-q-text .caprep-q-en{color:#f4e8d0;font-weight:600;margin-bottom:4px;line-height:1.55}
+.caprep-q-text .caprep-q-cn{color:#cdd6e8;font-size:14px;line-height:1.55;font-weight:400}
 .caprep-q-opts{display:flex;flex-direction:column;gap:8px}
+.caprep-q-opt-en{display:block;font-weight:600;line-height:1.5}
+.caprep-q-opt-cn{display:block;font-size:13px;opacity:.82;margin-top:3px;line-height:1.5}
 .caprep-q-opt{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;text-align:left;font-size:14px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s;line-height:1.5}
 .caprep-q-opt:hover:not(:disabled){border-color:#c9a96a;background:#fdf8eb}
 .caprep-q-opt:disabled{cursor:default}
@@ -36977,19 +36988,32 @@ sentences:[
     var qsHtml = '';
     for (var i=start; i<end; i++){
       var qz=s.questions[i], ans=d.ans[i];
-      var opts = qz.o.map(function(opt, oi){
+      var isBi = !!qz.q_en;
+      var optsArr = isBi ? qz.o_en : qz.o;
+      var opts = optsArr.map(function(opt, oi){
         var cls='caprep-q-opt', dis='';
         if (ans !== undefined){
           dis='disabled';
           if (oi===qz.a) cls+=' correct';
           else if (oi===ans) cls+=' wrong';
         }
-        return '<button class="'+cls+'" '+dis+' onclick="_caprepAns(\''+s.id+'\','+i+','+oi+')">'+String.fromCharCode(65+oi)+'. '+opt+'</button>';
+        var label = String.fromCharCode(65+oi);
+        var optHtml;
+        if (isBi){
+          optHtml = '<span class="caprep-q-opt-en">'+label+'. '+qz.o_en[oi]+'</span>' +
+                    '<span class="caprep-q-opt-cn">'+qz.o_cn[oi]+'</span>';
+        } else {
+          optHtml = label+'. '+opt;
+        }
+        return '<button class="'+cls+'" '+dis+' onclick="_caprepAns(\''+s.id+'\','+i+','+oi+')">'+optHtml+'</button>';
       }).join('');
       var exHtml = ans !== undefined ? '<div class="caprep-q-ex">💡 '+(qz.ex||'')+'</div>' : '';
+      var qTextHtml = isBi
+        ? '<div class="caprep-q-text"><div class="caprep-q-en">'+qz.q_en+'</div><div class="caprep-q-cn">'+qz.q_cn+'</div></div>'
+        : '<div class="caprep-q-text">'+qz.q+'</div>';
       qsHtml += '<div class="caprep-q">' +
         '<div class="caprep-q-num">Q'+(i+1)+' / '+total+'</div>' +
-        '<div class="caprep-q-text">'+qz.q+'</div>' +
+        qTextHtml +
         '<div class="caprep-q-opts">'+opts+'</div>' +
         exHtml +
       '</div>';

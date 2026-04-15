@@ -2392,19 +2392,31 @@ try { if(sbEnabled) sb = supabase.createClient(SURL, SKEY); } catch(e){ sbEnable
 // progress in Supabase `user_progress` table
 // so it follows the user across devices.
 // ═══════════════════════════════════════
-var SYNC_PREFIXES = [
-  'plmbq_','plmbexam_','caprep_','caprep-',
-  'vocab_','srs_','srs-','idiom_','idiomResults',
-  'cnen_','cnenQuiz','monthly_','monthlyQuiz',
-  'bayarea_','bayareaQuiz','learn_','learnQuiz',
-  'streak','streakData','dailyStats','daily_',
-  'pts','localPts','localName','localQuizzes','localCorrect',
-  'lesson_','quiz_','score_','answers_','completed_',
-  'profile_','achievement_','ob_'
+// Match any localStorage key that CONTAINS one of these learning-progress
+// keywords anywhere in the key name. This handles both raw keys (e.g.
+// `caprep_s1`) and profile-namespaced keys (e.g. `p_default_caprep_s1`).
+var SYNC_KEYWORDS = [
+  'caprep','plmb','plmbq','plmbexam',
+  'vocab','srs','idiom','cnen','monthly','bayarea','learn',
+  'streak','daily_missions','day_stats','study_daily','active_time',
+  'pts','points','quiz','answer','score','lesson','passage','dialogue','grammar',
+  'completed','achievement','earned_badges','badges_seen','join_date',
+  'user_progress','profile','level','ok_level','ok_done','ob_',
+  'localname','localpts','localquizzes','localcorrect'
+];
+// Keys to explicitly EXCLUDE (internal/device-only, no point syncing)
+var SYNC_EXCLUDE = [
+  'setItem','sp_country','supabase.auth.token','sb-','session','devtools'
 ];
 function _isSyncKey(k){
-  if (!k) return false;
-  for (var i=0;i<SYNC_PREFIXES.length;i++){ if (k.indexOf(SYNC_PREFIXES[i])===0) return true; }
+  if (!k || typeof k!=='string') return false;
+  var lower = k.toLowerCase();
+  for (var i=0;i<SYNC_EXCLUDE.length;i++){
+    if (lower.indexOf(SYNC_EXCLUDE[i].toLowerCase()) !== -1) return false;
+  }
+  for (var j=0;j<SYNC_KEYWORDS.length;j++){
+    if (lower.indexOf(SYNC_KEYWORDS[j].toLowerCase()) !== -1) return true;
+  }
   return false;
 }
 function _collectProgressData(){

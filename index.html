@@ -7562,15 +7562,10 @@ window.onload = async function() {
   refreshDueBadge();
   renderHomeProgBar();
   // Detect if returning user BEFORE _obInit sets the flag
-  var isReturning = !!localStorage.getItem('ob_done');
   // Disable old onboarding overlay (Hero page replaces it)
   _obInit();
-  // Returning users go straight to Learn; first-time visitors see Hero landing
-  if (isReturning) {
-    show('learn');
-  } else {
-    showHome();
-  }
+  // Always land on Hero home page — users pick a track from there
+  showHome();
   renderLearn();
 
   // Initialize daily missions + badges
@@ -36149,7 +36144,18 @@ sentences:[
     } catch(e){}
   }
   function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} }
-  window._plmbSpeak = speak;
+  // Speak English text twice with a short gap — better for beginners
+  function speakTwice(text, opts){
+    opts = opts || {};
+    stopSpeak();
+    speak(text, { rate: opts.rate || 0.95, onend: function(){
+      setTimeout(function(){
+        speak(text, { queue:true, rate: (opts.rate || 0.95) * 0.92, onend: opts.onend });
+      }, 450);
+    }});
+  }
+  window._plmbSpeak = function(text){ speakTwice(text); };
+  window._plmbSpeakTwice = speakTwice;
 
   function prog(lid, tab){
     var key = 'plmb_' + lid + '_' + tab;
@@ -36375,7 +36381,7 @@ sentences:[
         (stats.done ? result : '') +
       '</div>';
   }
-  window._plmbSpeak = function(txt){ stopSpeak(); speak(txt); };
+  // _plmbSpeak already defined globally above as speakTwice (word/phrase twice)
 
   function renderGrid(){
     var c = document.getElementById('plmb-main');
@@ -36608,13 +36614,12 @@ sentences:[
     '</div>';
   }
 
-  window._plmbSpeak = function(text){ stopSpeak(); speak(text); };
   window._plmbVocClick = function(idx){
     var list = window._PLMB_VOC_CUR || [];
     var v = list[idx]; if (!v) return;
-    stopSpeak();
-    speak(v.w, { onend: function(){
-      if (v.ex) { setTimeout(function(){ speak(v.ex, { queue:true }); }, 350); }
+    // Word twice, then example once
+    speakTwice(v.w, { onend: function(){
+      if (v.ex) setTimeout(function(){ speak(v.ex, { queue:true }); }, 500);
     }});
   };
 

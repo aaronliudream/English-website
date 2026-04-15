@@ -36790,6 +36790,15 @@ sentences:[
 .ring-overlay.on{display:flex;opacity:1}
 .ring-stage{position:relative;width:min(86vw,720px);height:min(86vw,720px);max-height:86vh;animation:ringZoom .55s cubic-bezier(.34,1.56,.64,1)}
 @keyframes ringZoom{0%{transform:scale(.72) rotate(-18deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.ring-stage.spinning{animation:ringSpinOnce 1.6s cubic-bezier(.5,.05,.3,1) forwards}
+@keyframes ringSpinOnce{0%{transform:scale(.72) rotate(0deg);opacity:0}12%{transform:scale(1) rotate(60deg);opacity:1}100%{transform:scale(1) rotate(380deg);opacity:1}}
+.ring-easter{position:fixed;inset:0;z-index:10002;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .35s}
+.ring-easter.on{opacity:1}
+.ring-easter-bubble{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:clamp(34px,7vw,84px);font-weight:900;color:#fff;text-align:center;line-height:1.25;letter-spacing:.04em;text-shadow:0 8px 40px rgba(201,169,106,.55),0 2px 12px rgba(0,0,0,.5);background:linear-gradient(135deg,rgba(201,169,106,.28),rgba(74,90,122,.35));padding:40px 56px;border-radius:28px;border:2px solid rgba(201,169,106,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transform:scale(.4) rotate(-8deg);transition:transform .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.ring-easter.on .ring-easter-bubble{transform:scale(1) rotate(0deg)}
+.ring-easter-emoji{font-size:clamp(48px,10vw,120px);margin-bottom:10px;animation:easterWobble 1.2s ease-in-out infinite}
+@keyframes easterWobble{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(10deg) scale(1.1)}}
+.ring-easter-sub{font-size:clamp(14px,2vw,20px);font-weight:500;margin-top:14px;color:#f4e8d0;letter-spacing:.15em}
 .ring-close{position:absolute;top:-6px;right:-6px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s;z-index:3}
 .ring-close:hover{background:rgba(201,169,106,.35);transform:rotate(90deg)}
 .ring-hub{position:absolute;top:50%;left:50%;width:32%;aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#2a3558 0%,#3d4b7a 55%,#1e2640 100%);box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.1),0 0 0 1px rgba(201,169,106,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:18px;text-align:center;z-index:2}
@@ -36829,6 +36838,13 @@ sentences:[
     <div class="ring-hint">点击任意节点进入 · <b>ESC</b> 关闭</div>
   </div>
 </div>
+<div class="ring-easter" id="ringEaster">
+  <div class="ring-easter-bubble">
+    <div class="ring-easter-emoji">🌀</div>
+    晕了吗？<br>逗你一下，嘿嘿 😜
+    <div class="ring-easter-sub">Choose a track · 开始学习</div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -36857,15 +36873,34 @@ sentences:[
     }
     document.getElementById('ringNodes').innerHTML = html;
   }
+  var _ringSeen = false;
   window.openRing = function(active){
     layout(active || null);
     var ov = document.getElementById('ringOv');
+    var stage = document.getElementById('ringStage');
+    var easter = document.getElementById('ringEaster');
     ov.classList.add('on');
     document.body.style.overflow = 'hidden';
+    // First time each session: spin 360° then pop easter-egg message
+    if (!_ringSeen) {
+      _ringSeen = true;
+      stage.classList.add('spinning');
+      setTimeout(function(){
+        easter.classList.add('on');
+        setTimeout(function(){
+          easter.classList.remove('on');
+        }, 1600);
+      }, 1500);
+      setTimeout(function(){
+        stage.classList.remove('spinning');
+      }, 1650);
+    }
   };
   window.closeRing = function(){
     var ov = document.getElementById('ringOv');
+    var easter = document.getElementById('ringEaster');
     ov.classList.remove('on');
+    if (easter) easter.classList.remove('on');
     document.body.style.overflow = '';
   };
   window.pickRing = function(k){

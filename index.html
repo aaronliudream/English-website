@@ -82,15 +82,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* HERO LANDING */
 .hero-landing{display:none;padding:0;font-family:'Inter','Helvetica Neue',Helvetica,Arial,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif}
 .hero-landing.show{display:block}
-.hero-top{background:#0a0e1a;background-image:radial-gradient(ellipse at 20% 20%,rgba(99,102,241,.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(217,119,87,.12) 0%,transparent 60%),linear-gradient(180deg,#0a0e1a 0%,#11172a 100%);color:#f5f1ea;padding:90px 24px 110px;text-align:left;position:relative;overflow:hidden;border-bottom:1px solid rgba(217,119,87,.15)}
+.hero-top{background:#0a0e1a;background-image:radial-gradient(ellipse at 20% 20%,rgba(99,102,241,.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(217,119,87,.12) 0%,transparent 60%),linear-gradient(180deg,#0a0e1a 0%,#11172a 100%);color:#f5f1ea;padding:40px 24px 48px;text-align:left;position:relative;overflow:hidden;border-bottom:1px solid rgba(217,119,87,.15)}
 .hero-top::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(245,241,234,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(245,241,234,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(180deg,#000 30%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 100%);pointer-events:none}
 .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#d97757;margin-bottom:24px}
 .hero-eyebrow::before{content:'';width:32px;height:1px;background:#d97757}
-.hero-h1{font-family:'Playfair Display','Times New Roman',Georgia,serif;font-size:clamp(38px,5.8vw,68px);font-weight:500;line-height:1.08;margin-bottom:22px;letter-spacing:-.02em;color:#f5f1ea;max-width:880px}
+.hero-h1{font-family:'Playfair Display','Times New Roman',Georgia,serif;font-size:clamp(30px,4.2vw,48px);font-weight:500;line-height:1.1;margin-bottom:12px;letter-spacing:-.02em;color:#f5f1ea;max-width:880px}
 .hero-h1 em{font-style:italic;font-weight:400;color:#d97757}
-.hero-sub{font-size:clamp(15px,1.6vw,18px);color:rgba(245,241,234,.72);max-width:580px;margin:0 0 38px;line-height:1.7;font-weight:400}
-.hero-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px}
+.hero-sub{font-size:clamp(14px,1.4vw,16px);color:rgba(245,241,234,.72);max-width:580px;margin:0 0 20px;line-height:1.6;font-weight:400}
+.hero-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:0}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:6px;font-size:14px;font-weight:600;letter-spacing:.02em;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
 .hero-cta.primary{background:#d97757;color:#fff}
 .hero-cta.primary:hover{background:#c4623f;transform:translateY(-1px)}
@@ -108,7 +108,34 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .hero-stat::after{content:'';position:absolute;left:0;bottom:-20px;width:0;height:2px;background:linear-gradient(90deg,#d97757,transparent);transition:width .4s cubic-bezier(.4,0,.2,1)}
 .hero-stat:hover::after{width:60px}
 @media(max-width:768px){.hero-stats{grid-template-columns:repeat(2,1fr);gap:24px 0}.hero-stat{padding:0 16px}.hero-stat+.hero-stat{padding-left:16px}.hero-stat:nth-child(3){border-left:none}}
-.hero-cards{max-width:1100px;margin:-70px auto 0;padding:0 24px 60px;position:relative;z-index:2}
+.hero-cards{max-width:1100px;margin:0 auto;padding:0 24px 60px;position:relative;z-index:2}
+/* LEARNING STATS BANNER · 学习数据面板 */
+.ls-banner{background:linear-gradient(135deg,#0f4c75 0%,#1e5a8c 50%,#14527a 100%);margin:24px auto 28px;max-width:1180px;padding:22px 32px;border-radius:14px;color:#fff;box-shadow:0 14px 40px rgba(15,76,117,.22);position:relative;z-index:5}
+.ls-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.ls-left{flex:0 0 auto;min-width:220px}
+.ls-title{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:14px;font-family:'Playfair Display',Georgia,serif}
+.ls-lvl-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ls-lvl-ico{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#d97757,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ls-lvl-name{font-size:14px;color:rgba(255,255,255,.95);line-height:1.3}
+.ls-lvl-next{font-size:12px;color:rgba(255,255,255,.7);margin-top:2px}
+.ls-week-nav{display:inline-flex;align-items:center;gap:2px;background:rgba(255,255,255,.14);border-radius:999px;padding:4px 6px}
+.ls-nav-btn{background:transparent;border:none;color:#fff;font-size:18px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;font-weight:700}
+.ls-nav-btn:hover{background:rgba(255,255,255,.2)}
+.ls-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+.ls-week-range{font-size:13px;color:rgba(255,255,255,.92);padding:0 10px 0 4px;font-weight:500}
+.ls-stats{display:flex;gap:38px;flex:1;justify-content:flex-end;flex-wrap:wrap}
+.ls-stat{text-align:center;min-width:86px}
+.ls-lbl{font-size:12px;color:rgba(255,255,255,.72);line-height:1.35;margin-bottom:6px;font-weight:500;letter-spacing:.2px}
+.ls-val{font-size:34px;font-weight:300;color:#fff;font-family:'Playfair Display',Georgia,serif;line-height:1;letter-spacing:-.5px}
+@media(max-width:860px){
+  .ls-banner{padding:22px 20px;margin:30px 16px 24px}
+  .ls-inner{gap:22px}
+  .ls-stats{gap:18px;justify-content:flex-start;width:100%}
+  .ls-stat{min-width:68px}
+  .ls-val{font-size:26px}
+  .ls-title{font-size:22px}
+}
+[data-theme="dark"] .ls-banner{background:linear-gradient(135deg,#0a2540 0%,#14395c 50%,#0f3354 100%)}
 .hero-section-label{display:flex;align-items:center;gap:14px;margin-bottom:28px}
 .hero-section-label .lbl-num{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#d97757;font-weight:500}
 .hero-section-label .lbl-line{flex:1;height:1px;background:var(--border)}
@@ -131,7 +158,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .feat-card .fc-t{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:var(--text);margin-bottom:6px}
 .feat-card .fc-d{font-size:12.5px;color:var(--text3);line-height:1.6}
 .hero-footer{text-align:center;padding:30px 20px 40px;font-size:11px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:20px}
-@media(max-width:600px){.hero-top{padding:60px 20px 80px}.hero-stats{gap:28px}.grade-grid{grid-template-columns:1fr}.hero-cards{margin-top:-50px}}
+@media(max-width:600px){.hero-top{padding:28px 20px 32px}.hero-stats{gap:28px}.grade-grid{grid-template-columns:1fr}.hero-cards{margin-top:-50px}}
 
 /* PAGES */
 .page{display:none;max-width:1200px;margin:0 auto;padding:20px 28px;min-height:80vh}
@@ -265,18 +292,60 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .vc-ex{font-size:18px;line-height:1.65;padding:18px 22px;background:var(--card2);border-radius:8px;border-left:3px solid var(--blue);color:var(--text2);font-style:italic}
 .vc-ex em{font-style:normal;color:var(--blue);font-weight:600}
 
-/* QUIZ SETUP */
-.qsetup{text-align:center;padding:40px 20px}
-.qsetup h2{font-size:24px;font-weight:700;margin-bottom:8px}
-.qsetup p{font-size:14px;color:var(--text2);margin-bottom:28px}
-.qopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;max-width:520px;margin:0 auto 20px}
-.qo{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:16px 12px;cursor:pointer;text-align:center}
-.qo:hover{border-color:var(--blue)}
-.qo.on{border-color:var(--blue);background:#ddeaff}
-.qo-icon{font-size:22px;margin-bottom:8px}
-.qo-lbl{font-size:13px;font-weight:600}
-.qo-desc{font-size:11px;color:var(--text2);margin-top:2px}
-.start-btn{padding:13px 40px;background:var(--blue);border:none;border-radius:10px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px}
+/* QUIZ SETUP — premium look */
+.qsetup{text-align:center;padding:48px 20px 40px;position:relative;overflow:hidden}
+.qsetup::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:520px;height:280px;background:radial-gradient(closest-side,rgba(80,130,255,.18),transparent 70%);pointer-events:none;animation:qsBlob 9s ease-in-out infinite alternate}
+@keyframes qsBlob{0%{transform:translate(-50%,0) scale(1)}100%{transform:translate(-46%,18px) scale(1.08)}}
+.qsetup h2{font-size:32px;font-weight:800;margin-bottom:10px;background:linear-gradient(135deg,#1f3a8a 0%,#5b8def 50%,#9333ea 100%);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.5px;animation:qsTitleIn .7s cubic-bezier(.2,.9,.3,1.2) both}
+.qsetup p{font-size:15px;color:var(--text2);margin-bottom:34px;animation:qsFadeIn .8s .15s both}
+@keyframes qsTitleIn{0%{opacity:0;transform:translateY(-12px) scale(.96)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes qsFadeIn{0%{opacity:0}100%{opacity:1}}
+.qopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;max-width:760px;margin:0 auto 22px;position:relative;z-index:1}
+#qcat-opts{max-width:880px}
+#qtype-opts{max-width:540px;margin-top:8px}
+.qo{position:relative;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:20px 14px 18px;cursor:pointer;text-align:center;overflow:hidden;transition:transform .35s cubic-bezier(.2,.9,.3,1.2), box-shadow .35s ease, border-color .25s ease, background .25s ease;animation:qoIn .55s cubic-bezier(.2,.9,.3,1.2) both;will-change:transform}
+.qo::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--qoA,#5b8def),var(--qoB,#9333ea));opacity:0;transition:opacity .3s ease;border-radius:14px;z-index:0}
+.qo::after{content:'';position:absolute;top:-60%;left:-60%;width:60%;height:220%;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:rotate(8deg);opacity:0;transition:opacity .3s ease, left .9s ease;pointer-events:none;z-index:1}
+.qo>*{position:relative;z-index:2}
+.qo:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 18px 40px -10px rgba(91,141,239,.4),0 6px 14px -6px rgba(0,0,0,.1);border-color:transparent}
+.qo:hover::before{opacity:.08}
+.qo:hover::after{opacity:1;left:120%}
+.qo:hover .qo-icon{transform:scale(1.18) rotate(-6deg)}
+.qo.on{border-color:transparent;color:#fff;box-shadow:0 16px 36px -8px var(--qoShadow,rgba(91,141,239,.55)),0 4px 10px -4px rgba(0,0,0,.15);transform:translateY(-3px) scale(1.04);animation:qoPulse .9s ease}
+.qo.on::before{opacity:1}
+.qo.on .qo-desc{color:rgba(255,255,255,.88)}
+.qo.on .qo-icon{transform:scale(1.15);filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+@keyframes qoIn{0%{opacity:0;transform:translateY(18px) scale(.94)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes qoPulse{0%{transform:translateY(-3px) scale(1.04)}40%{transform:translateY(-3px) scale(1.10)}100%{transform:translateY(-3px) scale(1.04)}}
+.qo:nth-child(1){animation-delay:.05s}
+.qo:nth-child(2){animation-delay:.10s}
+.qo:nth-child(3){animation-delay:.15s}
+.qo:nth-child(4){animation-delay:.20s}
+.qo:nth-child(5){animation-delay:.25s}
+/* per-category color themes */
+.qo[data-v="all"]{--qoA:#3b82f6;--qoB:#8b5cf6;--qoShadow:rgba(91,80,239,.45)}
+.qo[data-v="idiom"]{--qoA:#06b6d4;--qoB:#3b82f6;--qoShadow:rgba(6,182,212,.45)}
+.qo[data-v="phrase"]{--qoA:#f43f5e;--qoB:#ec4899;--qoShadow:rgba(244,63,94,.45)}
+.qo[data-v="vocab"]{--qoA:#10b981;--qoB:#22d3ee;--qoShadow:rgba(16,185,129,.45)}
+.qo[data-v="bayarea"]{--qoA:#f59e0b;--qoB:#ef4444;--qoShadow:rgba(245,158,11,.5)}
+.qo[data-v="mc"]{--qoA:#6366f1;--qoB:#8b5cf6;--qoShadow:rgba(99,102,241,.5)}
+.qo[data-v="fill"]{--qoA:#ea580c;--qoB:#f59e0b;--qoShadow:rgba(234,88,12,.5)}
+.qo-icon{font-size:30px;margin-bottom:10px;display:inline-block;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);filter:drop-shadow(0 2px 4px rgba(0,0,0,.08))}
+.qo-lbl{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.qo-desc{font-size:12px;color:var(--text2);margin-top:4px;font-weight:500;transition:color .25s}
+/* questions count selector */
+.qsetup-num{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;background:var(--card);border:1.5px solid var(--border);border-radius:30px;margin-bottom:22px;box-shadow:0 4px 12px rgba(0,0,0,.04);transition:all .25s}
+.qsetup-num:hover{border-color:var(--blue);box-shadow:0 6px 16px rgba(91,141,239,.18)}
+.qsetup-num select{background:transparent;border:none;color:var(--text);padding:4px 8px;font-size:14px;font-weight:700;cursor:pointer;outline:none}
+.start-btn{padding:16px 48px;background:linear-gradient(135deg,#5b8def 0%,#3b82f6 50%,#8b5cf6 100%);background-size:200% 200%;border:none;border-radius:14px;color:#fff;font-size:17px;font-weight:800;cursor:pointer;margin-top:10px;letter-spacing:.3px;box-shadow:0 12px 30px -8px rgba(91,141,239,.55),0 4px 10px -4px rgba(139,92,246,.3);position:relative;overflow:hidden;transition:transform .25s cubic-bezier(.2,.9,.3,1.2),box-shadow .25s,background-position .6s;animation:qsBtnIn .7s .35s both, qsBtnFlow 5s ease infinite}
+@keyframes qsBtnIn{0%{opacity:0;transform:translateY(14px) scale(.92)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes qsBtnFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.start-btn::before{content:'';position:absolute;top:0;left:-80%;width:60%;height:100%;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);transform:skewX(-15deg);transition:left .8s ease}
+.start-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 40px -8px rgba(91,141,239,.7),0 6px 14px -4px rgba(139,92,246,.4)}
+.start-btn:hover::before{left:120%}
+.start-btn:active{transform:translateY(0) scale(1)}
+[data-theme="dark"] .qo:hover{box-shadow:0 18px 40px -10px rgba(91,141,239,.5),0 6px 14px -6px rgba(0,0,0,.5)}
+[data-theme="dark"] .qsetup-num{background:#1a1f2e}
 
 /* QUIZ ACTIVE */
 .qwrap{max-width:640px;margin:0 auto}
@@ -938,8 +1007,21 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cnen-hero h2{font-size:22px;font-weight:800;margin-bottom:6px}
 .cnen-hero p{font-size:13px;opacity:.82;line-height:1.6;max-width:400px}
 .cnen-hero .bay-chips{margin-top:12px}
-#cnen-list{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:860px){#cnen-list{grid-template-columns:1fr 1fr}}
+/* CN→EN list uses idiom-style .vgrid layout via JS class assignment */
+#cnen-list.vgrid{gap:28px;padding:40px 32px;background:#fdf6ec;border-radius:10px}
+@media(max-width:720px){#cnen-list.vgrid{padding:20px 16px;gap:18px}}
+/* CN→EN card-specific tweaks inside .vc */
+.vc .vc-pinyin{font-style:italic;color:#7a6847;font-size:13px;margin-left:8px;font-family:'Playfair Display',serif;font-weight:400}
+.vc .cn-en-badge{display:inline-block;background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;letter-spacing:.8px;vertical-align:middle;margin-right:6px}
+.vc .cn-alt-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 8px;font-size:13px}
+.vc .cn-alt-lbl{font-size:11px;color:#8a7862;text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-right:4px}
+.vc .cn-alt-chip{display:inline-block;background:#fff;border:1px solid #e5d8c3;color:#5a4528;border-radius:999px;padding:3px 10px;font-size:12.5px}
+.vc .cn-trend-tag{background:#fee2e2;color:#991b1b;font-weight:700}
+.vc .cn-trend-tag.cnen-trend-viral{background:#fde2fc;color:#86198f}
+.vc .cn-trend-tag.cnen-trend-rising{background:#dbeafe;color:#1e40af}
+[data-theme="dark"] #cnen-list.vgrid{background:#0f1626}
+[data-theme="dark"] .vc .vc-pinyin{color:#b8a688}
+[data-theme="dark"] .vc .cn-alt-chip{background:#1a2030;border-color:#33405a;color:#d4c7ba}
 .cnen-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:box-shadow .2s}
 .cnen-card.open{grid-column:1/-1}
 .cnen-card:hover{box-shadow:0 4px 18px rgba(0,0,0,.09)}
@@ -1237,9 +1319,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dlg-hero h2{font-size:22px;font-weight:800;margin-bottom:4px}
 .dlg-hero p{font-size:12px;opacity:.7;line-height:1.5;max-width:380px}
 .dlg-week-row{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
-.dlg-week-btn{padding:5px 13px;border-radius:18px;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s}
-.dlg-week-btn:hover{background:rgba(255,255,255,.18)}
-.dlg-week-btn.on{background:#fff;color:#0f172a;border-color:#fff}
+.dlg-week-btn{padding:6px 14px;border-radius:18px;border:1.5px solid #d4c7ba;background:#fff;color:#5a4528;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.dlg-week-btn:hover{background:#fef3ec;border-color:#d97757;color:#a84a1f;transform:translateY(-1px)}
+.dlg-week-btn.on{background:linear-gradient(135deg,#d97757,#c0603a);color:#fff;border-color:#c0603a;font-size:14px;padding:8px 18px;box-shadow:0 3px 10px rgba(217,119,87,.35);transform:scale(1.05)}
+[data-theme="dark"] .dlg-week-btn{background:#1a1f2e;color:#d4c7ba;border-color:#3a4356}
+[data-theme="dark"] .dlg-week-btn:hover{background:#2a2f40;border-color:#d97757;color:#ef8e6a}
+[data-theme="dark"] .dlg-week-btn.on{background:linear-gradient(135deg,#d97757,#c0603a);color:#fff;border-color:#c0603a}
 .dlg-cat-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
 .dlg-scene-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 16px;margin-bottom:12px}
 .dlg-scene-en{font-size:13px;color:var(--text2);margin-bottom:3px}
@@ -1397,7 +1482,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cnq-setup{text-align:center;padding:30px 16px}
 .cnq-setup h3{font-size:22px;font-weight:800;margin-bottom:6px}
 .cnq-setup .cnq-sub{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6}
-.cnq-mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;max-width:600px;margin:0 auto 20px}
+.cnq-mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:960px;margin:0 auto 20px}
+@media(max-width:720px){.cnq-mode-grid{grid-template-columns:repeat(2,1fr);max-width:500px}}
 .cnq-mode-card{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:18px 14px;cursor:pointer;text-align:center;transition:all .2s}
 .cnq-mode-card:hover{border-color:var(--blue);transform:translateY(-2px)}
 .cnq-mode-card.on{border-color:var(--blue);background:#ddeaff}
@@ -1554,7 +1640,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
       </button>
       <div class="dd-panel" id="dd-panel">
-        <div class="dd-label">每日练习</div>
+        <div class="dd-label">每日学习</div>
+        <button class="dd-item" onclick="ddGo('daily')"><span class="dd-ico">📅</span>Daily 每日仪表盘</button>
         <button class="dd-item" onclick="ddGo('learn')"><span class="dd-ico">📚</span>Learn 习语学习</button>
         <button class="dd-item" onclick="ddGo('quiz')"><span class="dd-ico">✏️</span>Quiz 测验</button>
         <div class="dd-sep"></div>
@@ -1572,11 +1659,18 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       </div>
     </div>
   </div>
-  <div id="tbr"></div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="切换 浅色/深色 · Toggle light/dark">
+      <span class="th-ico-light">☾</span><span class="th-ico-dark">☀</span>
+      <span class="th-label">深色</span>
+    </button>
+    <div id="tbr"></div>
+  </div>
 </div>
 
 <!-- OLD NAV (hidden, kept for JS compatibility) -->
 <div class="nav" id="nav">
+  <button class="nb" onclick="show('daily')">📅 每日 Daily</button>
   <button class="nb on" onclick="show('learn')">📚 Learn 学习</button>
   <button class="nb" onclick="show('quiz')">✏️ Quiz 测验</button>
   <button class="nb" onclick="show('wrongbook')">📕 Wrong Book 错题本</button>
@@ -1601,27 +1695,33 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <button class="hero-cta primary" onclick="ddGo('learn')">Begin Learning →</button>
         <button class="hero-cta ghost" onclick="ddGo('course')">Explore Curriculum</button>
       </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="n">1,200<span class="unit">+</span></div>
-          <div class="l">Words & Phrases</div>
-          <div class="d">Idioms, business terms, and trending vocabulary</div>
+    </div>
+  </div>
+
+  <!-- LEARNING STATS BANNER · 学习数据面板 -->
+  <div class="ls-banner" id="ls-banner">
+    <div class="ls-inner">
+      <div class="ls-left">
+        <div class="ls-title">My learning · 我的学习</div>
+        <div class="ls-lvl-row">
+          <div class="ls-lvl-ico" id="ls-lvl-ico">🏆</div>
+          <div>
+            <div class="ls-lvl-name">Current level: <strong id="ls-lvl-name">Rookie</strong></div>
+            <div class="ls-lvl-next" id="ls-lvl-next">还需 0 分升级</div>
+          </div>
         </div>
-        <div class="hero-stat">
-          <div class="n">30<span class="unit">+</span></div>
-          <div class="l">Workplace Scenarios</div>
-          <div class="d">Meetings, negotiations, presentations, emails</div>
+        <div class="ls-week-nav">
+          <button class="ls-nav-btn" id="ls-prev" onclick="lsPrevWeek()" title="上一周">‹</button>
+          <button class="ls-nav-btn" id="ls-next" onclick="lsNextWeek()" title="下一周">›</button>
+          <span class="ls-week-range" id="ls-week-range">本周</span>
         </div>
-        <div class="hero-stat">
-          <div class="n">B2 <span class="unit">→</span> C2</div>
-          <div class="l">CEFR Aligned</div>
-          <div class="d">From upper-intermediate to mastery</div>
-        </div>
-        <div class="hero-stat">
-          <div class="n">Monthly</div>
-          <div class="l">Trending Updates</div>
-          <div class="d">Fresh American expressions every month</div>
-        </div>
+      </div>
+      <div class="ls-stats">
+        <div class="ls-stat"><div class="ls-lbl">Questions<br>answered</div><div class="ls-val" id="ls-q">0/0</div></div>
+        <div class="ls-stat"><div class="ls-lbl">Words<br>mastered</div><div class="ls-val" id="ls-m">0</div></div>
+        <div class="ls-stat"><div class="ls-lbl">Time<br>spent</div><div class="ls-val" id="ls-t">00:00</div></div>
+        <div class="ls-stat"><div class="ls-lbl">Points<br>earned</div><div class="ls-val" id="ls-p">0</div></div>
+        <div class="ls-stat"><div class="ls-lbl">Day<br>streak</div><div class="ls-val" id="ls-s">🔥 0</div></div>
       </div>
     </div>
   </div>
@@ -1708,11 +1808,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <!-- MOBILE BOTTOM NAV -->
 <div id="mobile-nav">
   <div class="mbn-row">
+    <button class="mbn-btn" onclick="show('daily');mbnActive(this)"><span class="mbn-ico">📅</span>Daily</button>
     <button class="mbn-btn on" onclick="show('learn');mbnActive(this)"><span class="mbn-ico">📚</span>Learn</button>
-    <button class="mbn-btn" onclick="show('shadow');mbnActive(this)"><span class="mbn-ico">🎤</span>跟读</button>
     <button class="mbn-btn" onclick="show('quiz');mbnActive(this)"><span class="mbn-ico">✏️</span>Quiz</button>
-    <button class="mbn-btn" onclick="show('pk');mbnActive(this)"><span class="mbn-ico">⚔️</span>PK</button>
-    <button class="mbn-btn" onclick="show('profile');mbnActive(this)"><span class="mbn-ico">👤</span>Profile</button>
+    <button class="mbn-btn" onclick="show('bayarea');mbnActive(this)"><span class="mbn-ico">💼</span>Work</button>
+    <button class="mbn-btn" onclick="show('profile');mbnActive(this)"><span class="mbn-ico">👤</span>Me</button>
   </div>
 </div>
 
@@ -1774,9 +1874,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <div class="qo on" data-v="mc" onclick="selQO(this,'type')"><div class="qo-icon">🔘</div><div class="qo-lbl">Multiple Choice</div><div class="qo-desc">Pick the answer</div></div>
       <div class="qo" data-v="fill" onclick="selQO(this,'type')"><div class="qo-icon">✍️</div><div class="qo-lbl">Fill in Blank</div><div class="qo-desc">Type the answer</div></div>
     </div>
-    <div style="margin-bottom:16px">
-      <span style="font-size:13px;color:var(--text2);margin-right:10px">Questions:</span>
-      <select id="qn-sel" style="background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;font-size:13px">
+    <div class="qsetup-num">
+      <span style="font-size:13px;color:var(--text2);font-weight:600">📝 Questions:</span>
+      <select id="qn-sel">
         <option value="10">10</option>
         <option value="20" selected>20</option>
         <option value="50">50</option>
@@ -1812,6 +1912,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <!-- PROFILE -->
 <div class="page" id="page-profile">
   <div id="profdata"></div>
+</div>
+
+<!-- DAILY DASHBOARD -->
+<div class="page" id="page-daily">
+  <div id="dailyhost"></div>
 </div>
 
 <!-- BAY AREA WORKPLACE ENGLISH -->
@@ -2519,7 +2624,49 @@ function _bindMarkPass(key) {
       setProgress(pk, 'pass');
       if (pk.indexOf('cnen_') === 0) { incBadgeStat('cnen_done'); checkBadges(); }
       toast('✅ 已标记为已掌握！', 'ok');
-      // Auto-advance to next idiom card if this is a learn_ card
+      // Auto-advance to next card — supports learn_ / bay_ / monthly_ / cnen_
+      var _prefixMap = {
+        'learn_':  { cardPre:'vc',    tog:'tog',    nextPage:'learnNextPage',  gridSel:'.vgrid .vc',    idxLen:6 },
+        'bay_':    { cardPre:'vcbay', tog:'togBay', nextPage:'bayNextPage',    gridSel:'#baylist .vc',  idxLen:4 },
+        'monthly_':{ cardPre:'mw',    tog:'mwFlip', nextPage:'mwNextPage',     gridSel:'.mw-card',      idxLen:8 },
+        'cnen_':   { cardPre:'vccn',  tog:'togCNEN',nextPage:null,             gridSel:'#cnen-list .vc',idxLen:5 }
+      };
+      var _pfx = null, _cfg = null;
+      for (var _k in _prefixMap){ if (pk.indexOf(_k) === 0) { _pfx = _k; _cfg = _prefixMap[_k]; break; } }
+      if (_cfg) {
+        var _curId = pk.slice(_cfg.idxLen);
+        var _curCard = document.getElementById(_cfg.cardPre + _curId);
+        if (_curCard) {
+          var _sib = _curCard.nextElementSibling;
+          while (_sib && !_sib.classList.contains('vc')) _sib = _sib.nextElementSibling;
+          if (_sib) {
+            var _nextId = _sib.id.replace(_cfg.cardPre, '');
+            setTimeout(function(){
+              var _togFn = window[_cfg.tog];
+              if (typeof _togFn === 'function') _togFn(_nextId);
+              _sib.scrollIntoView({behavior:'smooth', block:'center'});
+            }, 350);
+          } else if (_cfg.nextPage && typeof window[_cfg.nextPage] === 'function') {
+            // End of page — show a 4-second countdown toast, then auto-advance.
+            // User can also just click "Next Page" manually to skip the wait.
+            try { toast('🎉 本页完成！4秒后自动进入下一页…', 'ok'); } catch(e){}
+            window._lsPendingNextPage = setTimeout(function(){
+              window._lsPendingNextPage = null;
+              window[_cfg.nextPage]();
+              setTimeout(function(){
+                var _first = document.querySelector(_cfg.gridSel);
+                if (_first){
+                  var _fid = _first.id.replace(_cfg.cardPre, '');
+                  var _togFn2 = window[_cfg.tog];
+                  if (typeof _togFn2 === 'function') _togFn2(_fid);
+                  _first.scrollIntoView({behavior:'smooth', block:'center'});
+                }
+              }, 700);
+            }, 4000);
+          }
+        }
+        return; // skip original learn_ handler below
+      }
       if (pk.indexOf('learn_') === 0) {
         var curId = pk.slice(6);
         var curCard = document.getElementById('vc' + curId);
@@ -2791,10 +2938,23 @@ function renderMonthly() {
   var words = (MONTHLY_DATA[yr] && MONTHLY_DATA[yr][mo]) ? MONTHLY_DATA[yr][mo] : [];
   var c = document.getElementById('monthly-list');
   if (!c) return;
+  // Forgetting-curve filter: hide already-mastered words by default
+  var _mShow = !!window._monthlyShowMastered;
+  var _mTotal = words.length;
+  var _mMastered = 0;
+  if (!_mShow) {
+    words = words.filter(function(w){ var passed = progressData['monthly_' + w.id] === 'pass'; if (passed) _mMastered++; return !passed; });
+  } else {
+    words.forEach(function(w){ if (progressData['monthly_' + w.id] === 'pass') _mMastered++; });
+  }
   var cnt = document.getElementById('monthly-count');
-  if (cnt) cnt.textContent = words.length + ' 个词汇';
-  if (words.length === 0) {
+  if (cnt) cnt.textContent = words.length + ' 个待学习 · ' + _mMastered + ' 已掌握';
+  if (_mTotal === 0) {
     c.innerHTML = '<div class="monthly-empty">📭 暂无' + yr + '年' + mo + '月的词汇内容<br><span style="font-size:12px;margin-top:8px;display:block">内容持续更新中，敬请期待</span></div>';
+    return;
+  }
+  if (words.length === 0) {
+    c.innerHTML = '<div class="monthly-empty" style="color:#16a34a"><div style="font-size:48px;margin-bottom:10px">🎉</div><strong style="font-size:16px">太棒了！本月全部已掌握</strong><br><span style="font-size:12px;margin-top:8px;display:block;color:#5a4528">根据遗忘曲线，已掌握的词汇暂时不再出现。</span><button onclick="window._monthlyShowMastered=true;renderMonthly()" style="margin-top:14px;padding:8px 18px;background:#fff;border:1.5px solid #d97757;color:#d97757;border-radius:20px;font-weight:700;cursor:pointer">🔁 仍想复习已掌握的 (' + _mMastered + ')</button></div>';
     return;
   }
   var monthNames = {1:'一月',2:'二月',3:'三月',4:'四月',5:'五月',6:'六月',7:'七月',8:'八月',9:'九月',10:'十月',11:'十一月',12:'十二月'};
@@ -4424,6 +4584,30 @@ function _cnqRender() {
     var inp = document.getElementById('cnq-input');
     if (inp) setTimeout(function(){ inp.focus(); }, 100);
   }
+  // Auto-speak English prompts/options so learners hear pronunciation
+  setTimeout(function(){
+    try {
+      if (typeof _stopAll === 'function') _stopAll();
+      if (typeof _speak !== 'function') return;
+      if (q.mode === 'reverse') {
+        // Read the English word, then its English definition
+        var txt = w.en + (w.en_def ? '. ' + w.en_def : '');
+        _speak(txt, null, 0.9);
+      } else if (q.mode === 'mcq') {
+        // Read each English option briefly so learner hears all candidates
+        var list = (q.opts || []).slice();
+        var i = 0;
+        function next(){
+          if (i >= list.length) return;
+          _speak(list[i], null, 0.95);
+          i++;
+          setTimeout(next, Math.max(900, list[i-1].length * 85));
+        }
+        next();
+      }
+      // type mode: keep silent (the user is supposed to type from the Chinese prompt)
+    } catch(e){}
+  }, 250);
 }
 
 function cnqPickMCQ(idx, chosen) {
@@ -4526,9 +4710,9 @@ function _cnqShowFeedback(isOk, q) {
     nw.innerHTML = '<button class="cnq-next" onclick="cnqShowResult()">查看结果 📊</button>';
   }
 
-  // Auto-advance: smooth scroll feedback into view, then move to next question
-  // Delay longer on wrong answers so user can read the correct answer
-  var delay = isOk ? 1100 : 2000;
+  // Auto-advance: stop 4 seconds so user can read answer/feedback, or advance manually
+  // Wrong answers get longer (so user can actually read the correct translation + note)
+  var delay = 6000;
   if (cnqState._autoTimer) clearTimeout(cnqState._autoTimer);
   try {
     setTimeout(function(){
@@ -4636,10 +4820,23 @@ function renderCNEN() {
   var words = (CN_MONTHLY_DATA[yr] && CN_MONTHLY_DATA[yr][mo]) ? CN_MONTHLY_DATA[yr][mo] : [];
   var c = document.getElementById('cnen-list');
   if (!c) return;
+  // Forgetting-curve filter
+  var _cShow = !!window._cnenShowMastered;
+  var _cTotal = words.length;
+  var _cMastered = 0;
+  if (!_cShow) {
+    words = words.filter(function(w){ var passed = progressData['cnen_' + w.id] === 'pass'; if (passed) _cMastered++; return !passed; });
+  } else {
+    words.forEach(function(w){ if (progressData['cnen_' + w.id] === 'pass') _cMastered++; });
+  }
   var cnt = document.getElementById('cnen-count');
-  if (cnt) cnt.textContent = words.length + ' 个词汇';
-  if (words.length === 0) {
+  if (cnt) cnt.textContent = words.length + ' 个待学习 · ' + _cMastered + ' 已掌握';
+  if (_cTotal === 0) {
     c.innerHTML = '<div class="cnen-empty">📭 暂无' + yr + '年' + mo + '月的内容<br><span style="font-size:12px;margin-top:8px;display:block">内容持续更新中，敬请期待</span></div>';
+    return;
+  }
+  if (words.length === 0) {
+    c.innerHTML = '<div class="cnen-empty" style="color:#16a34a"><div style="font-size:48px;margin-bottom:10px">🎉</div><strong style="font-size:16px">太棒了！本月全部已掌握</strong><br><span style="font-size:12px;margin-top:8px;display:block;color:#5a4528">根据遗忘曲线，已掌握的词汇暂时不再出现。</span><button onclick="window._cnenShowMastered=true;renderCNEN()" style="margin-top:14px;padding:8px 18px;background:#fff;border:1.5px solid #d97757;color:#d97757;border-radius:20px;font-weight:700;cursor:pointer">🔁 仍想复习已掌握的 (' + _cMastered + ')</button></div>';
     return;
   }
   var trendLabels = {hot:'🔥 热门', viral:'💥 病毒级', rising:'📈 上升中'};
@@ -4648,38 +4845,47 @@ function renderCNEN() {
   // Sort: 学习中 → 待学习 → 已通过
   words = words.slice().sort(function(a, b){ return _progOrder('cnen', a.id) - _progOrder('cnen', b.id); });
   c.innerHTML = '';
+  // Make the container use the same grid layout as the idioms (.vgrid)
+  c.className = 'vgrid';
   words.forEach(function(w) {
-    var altHtml = (w.alt || []).map(function(a){ return '<span>' + a + '</span>'; }).join('');
+    var altHtml = (w.alt || []).map(function(a){ return '<span class="cn-alt-chip">' + a + '</span>'; }).join('');
     var el = document.createElement('div');
-    el.className = 'cnen-card';
-    el.id = 'cn' + w.id;
+    el.className = 'vc';               // ← 使用 idiom 风格
+    el.id = 'vccn' + w.id;
     var cnExPlain = w.ex_en ? w.ex_en.replace(/<[^>]+>/g,'') : '';
+    var numDisp = ('00' + w.id).slice(-3);
+    var trendCls  = 'cnen-trend-' + (w.trend||'rising');
+    var trendLbl  = trendLabels[w.trend] || w.trend || '';
+    var tagLbl    = tagLabels[w.tag] || w.tag || '';
+    var tagCls    = tagClass[w.tag] || 'cnen-tag-net';
     el.innerHTML =
-      '<div class="cnen-card-head" onclick="togCNEN(\'' + w.id + '\')">' +
-        '<div class="cnen-head-top">' +
-          '<div class="cnen-trend-dot cnen-trend-' + (w.trend||'rising') + '"></div>' +
-          '<span class="cnen-cn-word">' + w.cn + '</span>' +
-          (w.pinyin !== w.cn ? '<span class="cnen-pinyin">' + w.pinyin + '</span>' : '') +
-          '<span class="cnen-en-badge" style="margin-left:auto">' + w.en + '</span>' +
-          '<span class="vc-arr" id="cnarr' + w.id + '" style="margin-left:8px;color:var(--text3)">▼</span>' +
+      '<div class="vc-head" onclick="togCNEN(\'' + w.id + '\')">' +
+        '<div class="vc-head-top">' +
+          '<span class="vc-num">' + numDisp + '</span>' +
+          '<span class="vc-phrase">' + w.cn + '</span>' +
+          (w.pinyin && w.pinyin !== w.cn ? '<span class="vc-pinyin">' + w.pinyin + '</span>' : '') +
+          '<span class="vc-arr" id="vacn' + w.id + '">→</span>' +
         '</div>' +
-        '<div class="cnen-head-btm">' +
+        '<div class="vc-head-btm">' +
           progBadge('cnen_' + w.id) +
+          (trendLbl ? '<span class="vc-tag cn-trend-tag ' + trendCls + '">' + trendLbl + '</span>' : '') +
+          (tagLbl ? '<span class="vc-tag ' + tagCls + '">' + tagLbl + '</span>' : '') +
           '<button class="spk-btn" id="spkcn' + w.id + '" onclick="speakPhrase(event,this)" title="朗读英译 · Listen">🔊</button>' +
         '</div>' +
       '</div>' +
-      '<div class="cnen-card-body" id="cnb' + w.id + '">' +
-        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 6px">' +
-          '<span class="cnen-tag ' + (tagClass[w.tag]||'cnen-tag-net') + '">' + (tagLabels[w.tag]||w.tag) + '</span>' +
-          '<span class="cnen-tag" style="background:#fee2e2;color:#7f1d1d">' + (trendLabels[w.trend]||w.trend) + '</span>' +
+      '<div class="vc-body" id="vbcn' + w.id + '">' +
+        '<p class="vc-meaning"><span class="cn-en-badge">EN</span> ' + w.en + '</p>' +
+        (w.alt && w.alt.length ? '<div class="cn-alt-row"><span class="cn-alt-lbl">也可译作</span>' + altHtml + '</div>' : '') +
+        '<p class="vc-meaning-cn">🇨🇳 ' + w.cn_def + '</p>' +
+        (w.en_def ? '<p class="vc-meaning" style="color:#4a5568;font-size:13px;margin-top:-4px">🇺🇸 ' + w.en_def + '</p>' : '') +
+        '<p class="vc-ex">&ldquo;' + w.ex_en + '&rdquo;' +
+          (w.ex_cn ? '<span class="vc-ex-cn">' + w.ex_cn + '</span>' : '') +
+        '</p>' +
+        (w.note ? '<div style="font-size:12.5px;color:#5a4528;font-style:italic;margin:8px 0;background:#fff8e1;border-left:3px solid #f59e0b;border-radius:6px;padding:8px 12px">💡 ' + w.note + '</div>' : '') +
+        '<div style="display:flex;flex-wrap:wrap;gap:0;align-items:center">' +
+          '<button class="spk-ex-btn" id="spkexcn' + w.id + '" onclick="speakFull(event,this)">🔊 朗读例句</button>' +
+          '<a class="yg-btn" href="https://youglish.com/pronounce/' + encodeURIComponent(w.en) + '/english/us" target="_blank" rel="noopener">🎬 YouGlish</a>' +
         '</div>' +
-        '<div class="cnen-main-en">✅ ' + w.en + '</div>' +
-        (w.alt && w.alt.length ? '<div class="cnen-alt">也可译作：' + altHtml + '</div>' : '') +
-        '<p class="cnen-cn-def">🇨🇳 ' + w.cn_def + '</p>' +
-        '<p class="cnen-en-def">🇺🇸 ' + w.en_def + '</p>' +
-        '<div class="cnen-ex">' + w.ex_cn + '<span class="cnen-ex-en">' + w.ex_en + '</span></div>' +
-        '<button class="spk-ex-btn" id="spkexcn' + w.id + '" onclick="speakFull(event,this)">🔊 朗读英文例句</button>' +
-        '<div class="cnen-note">' + w.note + '</div>' +
         markPassBtn('cnen_' + w.id) +
       '</div>';
     c.appendChild(el);
@@ -4692,12 +4898,45 @@ function renderCNEN() {
 }
 
 function togCNEN(id) {
-  var card = document.getElementById('cn' + id);
-  var arr  = document.getElementById('cnarr' + id);
+  var card = document.getElementById('vccn' + id);
+  if (!card) return;
+  var arr  = document.getElementById('vacn' + id);
   var wasOpen = card.classList.contains('open');
-  document.querySelectorAll('.cnen-card.open').forEach(function(x){ x.classList.remove('open'); });
-  document.querySelectorAll('.cnen-card .vc-arr').forEach(function(x){ x.textContent = '▼'; });
-  if (!wasOpen) { card.classList.add('open'); arr.textContent = '▲'; setProgress('cnen_' + id, 'learning'); }
+  // match idiom's tog: close any other open vc in this grid
+  var grid = card.parentNode;
+  if (grid) {
+    grid.querySelectorAll('.vc.open').forEach(function(x){
+      if (x !== card) {
+        x.classList.remove('open');
+        var a = x.querySelector('.vc-arr');
+        if (a) a.textContent = '→';
+      }
+    });
+  }
+  if (wasOpen) {
+    card.classList.remove('open');
+    if (arr) arr.textContent = '→';
+  } else {
+    card.classList.add('open');
+    if (arr) arr.textContent = '↓';
+    setProgress('cnen_' + id, 'learning');
+    // Auto-scroll so the expanded card sits near the top of the viewport
+    setTimeout(function(){
+      var rect = card.getBoundingClientRect();
+      var topbar = document.querySelector('.topbar');
+      var offset = (topbar ? topbar.offsetHeight : 60) + 16;
+      var target = window.pageYOffset + rect.top - offset;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }, 60);
+    // Auto-speak: English translation, then example sentence (after scroll kicks off)
+    setTimeout(function(){
+      var exBtn = document.getElementById('spkexcn' + id);
+      if (exBtn && typeof speakFull === 'function') {
+        try { _stopAll && _stopAll(); } catch(e){}
+        speakFull({ stopPropagation: function(){} }, exBtn);
+      }
+    }, 500);
+  }
 }
 
 // ── PK CHALLENGE SYSTEM ──────────────────
@@ -7384,7 +7623,9 @@ function show(p) {
   document.querySelectorAll('.nb').forEach(function(e){ e.classList.remove('on'); });
   var el = document.getElementById('page-' + p);
   if (el) el.classList.add('show');
-  var map = {learn:0, quiz:1, wrongbook:2, lb:3, profile:4, bayarea:5, monthly:6, pk:7, cnen:8, course:9};
+  var map = {daily:-1, learn:1, quiz:2, wrongbook:3, lb:4, bayarea:5, monthly:6, cnen:7, course:8, profile:9, pk:10};
+  if (p === 'daily') { var nb0 = document.querySelectorAll('.nb')[0]; if (nb0) nb0.classList.add('on'); }
+  if (p === 'daily') renderDaily();
   var nbs = document.querySelectorAll('.nb');
   if (map[p] !== undefined && nbs[map[p]]) nbs[map[p]].classList.add('on');
   // Update dropdown active state
@@ -7443,11 +7684,15 @@ function setBayCat(c, el) {
 
 function renderBayArea() {
   var q = (document.getElementById('bay-search') ? document.getElementById('bay-search').value || '' : '').toLowerCase();
+  var _showMastered = !!window._bayShowMastered;
+  var _totalMastered = 0;
   var list = FINANCE_DATA.filter(function(v) {
     if (baycat !== 'all' && v.cat !== baycat) return false;
     if (q && !v.term.toLowerCase().includes(q) &&
         !v.meaning.toLowerCase().includes(q) &&
         !(v.meaning_cn && v.meaning_cn.toLowerCase().includes(q))) return false;
+    // Forgetting-curve filter: hide already-mastered items by default
+    if ((progressData['bay_' + v.id] === 'pass')) { _totalMastered++; if (!_showMastered) return false; }
     return true;
   });
   list.sort(function(a, b){ return _progOrderSRS('bay', a.id) - _progOrderSRS('bay', b.id); });
@@ -7473,7 +7718,10 @@ function renderBayArea() {
   c.innerHTML = '';
 
   if (!pageList.length) {
-    c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#5a4528">暂无符合条件的内容</div>';
+    var _emptyMsg = (_totalMastered > 0 && !_showMastered)
+      ? '<div style="font-size:48px;margin-bottom:12px">🎉</div><p style="font-size:16px;font-weight:700;color:#2d5b3a">太棒了！此分类全部已掌握</p><p style="font-size:13px;margin-top:8px;color:#5a4528">根据遗忘曲线，已掌握的词汇暂时不再出现。</p><button onclick="window._bayShowMastered=true;renderBayArea()" style="margin-top:16px;padding:8px 18px;background:#fff;border:1.5px solid #d97757;color:#d97757;border-radius:20px;font-weight:700;cursor:pointer">🔁 仍想复习已掌握的 (' + _totalMastered + ')</button>'
+      : '暂无符合条件的内容';
+    c.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#5a4528">' + _emptyMsg + '</div>';
     var pagerHost0 = document.getElementById('bay-pager');
     if (pagerHost0) pagerHost0.innerHTML = '';
     return;
@@ -7584,12 +7832,20 @@ function togBay(id) {
     card.classList.add('open');
     if (arr) arr.textContent = '▲';
     setProgress('bay_' + id, 'learning');
+    // Auto-scroll so the expanded card sits near the top of the viewport
+    setTimeout(function(){
+      var rect = card.getBoundingClientRect();
+      var topbar = document.querySelector('.topbar');
+      var offset = (topbar ? topbar.offsetHeight : 60) + 16;
+      var target = window.pageYOffset + rect.top - offset;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }, 60);
     // Auto-speak the example sentence
     var exBtn = document.getElementById('spkexbay' + id);
-    if (exBtn) { setTimeout(function(){ exBtn.click(); }, 250); }
+    if (exBtn) { setTimeout(function(){ exBtn.click(); }, 500); }
     else {
       var spkBtn = document.getElementById('spkbay' + id);
-      if (spkBtn) setTimeout(function(){ spkBtn.click(); }, 250);
+      if (spkBtn) setTimeout(function(){ spkBtn.click(); }, 500);
     }
   }
 }
@@ -7727,7 +7983,7 @@ function bqPick(idx, chosen) {
     } catch(e){}
   }
 
-  var delay = isOk ? 1200 : 2200;
+  var delay = 6000;
   var curAt = s.cur;
   if (s._timer) clearTimeout(s._timer);
   s._timer = setTimeout(function(){
@@ -7801,11 +8057,18 @@ function setCat(c, el) {
 function renderLearn() {
   refreshDueBadge();
   var q = (document.getElementById('lsearch').value || '').toLowerCase();
+  var _lShowMastered = !!window._learnShowMastered;
+  var _lTotalMastered = 0;
   var list = DATA.filter(function(v) {
     if (cat === 'due') return isDue(v.id);
     if (cat !== 'all' && v.type !== cat) return false;
     if (q && !v.phrase.toLowerCase().includes(q) && !v.meaning.toLowerCase().includes(q) &&
         !(v.meaning_cn && v.meaning_cn.toLowerCase().includes(q))) return false;
+    // Forgetting-curve filter: hide already-mastered items by default (except on "due" tab)
+    if (cat !== 'due' && progressData['learn_' + v.id] === 'pass') {
+      _lTotalMastered++;
+      if (!_lShowMastered) return false;
+    }
     return true;
   });
   // Sort: 学习中 → 待学习 → 已通过
@@ -7814,6 +8077,16 @@ function renderLearn() {
   var c = document.getElementById('llist');
   c.innerHTML = '';
 
+  // Empty state when all are mastered (forgetting-curve filter hid everything)
+  if (cat !== 'due' && list.length === 0 && _lTotalMastered > 0) {
+    c.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text3)">' +
+      '<div style="font-size:48px;margin-bottom:12px">🎉</div>' +
+      '<p style="font-size:16px;font-weight:700;color:var(--green)">太棒了！全部已掌握</p>' +
+      '<p style="font-size:13px;margin-top:8px">根据遗忘曲线，已掌握的词汇暂时不再出现。</p>' +
+      '<button onclick="window._learnShowMastered=true;renderLearn()" style="margin-top:16px;padding:8px 18px;background:var(--card);border:1.5px solid var(--blue);color:var(--blue);border-radius:20px;font-weight:700;cursor:pointer">🔁 仍想复习已掌握的 (' + _lTotalMastered + ')</button>' +
+      '</div>';
+    return;
+  }
   // Empty state for due tab
   if (cat === 'due' && list.length === 0) {
     var studied = getStudiedCount();
@@ -7956,12 +8229,20 @@ function tog(id) {
   document.querySelectorAll('.vc-arr').forEach(function(x){ x.textContent = '▼'; });
   if (!o) {
     c.classList.add('open'); a.textContent = '▲'; setProgress('learn_' + id, 'learning');
+    // Auto-scroll so the expanded card sits near the top of the viewport
+    setTimeout(function(){
+      var rect = c.getBoundingClientRect();
+      var topbar = document.querySelector('.topbar');
+      var offset = (topbar ? topbar.offsetHeight : 60) + 16;
+      var target = window.pageYOffset + rect.top - offset;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+    }, 60);
     // Auto-speak the example sentence when card opens
     var exBtn = document.getElementById('spkex' + id);
-    if (exBtn) { setTimeout(function(){ exBtn.click(); }, 250); }
+    if (exBtn) { setTimeout(function(){ exBtn.click(); }, 500); }
     else {
       var spkBtn = document.getElementById('spkb' + id);
-      if (spkBtn) { setTimeout(function(){ spkBtn.click(); }, 250); }
+      if (spkBtn) { setTimeout(function(){ spkBtn.click(); }, 500); }
     }
   }
 }
@@ -8666,7 +8947,7 @@ function wbrPick(idx, chosen) {
   }
 
   // Auto-advance
-  var delay = isOk ? 1200 : 2200;
+  var delay = 6000;
   var curAt = s.cur;
   if (s._timer) clearTimeout(s._timer);
   s._timer = setTimeout(function(){
@@ -32803,6 +33084,1358 @@ function renderClassics() {
   }
 })();
 
+// ═══════════════════════════════════════
+// DAILY DASHBOARD · STREAK · BOOKMARKS
+// ═══════════════════════════════════════
+(function(){
+  // ---------- Storage helpers ----------
+  function lsGet(k, d){ try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } }
+  function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  function ymd(d){ d = d || new Date(); var y=d.getFullYear(), m=('0'+(d.getMonth()+1)).slice(-2), dd=('0'+d.getDate()).slice(-2); return y+'-'+m+'-'+dd; }
+
+  // ---------- Bookmarks API (window.bm) ----------
+  window.bm = {
+    _key: 'bookmarks_v1',
+    _read: function(){ return lsGet(this._key, []); },
+    _write: function(arr){ lsSet(this._key, arr); },
+    has: function(type, id){
+      var key = type + ':' + id;
+      return this._read().some(function(b){ return b.k === key; });
+    },
+    toggle: function(type, id, label, sub, view){
+      var arr = this._read();
+      var key = type + ':' + id;
+      var idx = arr.findIndex(function(b){ return b.k === key; });
+      if (idx >= 0) { arr.splice(idx,1); }
+      else { arr.unshift({k:key, type:type, id:id, label:label||'', sub:sub||'', view:view||'learn', t:Date.now()}); }
+      this._write(arr);
+      try { if (typeof renderDaily === 'function' && document.getElementById('page-daily').classList.contains('show')) renderDaily(); } catch(e){}
+      try { toast(idx >= 0 ? '已取消收藏' : '⭐ 已收藏', idx >= 0 ? 'info' : 'ok'); } catch(e){}
+      return idx < 0;
+    },
+    list: function(){ return this._read(); },
+    clear: function(){ this._write([]); }
+  };
+
+  // ---------- Streak v2: track visited days set ----------
+  window._touchStreakDay = function(){
+    try {
+      var today = ymd();
+      var days = lsGet('streak_days', []);
+      if (days.indexOf(today) < 0) {
+        days.push(today);
+        // keep last 365
+        if (days.length > 400) days = days.slice(-400);
+        lsSet('streak_days', days);
+      }
+      // Also call existing recordStreak() for back-compat
+      if (typeof recordStreak === 'function') recordStreak();
+    } catch(e){}
+  };
+
+  // ---------- Daily plan generator ----------
+  function _dailyProfile(){
+    return lsGet('daily_profile', null); // { level: 'B2', goal: 'workplace', daily: 15 }
+  }
+  function _saveDailyProfile(p){ lsSet('daily_profile', p); }
+
+  function _todayPlan(){
+    var pf = _dailyProfile() || {level:'B2', goal:'general', daily:15};
+    var plan = [];
+    // Always include: review due idioms (if any)
+    var dueCount = 0;
+    try {
+      if (typeof DATA !== 'undefined') {
+        DATA.forEach(function(v){ if (typeof isDue === 'function' && isDue(v.id)) dueCount++; });
+      }
+    } catch(e){}
+    if (dueCount > 0) {
+      plan.push({icon:'🔁', title:'复习到期词条', sub:'共 ' + dueCount + ' 个等待复习', view:'learn', cta:'去复习'});
+    } else {
+      var n = pf.level === 'C1' || pf.level === 'C2' ? 8 : 5;
+      plan.push({icon:'📚', title:'学习 ' + n + ' 个新地道表达', sub:'Idioms · Phrases', view:'learn', cta:'开始学习'});
+    }
+    // Goal-driven task
+    if (pf.goal === 'workplace') {
+      plan.push({icon:'💼', title:'职场场景一组', sub:'Bay Area Workplace English', view:'bayarea', cta:'去练习'});
+    } else if (pf.goal === 'exam') {
+      plan.push({icon:'🀄', title:'CN→EN 5 题', sub:'雅思/托福/GRE 思维训练', view:'cnen', cta:'开始翻译'});
+    } else {
+      plan.push({icon:'🔥', title:'本月流行热词', sub:'Trending Vocabulary', view:'monthly', cta:'查看热词'});
+    }
+    // Quiz
+    plan.push({icon:'✏️', title:'今日小测', sub:(pf.level === 'C1'||pf.level==='C2' ? '10' : '5') + ' 题快速测评', view:'quiz', cta:'去测验'});
+    return plan;
+  }
+
+  // ---------- Render helpers ----------
+  function _streakCalendarHTML(){
+    var days = lsGet('streak_days', []);
+    var set = {}; days.forEach(function(d){ set[d]=1; });
+    var cells = [];
+    var todayD = new Date(); todayD.setHours(0,0,0,0);
+    for (var i = 27; i >= 0; i--) {
+      var d = new Date(todayD.getTime() - i*86400000);
+      var key = ymd(d);
+      var on = !!set[key];
+      var isToday = i === 0;
+      cells.push('<div class="dc-cell ' + (on?'on':'') + ' ' + (isToday?'today':'') + '" title="' + key + (on?' · ✓':'') + '"></div>');
+    }
+    return '<div class="dc-grid">' + cells.join('') + '</div>' +
+           '<div class="dc-legend"><span><i class="dc-cell on"></i> 已学习</span><span><i class="dc-cell"></i> 未学习</span><span><i class="dc-cell today"></i> 今天</span></div>';
+  }
+
+  function _onboardingHTML(){
+    return '' +
+      '<div class="dly-onb">' +
+        '<h2 class="dly-onb-h">📅 设定你的每日学习</h2>' +
+        '<p class="dly-onb-sub">告诉我你的水平和目标，我会为你定制每天的学习计划。</p>' +
+        '<div class="dly-onb-row">' +
+          '<label class="dly-onb-lbl">当前水平 · Level</label>' +
+          '<div class="dly-pills" id="dly-lvl-pills">' +
+            ['B1','B2','C1','C2'].map(function(l){ return '<button class="dly-pill" data-v="'+l+'" onclick="_dlyPick(\'lvl\',\''+l+'\',this)">'+l+'</button>'; }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="dly-onb-row">' +
+          '<label class="dly-onb-lbl">主要目标 · Goal</label>' +
+          '<div class="dly-pills" id="dly-goal-pills">' +
+            [{v:'workplace',l:'💼 职场'},{v:'exam',l:'🎓 备考'},{v:'general',l:'🌍 通用'}].map(function(g){
+              return '<button class="dly-pill" data-v="'+g.v+'" onclick="_dlyPick(\'goal\',\''+g.v+'\',this)">'+g.l+'</button>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="dly-onb-row">' +
+          '<label class="dly-onb-lbl">每日时长 · Daily minutes</label>' +
+          '<div class="dly-pills" id="dly-min-pills">' +
+            [10,15,20,30].map(function(m){ return '<button class="dly-pill" data-v="'+m+'" onclick="_dlyPick(\'min\','+m+',this)">'+m+' min</button>'; }).join('') +
+          '</div>' +
+        '</div>' +
+        '<button class="dly-start" onclick="_dlySaveOnb()">开始我的学习计划 →</button>' +
+      '</div>';
+  }
+
+  window._dlyTmp = {};
+  window._dlyPick = function(kind, val, btn){
+    _dlyTmp[kind] = val;
+    var parent = btn.parentNode;
+    parent.querySelectorAll('.dly-pill').forEach(function(b){ b.classList.remove('on'); });
+    btn.classList.add('on');
+  };
+  window._dlySaveOnb = function(){
+    if (!_dlyTmp.lvl || !_dlyTmp.goal) { try{ toast('请选择你的水平和目标','warn'); }catch(e){} return; }
+    var pf = { level: _dlyTmp.lvl, goal: _dlyTmp.goal, daily: _dlyTmp.min || 15, since: ymd() };
+    _saveDailyProfile(pf);
+    renderDaily();
+  };
+
+  window.renderDaily = function(){
+    _touchStreakDay();
+    var host = document.getElementById('dailyhost');
+    if (!host) return;
+    var pf = _dailyProfile();
+    if (!pf) { host.innerHTML = _onboardingHTML(); return; }
+
+    var sd = lsGet('streak', {count:0,longest:0,lastDate:''});
+    var plan = _todayPlan();
+    var bms = window.bm.list();
+
+    var planHtml = plan.map(function(t){
+      return '<div class="dly-task">' +
+        '<div class="dly-tk-ico">'+t.icon+'</div>' +
+        '<div class="dly-tk-body"><div class="dly-tk-title">'+t.title+'</div><div class="dly-tk-sub">'+t.sub+'</div></div>' +
+        '<button class="dly-tk-go" onclick="show(\''+t.view+'\')">'+t.cta+' →</button>' +
+      '</div>';
+    }).join('');
+
+    var bmHtml = bms.length === 0
+      ? '<div class="dly-empty">还没有收藏。在地道表达卡片上点击 ⭐ 即可添加。</div>'
+      : bms.slice(0,12).map(function(b){
+          return '<div class="dly-bm">' +
+            '<div class="dly-bm-l">' +
+              '<div class="dly-bm-label">'+b.label+'</div>' +
+              (b.sub ? '<div class="dly-bm-sub">'+b.sub+'</div>' : '') +
+            '</div>' +
+            '<div class="dly-bm-r">' +
+              '<button class="dly-bm-go" onclick="show(\''+(b.view||'learn')+'\')">查看</button>' +
+              '<button class="dly-bm-x" title="移除" onclick="bm.toggle(\''+b.type+'\',\''+b.id+'\')">×</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+    var goalLabel = pf.goal === 'workplace' ? '💼 职场' : pf.goal === 'exam' ? '🎓 备考' : '🌍 通用';
+    var todayY = ymd();
+    var todayDone = lsGet('streak_days', []).indexOf(todayY) >= 0;
+
+    host.innerHTML = '' +
+      '<div class="dly-wrap">' +
+        '<div class="dly-hero">' +
+          '<div class="dly-hero-l">' +
+            '<div class="dly-eyebrow">DAILY · 每日学习</div>' +
+            '<h1 class="dly-h1">今天的学习计划 <span class="dly-date">'+todayY+'</span></h1>' +
+            '<div class="dly-meta">水平 <b>'+pf.level+'</b> · 目标 <b>'+goalLabel+'</b> · 每日 <b>'+pf.daily+' 分钟</b> &nbsp;·&nbsp; <a href="javascript:void(0)" onclick="_dlyResetOnb()" class="dly-reset">调整</a></div>' +
+          '</div>' +
+          '<div class="dly-hero-r">' +
+            '<div class="dly-streak-card">' +
+              '<div class="dly-streak-flame">'+ (sd.count>0?'🔥':'💧') +'</div>' +
+              '<div class="dly-streak-num">'+(sd.count||0)+'</div>' +
+              '<div class="dly-streak-label">连续天数 · Streak</div>' +
+              '<div class="dly-streak-best">最长 '+(sd.longest||0)+' 天 &nbsp;·&nbsp; '+(todayDone?'<span style="color:#10b981">✓ 今天已打卡</span>':'<span style="color:#f59e0b">今天还没打卡</span>')+'</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="dly-section">' +
+          '<h3 class="dly-sec-h">📋 今日任务 · Today\'s Plan</h3>' +
+          '<div class="dly-tasks">'+planHtml+'</div>' +
+        '</div>' +
+
+        '<div class="dly-grid2">' +
+          '<div class="dly-section">' +
+            '<h3 class="dly-sec-h">🗓️ 最近 28 天 · Last 28 days</h3>' +
+            '<div class="dly-cal">'+_streakCalendarHTML()+'</div>' +
+          '</div>' +
+          '<div class="dly-section">' +
+            '<h3 class="dly-sec-h">⭐ 我的收藏 · Bookmarks <span class="dly-cnt">'+bms.length+'</span></h3>' +
+            '<div class="dly-bms">'+bmHtml+'</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  };
+
+  window._dlyResetOnb = function(){
+    if (!confirm('调整学习计划？现有打卡记录会保留。')) return;
+    lsSet('daily_profile', null);
+    _dlyTmp = {};
+    renderDaily();
+  };
+
+  // ---------- Add bookmark stars to learn cards (.vc) on render ----------
+  function _addStarsToLearnCards(){
+    if (typeof DATA === 'undefined') return;
+    document.querySelectorAll('#llist .vc').forEach(function(card){
+      if (card.querySelector('.vc-bm')) return;
+      var id = card.id.replace(/^vc/, '');
+      var item = DATA.filter(function(d){ return String(d.id) === String(id); })[0];
+      if (!item) return;
+      var on = window.bm.has('learn', id);
+      var head = card.querySelector('.vc-head-btm') || card.querySelector('.vc-head');
+      if (!head) return;
+      var btn = document.createElement('button');
+      btn.className = 'vc-bm' + (on?' on':'');
+      btn.title = '收藏 · Bookmark';
+      btn.innerHTML = on ? '★' : '☆';
+      btn.onclick = function(e){
+        e.stopPropagation();
+        var nowOn = window.bm.toggle('learn', id, item.phrase, item.meaning_cn || item.meaning, 'learn');
+        btn.classList.toggle('on', nowOn);
+        btn.innerHTML = nowOn ? '★' : '☆';
+      };
+      head.appendChild(btn);
+    });
+  }
+  // Wrap renderLearn
+  if (typeof window.renderLearn === 'function') {
+    var _origRL = window.renderLearn;
+    window.renderLearn = function(){
+      _origRL.apply(this, arguments);
+      setTimeout(_addStarsToLearnCards, 10);
+    };
+  }
+
+  // Touch streak on any quiz completion or learn pass
+  ['markPass','submitAns','cnqShowResult','_bqShowResult'].forEach(function(fn){
+    if (typeof window[fn] === 'function') {
+      var orig = window[fn];
+      window[fn] = function(){ try { _touchStreakDay(); } catch(e){} return orig.apply(this, arguments); };
+    }
+  });
+
+  // Initial touch on app load
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(_touchStreakDay, 200);
+  });
+  // If DOM already loaded
+  setTimeout(_touchStreakDay, 200);
+})();
+</script>
+
+<style id="daily-dashboard-styles">
+  /* Daily Dashboard */
+  #page-daily { padding: 28px 32px 80px; max-width: 1200px; margin: 0 auto; }
+  .dly-wrap { display: flex; flex-direction: column; gap: 28px; }
+  .dly-hero { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; padding: 28px 32px; background: linear-gradient(135deg, #fff8f3 0%, #fdf2e9 100%); border: 1px solid #f4e1d0; border-radius: 18px; }
+  .dly-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #a0633a; margin-bottom: 8px; }
+  .dly-h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 30px; margin: 0 0 10px; color: #1a1308; font-weight: 600; }
+  .dly-date { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #a0633a; margin-left: 12px; padding: 4px 10px; background: rgba(160,99,58,.1); border-radius: 8px; vertical-align: middle; }
+  .dly-meta { font-size: 13px; color: #5a4528; }
+  .dly-meta b { color: #1a1308; font-weight: 600; }
+  .dly-reset { color: #a0633a; text-decoration: underline; font-size: 12px; margin-left: 8px; }
+  .dly-streak-card { text-align: center; min-width: 200px; padding: 18px 22px; background: white; border: 1px solid #f4e1d0; border-radius: 14px; box-shadow: 0 4px 16px rgba(160,99,58,.08); }
+  .dly-streak-flame { font-size: 36px; line-height: 1; }
+  .dly-streak-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 600; color: #d97757; line-height: 1; margin: 4px 0 6px; }
+  .dly-streak-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #a0633a; }
+  .dly-streak-best { font-size: 12px; color: #5a4528; margin-top: 8px; }
+
+  .dly-section { background: white; border: 1px solid #eee5dc; border-radius: 14px; padding: 22px 26px; }
+  .dly-sec-h { margin: 0 0 16px; font-size: 16px; font-weight: 700; color: #1a1308; display: flex; align-items: center; gap: 8px; }
+  .dly-cnt { display: inline-block; padding: 2px 9px; background: #f4e1d0; color: #a0633a; border-radius: 999px; font-size: 12px; font-weight: 600; }
+
+  .dly-tasks { display: flex; flex-direction: column; gap: 12px; }
+  .dly-task { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; padding: 14px 18px; background: #fafaf7; border: 1px solid #f0ebe2; border-radius: 12px; transition: all .15s ease; }
+  .dly-task:hover { border-color: #d97757; background: #fff8f3; }
+  .dly-tk-ico { font-size: 28px; line-height: 1; }
+  .dly-tk-title { font-size: 15px; font-weight: 600; color: #1a1308; margin-bottom: 2px; }
+  .dly-tk-sub { font-size: 12px; color: #6b5640; }
+  .dly-tk-go { padding: 8px 16px; background: linear-gradient(135deg, #d97757, #c05a3c); color: white; border: 0; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .dly-tk-go:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(217,119,87,.35); }
+
+  .dly-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 900px) { .dly-grid2 { grid-template-columns: 1fr; } .dly-hero { grid-template-columns: 1fr; } }
+
+  /* Calendar */
+  .dc-grid { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; margin-bottom: 10px; }
+  .dc-cell { aspect-ratio: 1; border-radius: 5px; background: #f0ebe2; border: 1px solid #e8e0d2; }
+  .dc-cell.on { background: linear-gradient(135deg, #d97757, #c05a3c); border-color: transparent; box-shadow: 0 2px 4px rgba(217,119,87,.3); }
+  .dc-cell.today { outline: 2px solid #1a1308; outline-offset: 1px; }
+  .dc-legend { display: flex; gap: 14px; font-size: 11px; color: #6b5640; margin-top: 6px; }
+  .dc-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
+
+  /* Bookmarks list */
+  .dly-bms { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
+  .dly-bm { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #fafaf7; border: 1px solid #f0ebe2; border-radius: 9px; gap: 12px; }
+  .dly-bm-label { font-size: 14px; font-weight: 600; color: #1a1308; }
+  .dly-bm-sub { font-size: 11px; color: #6b5640; margin-top: 2px; }
+  .dly-bm-r { display: flex; gap: 6px; }
+  .dly-bm-go { padding: 5px 10px; background: white; border: 1px solid #d8cfc1; border-radius: 7px; font-size: 11px; font-weight: 600; color: #5a4528; cursor: pointer; }
+  .dly-bm-go:hover { border-color: #d97757; color: #d97757; }
+  .dly-bm-x { width: 26px; height: 26px; border: 1px solid #eee; background: white; border-radius: 6px; cursor: pointer; color: #999; font-size: 16px; line-height: 1; }
+  .dly-bm-x:hover { border-color: #d97757; color: #d97757; }
+  .dly-empty { padding: 20px; text-align: center; color: #8a7a66; font-size: 13px; }
+
+  /* Onboarding */
+  .dly-onb { max-width: 580px; margin: 60px auto; padding: 40px 36px; background: white; border: 1px solid #eee5dc; border-radius: 18px; box-shadow: 0 6px 32px rgba(160,99,58,.06); }
+  .dly-onb-h { font-family: 'Playfair Display', serif; font-size: 26px; margin: 0 0 8px; color: #1a1308; font-weight: 600; }
+  .dly-onb-sub { color: #6b5640; font-size: 14px; margin: 0 0 28px; }
+  .dly-onb-row { margin-bottom: 22px; }
+  .dly-onb-lbl { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: #a0633a; margin-bottom: 10px; }
+  .dly-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .dly-pill { padding: 9px 16px; background: white; border: 1.5px solid #e8e0d2; border-radius: 10px; font-size: 13px; font-weight: 600; color: #5a4528; cursor: pointer; transition: all .15s; }
+  .dly-pill:hover { border-color: #d97757; }
+  .dly-pill.on { background: linear-gradient(135deg, #d97757, #c05a3c); border-color: #c05a3c; color: white; }
+  .dly-start { width: 100%; margin-top: 8px; padding: 14px; background: linear-gradient(135deg, #d97757, #c05a3c); color: white; border: 0; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .dly-start:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,119,87,.4); }
+
+  /* Bookmark star on learn cards */
+  .vc-bm { background: transparent; border: 0; cursor: pointer; font-size: 18px; color: #c8b8a3; padding: 0 4px; line-height: 1; transition: all .15s; }
+  .vc-bm:hover { color: #d97757; transform: scale(1.15); }
+  .vc-bm.on { color: #d97757; }
+</style>
+
+<script>
+// Final wrapping for daily view auto-render via show()
+(function(){
+  var origShow = window.show;
+  if (typeof origShow === 'function') {
+    window.show = function(p){
+      origShow(p);
+      if (p === 'daily' && typeof renderDaily === 'function') setTimeout(renderDaily, 30);
+    };
+  }
+})();
+
+// ═══════════════════════════════════════
+// MODULE PROGRESS · 模块进度
+// ═══════════════════════════════════════
+(function(){
+  function _pdGet(){ try { return JSON.parse(localStorage.getItem('user_progress')||'{}'); } catch(e){ return {}; } }
+  function _countPass(prefix){
+    var pd = _pdGet(); var c=0;
+    for (var k in pd) { if (k.indexOf(prefix+'_')===0 && pd[k]==='pass') c++; }
+    return c;
+  }
+  function _countLearning(prefix){
+    var pd = _pdGet(); var c=0;
+    for (var k in pd) { if (k.indexOf(prefix+'_')===0 && pd[k]==='learning') c++; }
+    return c;
+  }
+
+  // Total counts per module
+  function _totals(){
+    var t = { learn:0, bay:0, monthly:0, cnen:0 };
+    try { t.learn = (typeof DATA !== 'undefined') ? DATA.length : 0; } catch(e){}
+    try { t.bay = (typeof FINANCE_DATA !== 'undefined') ? FINANCE_DATA.length : 0; } catch(e){}
+    try {
+      if (typeof MONTHLY_DATA !== 'undefined') {
+        Object.keys(MONTHLY_DATA).forEach(function(y){ Object.keys(MONTHLY_DATA[y]).forEach(function(m){ t.monthly += MONTHLY_DATA[y][m].length; }); });
+      }
+    } catch(e){}
+    try {
+      if (typeof CN_MONTHLY_DATA !== 'undefined') {
+        Object.keys(CN_MONTHLY_DATA).forEach(function(y){ Object.keys(CN_MONTHLY_DATA[y]).forEach(function(m){ t.cnen += CN_MONTHLY_DATA[y][m].length; }); });
+      }
+    } catch(e){}
+    return t;
+  }
+
+  // SRS-master count for learn (uses srsData via srsStatus)
+  function _learnMaster(){
+    if (typeof DATA === 'undefined' || typeof srsStatus !== 'function') return 0;
+    var c = 0;
+    DATA.forEach(function(v){ if (srsStatus(v.id) === 'master') c++; });
+    return c;
+  }
+
+  window._modStats = function(){
+    var T = _totals();
+    var srsMaster = _learnMaster();
+    var passLearn = _countPass('learn');
+    var learnMastered = Math.max(srsMaster, passLearn); // best of either signal
+    var stats = [
+      { key:'learn',   icon:'📚', name:'Idioms · 地道表达',     view:'learn',   total:T.learn,   done:learnMastered,             learning:_countLearning('learn'),   color:'#d97757' },
+      { key:'bay',     icon:'💼', name:'Workplace · 职场英语',  view:'bayarea', total:T.bay,     done:_countPass('bay'),         learning:_countLearning('bay'),     color:'#2563eb' },
+      { key:'monthly', icon:'🔥', name:'Trending · 热词',        view:'monthly', total:T.monthly, done:_countPass('monthly'),     learning:_countLearning('monthly'), color:'#a855f7' },
+      { key:'cnen',    icon:'🀄', name:'CN → EN · 汉译英',       view:'cnen',    total:T.cnen,    done:_countPass('cnen'),        learning:_countLearning('cnen'),    color:'#10b981' }
+    ];
+    return stats;
+  };
+
+  function _modProgressHTML(){
+    var stats = window._modStats();
+    return '<div class="dly-mods">' + stats.map(function(s){
+      var pct = s.total > 0 ? Math.round((s.done / s.total) * 100) : 0;
+      var pctText = s.total > 0 ? (s.done + ' / ' + s.total) : '—';
+      return '<div class="dly-mod" onclick="show(\''+s.view+'\')">' +
+        '<div class="dly-mod-top">' +
+          '<span class="dly-mod-ico">'+s.icon+'</span>' +
+          '<span class="dly-mod-name">'+s.name+'</span>' +
+          '<span class="dly-mod-pct" style="color:'+s.color+'">'+pct+'%</span>' +
+        '</div>' +
+        '<div class="dly-mod-bar"><div class="dly-mod-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>' +
+        '<div class="dly-mod-meta"><span>掌握 <b>'+pctText+'</b></span>' +
+          (s.learning>0 ? '<span class="dly-mod-learn">学习中 '+s.learning+'</span>' : '') +
+        '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+  window._modProgressHTML = _modProgressHTML;
+
+  // Inject Module Progress section into renderDaily output
+  if (typeof window.renderDaily === 'function') {
+    var _origRD = window.renderDaily;
+    window.renderDaily = function(){
+      _origRD.apply(this, arguments);
+      var host = document.getElementById('dailyhost');
+      if (!host) return;
+      var wrap = host.querySelector('.dly-wrap');
+      if (!wrap) return; // onboarding view
+      if (wrap.querySelector('.dly-mod-section')) return;
+      // Insert module progress after "Today's Plan" section (which is the second .dly-section)
+      var sections = wrap.querySelectorAll(':scope > .dly-section');
+      var afterEl = sections[0]; // tasks section
+      var modSec = document.createElement('div');
+      modSec.className = 'dly-section dly-mod-section';
+      modSec.innerHTML = '<h3 class="dly-sec-h">📊 各模块进度 · Module Mastery</h3>' + _modProgressHTML();
+      if (afterEl && afterEl.nextSibling) {
+        wrap.insertBefore(modSec, afterEl.nextSibling);
+      } else {
+        wrap.appendChild(modSec);
+      }
+    };
+  }
+
+  // Hero landing card progress chips
+  function _injectHeroChips(){
+    var hero = document.getElementById('hero-landing');
+    if (!hero) return;
+    var stats = window._modStats();
+    var byView = {}; stats.forEach(function(s){ byView[s.view] = s; });
+    hero.querySelectorAll('.grade-card').forEach(function(card){
+      var onclickAttr = card.getAttribute('onclick') || '';
+      var m = onclickAttr.match(/ddGo\('(\w+)'\)/);
+      if (!m) return;
+      var v = m[1];
+      var s = byView[v];
+      if (!s || s.total === 0) return;
+      var existing = card.querySelector('.gc-progress');
+      var pct = Math.round((s.done / s.total) * 100);
+      var html = '<div class="gc-progress">' +
+        '<div class="gc-progress-bar"><div style="width:'+pct+'%;background:'+s.color+'"></div></div>' +
+        '<div class="gc-progress-txt">'+pct+'% 掌握 · <span style="opacity:.7">'+s.done+' / '+s.total+'</span></div>' +
+      '</div>';
+      if (existing) existing.outerHTML = html;
+      else {
+        var tag = card.querySelector('.gc-tag');
+        if (tag) tag.insertAdjacentHTML('beforebegin', html);
+        else card.insertAdjacentHTML('beforeend', html);
+      }
+    });
+  }
+  window._injectHeroChips = _injectHeroChips;
+
+  // Refresh on load and whenever returning to hero
+  document.addEventListener('DOMContentLoaded', function(){ setTimeout(_injectHeroChips, 300); });
+  setTimeout(_injectHeroChips, 300);
+
+  // Wrap show() so chips refresh whenever hero is shown
+  var _origShow2 = window.show;
+  if (typeof _origShow2 === 'function') {
+    window.show = function(p){
+      _origShow2(p);
+      if (p === 'home' || !p) setTimeout(_injectHeroChips, 50);
+    };
+  }
+})();
+</script>
+
+<style id="module-progress-styles">
+  /* Module Progress (in Daily) */
+  .dly-mods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (max-width: 720px) { .dly-mods { grid-template-columns: 1fr; } }
+  .dly-mod { padding: 16px 18px; background: #fafaf7; border: 1px solid #f0ebe2; border-radius: 12px; cursor: pointer; transition: all .15s; }
+  .dly-mod:hover { border-color: #d97757; background: #fff8f3; transform: translateY(-1px); }
+  .dly-mod-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .dly-mod-ico { font-size: 22px; }
+  .dly-mod-name { flex: 1; font-size: 14px; font-weight: 600; color: #1a1308; }
+  .dly-mod-pct { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; }
+  .dly-mod-bar { height: 8px; background: #f0ebe2; border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+  .dly-mod-fill { height: 100%; border-radius: 999px; transition: width .6s ease; }
+  .dly-mod-meta { display: flex; justify-content: space-between; font-size: 11px; color: #6b5640; }
+  .dly-mod-meta b { color: #1a1308; font-weight: 600; }
+  .dly-mod-learn { padding: 1px 8px; background: rgba(37,99,235,.1); color: #2563eb; border-radius: 999px; font-weight: 600; }
+
+  /* Hero landing card progress chip */
+  .gc-progress { margin: 12px 0 10px; }
+  .gc-progress-bar { height: 5px; background: rgba(0,0,0,.06); border-radius: 999px; overflow: hidden; }
+  .gc-progress-bar > div { height: 100%; border-radius: 999px; transition: width .6s ease; }
+  .gc-progress-txt { font-size: 11px; font-weight: 600; color: #5a4528; margin-top: 5px; letter-spacing: .3px; }
+</style>
+
+<style id="theme-toggle-styles">
+  /* Theme toggle button */
+  .theme-toggle {
+    height: 38px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--card); cursor: pointer; font-size: 14px; line-height: 1;
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text2); transition: all .2s; font-weight: 600;
+  }
+  .theme-toggle:hover { background: var(--card2); color: var(--text); border-color: #d97757; }
+  .theme-toggle .th-ico-light, .theme-toggle .th-ico-dark { font-size: 16px; }
+  .theme-toggle .th-ico-dark { display: none; }
+  [data-theme="dark"] .theme-toggle .th-ico-light { display: none; }
+  [data-theme="dark"] .theme-toggle .th-ico-dark { display: inline; }
+  [data-theme="dark"] .theme-toggle .th-label::before { content: '浅色'; }
+  [data-theme="dark"] .theme-toggle .th-label { font-size: 0; }
+  [data-theme="dark"] .theme-toggle .th-label::before { font-size: 14px; }
+
+  /* ─────────── DARK MODE ─────────── */
+  [data-theme="dark"] {
+    --bg: #14110d;
+    --card: #1e1a14;
+    --card2: #25201a;
+    --border: #3a3228;
+    --text: #ece4d6;
+    --text2: #b3a48a;
+    --text3: #7d6f57;
+  }
+  [data-theme="dark"] body { background: var(--bg); color: var(--text); }
+  [data-theme="dark"] .topbar { background: var(--card); border-bottom-color: var(--border); }
+  [data-theme="dark"] .dd-panel { background: var(--card); border-color: var(--border); box-shadow: 0 8px 32px rgba(0,0,0,.5); }
+  [data-theme="dark"] .dd-item { color: var(--text); }
+  [data-theme="dark"] .dd-item:hover { background: var(--card2); }
+  [data-theme="dark"] .dd-sep { background: var(--border); }
+  [data-theme="dark"] .dd-label { color: var(--text3); }
+
+  /* Hero landing dark */
+  [data-theme="dark"] .hero-top { background: linear-gradient(135deg, #1e1a14 0%, #25201a 100%); }
+  [data-theme="dark"] .hero-h1, [data-theme="dark"] .hero-eyebrow { color: var(--text); }
+  [data-theme="dark"] .hero-eyebrow { color: #d97757; }
+  [data-theme="dark"] .hero-sub { color: var(--text2); }
+  [data-theme="dark"] .grade-card,
+  [data-theme="dark"] .feat-card { background: var(--card); border-color: var(--border); }
+  [data-theme="dark"] .grade-card .gc-title,
+  [data-theme="dark"] .feat-card .fc-t { color: var(--text); }
+  [data-theme="dark"] .gc-sub, [data-theme="dark"] .fc-d { color: var(--text2); }
+  [data-theme="dark"] .gc-tag { background: var(--card2); color: var(--text3); border-color: var(--border); }
+  [data-theme="dark"] .hero-stat { color: var(--text); }
+  [data-theme="dark"] .hero-stat .l { color: var(--text2); }
+  [data-theme="dark"] .hero-stat .d { color: var(--text3); }
+  [data-theme="dark"] .hero-section-label .lbl-txt { color: var(--text2); }
+  [data-theme="dark"] .hero-section-label .lbl-line { background: var(--border); }
+  [data-theme="dark"] .hero-footer { color: var(--text3); border-top-color: var(--border); }
+
+  /* Cards / vc */
+  [data-theme="dark"] .vc { background: var(--card); border-color: var(--border); }
+  [data-theme="dark"] .vc-phrase { color: var(--text); }
+  [data-theme="dark"] .vc-meaning { color: var(--text); }
+  [data-theme="dark"] .vc-meaning-cn, [data-theme="dark"] .vc-ex-cn { color: var(--text2); }
+  [data-theme="dark"] .vc-ex { color: var(--text2); }
+  [data-theme="dark"] .vc-num, [data-theme="dark"] .vc-arr { color: var(--text3); }
+  [data-theme="dark"] .sbar { background: var(--card2); border-color: var(--border); color: var(--text); }
+  [data-theme="dark"] .sbar::placeholder { color: var(--text3); }
+
+  /* Daily dashboard dark */
+  [data-theme="dark"] .dly-hero { background: linear-gradient(135deg, #251a14 0%, #2a1f17 100%); border-color: #4a3525; }
+  [data-theme="dark"] .dly-h1 { color: var(--text); }
+  [data-theme="dark"] .dly-meta { color: var(--text2); }
+  [data-theme="dark"] .dly-meta b { color: var(--text); }
+  [data-theme="dark"] .dly-streak-card { background: var(--card); border-color: var(--border); }
+  [data-theme="dark"] .dly-streak-best { color: var(--text2); }
+  [data-theme="dark"] .dly-section { background: var(--card); border-color: var(--border); }
+  [data-theme="dark"] .dly-sec-h { color: var(--text); }
+  [data-theme="dark"] .dly-task,
+  [data-theme="dark"] .dly-mod,
+  [data-theme="dark"] .dly-bm { background: var(--card2); border-color: var(--border); }
+  [data-theme="dark"] .dly-task:hover,
+  [data-theme="dark"] .dly-mod:hover { background: #2c2620; border-color: #d97757; }
+  [data-theme="dark"] .dly-tk-title, [data-theme="dark"] .dly-mod-name, [data-theme="dark"] .dly-bm-label { color: var(--text); }
+  [data-theme="dark"] .dly-tk-sub, [data-theme="dark"] .dly-mod-meta, [data-theme="dark"] .dly-bm-sub { color: var(--text2); }
+  [data-theme="dark"] .dly-mod-meta b { color: var(--text); }
+  [data-theme="dark"] .dly-mod-bar { background: #2a2419; }
+  [data-theme="dark"] .dly-bm-go { background: var(--card); border-color: var(--border); color: var(--text2); }
+  [data-theme="dark"] .dly-bm-x { background: var(--card); border-color: var(--border); color: var(--text3); }
+  [data-theme="dark"] .dly-empty { color: var(--text3); }
+  [data-theme="dark"] .dly-onb { background: var(--card); border-color: var(--border); }
+  [data-theme="dark"] .dly-onb-h { color: var(--text); }
+  [data-theme="dark"] .dly-onb-sub { color: var(--text2); }
+  [data-theme="dark"] .dly-pill { background: var(--card2); border-color: var(--border); color: var(--text); }
+  [data-theme="dark"] .dly-pill:hover { border-color: #d97757; }
+  [data-theme="dark"] .dly-cnt { background: #3a2a1f; color: #e8a878; }
+  [data-theme="dark"] .dc-cell { background: #2a2419; border-color: #3a3228; }
+  [data-theme="dark"] .dc-cell.today { outline-color: var(--text); }
+  [data-theme="dark"] .dc-legend { color: var(--text3); }
+
+  /* Bay area dark */
+  [data-theme="dark"] .bay-hero { background: linear-gradient(135deg,#1a2030 0%,#1e2840 100%); }
+  [data-theme="dark"] .bay-vtab { background: var(--card2); color: var(--text2); border-color: var(--border); }
+  [data-theme="dark"] .bay-vtab.on { background: var(--text); color: var(--bg); }
+
+  /* Quiz / wrong book / leaderboard / profile generic surfaces */
+  [data-theme="dark"] .page { color: var(--text); }
+  [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 { color: var(--text); }
+  [data-theme="dark"] .ct { color: var(--text3); }
+  [data-theme="dark"] .ct.on { color: var(--text); }
+
+  /* Classics dark */
+  [data-theme="dark"] .cl-passage .cl-en { color: var(--text); }
+  [data-theme="dark"] .cl-prow .cl-zh { color: var(--text2); border-left-color: var(--border); }
+  [data-theme="dark"] .cl-prow:first-child .cl-en::first-letter { color: #e8a878; }
+
+  /* Smooth color transition when toggling */
+  body, .topbar, .dd-panel, .vc, .dly-section, .dly-hero, .dly-task, .dly-mod, .dly-bm,
+  .grade-card, .feat-card, .dly-onb, .dly-pill, .dly-streak-card, .theme-toggle, .sbar,
+  .bay-hero, .dly-bm-go, .dly-bm-x, .dc-cell {
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+  }
+</style>
+
+<style id="mobile-polish-styles">
+  /* ─────────── MOBILE POLISH (≤ 768px) ─────────── */
+  @media (max-width: 768px) {
+    /* Topbar — compact */
+    .topbar { padding: 0 12px; height: 56px; }
+    .logo { font-size: 14px; }
+    .logo-dot { width: 7px; height: 7px; }
+    .home-btn .nb-cn, .dd-btn .nb-cn { display: none; }
+    .home-btn, .dd-btn { padding: 8px 10px; font-size: 13px; }
+    .theme-toggle { padding: 0 8px; height: 34px; font-size: 12px; }
+    .theme-toggle .th-label { display: none; }
+    [data-theme="dark"] .theme-toggle .th-label { display: none; }
+    .tb-user { padding: 3px 6px; }
+    .tb-name { display: none; }
+    .tb-meta { font-size: 10px; }
+
+    /* Dropdown — slide-in panel */
+    .dd-panel {
+      position: fixed !important;
+      top: 56px !important; right: 0 !important; left: auto !important;
+      width: min(86vw, 320px) !important;
+      max-height: calc(100vh - 56px - 70px);
+      overflow-y: auto;
+      border-radius: 0 0 0 16px;
+      box-shadow: -4px 8px 32px rgba(0,0,0,.18);
+    }
+
+    /* Page padding */
+    .page { padding: 16px 14px 90px !important; }
+    #page-daily { padding: 16px 14px 90px; }
+
+    /* Daily dashboard — single column everything */
+    .dly-hero { grid-template-columns: 1fr !important; padding: 20px 18px; gap: 18px; text-align: left; }
+    .dly-h1 { font-size: 22px; }
+    .dly-date { display: block; margin: 8px 0 0; font-size: 12px; }
+    .dly-streak-card { min-width: 0; padding: 14px 18px; }
+    .dly-streak-num { font-size: 38px; }
+    .dly-section { padding: 16px 16px; }
+    .dly-sec-h { font-size: 15px; margin-bottom: 12px; }
+    .dly-task { grid-template-columns: auto 1fr; padding: 12px 14px; gap: 10px; }
+    .dly-task .dly-tk-go { grid-column: 1 / -1; padding: 10px; font-size: 13px; }
+    .dly-tk-ico { font-size: 22px; }
+    .dly-tk-title { font-size: 14px; }
+    .dly-mods { grid-template-columns: 1fr !important; gap: 10px; }
+    .dly-mod { padding: 14px 14px; }
+    .dly-mod-pct { font-size: 20px; }
+    .dly-grid2 { grid-template-columns: 1fr !important; gap: 14px; }
+    .dc-grid { grid-template-columns: repeat(7, 1fr) !important; gap: 5px; }
+    .dly-onb { margin: 24px 12px; padding: 26px 22px; }
+    .dly-onb-h { font-size: 22px; }
+
+    /* Hero landing — tighter */
+    .hero-top { padding: 50px 18px 60px; }
+    .hero-h1 { font-size: 32px !important; line-height: 1.15; }
+    .hero-sub { font-size: 14px; }
+    .hero-cta-row { flex-direction: column; gap: 10px; }
+    .hero-cta { width: 100%; padding: 14px; font-size: 14px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 18px 0 !important; }
+    .hero-stat { padding: 0 12px !important; border-left: none !important; }
+    .hero-stat .n { font-size: 28px; }
+    .hero-section-label { padding: 0 18px; }
+    .hero-cards, .hero-features { padding: 0 12px; }
+    .grade-card, .feat-card { padding: 22px 20px; }
+    .grade-card .gc-title { font-size: 18px; }
+    .feat-card .fc-t { font-size: 15px; }
+    .gc-progress-txt { font-size: 10px; }
+
+    /* Cards grid */
+    .vgrid { gap: 12px; }
+    .vc { padding: 14px 14px; }
+    .vc-phrase { font-size: 17px; }
+    .vc-meaning { font-size: 16px; }
+    .vc-ex { font-size: 14px; }
+    .vc-num { display: none; }
+
+    /* Pager */
+    .lp-pager { flex-wrap: wrap; gap: 8px; padding: 12px; }
+    .lp-info { order: 3; width: 100%; text-align: center; font-size: 11px; }
+    .lp-btn { padding: 9px 14px; font-size: 12px; flex: 1; }
+
+    /* Bay area */
+    .bay-hero { padding: 22px 18px; }
+    .bay-hero h2 { font-size: 19px; }
+    .bay-hero p { font-size: 13px; }
+    .bay-vtab { padding: 9px 12px; font-size: 12px; }
+    .bay-chips { gap: 6px; }
+    .bay-chip { font-size: 11px; padding: 5px 10px; }
+    #baylist { grid-template-columns: 1fr !important; }
+
+    /* Classics */
+    .cl-passage { padding: 22px 16px !important; }
+    .cl-passage.show-cn .cl-prow { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .cl-passage.show-cn .cl-prow .cl-zh { padding-left: 14px; }
+    .cl-prow .cl-en { font-size: 16.5px !important; line-height: 1.7 !important; }
+    .cl-prow .cl-zh { font-size: 14.5px !important; }
+    .cl-prow:first-child .cl-en::first-letter { font-size: 64px !important; margin-right: 10px !important; }
+
+    /* Tables / cnen / monthly */
+    #monthly-list, #cnen-list, #cult-list { grid-template-columns: 1fr !important; }
+
+    /* Wrong book retest, cnen quiz cards */
+    .cnq-card, .wbr-card { padding: 18px 14px !important; }
+    .cnq-q, .wbr-q { font-size: 16px !important; }
+
+    /* Buttons & form */
+    button, input, select, textarea { font-size: 14px; }
+    .sbar { font-size: 14px; padding: 11px 14px; }
+
+    /* Mobile bottom nav refinements */
+    #mobile-nav { padding: 4px 0 max(4px, env(safe-area-inset-bottom)); }
+    .mbn-row { display: flex; justify-content: space-around; }
+    .mbn-btn {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+      padding: 8px 4px; background: transparent; border: 0; color: var(--text2);
+      font-size: 11px; font-weight: 600; cursor: pointer; min-height: 56px;
+    }
+    .mbn-btn.on { color: #d97757; }
+    .mbn-btn .mbn-ico { font-size: 20px; line-height: 1; }
+  }
+
+  /* ─────────── EXTRA TIGHT (≤ 380px) ─────────── */
+  @media (max-width: 380px) {
+    .topbar { padding: 0 8px; }
+    .logo { font-size: 12px; }
+    .home-btn, .dd-btn { padding: 6px 8px; font-size: 12px; }
+    .theme-toggle { padding: 0 6px; }
+    .hero-h1 { font-size: 26px !important; }
+    .hero-stats { grid-template-columns: 1fr; }
+    .dly-h1 { font-size: 19px; }
+    .dly-streak-num { font-size: 32px; }
+    .dly-pills { gap: 6px; }
+    .dly-pill { padding: 7px 12px; font-size: 12px; }
+    .mbn-btn { font-size: 10px; }
+    .mbn-btn .mbn-ico { font-size: 18px; }
+  }
+
+  /* iOS smooth scroll & no double-tap zoom on buttons */
+  html { -webkit-text-size-adjust: 100%; }
+  button { touch-action: manipulation; }
+</style>
+
+<script>
+// ═══════════════════════════════════════
+// LEARN EXTRAS · 同义词 / 第二个例句 / 记忆法
+// ═══════════════════════════════════════
+window.LEARN_EXTRAS = {
+1:{syn:["be spot on","nail it","be exactly right","dead-on"],ex2:"Your analysis hit the nail on the head — that's the real bottleneck.",ex2_cn:"你的分析说到点子上了——那才是真正的瓶颈。",mem:"Picture a hammer striking a nail dead-center: perfect precision = perfectly correct.",mem_cn:"想象锤子正中钉头——精准命中 = 完全说中。"},
+2:{syn:["feeling sick","not feeling great","off-color","run-down"],ex2:"She's been under the weather all week — probably the flu.",ex2_cn:"她整周都不舒服——很可能是流感。",mem:"Sailors feeling seasick stayed below deck, literally 'under the weather.'",mem_cn:"水手晕船时躲到甲板下——字面就在「天气底下」。"},
+3:{syn:["tough it out","grin and bear it","suck it up","grit your teeth"],ex2:"I hate dental work, but I'll just bite the bullet and get it done.",ex2_cn:"我讨厌看牙，但我会咬紧牙关把它做完。",mem:"Soldiers in old wars bit a bullet to endure pain during surgery without anesthesia.",mem_cn:"过去战场上没有麻药，士兵咬子弹忍痛做手术。"},
+4:{syn:["let it slip","blow the secret","leak it","give it away"],ex2:"Don't spill the beans about the new product before launch day.",ex2_cn:"产品发布日之前，别把新品消息说漏嘴了。",mem:"Ancient Greeks voted with beans in a jar; tipping it = revealing the secret tally.",mem_cn:"古希腊用豆子投票，打翻罐子 = 提前泄露结果。"},
+5:{syn:["loosen up the room","get the conversation going","warm things up","kick things off"],ex2:"A quick game of two-truths-and-a-lie always breaks the ice with new teammates.",ex2_cn:"和新同事玩个「两真一假」总能打破僵局。",mem:"Ships once needed icebreakers to start a journey through frozen seas — same idea socially.",mem_cn:"破冰船在冰海中开路 —— 社交上也是同样的道理。"},
+6:{syn:["undecided","torn","on the fence","sitting on the fence","wishy-washy"],ex2:"I'm on the fence about whether to take the new role or stay put.",ex2_cn:"接不接这个新岗位，我还在犹豫。",mem:"Picture someone literally sitting on a fence — they could fall to either side.",mem_cn:"想象一个人骑在栅栏上 —— 两边都可能摔下去。"},
+7:{syn:["hit the hay","crash","turn in","call it a night"],ex2:"That was a long flight — I'm gonna hit the sack as soon as I get home.",ex2_cn:"飞了好久——一到家我就要倒头睡。",mem:"Old mattresses were sacks stuffed with hay; you literally hit them to lie down.",mem_cn:"旧时床垫是塞了干草的麻袋，躺下时真的会「拍」一下。"},
+8:{syn:["cost a fortune","break the bank","pricey","be steep"],ex2:"Renting in San Francisco costs an arm and a leg these days.",ex2_cn:"如今在旧金山租房贵得离谱。",mem:"Imagine paying with body parts — that's how painfully expensive it feels.",mem_cn:"想象用胳膊腿付款 —— 贵到让人肉疼。"},
+9:{syn:["rarely","hardly ever","seldom","every now and then"],ex2:"He only treats himself to a steak dinner once in a blue moon.",ex2_cn:"他难得才奢侈一次去吃顿牛排。",mem:"A literal 'blue moon' (second full moon in a month) only happens every few years.",mem_cn:"真正的「蓝月亮」（一个月里第二次满月）几年才出现一次。"},
+10:{syn:["the obvious problem","what nobody's saying","the unspoken issue"],ex2:"Layoffs are the elephant in the room nobody wants to bring up.",ex2_cn:"裁员就是大家都心知肚明却没人愿意提的事。",mem:"You can't ignore a real elephant in your living room — and yet everyone tries.",mem_cn:"客厅里真有头大象你能装看不见吗？—— 可大家都在装。"},
+11:{syn:["out of nowhere","unexpectedly","without warning","all of a sudden"],ex2:"Out of the blue, my old college roommate sent me a wedding invite.",ex2_cn:"突然间，大学室友给我寄来了婚礼请柬。",mem:"A bolt of lightning from a clear blue sky — completely unexpected.",mem_cn:"晴朗蓝天里突然一道闪电 —— 毫无预兆。"},
+12:{syn:["sever ties","torch the relationship","cut someone off","leave on bad terms"],ex2:"Even when you're frustrated, don't burn bridges with former managers.",ex2_cn:"再气也别和前任老板把关系彻底闹僵。",mem:"Burn the bridge behind you and there's no way back — relationships work the same way.",mem_cn:"把退路的桥烧了，就再也回不去了 —— 人际关系也是。"},
+13:{syn:["dance around it","avoid the topic","be vague","skirt the issue"],ex2:"Quit beating around the bush — do you want the job or not?",ex2_cn:"别绕圈子了 —— 这工作你到底要不要？",mem:"Hunters used to beat bushes to flush birds out — pure delay before the real action.",mem_cn:"猎人敲打灌木把鸟赶出来 —— 都是正事前的拖延。"},
+14:{syn:["take shortcuts","skimp","do it on the cheap","half-ass it"],ex2:"They cut corners on the foundation, and the whole house started cracking.",ex2_cn:"他们在地基上偷工减料，结果整栋房子开始裂。",mem:"Drivers who cut corners take a faster but riskier path — quality is sacrificed.",mem_cn:"司机走弯道抄近路 —— 快了但更危险，质量被牺牲。"},
+15:{syn:["crack the books","study hard","cram","grind"],ex2:"Finals start Monday — I need to hit the books all weekend.",ex2_cn:"下周一就期末考 —— 我整个周末都要狂啃书。",mem:"Imagine literally striking your textbooks open with urgency.",mem_cn:"想象一下用力把课本「啪」地翻开 —— 进入学习状态。"},
+16:{syn:["spill it","blow it","let it slip","tip someone off"],ex2:"His face turned red and he let the cat out of the bag about the engagement.",ex2_cn:"他脸一红，就把订婚的事说漏了。",mem:"Old market scam: pig in a bag swapped for a cat — once it jumped out, the trick was over.",mem_cn:"旧市集骗局：袋里换猫冒充乳猪，猫一跳出来骗局就穿帮。"},
+17:{syn:["two for one","double up","two-for-one","get twofold"],ex2:"By biking to work, I kill two birds with one stone — exercise plus commute.",ex2_cn:"骑车上班一举两得 —— 既锻炼又通勤。",mem:"One stone, two birds — maximum efficiency from one move.",mem_cn:"一石二鸟 —— 一个动作收双倍效果。"},
+18:{syn:["the final straw","the breaking point","the tipping point","that did it"],ex2:"Missing my birthday was the last straw — we broke up the next day.",ex2_cn:"忘了我生日是压垮我的最后一根稻草 —— 我们第二天就分手了。",mem:"One last straw on a camel's already-loaded back snaps its spine.",mem_cn:"一根稻草压垮已经背满的骆驼 —— 临界点。"},
+19:{syn:["start over","go back to the drawing board","reset","start from scratch"],ex2:"The client rejected the design, so we're back to square one.",ex2_cn:"客户否了方案，我们又回到起点了。",mem:"Like a board game where you land on a square that sends you back to the start.",mem_cn:"像棋盘游戏踩到陷阱被打回起点。"},
+20:{syn:["take on too much","overcommit","spread yourself thin","in over your head"],ex2:"Signing up for three classes plus a full-time job — I bit off more than I could chew.",ex2_cn:"又上三门课又全职工作 —— 我揽得太多了。",mem:"Stuffing too much food in your mouth — you literally can't chew it all.",mem_cn:"嘴里塞太多食物 —— 真嚼不下来。"},
+21:{syn:["silver lining","stroke of luck in disguise","good in disguise"],ex2:"Losing that job was a blessing in disguise — I found a much better one.",ex2_cn:"丢了那份工作其实是因祸得福 —— 我找到了更好的。",mem:"A 'blessing' wearing a 'disguise' — looks bad outside, good inside.",mem_cn:"祝福披着伪装外衣 —— 外面糟，里面好。"},
+22:{syn:["miss your chance","miss out","let it slip away","blow the opportunity"],ex2:"I waited too long to apply and totally missed the boat on that scholarship.",ex2_cn:"我申请拖太久，那个奖学金彻底错过了。",mem:"Show up to the dock after the boat has sailed — opportunity gone.",mem_cn:"赶到码头时船已开走 —— 机会溜了。"},
+23:{syn:["spiral","get out of control","blow up","go off the rails"],ex2:"The argument got out of hand and ended in someone storming out.",ex2_cn:"争吵失控，最后有人摔门而出。",mem:"Something slipping out of your hand — you've literally lost your grip.",mem_cn:"东西从手里滑落 —— 你已经握不住了。"},
+24:{syn:["walking a tightrope","skating on thin ice","in a precarious spot","one wrong move away"],ex2:"After missing two deadlines, he's on thin ice with his manager.",ex2_cn:"连错两个截止日，他在老板那儿已经如履薄冰。",mem:"Picture walking on a frozen lake — one crack and you're in.",mem_cn:"走在结冰的湖面 —— 一裂就掉下去。"},
+26:{syn:["sell out","scapegoat someone","sacrifice","point the finger"],ex2:"He threw his coworker under the bus to save his own promotion.",ex2_cn:"他为了保住自己的晋升，把同事推出来当替罪羊。",mem:"Imagine literally pushing someone in front of a moving bus to save yourself.",mem_cn:"想象为了自保把别人推到公车前 —— 极其卑劣。"},
+27:{syn:["kick things off","get started","get the wheels turning","jumpstart it"],ex2:"Let's get the ball rolling on the new project this Monday.",ex2_cn:"咱们周一就把新项目启动起来。",mem:"Once a ball starts rolling, it keeps going — momentum from the first push.",mem_cn:"球一旦滚起来就会继续 —— 第一推产生势头。"},
+28:{syn:["all in this together","sharing the same fate","fellow sufferers"],ex2:"Don't worry about the layoffs — we're all in the same boat.",ex2_cn:"别太担心裁员 —— 大家都在同一条船上。",mem:"If the boat sinks, everyone aboard goes down together.",mem_cn:"船沉，全船人一起遭殃。"},
+29:{syn:["take with a pinch of salt","be skeptical","don't take it as gospel","question it"],ex2:"He exaggerates a lot — take everything he says with a grain of salt.",ex2_cn:"他爱夸张 —— 他说的话听一半就行。",mem:"Romans believed salt protected against poison — adding 'salt' = adding doubt.",mem_cn:"罗马人相信盐能解毒 —— 加点「盐」 = 加点怀疑。"},
+30:{syn:["mess up","drop the ball","blow it","fumble"],ex2:"I dropped the ball on the client follow-up and lost the deal.",ex2_cn:"客户跟进我没做到位，单子飞了。",mem:"In sports, dropping the ball means you literally failed to hold on.",mem_cn:"球场上掉球 = 你没接住任务。"},
+31:{syn:["unsettled","TBD","still pending","not nailed down"],ex2:"My summer plans are still up in the air until I hear back about the job.",ex2_cn:"我暑假的安排还没定 —— 工作要等回复。",mem:"Like a juggler's ball mid-air — it hasn't landed yet, anything could happen.",mem_cn:"像杂技演员手里悬空的球 —— 还没落地，结果未定。"},
+32:{syn:["make it worse","escalate things","pour gasoline on it","aggravate the situation"],ex2:"Bringing up his ex during the fight just added fuel to the fire.",ex2_cn:"吵架时提他前任，等于火上浇油。",mem:"Throwing fuel on already-burning flames makes them roar.",mem_cn:"往燃烧的火里浇油 —— 火势暴涨。"},
+33:{syn:["it's on you","up to you","your move","over to you"],ex2:"I sent the proposal — now the ball is in their court.",ex2_cn:"提案我发过去了 —— 现在该他们出招。",mem:"In tennis, when the ball lands in your court, you must respond.",mem_cn:"网球落到你这边场地 —— 必须由你回击。"},
+34:{syn:["in trouble","in a bind","in a pickle","in deep"],ex2:"He's in hot water with HR after that email got out.",ex2_cn:"那封邮件传开后，他在 HR 那儿惹上麻烦了。",mem:"Picture being plunged into boiling water — instant trouble.",mem_cn:"被丢进开水里 —— 瞬间陷入麻烦。"},
+35:{syn:["read the subtext","catch the hint","pick up on what's implied","grasp the undertone"],ex2:"Read between the lines — when she said 'fine,' she really wasn't.",ex2_cn:"听话听音 —— 她说「没事」时其实很有事。",mem:"The real message is hidden in the white space between the printed lines.",mem_cn:"真正的意思藏在字与字之间的空白处。"},
+37:{syn:["in short","to sum it up","bottom line","long story short"],ex2:"In a nutshell: revenue is up but margins are down.",ex2_cn:"一句话总结：营收涨了，但利润率跌了。",mem:"Imagine compressing a whole story until it fits inside a tiny nutshell.",mem_cn:"想象把整个故事压缩进一颗小坚果壳里。"},
+38:{syn:["come what may","through it all","in sickness and in health","good times and bad"],ex2:"My best friend has stuck with me through thick and thin since high school.",ex2_cn:"我最好的朋友从高中起就和我同甘共苦。",mem:"Through dense forests (thick) and clear meadows (thin) — you walk together no matter the terrain.",mem_cn:"穿越密林（厚）和空地（薄）—— 不管什么地形都同行。"},
+39:{syn:["on a hot streak","crushing it","on fire","in the zone"],ex2:"She's on a roll — three promotions in two years.",ex2_cn:"她最近一路开挂 —— 两年里升了三次职。",mem:"Like a bowling ball that knocks pin after pin — you can't stop the momentum.",mem_cn:"像保龄球一连撞翻好几个瓶 —— 势不可挡。"},
+40:{syn:["look the other way","ignore it","pretend not to see","let it slide"],ex2:"The manager turned a blind eye to small policy violations.",ex2_cn:"经理对小违规睁一只眼闭一只眼。",mem:"You see it perfectly — but you choose to act blind.",mem_cn:"明明看见了 —— 你选择装瞎。"},
+41:{syn:["swamped","slammed","up to my ears","stretched thin"],ex2:"I can't take on more work — I already have a lot on my plate.",ex2_cn:"我不能再接活了 —— 手上事情已经一堆。",mem:"Imagine a dinner plate piled so high food is sliding off — too much to handle.",mem_cn:"盘子里食物堆到要溢出来 —— 已经吃不消。"},
+42:{syn:["get organized","line things up","have your act together","get your house in order"],ex2:"Get your ducks in a row before the investor meeting on Friday.",ex2_cn:"周五投资人会议前把所有事情都准备就绪。",mem:"Picture baby ducks waddling in a perfectly straight line — orderly readiness.",mem_cn:"想象小鸭子排成一条整齐的队伍 —— 井然有序。"},
+43:{syn:["just the surface","scratch the surface","the visible part","what you can see"],ex2:"The complaints we hear are just the tip of the iceberg.",ex2_cn:"我们听到的投诉只是冰山一角。",mem:"Only 10% of an iceberg shows above water — the real mass is hidden below.",mem_cn:"冰山只有 10% 露出水面 —— 真正的体量藏在水下。"},
+44:{syn:["chicken out","get nervous","second-guess yourself","back out"],ex2:"He was ready to propose, but got cold feet at the restaurant.",ex2_cn:"他本来打算求婚，到了餐厅却临阵退缩了。",mem:"Fear literally drains blood from your extremities — your feet go cold.",mem_cn:"紧张时血液离开四肢 —— 脚真的会发凉。"},
+45:{syn:["own up to it","take the heat","face the consequences","accept the fallout"],ex2:"You broke the rules — now it's time to face the music.",ex2_cn:"你违规了 —— 现在该承担后果了。",mem:"Soldiers being dishonorably discharged were marched out to drum music.",mem_cn:"被开除的士兵走出军营时鼓乐齐鸣 —— 公开承担。"},
+46:{syn:["pull an all-nighter","work into the wee hours","grind late","work overnight"],ex2:"I burned the midnight oil to finish the deck before the morning meeting.",ex2_cn:"为了在早会前赶完 PPT，我熬到深夜。",mem:"Before electric lights, late workers literally burned oil lamps deep into the night.",mem_cn:"电灯出现前，加班的人真要点油灯熬夜。"},
+47:{syn:["give up","throw in the hat","call it quits","tap out"],ex2:"After the third rejection, I almost threw in the towel.",ex2_cn:"被拒了第三次，我差点放弃。",mem:"In boxing, a corner throws a towel into the ring to stop the fight — surrender.",mem_cn:"拳击赛上教练把毛巾扔进场 = 认输。"},
+48:{syn:["go above and beyond","do more than expected","over-deliver","step it up"],ex2:"What sets her apart is that she always goes the extra mile for clients.",ex2_cn:"她和别人不同的地方在于：永远多为客户走一里路。",mem:"Roman law required carrying a soldier's gear for one mile; doing two = generosity.",mem_cn:"罗马法律规定为士兵扛行李一英里，再走一英里 = 真心相助。"},
+49:{syn:["in a heartbeat","without hesitation","at a moment's notice","on the spot"],ex2:"He'll travel for work at the drop of a hat — bag always packed.",ex2_cn:"他随叫随到出差 —— 行李箱永远准备着。",mem:"Old duels and races started the moment a hat dropped — instant action.",mem_cn:"旧时决斗或赛跑以掉帽为号 —— 立刻开始。"},
+50:{syn:["miss the mark","be off-base","look in the wrong place","be way off"],ex2:"If you think I leaked the email, you're barking up the wrong tree.",ex2_cn:"你要是以为邮件是我泄的，那你找错人了。",mem:"A hunting dog barks at the wrong tree — the prey escaped long ago.",mem_cn:"猎犬对着空树狂叫 —— 猎物早跑了。"},
+51:{syn:["in the know","plugged in","up to speed","kept posted"],ex2:"Make sure to keep me in the loop on any client changes.",ex2_cn:"客户那边有任何变动，记得让我知道。",mem:"Imagine being inside an information loop — messages keep circling back to you.",mem_cn:"想象你在一个信息环里 —— 消息一直传回你这。"},
+52:{syn:["follow the trend","hop on the trend","go with the flow","join the craze"],ex2:"Every brand jumped on the bandwagon when AI became hot in 2024.",ex2_cn:"AI 一火，每个品牌都赶上了这趟潮流。",mem:"Politicians used to ride decorated bandwagons through towns — supporters jumped on.",mem_cn:"政客曾乘装饰花车巡街 —— 支持者纷纷跳上车。"},
+53:{syn:["tied","dead even","too close to call","head-to-head"],ex2:"With one lap to go, the two cars were neck and neck.",ex2_cn:"还剩一圈，两辆赛车不分上下。",mem:"Two horses racing so close their necks line up perfectly side by side.",mem_cn:"两匹赛马并肩冲刺，脖子并齐。"},
+54:{syn:["shift the blame","push it off","palm it off","make it someone else's problem"],ex2:"Stop passing the buck — own your mistake.",ex2_cn:"别再推卸责任了 —— 自己的错自己担。",mem:"In old poker games, a 'buck' (knife handle) marked the dealer; passing it = passing the duty.",mem_cn:"老式扑克里「buck」（鹿角刀柄）放在谁面前谁就发牌 —— 传出去 = 推责。"},
+55:{syn:["dive right in","get going fast","start strong","go full throttle from day one"],ex2:"New hires are expected to hit the ground running — no slow ramp-up.",ex2_cn:"新员工要一进门就高效投入 —— 没有慢慢上手的时间。",mem:"Paratroopers must run the moment they land — no time to pause.",mem_cn:"伞兵一落地必须马上跑动 —— 没时间停顿。"},
+56:{syn:["no catch","no obligations","completely free","no fine print"],ex2:"It's a free trial, no strings attached — cancel anytime.",ex2_cn:"免费试用，没有附加条件 —— 随时可取消。",mem:"Picture a puppet — strings = hidden controls. None means you're free.",mem_cn:"想象木偶 —— 绳子代表暗中操控；没绳子 = 自由。"},
+57:{syn:["thrilled","ecstatic","on cloud nine","over the moon"],ex2:"She was over the moon when the offer letter arrived.",ex2_cn:"录取信一到，她乐得飞上天。",mem:"From an old nursery rhyme: the cow jumped over the moon — pure joy.",mem_cn:"出自童谣：奶牛跳过月亮 —— 极度欢乐。"},
+58:{syn:["get to the point","skip the preamble","get down to it","spit it out"],ex2:"I don't have time for small talk — cut to the chase.",ex2_cn:"我没时间寒暄 —— 直接说重点。",mem:"In old silent films, audiences wanted the boring buildup cut so they could see the chase scene.",mem_cn:"默片时代观众嫌前戏无聊 —— 直接看追逐戏。"},
+59:{syn:["have a close call","narrowly escape","dodge disaster","luck out"],ex2:"Skipping that flight — which got delayed 8 hours — I really dodged a bullet.",ex2_cn:"我没坐那趟延误 8 小时的航班 —— 算是躲过一劫。",mem:"In a gunfight, sidestepping the bullet at the last second — pure luck.",mem_cn:"枪战中千钧一发侧身躲弹 —— 全凭运气。"},
+60:{syn:["bet everything on one thing","go all-in on one option","not diversify"],ex2:"Don't put all your eggs in one basket — apply to several schools.",ex2_cn:"别把鸡蛋都放一个篮里 —— 多申请几所学校。",mem:"Drop one basket of eggs and you lose them all — diversification = safety.",mem_cn:"一篮子鸡蛋掉地上全碎 —— 分散 = 安全。"},
+61:{syn:["fly off the shelves","sell out fast","be a hot seller","move fast"],ex2:"The new iPhone sold like hotcakes during the holiday weekend.",ex2_cn:"新 iPhone 在假日周末卖得跟热饼一样飞快。",mem:"Hot pancakes at a fair — gone before they cool down.",mem_cn:"集市上的热煎饼 —— 还没凉就被抢光。"},
+62:{syn:["scrape by","get by","stretch the paycheck","make it work"],ex2:"With rent so high, many young workers can barely make ends meet.",ex2_cn:"租金这么贵，很多年轻人连基本开销都难以维持。",mem:"Picture trying to make two ends of a too-short rope meet around a bundle.",mem_cn:"想象把过短的绳子两端拉到一起 —— 勉强够用。"},
+63:{syn:["agree","be on the same page","share a view","see things the same way"],ex2:"My boss and I don't always see eye to eye on strategy.",ex2_cn:"在策略上我和老板不总是看法一致。",mem:"Looking at someone at exactly the same level — equal viewpoints.",mem_cn:"和对方同高目光相对 —— 看法平等一致。"},
+64:{syn:["just in time","at the last second","in the nick","by a hair"],ex2:"He submitted the application in the nick of time — one minute before deadline.",ex2_cn:"他在最后一刻递交了申请 —— 距截止只剩一分钟。",mem:"A 'nick' was a tiny notch on a tally stick — being right at the line.",mem_cn:"「nick」原意是计数木上的小刻痕 —— 刚好踩到线。"},
+65:{syn:["go down","crash and burn","fail","fizzle out"],ex2:"The startup bit the dust after the funding round fell through.",ex2_cn:"那家初创公司融资告吹后就倒闭了。",mem:"From Westerns: a defeated cowboy falls face-down into the dirt.",mem_cn:"西部片里被打败的牛仔脸朝下倒在尘土里。"},
+66:{syn:["reveal who you really are","drop the mask","show what you're made of","let the real you out"],ex2:"Under stress, people show their true colors.",ex2_cn:"压力之下，人才会露出本性。",mem:"Pirate ships flew false flags then raised their real (true) colors before attacking.",mem_cn:"海盗船先挂假旗，进攻时才升起真正的旗帜 —— 露出真面目。"},
+67:{syn:["face it head-on","tackle it directly","grab it by the horns","confront it"],ex2:"Stop avoiding the conversation — take the bull by the horns.",ex2_cn:"别再回避这次谈话了 —— 直面它。",mem:"Bullfighters grab a charging bull by its horns — pure courage.",mem_cn:"斗牛士抓住冲来的公牛角 —— 直面危险。"},
+69:{syn:["over and done","ancient history","let bygones be bygones","in the past"],ex2:"That argument was years ago — it's water under the bridge.",ex2_cn:"那场争执已经过去多年了 —— 都是过眼云烟。",mem:"Water flowing beneath a bridge can never come back upstream.",mem_cn:"桥下流水一去不返。"},
+70:{syn:["never gonna happen","not in a million years","don't hold your breath","fat chance"],ex2:"Him admitting he's wrong? When pigs fly.",ex2_cn:"他承认自己错？太阳从西边出来吧。",mem:"Pigs can't fly — pure impossibility, said sarcastically.",mem_cn:"猪不会飞 —— 纯属不可能，带讽刺。"},
+71:{syn:["vent","let off steam","blow off some steam","cool off"],ex2:"He goes for a run after work just to blow off steam.",ex2_cn:"他下班后跑步，就为了发泄一下压力。",mem:"Like a pressure cooker releasing steam through a valve — prevents explosion.",mem_cn:"像高压锅打开气阀放气 —— 防止爆炸。"},
+72:{syn:["come out flat","wash","cover costs","balance out"],ex2:"After expenses, the event just broke even — no profit, no loss.",ex2_cn:"扣除开销，活动正好打平 —— 不赚不亏。",mem:"A scale balanced perfectly even — neither side tips.",mem_cn:"天平完全平衡 —— 哪边都不偏。"},
+73:{syn:["lose momentum","peter out","fizzle","lose steam"],ex2:"The campaign ran out of steam after the holidays.",ex2_cn:"假期一过，整个推广就没劲儿了。",mem:"A steam train without fuel slows and stops — same with energy.",mem_cn:"蒸汽火车没了燃料就停下来 —— 能量一样。"},
+74:{syn:["start drama","cause trouble","rock the boat","make waves"],ex2:"He loves to stir the pot at family dinners.",ex2_cn:"他就爱在家庭聚餐上挑事。",mem:"Stirring a calm pot makes everything inside swirl and bubble — chaos.",mem_cn:"把锅里的东西搅一下 —— 全部翻腾起来。"},
+75:{syn:["here they are","there they are now","what timing","perfect timing"],ex2:"Speak of the devil — Sarah just walked in.",ex2_cn:"说曹操曹操到 —— Sarah 刚走进来。",mem:"Old superstition: speaking the devil's name would summon him.",mem_cn:"古老迷信：念出魔鬼的名字就会把他召来。"},
+76:{syn:["ride it out","tough it out","get through it","outlast the difficulty"],ex2:"The company weathered the storm of the 2008 recession.",ex2_cn:"那家公司挺过了 2008 年的经济风暴。",mem:"A ship that survives a storm at sea — endurance under pressure.",mem_cn:"船只挺过海上风暴 —— 在压力下坚守。"},
+77:{syn:["don't stir it up","leave it alone","drop it","let it go"],ex2:"Don't bring up the old feud — let sleeping dogs lie.",ex2_cn:"别提那段旧怨 —— 翻旧账没好处。",mem:"Wake a sleeping dog and it might bite — let old issues stay quiet.",mem_cn:"叫醒沉睡的狗它可能咬人 —— 旧事最好别翻。"},
+78:{syn:["cut someone slack","trust them on it","assume the best","take their word for it"],ex2:"He's late — let's give him the benefit of the doubt; traffic's awful.",ex2_cn:"他迟到了 —— 先信他这次吧，今天路况确实糟糕。",mem:"In court, if doubt exists, the accused gets the benefit — assume innocence.",mem_cn:"法庭上有疑点时偏向被告 —— 先假设无辜。"},
+79:{syn:["beat all","top it all","be the worst (or best)","take the prize"],ex2:"Of all his excuses, this one really takes the cake.",ex2_cn:"他这么多借口里，这个最离谱。",mem:"Old contests rewarded the winner with a literal cake — taking it = being top.",mem_cn:"古时比赛奖品就是一块蛋糕 —— 拿到 = 第一。"},
+80:{syn:["miss the mark","not get it","be off-base","not see what matters"],ex2:"You're missing the point — it's not about the money, it's about respect.",ex2_cn:"你没抓到重点 —— 不是钱的事，是尊重的事。",mem:"Like an arrow flying past the target — you didn't see the actual goal.",mem_cn:"箭飞过靶子 —— 没看见真正的目标。"},
+81:{syn:["stay positive","hang in there","keep your head up","don't give up"],ex2:"Keep your chin up — better days are coming.",ex2_cn:"打起精神 —— 好日子在后头。",mem:"Hanging your head shows defeat; keeping chin up = stay confident.",mem_cn:"低头表示沮丧；抬头 = 保持自信。"},
+82:{syn:["cost an arm and a leg","be sky-high","break the bank","be pricey"],ex2:"Their wedding venue cost a fortune.",ex2_cn:"他们的婚礼场地贵得吓人。",mem:"Imagine handing over a 'fortune' — a literal pile of money.",mem_cn:"想象交出一笔「家产」—— 一大堆钱。"},
+83:{syn:["have leverage","have the edge","be in control","hold the cards"],ex2:"With multiple offers in hand, she had the upper hand in salary talks.",ex2_cn:"手上握着多份 offer，她在薪资谈判中占了上风。",mem:"In arm-wrestling, the higher hand wins — literal advantage.",mem_cn:"掰手腕中位置较高的手获胜 —— 字面上的优势。"},
+84:{syn:["improvise","wing it","handle it on the fly","react quickly"],ex2:"Reporters have to think on their feet during live interviews.",ex2_cn:"记者在直播采访中必须随机应变。",mem:"You're not seated and prepared — you're standing, ready to react.",mem_cn:"不是坐着备好稿子 —— 是站着随时反应。"},
+85:{syn:["bug someone","get on someone's nerves","drive crazy","grind one's gears"],ex2:"His constant whistling drives me up the wall.",ex2_cn:"他不停吹口哨快把我逼疯了。",mem:"Imagine being so annoyed you'd climb the wall to escape.",mem_cn:"想象烦到要爬上墙逃走。"},
+86:{syn:["start over","rethink the plan","scrap it and restart","do a redo"],ex2:"The prototype failed — it's back to the drawing board.",ex2_cn:"原型失败了 —— 得回设计板重来。",mem:"Architects sketch on a drawing board; bad design = erase and start fresh.",mem_cn:"建筑师在画板上画图 —— 设计不行就擦掉重来。"},
+87:{syn:["hush-hush","under the radar","kept quiet","top secret"],ex2:"The acquisition is being kept under wraps until next quarter.",ex2_cn:"这次收购在下一季度前要保密。",mem:"A package wrapped tightly so nobody can see what's inside.",mem_cn:"包装严实的包裹 —— 看不见里面。"},
+88:{syn:["nothing comes easy","you reap what you sow","work pays off","effort = reward"],ex2:"After-hours practice is brutal, but no pain, no gain.",ex2_cn:"加练很苦，但不付出哪有收获。",mem:"Gym slogan: muscles only grow when you push through discomfort.",mem_cn:"健身房口号：肌肉只在不适中生长。"},
+89:{syn:["push the limits","raise the bar","break new ground","go further"],ex2:"Apple keeps pushing the envelope on phone design.",ex2_cn:"苹果在手机设计上不断突破极限。",mem:"From aviation: pilots tested the 'flight envelope' — limits of safe performance.",mem_cn:"源自飞行：飞行员测试「飞行包线」—— 安全性能的极限。"},
+90:{syn:["have a trump card","have something up your sleeve","have a secret weapon"],ex2:"Don't underestimate her — she usually has an ace up her sleeve.",ex2_cn:"别小看她 —— 她通常都藏着一手。",mem:"Card cheats hid an ace literally up their shirt sleeve.",mem_cn:"出千的赌徒把 A 牌藏在袖子里 —— 暗藏王牌。"},
+91:{syn:["get your head around","make sense of","grasp","figure it out"],ex2:"I still can't wrap my head around how blockchain actually works.",ex2_cn:"我至今没真正搞懂区块链是怎么运作的。",mem:"Picture mentally wrapping yourself around an idea — fully containing it.",mem_cn:"想象用脑子把一个概念包起来 —— 完全装进去。"},
+92:{syn:["fed up","at the breaking point","at wit's end","had it"],ex2:"With three sick kids at home, she's at the end of her rope.",ex2_cn:"家里三个孩子都病了，她已经心力交瘁。",mem:"A climber clinging to the very last bit of rope — no slack left.",mem_cn:"攀爬者抓着绳子最后一段 —— 已无余地。"},
+93:{syn:["seize the moment","jump on it","act now","make hay while the sun shines"],ex2:"Funding is open for two more weeks — strike while the iron is hot.",ex2_cn:"申请只剩两周 —— 抓住时机赶紧动手。",mem:"Blacksmiths shape iron only while it's red-hot — it cools fast.",mem_cn:"铁匠只能趁铁烧红时锻打 —— 冷了就晚了。"},
+94:{syn:["use connections","work the system","leverage influence","tap your network"],ex2:"He pulled some strings to get her an interview.",ex2_cn:"他动用了一些关系帮她拿到了面试。",mem:"A puppeteer pulls strings to make things happen behind the scenes.",mem_cn:"提线木偶师在幕后拉绳 —— 暗中操作。"},
+95:{syn:["get what you deserve","reap what you sow","get yours back","payback"],ex2:"After teasing his brother for years, he finally got a taste of his own medicine.",ex2_cn:"嘲笑弟弟多年，他终于尝到了自己开的药。",mem:"A fake doctor in old fables was forced to drink his own dubious cure.",mem_cn:"古寓言里假医生被逼喝下自己开的药 —— 自食其果。"},
+97:{syn:["get hitched","get married","walk down the aisle","say I do"],ex2:"They're tying the knot in Hawaii this June.",ex2_cn:"他们今年六月在夏威夷办婚礼。",mem:"Old wedding traditions literally tied the bride and groom's hands together with a cord.",mem_cn:"古婚礼用绳子把新人手系在一起 —— 真打结。"},
+98:{syn:["disappear without a trace","poof","be gone in an instant","drop off the radar"],ex2:"My old college friends seem to have vanished into thin air.",ex2_cn:"我大学的老朋友们好像都消失得无影无踪。",mem:"Like fog that just dissolves into invisible air — no trace at all.",mem_cn:"像雾散入空气 —— 一点痕迹都没有。"},
+99:{syn:["can't have it both ways","you have to choose","one or the other","it's a tradeoff"],ex2:"You want a high salary AND no overtime? You can't have your cake and eat it too.",ex2_cn:"既要高薪又不要加班？鱼与熊掌不可兼得。",mem:"If you eat the cake, it's gone — you can't still have it sitting on the plate.",mem_cn:"蛋糕吃了就没了 —— 不能既保留又吃掉。"},
+100:{syn:["nail it","make it happen","get it done","crush it"],ex2:"That presentation was tough, but you really pulled it off.",ex2_cn:"那场演讲很难，但你真的搞定了。",mem:"Imagine successfully snatching a difficult prize off a high shelf — clean win.",mem_cn:"想象从高架上一把抓下难得的奖品 —— 干净利落。"}
+};
+
+// ═══════════════════════════════════════
+// LEARN EXTRAS · CSS + 注入到卡片
+// ═══════════════════════════════════════
+(function(){
+  var css = ''
+    + '.vc-extras{margin:10px 0 14px;display:flex;flex-direction:column;gap:10px}'
+    + '.vc-syn{background:#eef7ff;border-left:4px solid #2563eb;border-radius:7px;padding:10px 14px;font-size:15px;line-height:1.6;color:#1e3a5f}'
+    + '.vc-syn .vc-lbl{display:block;font-weight:700;color:#2563eb;font-size:13px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}'
+    + '.vc-syn .vc-syn-tag{display:inline-block;background:#fff;border:1px solid #cfe0f5;color:#1d4d8f;border-radius:999px;padding:4px 12px;margin:3px 5px 3px 0;font-size:14px;font-weight:600;white-space:nowrap}'
+    + '.vc-ex2{background:#fff;border-left:4px solid #d97757;border-radius:7px;padding:10px 14px;font-size:15.5px;line-height:1.6;color:#3a2a1e;font-style:italic}'
+    + '.vc-ex2 .vc-lbl{display:block;font-weight:700;color:#d97757;font-size:13px;letter-spacing:.5px;text-transform:uppercase;font-style:normal;margin-bottom:6px}'
+    + '.vc-ex2 .vc-ex2-cn{display:block;color:#6a5547;font-style:normal;font-size:14px;margin-top:6px;line-height:1.55}'
+    + '.vc-memory{background:#fdf6e3;border-left:4px solid #f59e0b;border-radius:7px;padding:10px 14px;font-size:15px;line-height:1.6;color:#5a4528}'
+    + '.vc-memory .vc-lbl{display:block;font-weight:700;color:#b45309;font-size:13px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}'
+    + '.vc-memory .vc-mem-cn{display:block;color:#7a6438;font-size:14px;margin-top:6px;line-height:1.55}'
+    + '[data-theme="dark"] .vc-syn{background:#172033;color:#cfe0f5;border-left-color:#60a5fa}'
+    + '[data-theme="dark"] .vc-syn .vc-syn-tag{background:#0f1a2b;border-color:#2a4066;color:#cfe0f5}'
+    + '[data-theme="dark"] .vc-ex2{background:#241a13;color:#f0d6c4;border-left-color:#ef8e6a}'
+    + '[data-theme="dark"] .vc-ex2 .vc-ex2-cn{color:#c7a48b}'
+    + '[data-theme="dark"] .vc-memory{background:#2a2110;color:#f6e4b5;border-left-color:#fbbf24}'
+    + '[data-theme="dark"] .vc-memory .vc-mem-cn{color:#c9b484}';
+  var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+
+  function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function extrasHTML(x){
+    if (!x) return '';
+    var html = '<div class="vc-extras">';
+    if (x.syn && x.syn.length){
+      html += '<div class="vc-syn"><span class="vc-lbl">Synonyms · 同义</span>';
+      for (var i=0;i<x.syn.length;i++){ html += '<span class="vc-syn-tag">' + esc(x.syn[i]) + '</span>'; }
+      html += '</div>';
+    }
+    if (x.ex2){
+      html += '<div class="vc-ex2"><span class="vc-lbl">Example 2 · 例句二</span>&ldquo;' + esc(x.ex2) + '&rdquo;';
+      if (x.ex2_cn) html += '<span class="vc-ex2-cn">' + esc(x.ex2_cn) + '</span>';
+      html += '</div>';
+    }
+    if (x.mem){
+      html += '<div class="vc-memory"><span class="vc-lbl">💡 Memory · 记忆法</span>' + esc(x.mem);
+      if (x.mem_cn) html += '<span class="vc-mem-cn">' + esc(x.mem_cn) + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function _injectType(bodyPrefix, dataObj){
+    if (!dataObj) return;
+    try {
+      document.querySelectorAll('[id^="' + bodyPrefix + '"]').forEach(function(target){
+        var idPart = target.id.slice(bodyPrefix.length);
+        if (!idPart) return;
+        if (target.querySelector('.vc-extras')) return;
+        var x = dataObj[idPart] || dataObj[parseInt(idPart,10)];
+        if (!x) return;
+        var wrap = document.createElement('div');
+        wrap.innerHTML = extrasHTML(x);
+        var node = wrap.firstChild;
+        if (!node) return;
+        // Insert BEFORE the action buttons row (speak/youglish) or mark-pass, so extras
+        // appear right under the example and above the buttons.
+        var anchor = target.querySelector('.mark-pass-btn');
+        // Prefer the speak-button row if present (above mark-pass)
+        var btnRow = null;
+        var btns = target.querySelectorAll('button.spk-ex-btn, .yg-btn');
+        if (btns.length){
+          // walk up to the containing flex row
+          var b = btns[0];
+          while (b && b.parentNode && b.parentNode !== target) b = b.parentNode;
+          if (b && b.parentNode === target) btnRow = b;
+        }
+        var insertBefore = btnRow || anchor || null;
+        if (insertBefore) target.insertBefore(node, insertBefore);
+        else target.appendChild(node);
+      });
+    } catch(e){}
+  }
+  function inject(){
+    _injectType('vb',    window.LEARN_EXTRAS);   // idioms (renderLearn)
+    _injectType('vbbay', window.BAY_EXTRAS);     // bay area phrases
+    _injectType('vbmo',  window.MONTHLY_EXTRAS); // monthly trending
+    _injectType('vbcn',  window.CNEN_EXTRAS);    // CN→EN
+  }
+
+  function wrap(name){
+    var orig = window[name];
+    if (typeof orig !== 'function') return;
+    window[name] = function(){
+      var r = orig.apply(this, arguments);
+      setTimeout(inject, 0);
+      return r;
+    };
+  }
+  wrap('renderLearn');
+  wrap('renderBayArea');
+  wrap('renderMonthly');
+  wrap('renderCnEn');
+  wrap('togBay');
+  wrap('togMo');
+  wrap('togCn');
+  // Initial pass in case list already rendered
+  setTimeout(inject, 300);
+})();
+
+// ═══════════════════════════════════════
+// LEARNING STATS · 每日/每周学习数据追踪
+// ═══════════════════════════════════════
+(function(){
+  function _lsG(k,d){ try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;} }
+  function _lsS(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+  function _pad(n){ return (n<10?'0':'')+n; }
+  function _ymd(d){ d=d||new Date(); return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate()); }
+  // Monday as week start; return Date for Monday of given date's week
+  function _weekStart(d){
+    d = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    var dow = d.getDay(); var diff = (dow + 6) % 7; // Mon=0..Sun=6
+    d.setDate(d.getDate() - diff); return d;
+  }
+  function _weekEnd(ws){ var e = new Date(ws); e.setDate(e.getDate()+6); return e; }
+  function _weekLabel(ws){
+    var e = _weekEnd(ws);
+    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return m[ws.getMonth()]+' '+ws.getDate()+' - '+m[e.getMonth()]+' '+e.getDate()+', '+e.getFullYear();
+  }
+  function _daysInWeek(ws){
+    var out=[]; for(var i=0;i<7;i++){ var d=new Date(ws); d.setDate(d.getDate()+i); out.push(_ymd(d)); } return out;
+  }
+  // today's stats accessor
+  function _today(){ return _ymd(new Date()); }
+  function _getDayStats(){ return _lsG('day_stats_v1', {}); }
+  function _bumpDay(field, amount){
+    var all = _getDayStats();
+    var k = _today();
+    if (!all[k]) all[k] = { q:0, qc:0, m:0, t:0, p:0 };
+    all[k][field] = (all[k][field] || 0) + (amount || 1);
+    _lsS('day_stats_v1', all);
+    // mark today as active for streak (any meaningful action)
+    if (field !== 't' || (all[k].t || 0) >= 30) {
+      var sd = _lsG('streak_days', []);
+      if (sd.indexOf(k) < 0) { sd.push(k); _lsS('streak_days', sd); }
+    }
+    // always re-render so user sees updates immediately
+    try { _lsRender(); } catch(e){}
+  }
+  window._lsBumpDay = _bumpDay;
+
+  // ── Session time tracker ────────────────
+  var _sessionStart = Date.now();
+  var _lastPing = Date.now();
+  var _visible = !document.hidden;
+  document.addEventListener('visibilitychange', function(){
+    _visible = !document.hidden;
+    _lastPing = Date.now();
+  });
+  ['click','keydown','scroll','mousemove','touchstart'].forEach(function(ev){
+    document.addEventListener(ev, function(){ _lastPing = Date.now(); }, {passive:true});
+  });
+  setInterval(function(){
+    if (!_visible) return;
+    if (Date.now() - _lastPing > 120000) return; // idle >2min, don't count
+    _bumpDay('t', 10); // add 10s
+  }, 10000);
+
+  // ── Hooks into existing functions ───────
+  // Wrap cnqPickMCQ / cnqCheckType / cnqPickMode (quiz answered)
+  function _wrapQuiz(){
+    ['cnqPickMCQ','cnqCheckType'].forEach(function(fn){
+      if (typeof window[fn] !== 'function' || window[fn]._lsWrapped) return;
+      var orig = window[fn];
+      window[fn] = function(){
+        var prevAnswered = (typeof cnqState!=='undefined' && cnqState) ? cnqState.answered : true;
+        var r = orig.apply(this, arguments);
+        // If answered state changed from false→true, count it
+        if (!prevAnswered && typeof cnqState!=='undefined' && cnqState && cnqState.answered) {
+          _bumpDay('q', 1);
+          // also count correct
+          var last = cnqState.answers && cnqState.answers[cnqState.answers.length-1];
+          if (last && last.correct) _bumpDay('qc', 1);
+        }
+        return r;
+      };
+      window[fn]._lsWrapped = true;
+    });
+    // Bay Area quiz: _bqPick / _bqAnswer
+    ['_bqPickMCQ','_bqPick','_bqAnswer','_bqSubmit'].forEach(function(fn){
+      if (typeof window[fn] !== 'function' || window[fn]._lsWrapped) return;
+      var orig = window[fn];
+      window[fn] = function(){
+        var r = orig.apply(this, arguments);
+        _bumpDay('q', 1);
+        return r;
+      };
+      window[fn]._lsWrapped = true;
+    });
+  }
+  // Wrap setProgress → count mastered transitions
+  function _wrapProgress(){
+    if (typeof window.setProgress !== 'function' || window.setProgress._lsWrapped) return;
+    var orig = window.setProgress;
+    window.setProgress = function(key, status){
+      var prev = (typeof progressData!=='undefined' && progressData[key]) ? progressData[key] : 'pending';
+      var r = orig.apply(this, arguments);
+      if (status === 'pass' && prev !== 'pass') _bumpDay('m', 1);
+      return r;
+    };
+    window.setProgress._lsWrapped = true;
+  }
+  // Wrap point-awarding: watch lpts changes via periodic diff (simpler)
+  var _lastLpts = parseInt(localStorage.getItem('lpts')||'0',10);
+  setInterval(function(){
+    var cur = parseInt(localStorage.getItem('lpts')||'0',10);
+    if (cur > _lastLpts) { _bumpDay('p', cur - _lastLpts); _lastLpts = cur; }
+    else if (cur < _lastLpts) { _lastLpts = cur; }
+  }, 2000);
+
+  // ── Week navigation state ───────────────
+  window._lsSelectedWeek = _weekStart(new Date());
+  function _isThisWeekSelected(){
+    var cur = _weekStart(new Date());
+    return cur.getTime() === window._lsSelectedWeek.getTime();
+  }
+  window.lsPrevWeek = function(){
+    var ws = new Date(window._lsSelectedWeek); ws.setDate(ws.getDate()-7);
+    window._lsSelectedWeek = ws; _lsRender();
+  };
+  window.lsNextWeek = function(){
+    var cur = _weekStart(new Date());
+    if (window._lsSelectedWeek.getTime() >= cur.getTime()) return;
+    var ws = new Date(window._lsSelectedWeek); ws.setDate(ws.getDate()+7);
+    window._lsSelectedWeek = ws; _lsRender();
+  };
+
+  // ── Level calculation ───────────────────
+  var LEVELS = [
+    {min:0,     name:'Rookie',  ico:'🌱'},
+    {min:100,   name:'Novice',  ico:'📘'},
+    {min:300,   name:'Learner', ico:'🎒'},
+    {min:700,   name:'Fluent',  ico:'💬'},
+    {min:1500,  name:'Expert',  ico:'⭐'},
+    {min:3000,  name:'Master',  ico:'🏆'},
+    {min:6000,  name:'Prodigy', ico:'💎'},
+    {min:12000, name:'Legend',  ico:'👑'}
+  ];
+  function _levelFor(p){
+    var cur = LEVELS[0], nxt = null;
+    for (var i=0;i<LEVELS.length;i++){
+      if (p >= LEVELS[i].min) { cur = LEVELS[i]; nxt = LEVELS[i+1] || null; }
+    }
+    return {cur:cur, nxt:nxt, toNext: nxt ? (nxt.min - p) : 0};
+  }
+
+  // ── Streak calculation ──────────────────
+  function _streak(){
+    var days = _lsG('streak_days', []);
+    if (!days.length) return 0;
+    var s = 0; var d = new Date();
+    for(;;) {
+      var k = _ymd(d);
+      if (days.indexOf(k) >= 0) { s++; d.setDate(d.getDate()-1); }
+      else break;
+    }
+    // tolerate today being empty if yesterday present (show yesterday's streak)
+    if (s === 0) {
+      d = new Date(); d.setDate(d.getDate()-1);
+      for(;;){ var k2=_ymd(d); if (days.indexOf(k2)>=0){ s++; d.setDate(d.getDate()-1);} else break; }
+    }
+    return s;
+  }
+
+  // ── Rendering ───────────────────────────
+  function _fmtTime(sec){
+    var h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60);
+    return _pad(h)+':'+_pad(m);
+  }
+  function _masteredTotal(){
+    try {
+      if (typeof progressData === 'undefined') return 0;
+      var n = 0;
+      for (var k in progressData){ if (progressData[k]==='pass') n++; }
+      return n;
+    } catch(e){ return 0; }
+  }
+
+  window._lsRender = function(){
+    var banner = document.getElementById('ls-banner');
+    if (!banner) return;
+    var ws = window._lsSelectedWeek;
+    var days = _daysInWeek(ws);
+    var all = _getDayStats();
+    var q=0, qc=0, m=0, t=0, p=0;
+    days.forEach(function(k){
+      var d = all[k]; if (!d) return;
+      q += d.q||0; qc += d.qc||0; m += d.m||0; t += d.t||0; p += d.p||0;
+    });
+    // render values
+    var qEl = document.getElementById('ls-q'); if (qEl) qEl.textContent = qc + '/' + q;
+    // For "Words mastered" — when viewing current week, show TOTAL mastered (more meaningful);
+    // for past weeks, show the weekly delta only.
+    var mEl = document.getElementById('ls-m');
+    if (mEl) {
+      if (_isThisWeekSelected()) {
+        var total = _masteredTotal();
+        mEl.textContent = total + (m ? (' (+'+m+')') : '');
+      } else {
+        mEl.textContent = m;
+      }
+    }
+    var tEl = document.getElementById('ls-t'); if (tEl) tEl.textContent = _fmtTime(t);
+    var pEl = document.getElementById('ls-p'); if (pEl) pEl.textContent = p;
+    var sEl = document.getElementById('ls-s'); if (sEl) sEl.textContent = '🔥 ' + _streak();
+    // level
+    var totalPts = parseInt(localStorage.getItem('lpts')||'0', 10);
+    var lv = _levelFor(totalPts);
+    var iEl = document.getElementById('ls-lvl-ico');
+    var nEl = document.getElementById('ls-lvl-name');
+    var xEl = document.getElementById('ls-lvl-next');
+    if (iEl) iEl.textContent = lv.cur.ico;
+    if (nEl) nEl.textContent = lv.cur.name;
+    if (xEl) xEl.textContent = lv.nxt ? ('还需 ' + lv.toNext.toLocaleString() + ' 分升到 ' + lv.nxt.name) : '已达最高段位 👑';
+    // week label
+    var rEl = document.getElementById('ls-week-range');
+    if (rEl) rEl.textContent = _isThisWeekSelected() ? ('本周 · ' + _weekLabel(ws)) : _weekLabel(ws);
+    // next button disabled if already at current week
+    var nxBtn = document.getElementById('ls-next');
+    if (nxBtn) nxBtn.disabled = _isThisWeekSelected();
+  };
+
+  // Initialize
+  function _init(){
+    _wrapQuiz(); _wrapProgress();
+    // Retry wraps repeatedly to catch lazy-defined functions
+    [300, 800, 1500, 3000, 6000].forEach(function(ms){
+      setTimeout(function(){ _wrapQuiz(); _wrapProgress(); }, ms);
+    });
+    _lsRender();
+    // Re-render every 5s for snappy updates
+    setInterval(_lsRender, 5000);
+    // Hook home navigation: re-render whenever user returns to home
+    setTimeout(function(){
+      if (typeof window.showHome === 'function' && !window.showHome._lsWrapped) {
+        var orig = window.showHome;
+        window.showHome = function(){ var r = orig.apply(this, arguments); try{_lsRender();}catch(e){} return r; };
+        window.showHome._lsWrapped = true;
+      }
+      if (typeof window.ddGo === 'function' && !window.ddGo._lsWrapped) {
+        var orig2 = window.ddGo;
+        window.ddGo = function(p){ var r = orig2.apply(this, arguments); if (p === 'home') { try{_lsRender();}catch(e){} } return r; };
+        window.ddGo._lsWrapped = true;
+      }
+    }, 800);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _init);
+  } else {
+    _init();
+  }
+})();
+
+// ═══════════════════════════════════════
+// LEARN-TO-EARN · 学习获得积分
+// ═══════════════════════════════════════
+(function(){
+  function _lsGet(k, d){ try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } }
+  function _lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  if (typeof window.setProgress !== 'function') return;
+  var _origSet = window.setProgress;
+  window.setProgress = function(key, status){
+    var prev = (typeof progressData !== 'undefined' && progressData[key]) ? progressData[key] : 'pending';
+    var ret = _origSet.apply(this, arguments);
+    try {
+      var awarded = _lsGet('learn_pts_awarded', {});
+      var add = 0, msg = '';
+      if (status === 'learning' && !awarded[key + ':learning']) {
+        awarded[key + ':learning'] = 1;
+        add += 1; msg = '📖 学习 +1';
+      }
+      if (status === 'pass' && !awarded[key + ':pass']) {
+        awarded[key + ':pass'] = 1;
+        add += 1; msg = msg ? '🎉 掌握 +2' : '🎉 掌握 +1';
+      }
+      if (add > 0) {
+        if (typeof localPts !== 'undefined') {
+          localPts = (localPts || 0) + add;
+          try { localStorage.setItem('lpts', String(localPts)); } catch(e){}
+        }
+        _lsSet('learn_pts_awarded', awarded);
+        try { if (typeof updateTopbar === 'function') updateTopbar(); } catch(e){}
+        try { _floatPts(add, msg); } catch(e){}
+      }
+    } catch(e){}
+    return ret;
+  };
+
+  // Floating "+N" indicator
+  function _floatPts(n, label){
+    var el = document.createElement('div');
+    el.className = 'pts-float';
+    el.textContent = '+' + n + (label ? '  ' + label : '');
+    document.body.appendChild(el);
+    setTimeout(function(){ el.classList.add('show'); }, 10);
+    setTimeout(function(){ el.classList.remove('show'); el.classList.add('out'); }, 1400);
+    setTimeout(function(){ el.remove(); }, 2000);
+  }
+  window._floatPts = _floatPts;
+
+  // Award for Bay Area card opens too — togBay uses srs not progressData; hook it
+  if (typeof window.togBay === 'function') {
+    var _origTB = window.togBay;
+    window.togBay = function(id){
+      var ret = _origTB.apply(this, arguments);
+      try {
+        var awarded = _lsGet('learn_pts_awarded', {});
+        var key = 'bay_' + id + ':opened';
+        if (!awarded[key]) {
+          awarded[key] = 1;
+          _lsSet('learn_pts_awarded', awarded);
+          if (typeof localPts !== 'undefined') {
+            localPts = (localPts || 0) + 1;
+            try { localStorage.setItem('lpts', String(localPts)); } catch(e){}
+          }
+          try { if (typeof updateTopbar === 'function') updateTopbar(); } catch(e){}
+          _floatPts(1, '📖 学习 +1');
+        }
+      } catch(e){}
+      return ret;
+    };
+  }
+})();
+</script>
+<style id="learn-pts-styles">
+  .pts-float {
+    position: fixed; top: 80px; right: 24px; z-index: 9999;
+    padding: 10px 18px; background: linear-gradient(135deg, #d97757, #c05a3c);
+    color: white; font-weight: 700; font-size: 15px; border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(217,119,87,.4);
+    opacity: 0; transform: translateY(-12px) scale(.92);
+    transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+  }
+  .pts-float.show { opacity: 1; transform: translateY(0) scale(1); }
+  .pts-float.out { opacity: 0; transform: translateY(-20px) scale(.95); transition: all .5s ease; }
+  @media (max-width: 768px) { .pts-float { top: 64px; right: 12px; padding: 8px 14px; font-size: 13px; } }
+</style>
+<script>
+// ═══════════════════════════════════════
+// THEME TOGGLE · 浅色/深色
+// ═══════════════════════════════════════
+(function(){
+  function applyTheme(t){
+    if (t === 'dark') document.documentElement.setAttribute('data-theme','dark');
+    else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('theme', t); } catch(e){}
+  }
+  window.toggleTheme = function(){
+    var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  };
+  // Init: respect saved preference, else system preference
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'dark' || saved === 'light') applyTheme(saved);
+    else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+  } catch(e){}
+})();
 </script>
 </body>
 </html>

@@ -271,11 +271,26 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .hero-section-label .lbl-num{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:#d97757;font-weight:500}
 .hero-section-label .lbl-line{flex:1;height:1px;background:var(--border)}
 .hero-section-label .lbl-txt{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--text2);font-weight:600}
-.grade-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden}
-.grade-card{background:var(--card);padding:36px 30px;cursor:pointer;transition:background .25s,transform .25s;text-align:left;position:relative;overflow:hidden;border-radius:0;border:none;display:flex;flex-direction:column;min-height:240px}
-.grade-card:hover{background:#fafaf7;transform:none}
-.grade-card::after{content:'→';position:absolute;right:24px;bottom:24px;font-size:20px;color:var(--text3);transition:transform .25s,color .25s}
-.grade-card:hover::after{transform:translateX(6px);color:#d97757}
+/* Rainbow-arc layout for home page course cards */
+.grade-grid{position:relative;height:min(78vw,640px);max-width:1100px;margin:40px auto 20px;background:transparent;border:none;border-radius:0;overflow:visible;display:block}
+.grade-grid::before{content:'';position:absolute;left:50%;bottom:-40px;width:min(96%,1040px);aspect-ratio:2/1;transform:translateX(-50%);border-radius:9999px 9999px 0 0;background:radial-gradient(ellipse at center bottom,transparent 48%,rgba(201,169,106,.08) 52%,rgba(201,169,106,.16) 58%,rgba(74,90,122,.1) 66%,transparent 78%);pointer-events:none;z-index:0}
+.grade-grid::after{content:'';position:absolute;left:50%;bottom:-40px;width:min(94%,1020px);aspect-ratio:2/1;transform:translateX(-50%);border-top:1px dashed rgba(74,90,122,.22);border-radius:9999px 9999px 0 0;pointer-events:none;z-index:0}
+.grade-card{--rainbow-angle:0deg;--rainbow-hue:#c9a96a;position:absolute;left:50%;bottom:-40px;transform-origin:50% 100%;transform:translateX(-50%) rotate(var(--rainbow-angle)) translateY(calc(-1 * min(42vw,460px))) rotate(calc(-1 * var(--rainbow-angle)));width:min(32vw,210px);background:var(--card);padding:22px 20px 18px;cursor:pointer;transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,background .25s;text-align:left;overflow:hidden;border-radius:16px;border:1px solid var(--border);box-shadow:0 10px 30px rgba(26,30,56,.08),0 2px 6px rgba(0,0,0,.04);display:flex;flex-direction:column;min-height:auto;z-index:1}
+.grade-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--rainbow-hue);border-radius:16px 16px 0 0}
+.grade-card:hover{background:#fcfaf4;transform:translateX(-50%) rotate(var(--rainbow-angle)) translateY(calc(-1 * min(42vw,460px) - 18px)) rotate(calc(-1 * var(--rainbow-angle))) scale(1.05);box-shadow:0 22px 50px rgba(26,30,56,.18),0 6px 14px rgba(201,169,106,.18);z-index:2}
+.grade-card:nth-child(1){--rainbow-angle:-70deg;--rainbow-hue:linear-gradient(90deg,#8b3a3a,#b05a5a)}
+.grade-card:nth-child(2){--rainbow-angle:-35deg;--rainbow-hue:linear-gradient(90deg,#c9772b,#e09a4a)}
+.grade-card:nth-child(3){--rainbow-angle:0deg;--rainbow-hue:linear-gradient(90deg,#c9a96a,#e6cd8a)}
+.grade-card:nth-child(4){--rainbow-angle:35deg;--rainbow-hue:linear-gradient(90deg,#5f7a4a,#8ba56b)}
+.grade-card:nth-child(5){--rainbow-angle:70deg;--rainbow-hue:linear-gradient(90deg,#2a3558,#4a5a7a)}
+.grade-card::after{content:'→';position:absolute;right:16px;bottom:14px;font-size:17px;color:var(--text3);transition:transform .25s,color .25s}
+.grade-card:hover::after{transform:translateX(5px);color:#c9a96a}
+@media(max-width:900px){
+  .grade-grid{height:auto;padding:20px 12px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+  .grade-grid::before,.grade-grid::after{display:none}
+  .grade-card{position:relative!important;left:auto;bottom:auto;transform:none!important;width:calc(50% - 14px);min-height:220px;padding:22px 18px}
+  .grade-card:hover{transform:translateY(-4px)!important}
+}
 .grade-card .gc-icon{font-size:24px;margin-bottom:18px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#f5f1ea;border-radius:6px}
 .grade-card .gc-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
 .grade-card .gc-title-cn{font-size:17px;color:#4a5a7a;margin-bottom:16px;font-weight:600;letter-spacing:.04em;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
@@ -1780,7 +1795,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <div class="dd-label">系统学习</div>
         <button class="dd-item" onclick="ddGo('course')"><span class="dd-ico">📖</span>Course 系统课程</button>
         <button class="dd-item" onclick="ddGo('bayarea')"><span class="dd-ico">💼</span>Workplace 职场英语</button>
-        <button class="dd-item" onclick="ddGo('plumber')"><span class="dd-ico">🔧</span>Plumber 水管工英语</button>
+        <button class="dd-item" onclick="ddGo('plumber')"><span class="dd-ico">🔧</span>Plumbing Engineering 水管工程英语</button>
         <button class="dd-item" onclick="ddGo('monthly')"><span class="dd-ico">🔥</span>美国月度流行热词</button>
         <button class="dd-item" onclick="ddGo('cnen')"><span class="dd-ico">🀄</span>CN→EN 汉译英</button>
         <button class="dd-item" onclick="ddGo('classics')"><span class="dd-ico">📜</span>美国最经典小说选读</button>
@@ -1910,7 +1925,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <button class="nb" onclick="show('wrongbook')">📕 Wrong Book 错题本</button>
   <button class="nb" onclick="show('lb')">🏆 Rankings 排行榜</button>
   <button class="nb" onclick="show('bayarea')">💼 Workplace 职场英语</button>
-  <button class="nb" onclick="show('plumber')">🔧 Plumber 水管工英语</button>
+  <button class="nb" onclick="show('plumber')">🔧 Plumbing Engineering 水管工程英语</button>
   <button class="nb" onclick="show('monthly')">美国月度流行热词</button>
 
   <button class="nb" onclick="show('cnen')">🀄 CN→EN 汉译英</button>
@@ -1968,35 +1983,35 @@ document.addEventListener('DOMContentLoaded', function(){
       <span class="lbl-line"></span>
     </div>
     <div class="grade-grid">
-      <div class="grade-card" onclick="ddGo('bayarea')">
+      <div class="grade-card" onclick="openRing('bayarea')">
         <div class="gc-icon">💼</div>
         <div class="gc-title">Workplace English</div>
         <div class="gc-title-cn">职场英语</div>
         <div class="gc-sub">Master meetings, emails, presentations and negotiations used at global firms — Silicon Valley, London, New York.</div>
         <span class="gc-tag">Professional</span>
       </div>
-      <div class="grade-card" onclick="ddGo('plumber')">
+      <div class="grade-card" onclick="openRing('plumber')">
         <div class="gc-icon">🔧</div>
-        <div class="gc-title">Plumber English</div>
-        <div class="gc-title-cn">美国水管工英语 · 10课</div>
-        <div class="gc-sub">Authentic blue-collar American English — passages, dialogues, IPA vocab, grammar and quizzes for service-call scenarios.</div>
+        <div class="gc-title">Plumbing Engineering English</div>
+        <div class="gc-title-cn">美国水管工程英语 · 20课 + 6综合测试</div>
+        <div class="gc-sub">Authentic American plumbing & service-call English — 20 零基础 lessons + 6 comprehensive exams with 中文谐音, IPA, dialogues, grammar and listening tests.</div>
         <span class="gc-tag">Trades</span>
       </div>
-      <div class="grade-card" onclick="ddGo('learn')">
+      <div class="grade-card" onclick="openRing('learn')">
         <div class="gc-icon">📚</div>
         <div class="gc-title">Idiomatic Fluency</div>
         <div class="gc-title-cn">地道表达 · 习语精修</div>
         <div class="gc-sub">250+ authentic expressions native speakers actually use — with origin stories, scenes, and pronunciation drills.</div>
         <span class="gc-tag">Conversational</span>
       </div>
-      <div class="grade-card" onclick="ddGo('monthly')">
+      <div class="grade-card" onclick="openRing('monthly')">
         <div class="gc-icon">🔥</div>
         <div class="gc-title">Trending Vocabulary</div>
         <div class="gc-title-cn">美国月度流行热词</div>
         <div class="gc-sub">Stay current with the words shaping American culture, tech, business and media — refreshed every month.</div>
         <span class="gc-tag">Contemporary</span>
       </div>
-      <div class="grade-card" onclick="ddGo('cnen')">
+      <div class="grade-card" onclick="openRing('cnen')">
         <div class="gc-icon">🀄</div>
         <div class="gc-title">CN → EN Translation</div>
         <div class="gc-title-cn">汉译英 · 思维训练</div>
@@ -36412,7 +36427,7 @@ sentences:[
     '</div>';
     c.innerHTML =
       '<div class="plmb-hero">' +
-        '<h1>🔧 American Plumber English · 零基础 20 课 + 6 综合测试</h1>' +
+        '<h1>🔧 American Plumbing Engineering English · 水管工程英语 · 零基础 20 课 + 6 综合测试</h1>' +
         '<p>专为只会 26 个字母的学习者设计 — 每课 8-12 个单词 + 5 句必备 + 中文谐音 + 美式发音 + 测试过关。</p>' +
         '<div class="plmb-hero-stats">' +
           '<div class="plmb-hero-stat">📚 20 课</div>' +
@@ -36764,6 +36779,108 @@ sentences:[
   } else {
     renderGrid();
   }
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     RADIAL RING OVERLAY · 环形课程浮层
+     ═══════════════════════════════════════════ -->
+<style>
+.ring-overlay{position:fixed;inset:0;background:radial-gradient(circle at center,rgba(26,30,56,.78) 0%,rgba(15,18,36,.94) 100%);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:9999;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .45s cubic-bezier(.4,0,.2,1)}
+.ring-overlay.on{display:flex;opacity:1}
+.ring-stage{position:relative;width:min(86vw,720px);height:min(86vw,720px);max-height:86vh;animation:ringZoom .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes ringZoom{0%{transform:scale(.72) rotate(-18deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.ring-close{position:absolute;top:-6px;right:-6px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s;z-index:3}
+.ring-close:hover{background:rgba(201,169,106,.35);transform:rotate(90deg)}
+.ring-hub{position:absolute;top:50%;left:50%;width:32%;aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#2a3558 0%,#3d4b7a 55%,#1e2640 100%);box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.1),0 0 0 1px rgba(201,169,106,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:18px;text-align:center;z-index:2}
+.ring-hub::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(201,169,106,.35);animation:ringSpin 32s linear infinite}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+.ring-hub-emoji{font-size:34px;margin-bottom:6px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.ring-hub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;letter-spacing:.04em;color:#f4e8d0;font-weight:500;line-height:1.2}
+.ring-hub-sub{font-size:11px;color:rgba(244,232,208,.7);margin-top:6px;letter-spacing:.15em;text-transform:uppercase}
+.ring-node{position:absolute;width:26%;aspect-ratio:1/1;border-radius:50%;background:linear-gradient(145deg,#f5ede0,#e8dcc1);border:2px solid rgba(201,169,106,.35);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;box-shadow:0 14px 32px rgba(26,30,56,.4),inset 0 1px 0 rgba(255,255,255,.8);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,background .3s;animation:ringNodePop .55s cubic-bezier(.34,1.56,.64,1) backwards}
+.ring-node:hover{transform:scale(1.09);background:linear-gradient(145deg,#fff7e8,#f0e0bc);box-shadow:0 22px 44px rgba(201,169,106,.4),0 0 0 3px rgba(201,169,106,.45)}
+.ring-node:nth-child(2){animation-delay:.08s}.ring-node:nth-child(3){animation-delay:.16s}.ring-node:nth-child(4){animation-delay:.24s}.ring-node:nth-child(5){animation-delay:.32s}.ring-node:nth-child(6){animation-delay:.40s}
+@keyframes ringNodePop{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.ring-node.active{background:linear-gradient(145deg,#c9a96a,#a8884a);border-color:#fff;color:#fff}
+.ring-node-ico{font-size:26px;margin-bottom:4px}
+.ring-node-en{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;color:#2a3558;line-height:1.15;margin-bottom:3px}
+.ring-node.active .ring-node-en{color:#fff}
+.ring-node-cn{font-size:12px;color:#5b4a2a;font-weight:600;letter-spacing:.02em;line-height:1.2}
+.ring-node.active .ring-node-cn{color:rgba(255,255,255,.9)}
+.ring-connector{position:absolute;top:50%;left:50%;width:100%;height:100%;pointer-events:none;z-index:1;transform:translate(-50%,-50%)}
+.ring-hint{position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:12px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.ring-hint b{color:#c9a96a;font-weight:600}
+@media(max-width:600px){.ring-stage{width:92vw;height:92vw}.ring-node-en{font-size:11px}.ring-node-cn{font-size:10px}.ring-node-ico{font-size:20px}.ring-hub-title{font-size:14px}.ring-hub-emoji{font-size:26px}}
+</style>
+
+<div class="ring-overlay" id="ringOv" onclick="if(event.target===this)closeRing()">
+  <div class="ring-stage" id="ringStage">
+    <button class="ring-close" onclick="closeRing()" title="关闭 Esc">✕</button>
+    <svg class="ring-connector" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(201,169,106,.22)" stroke-width=".3" stroke-dasharray="1,1.5"/>
+    </svg>
+    <div class="ring-hub">
+      <div class="ring-hub-emoji">✦</div>
+      <div class="ring-hub-title">Aaron's<br>English Hub</div>
+      <div class="ring-hub-sub">Choose a Track</div>
+    </div>
+    <div id="ringNodes"></div>
+    <div class="ring-hint">点击任意节点进入 · <b>ESC</b> 关闭</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var TRACKS = [
+    {key:'bayarea', emoji:'💼', en:'Workplace', cn:'职场英语'},
+    {key:'plumber', emoji:'🔧', en:'Plumbing Eng.', cn:'水管工程英语'},
+    {key:'learn',   emoji:'📚', en:'Idiomatic',     cn:'地道表达'},
+    {key:'monthly', emoji:'🔥', en:'Trending',      cn:'月度热词'},
+    {key:'cnen',    emoji:'🀄', en:'CN → EN',       cn:'汉译英训练'}
+  ];
+  function layout(active){
+    var N = TRACKS.length, R = 36; // radius in %
+    var html = '';
+    for (var i=0; i<N; i++){
+      var t = TRACKS[i];
+      // Start from top (-90deg), distribute evenly
+      var ang = (-90 + i * (360/N)) * Math.PI / 180;
+      var x = 50 + R * Math.cos(ang);
+      var y = 50 + R * Math.sin(ang);
+      var cls = 'ring-node' + (t.key === active ? ' active' : '');
+      html += '<div class="'+cls+'" style="left:'+x+'%;top:'+y+'%;transform:translate(-50%,-50%)" onclick="pickRing(\''+t.key+'\')">' +
+        '<div class="ring-node-ico">'+t.emoji+'</div>' +
+        '<div class="ring-node-en">'+t.en+'</div>' +
+        '<div class="ring-node-cn">'+t.cn+'</div>' +
+      '</div>';
+    }
+    document.getElementById('ringNodes').innerHTML = html;
+  }
+  window.openRing = function(active){
+    layout(active || null);
+    var ov = document.getElementById('ringOv');
+    ov.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeRing = function(){
+    var ov = document.getElementById('ringOv');
+    ov.classList.remove('on');
+    document.body.style.overflow = '';
+  };
+  window.pickRing = function(k){
+    closeRing();
+    setTimeout(function(){
+      if (typeof ddGo === 'function') ddGo(k);
+      else if (typeof show === 'function') show(k);
+    }, 120);
+  };
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      var ov = document.getElementById('ringOv');
+      if (ov && ov.classList.contains('on')) closeRing();
+    }
+  });
 })();
 </script>
 

@@ -3784,7 +3784,7 @@ function submitHWTest() {
     var chosen  = hwSel[i];
     var correct = q.a;
     var isRight = (chosen === correct);
-    if (isRight) score++;
+    if (isRight) score++; else score--;
     // Style options
     q.o.forEach(function(_, oi) {
       var b = document.getElementById('hwopt' + qi + '_' + oi);
@@ -3999,7 +3999,8 @@ function answerMW(qi, chosen) {
     // Mark progress
     setProgress('monthly_' + q.id, 'pass');
   } else {
-    toast('❌ 再想想！', 'bad');
+    mwQuiz.score--;
+    toast('❌ 再想想！ −1 分', 'bad');
     setProgress('monthly_' + q.id, 'learning');
   }
   // Show result hint
@@ -5111,7 +5112,7 @@ function cnqPickMCQ(idx, chosen) {
   var q = cnqState.qs[cnqState.cur];
   var correct = q.answer;
   var isOk = (chosen === correct);
-  if (isOk) cnqState.score++;
+  if (isOk) cnqState.score++; else cnqState.score--;
 
   // Highlight buttons
   q.opts.forEach(function(opt, i) {
@@ -5148,7 +5149,7 @@ function cnqCheckType() {
 
   inp.classList.add(isOk ? 'ok' : 'bad');
   inp.disabled = true;
-  if (isOk) cnqState.score++;
+  if (isOk) cnqState.score++; else cnqState.score--;
 
   cnqState.answers.push({word: w, correct: isOk, userAnswer: inp.value.trim(), rightAnswer: w.en, mode: q.mode});
   _cnqShowFeedback(isOk, q);
@@ -6072,6 +6073,7 @@ function _ispAnswer(btn, isCorrect) {
   btn.classList.add(isCorrect ? 'correct' : 'wrong');
   // If wrong, reveal the correct one
   if (!isCorrect) {
+    _ispState.score--;
     opts.forEach(function(b) {
       if (b.textContent.trim() === q.meaning) {
         b.classList.remove('revealed');
@@ -7455,7 +7457,7 @@ function laAnswer(btn, chosen) {
   _laState.answered = true;
   var q = _laState.questions[_laState.curIdx];
   var isCorrect = chosen === q.correct;
-  if (isCorrect) _laState.score++;
+  if (isCorrect) _laState.score++; else _laState.score--;
   // Highlight options
   document.querySelectorAll('#la-card .la-opt').forEach(function(b) {
     b.disabled = true;
@@ -8435,7 +8437,7 @@ function bqPick(idx, chosen) {
   var item = s.picks[s.cur];
   var correct = item.meaning;
   var isOk = (chosen === correct);
-  if (isOk) s.score++;
+  if (isOk) s.score++; else s.score--;
   s.answers.push({item: item, ok: isOk, chosen: chosen});
 
   var btns = document.querySelectorAll('#bq-opts .wbr-opt');
@@ -8634,7 +8636,7 @@ function renderLearn() {
     el.id = 'vc' + d.id;
     var exPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
     var numDisp = typeof d.id === 'number' ? ('00' + d.id).slice(-3) : String(d.id).replace(/^idn_/i,'N').toUpperCase();
-    var idArg = typeof d.id === 'string' ? "'" + d.id + "'" : d.id;
+    var idArg = JSON.stringify(d.id);
     el.innerHTML =
       '<div class="vc-head" onclick="tog(' + idArg + ')" style="--vc-status:' + statusColor + '">' +
         '<div class="vc-head-top">' +
@@ -9468,7 +9470,7 @@ function wbrPick(idx, chosen) {
     chosen = s._opts[idx];
   }
   var isOk = (chosen === correct);
-  if (isOk) { s.score++; s.correctIds.push(item.id); }
+  if (isOk) { s.score++; s.correctIds.push(item.id); } else { s.score--; }
 
   // Highlight buttons
   var btns = document.querySelectorAll('#wbr-opts .wbr-opt');
@@ -34527,57 +34529,7 @@ window.LEARN_EXTRAS = {
 97:{syn:["get hitched","get married","walk down the aisle","say I do"],ex2:"They're tying the knot in Hawaii this June.",ex2_cn:"他们今年六月在夏威夷办婚礼。",mem:"Old wedding traditions literally tied the bride and groom's hands together with a cord.",mem_cn:"古婚礼用绳子把新人手系在一起 —— 真打结。"},
 98:{syn:["disappear without a trace","poof","be gone in an instant","drop off the radar"],ex2:"My old college friends seem to have vanished into thin air.",ex2_cn:"我大学的老朋友们好像都消失得无影无踪。",mem:"Like fog that just dissolves into invisible air — no trace at all.",mem_cn:"像雾散入空气 —— 一点痕迹都没有。"},
 99:{syn:["can't have it both ways","you have to choose","one or the other","it's a tradeoff"],ex2:"You want a high salary AND no overtime? You can't have your cake and eat it too.",ex2_cn:"既要高薪又不要加班？鱼与熊掌不可兼得。",mem:"If you eat the cake, it's gone — you can't still have it sitting on the plate.",mem_cn:"蛋糕吃了就没了 —— 不能既保留又吃掉。"},
-100:{syn:["nail it","make it happen","get it done","crush it"],ex2:"That presentation was tough, but you really pulled it off.",ex2_cn:"那场演讲很难，但你真的搞定了。",mem:"Imagine successfully snatching a difficult prize off a high shelf — clean win.",mem_cn:"想象从高架上一把抓下难得的奖品 —— 干净利落。"},
-'idn_01':{syn:["boss energy","lead character vibes","protagonist aura","owning the room"],ex2:"She walked into the job interview with full main character energy — totally unforgettable.",ex2_cn:"她带着十足的主角光环走进面试——令人难忘。",mem:"Picture yourself as the hero of a movie: every step deliberate, every scene yours.",mem_cn:"把自己想象成电影主角：每一步都从容，每一幕都是你的。"},
-'idn_02':{syn:["stuck in my head","haunting me","can't shake it","on a loop"],ex2:"That awkward handshake is living rent free in my head two weeks later.",ex2_cn:"两周后，那次尴尬握手还在我脑海里挥之不去。",mem:"Imagine an unwanted tenant who pays nothing but won't leave your brain apartment.",mem_cn:"想象一个赖着不走的房客，免费住在你脑海里。"},
-'idn_03':{syn:["sudden turnoff","cringe factor","the squick","sudden repulsion"],ex2:"He laughed too loudly at his own jokes and I immediately got the ick.",ex2_cn:"他对自己的笑话笑得太用力，我瞬间对他反感了。",mem:"Like a light switch flipping off — one small thing and attraction just cuts out.",mem_cn:"就像电灯开关啪地关掉——一件小事，好感瞬间消失。"},
-'idn_04':{syn:["for real","I'm serious","no joke","on everything"],ex2:"That ramen place is the best in the city, no cap.",ex2_cn:"那家拉面馆真的是全城最好的，不骗你。",mem:"A cap = a lie in slang. No cap = no lie. Just flip the hat off.",mem_cn:"帽子（cap）在俚语里代表谎言，no cap = 不说谎，摘掉帽子坦诚相告。"},
-'idn_05':{syn:["giving off","radiating","screaming","exuding"],ex2:"That cafe decor — it's giving Paris in the 1920s.",ex2_cn:"那家咖啡馆的装修风格——完全是二十年代巴黎的感觉。",mem:"'It's giving' = it radiates, it emits a specific vibe, like a signal.",mem_cn:"It's giving = 它在散发、释放某种特定氛围，就像发出信号。"},
-'idn_06':{syn:["nailed it","aced it","delivered perfectly","rose to the occasion"],ex2:"The intern's report was flawless — she totally understood the assignment.",ex2_cn:"实习生的报告无可挑剔——她完全领会了任务。",mem:"Picture a student who read the entire brief and did exactly what was asked — A+.",mem_cn:"想象一个学生读完全部说明、完美执行任务——满分。"},
-'idn_07':{syn:["terminally online","glued to screens","perpetually plugged in","internet-brained"],ex2:"Only a chronically online person would cancel plans over a meme drama.",ex2_cn:"只有常年泡网的人才会因为网络梗剧而取消约会。",mem:"'Chronic' = long-term illness. Chronically online = addicted to the web like a disease.",mem_cn:"chronic = 长期病症；chronically online = 像慢性病一样无法脱离网络。"},
-'idn_08':{syn:["transformation","level-up","comeback arc","reinvention"],ex2:"After fixing her diet and sleep, her glow up over six months was real.",ex2_cn:"调整饮食和睡眠后，她六个月的蜕变是真实可见的。",mem:"Visualize a caterpillar glowing as it transforms into a butterfly — dramatic change.",mem_cn:"想象毛毛虫蜕变成蝴蝶时发光——翻天覆地的改变。"},
-'idn_09':{syn:["mood check","temperature check","atmosphere scan","pulse check"],ex2:"Quick vibe check before we bring up the budget cuts — is the boss in a good mood?",ex2_cn:"在提预算削减前先看看气氛——老板心情好吗？",mem:"Like a thermometer reading the room's emotional temperature before you act.",mem_cn:"就像温度计在你行动前先测量房间的情绪温度。"},
-'idn_10':{syn:["blissfully delusional","wishful thinker","hopeful daydreamer","unrealistically optimistic"],ex2:"I'm being totally delulu thinking I'll finish this report by noon.",ex2_cn:"我还以为中午之前能交报告——纯粹在做梦。",mem:"'Delusional' shortened to delulu — keeping the playful, self-aware spin.",mem_cn:"delusional缩写成delulu——保留了自嘲的轻松语气。"},
-'idn_11':{syn:["meh","so-so","nothing special","forgettable","mediocre"],ex2:"The new sequel was just mid — not bad enough to hate, not good enough to recommend.",ex2_cn:"那部续集就是平平无奇——不够烂，也不够好，没什么好推荐的。",mem:"'Mid' = middle, mediocre. Imagine a score graph stuck permanently in the middle.",mem_cn:"mid = 中间，平庸。想象一条评分曲线永远卡在中间位置。"},
-'idn_12':{syn:["feels unique","hits harder","more meaningful","feels special this time"],ex2:"Listening to that song after a breakup — it just hits different.",ex2_cn:"分手后再听那首歌——感觉就是不一样。",mem:"Same stimulus, different emotional impact — like wearing new lenses.",mem_cn:"同样的刺激，截然不同的情感共鸣——就像换了一副镜片去看。"},
-'idn_13':{syn:["go outside","get off your phone","detox from the internet","touch some dirt"],ex2:"You've been arguing online for four hours — please just go touch grass.",ex2_cn:"你已经在网上吵了四个小时——求你出去走走。",mem:"Literal grass underfoot = real world. If you've forgotten what it feels like, you need it.",mem_cn:"脚下的真实草地 = 现实世界。如果你忘了什么感觉，说明你该去摸摸了。"},
-'idn_14':{syn:["dish the gossip","share the drama","drop the news","tell all"],ex2:"You look flustered — come on, spill the tea about what happened.",ex2_cn:"你看起来很慌——说吧，到底发生了什么？",mem:"Tea = hot gossip. Spilling it = letting it all pour out. Hot, messy, hard to ignore.",mem_cn:"Tea = 八卦。Spilling = 倒出来。热乎乎、乱糟糟，想不注意都难。"},
-'idn_15':{syn:["warning sign","bad sign","alarm bell","dealbreaker"],ex2:"He cancels plans last-minute every time — that's a serious red flag.",ex2_cn:"他每次都在最后一刻取消计划——这是严重的危险信号。",mem:"Red flags in sports stop the race — a red flag in life means stop and pay attention.",mem_cn:"体育比赛中红旗代表停赛——生活中红旗意味着停下来留意。"},
-'idn_16':{syn:["good sign","positive trait","healthy behavior","reassuring sign"],ex2:"He checks in on you without being asked — that's such a green flag.",ex2_cn:"他主动来确认你的状态，无需你开口——这真是个好兆头。",mem:"Green = go, safe, proceed. A green flag person says 'it's safe to move forward.'",mem_cn:"绿色 = 前进、安全。绿旗人士意味着「可以放心继续」。"},
-'idn_17':{syn:["disappear on someone","go silent","drop off","pull a disappearing act"],ex2:"He texted every day for a month and then started ghosting without explanation.",ex2_cn:"他每天发消息持续了一个月，然后毫无解释地开始玩消失。",mem:"A ghost vanishes without warning or trace — that's exactly what this person does.",mem_cn:"幽灵无声无息地消失——这类人做的事情与此一模一样。"},
-'idn_18':{syn:["stringing along","keeping on the hook","drip-feeding attention","leading on"],ex2:"Texting only when you're bored and never committing is textbook breadcrumbing.",ex2_cn:"只在无聊时发消息、从不认真对待——这是教科书式的若即若离。",mem:"A breadcrumb trail leads you forward just enough — never a full loaf, never satisfied.",mem_cn:"面包屑一路引着你——永远给不够，让你永远吊着胃口。"},
-'idn_19':{syn:["quiet hint","low-key reveal","subtle tease","sneaky preview"],ex2:"She dropped a soft launch of her new restaurant with a blurry Instagram story.",ex2_cn:"她在Instagram故事里发了张模糊的照片，低调预告了新餐厅。",mem:"A soft launch is like opening a door a crack — not a grand reveal, just a peek.",mem_cn:"软公开就像把门开一条缝——不是大张旗鼓，只是让人瞥见一眼。"},
-'idn_20':{syn:["public announcement","official reveal","big debut","formal introduction"],ex2:"They did a hard launch with a full photoshoot and tagged each other — it's official.",ex2_cn:"他们拍了一整套照片互相标记——硬公开，官宣了。",mem:"Hard = firm, loud, public. Think grand opening with lights, banners, and a ribbon cut.",mem_cn:"hard = 正式、高调、公开。想象盛大开业，灯光、横幅、剪彩。"},
-'idn_21':{syn:["oh no","that's bad","cringe","how embarrassing","yikes"],ex2:"He accidentally replied-all with that complaint. Big yikes.",ex2_cn:"他不小心把那条抱怨全员回复了。真是尴尬透顶。",mem:"'Yikes' = discomfort. 'Big' amplifies it. Imagine shrinking into your chair in horror.",mem_cn:"Yikes = 不适。Big = 放大。想象自己在椅子上越缩越小。"},
-'idn_22':{syn:["passive pushout","stealth layoff","managed out","indirect firing"],ex2:"No raises, no projects, no meetings — they're quiet firing him slowly.",ex2_cn:"不涨薪、不给项目、不叫去开会——他们在悄悄逼他走。",mem:"The opposite of a formal firing — instead of a bang, death by a thousand cold silences.",mem_cn:"正式解雇的反面——不是一声巨响，而是被无数次冷漠慢慢耗死。"},
-'idn_23':{syn:["money talk","being upfront about cash","financial honesty","budget transparency"],ex2:"He does loud budgeting at every dinner — 'Sorry, that's not in my budget this month.'",ex2_cn:"他在每次聚餐都大声说预算——「抱歉，这个月预算不够。」",mem:"Old norm = suffer silently. Loud budgeting = say it proudly. Volume = empowerment.",mem_cn:"旧规范 = 默默扛着。大声预算 = 大方说出来。音量 = 自信与力量。"},
-'idn_24':{syn:["face time only","show-up-and-leave","token office visit","badge swipe and go"],ex2:"Half the floor is coffee badging — here for 45 minutes, then back to WFH.",ex2_cn:"半个楼层的人都在咖啡打卡——待45分钟，然后回家继续远程。",mem:"Badge = office access card. Coffee = quick stop. Just enough to scan in and be seen.",mem_cn:"Badge = 门禁卡；Coffee = 短暂停留。刷个卡被看见，任务完成。"},
-'idn_25':{syn:["slow Monday","ease-in day","minimal effort start","light workload Monday"],ex2:"She blocks her calendar on Mondays and calls it bare minimum Monday.",ex2_cn:"她把周一的日历清空，称之为「最低限度周一」。",mem:"The bare minimum = the least possible. Monday = hardest re-entry day. Combine: survive.",mem_cn:"最低限度 = 能做就行；周一 = 最难重启的一天。组合起来：活过去就好。"},
-'idn_26':{syn:["job hunting on the side","keeping options open","backup job search","stealth job hunt"],ex2:"With all the rumors of layoffs, most of us are career cushioning quietly.",ex2_cn:"听说要裁员，我们大多数人都在偷偷骑驴找马。",mem:"A cushion softens a fall. Career cushioning = prepping a soft landing before you drop.",mem_cn:"垫子能缓冲摔落。职业缓冲 = 在跌落前先准备好软着陆。"},
-'idn_27':{syn:["title bump only","raise-free promotion","promotion without pay","empty upgrade"],ex2:"The company offered him 'Senior Engineer' but kept his salary the same — a dry promotion.",ex2_cn:"公司给了他「高级工程师」头衔，薪资却没动——典型升职不加薪。",mem:"'Dry' = no moisture, no juice — a promotion with nothing juicy (money) attached.",mem_cn:"dry = 干燥，没汁水——没有任何实质好处（钱）的晋升。"},
-'idn_28':{syn:["returning employee","rehire","comeback hire","re-joiner"],ex2:"She was their best analyst — they were thrilled she came back as a boomerang employee.",ex2_cn:"她曾是他们最优秀的分析师——她作为回旋镖员工回来，大家都很高兴。",mem:"A boomerang flies away and returns to the thrower — the employee does the same.",mem_cn:"回旋镖飞出去再回到原处——这位员工做了同样的事。"},
-'idn_29':{syn:["easy win","quick win","obvious target","no-brainer task"],ex2:"Fix the login bug first — it's the low-hanging fruit and helps users immediately.",ex2_cn:"先修登录漏洞——这是最容易下手的，能立刻帮到用户。",mem:"Fruit you can grab without a ladder = easiest to pick. Go for it first.",mem_cn:"不用梯子就能摘到的果子 = 最容易拿的。先去拿。"},
-'idn_30':{syn:["overcomplicate things","bite off more than you can chew","scope creep","tackle the impossible"],ex2:"We can't boil the ocean in one sprint — pick the top three features.",ex2_cn:"我们不能在一个冲刺周期里包揽一切——先选最重要的三个功能。",mem:"Boiling the entire ocean is physically impossible — some plans are just that absurd.",mem_cn:"把整片大海烧开在物理上根本不可能——有些计划就是这么荒诞。"},
-'idn_31':{syn:["table it","park it","set it aside","shelve it for now"],ex2:"Let's put a pin in the marketing budget and finish the product spec first.",ex2_cn:"我们先把市场预算的事搁一下，先把产品规格弄完。",mem:"A pushpin holds something on the board for later. You're not forgetting it — just pausing.",mem_cn:"图钉把东西固定在板上等待处理——你没忘，只是暂停。"},
-'idn_32':{syn:["buy into the hype","follow blindly","swallow the company line","be a true believer"],ex2:"Everyone in that startup is drinking the Kool-Aid — no one questions the strategy.",ex2_cn:"那家创业公司里的人都在盲目追随——没有人质疑策略。",mem:"Refers to the 1978 Jonestown tragedy where people followed a cult leader without question.",mem_cn:"源自1978年琼斯镇惨剧——人们毫无质疑地追随邪教领袖。"},
-'idn_33':{syn:["shift the target","change the rules","raise the bar unfairly","keep moving the finish line"],ex2:"I hit every metric they set, and then they moved the goalposts again.",ex2_cn:"我达成了他们设定的所有指标，然后他们又改标准了。",mem:"Imagine a soccer player about to score and someone physically slides the goal sideways.",mem_cn:"想象一个足球运动员快要射门，有人却把球门往旁边推了一下。"},
-'idn_34':{syn:["get on the same page","sync up","reach agreement","get aligned"],ex2:"Before the launch, let's align on messaging so we're consistent.",ex2_cn:"发布前，我们先对齐一下信息口径，确保保持一致。",mem:"Alignment = two things pointing the same direction. Arrows lined up, not crossing.",mem_cn:"对齐 = 两件事指向同一方向。箭头并排，而不是交叉。"},
-'idn_35':{syn:["message me","drop me a line","send a quick note","reach out"],ex2:"If you hit any blockers today, just ping me on Slack.",ex2_cn:"今天遇到任何障碍，直接在Slack上叫我一声。",mem:"'Ping' comes from sonar — a quick signal sent out to get a response. Short and sharp.",mem_cn:"ping源自声呐——发出短促信号等待回应。简短而精准。"},
-'idn_36':{syn:["death spiral","vicious cycle","negative feedback loop","downward spiral"],ex2:"High rents push out workers, which kills local businesses — a classic doom loop.",ex2_cn:"高房租赶走工人，工人离开又让本地商业萧条——经典恶性循环。",mem:"A doom loop = a loop headed toward doom. Each spin of the wheel digs deeper.",mem_cn:"Doom loop = 通向末日的循环。每转一圈，就越陷越深。"},
-'idn_37':{syn:["endless crisis","permanent emergency","never-ending instability","perpetual chaos"],ex2:"Inflation, war, and climate change all at once — we're living in a permacrisis.",ex2_cn:"通货膨胀、战争、气候变化同时上演——我们正处于永久危机之中。",mem:"'Perma' = permanent. Crisis that never ends, just morphs into the next one.",mem_cn:"perma = 永久性的。危机从未结束，只是变换了形式。"},
-'idn_38':{syn:["platform decay","product degradation","race to the bottom","value erosion"],ex2:"The feed is all ads now — the enshittification of this app is almost complete.",ex2_cn:"现在全是广告——这款应用的腐化基本上已经完成了。",mem:"Coined by Cory Doctorow: platforms first serve users, then advertisers, then rot.",mem_cn:"科里·多克托罗创造：平台先服务用户，再服务广告商，最终走向腐烂。"},
-'idn_39':{syn:["AI evangelist","AI maximalist","AI true believer","AI convert"],ex2:"Since using AI tools at work, he's fully AI-pilled and automates everything.",ex2_cn:"自从在工作中用了AI工具，他彻底入脑，什么都想自动化。",mem:"'Red-pilled' = awakened to a hidden truth. AI-pilled = awakened to AI's potential.",mem_cn:"红色药丸 = 觉醒，洞见隐藏真相。AI-pilled = 对AI潜力的彻底觉醒。"},
-'idn_40':{syn:["hoard access","gatekeep info","keep it exclusive","hide the secret"],ex2:"Stop gatekeeping that skincare routine — share the products already!",ex2_cn:"别再藏着你的护肤步骤了——把产品说出来吧！",mem:"A gatekeeper controls who passes through the gate — hoarding access to something good.",mem_cn:"守门人控制谁能通过大门——独占某种好东西的入口。"},
-'idn_41':{syn:["natural charm","effortless charisma","magnetic pull","smooth energy"],ex2:"He barely speaks and she's already interested — the man genuinely has rizz.",ex2_cn:"他几乎没开口，她就已经有兴趣了——这个人真的有魅力。",mem:"'Rizz' = charisma shortened. Natural, innate — you either have it or you don't.",mem_cn:"rizz = charisma的缩写。天生的，内在的——要么有，要么没有。"},
-'idn_42':{syn:["delicious","incredible","fire","hitting","slaps"],ex2:"Your mom's jollof rice is absolutely bussin — I had three plates.",ex2_cn:"你妈做的西非炒饭太香了——我吃了三盘。",mem:"AAVE origin: 'bussin'' = busting with flavor, so good it's overflowing with taste.",mem_cn:"源自非裔美国人俚语：bussin = 美味爆裂，好吃到溢出来的程度。"},
-'idn_43':{syn:["fawn over someone","be whipped","be obsessed","put them on a pedestal"],ex2:"He buys her flowers every week and drives an hour to see her — total simp.",ex2_cn:"他每周买花，开一小时车去见她——完全是个情痴。",mem:"Simping = giving excessive devotion with little in return, often out of unrequited love.",mem_cn:"Simping = 过度付出，往往得不到回报，通常源于单相思。"},
-'idn_44':{syn:["dated","basic","out of style","try-hard","behind the times"],ex2:"Those skinny jeans and frosted tips are giving cheugy.",ex2_cn:"那条紧身牛仔裤配白金发尖——完全过时了。",mem:"Cheugy = Gen Z's word for something that peaked with Millennials and hasn't caught up.",mem_cn:"cheugy = Z世代形容千禧时代流行但已经跟不上潮流的词。"},
-'idn_45':{syn:["thriving","flourishing","on top of my game","living fully","in my element"],ex2:"Hiking every weekend, loving my job, great friends — truly living my best life.",ex2_cn:"每周末爬山、热爱工作、朋友很好——真的是活在最好的状态里。",mem:"Not just alive, but fully alive — squeezing every drop of joy out of your current life.",mem_cn:"不只是活着，而是活得淋漓尽致——从当下生活中榨出每一滴快乐。"},
-'idn_46':{syn:["going through a phase","in the thick of something","deep in my X chapter","in a certain mode"],ex2:"I'm in my healing era — no drama, no late nights, just journaling and green smoothies.",ex2_cn:"我正处于疗愈阶段——没有纷争，没有深夜，只有写日记和绿果昔。",mem:"'Era' = a defined period of time with a specific character. You're living in your own timeline.",mem_cn:"era = 有特定特征的时代。你正活在自己故事线的某个章节里。"},
-'idn_47':{syn:["quick comeback","sharp retort","witty reply","snappy response","clap back"],ex2:"She clapped back at the critic with a perfectly worded single sentence.",ex2_cn:"她用一句完美的话对那位批评者进行了漂亮的反击。",mem:"Clap = sharp sound, immediate. Back = returning fire. Fast, loud, direct response.",mem_cn:"clap = 清脆的声音，即时的。back = 回击。快速、响亮、直接的反应。"},
-'idn_48':{syn:["kind of","sort of","somewhat","a little","quietly"],ex2:"I lowkey love this cheesy pop song — don't tell anyone.",ex2_cn:"我有点喜欢这首俗气的流行歌——不要告诉别人。",mem:"'Low key' = a musical key that isn't loud or flashy. Quiet, understated feelings.",mem_cn:"Low key = 音乐上的低调音域，不张扬。情感上也是如此——安静、内敛。"},
-'idn_49':{syn:["don't overlook","pay attention to","don't miss out on","take seriously"],ex2:"Don't sleep on that documentary — it's one of the most eye-opening things I've watched.",ex2_cn:"别忽视那部纪录片——是我看过最开眼界的作品之一。",mem:"Sleeping = being unaware. Don't sleep = stay awake to what's valuable around you.",mem_cn:"睡着 = 不知道。Don't sleep = 对身边有价值的事保持清醒。"},
-'idn_50':{syn:["read the vibe","gauge the mood","sense the atmosphere","pick up on cues"],ex2:"Before you pitch the new idea, read the room — the team looks exhausted.",ex2_cn:"在你提出新想法之前，先察看一下气氛——团队看起来很疲惫。",mem:"A room has a mood like a page has text — you must read it to understand what's happening.",mem_cn:"一个房间有它的情绪，就像一页书有它的内容——你需要阅读才能理解。"}
+100:{syn:["nail it","make it happen","get it done","crush it"],ex2:"That presentation was tough, but you really pulled it off.",ex2_cn:"那场演讲很难，但你真的搞定了。",mem:"Imagine successfully snatching a difficult prize off a high shelf — clean win.",mem_cn:"想象从高架上一把抓下难得的奖品 —— 干净利落。"}
 };
 
 // ═══════════════════════════════════════
@@ -36544,7 +36496,7 @@ sentences:[
     else if (qi < nl+nv) correct = ex.vocab[qi-nl].a;
     else correct = ex.sentences[qi-nl-nv].a;
     e.answers[qi] = oi;
-    if (oi === correct) e.score++;
+    if (oi === correct) e.score++; else e.score--;
     saveExam(eid, e);
     renderExam();
   };
@@ -36998,7 +36950,7 @@ sentences:[
     var q = state.quiz[lid];
     if (q.answers[qi] !== undefined) return;
     q.answers[qi] = oi;
-    if (oi === ls.quiz[qi].a) q.score++;
+    if (oi === ls.quiz[qi].a) q.score++; else q.score--;
     saveQuiz(lid, q);
     renderLesson();
   };
@@ -37025,7 +36977,7 @@ sentences:[
       }
     }
     q.answers[qi] = { val: val, ok: ok };
-    if (ok) q.score++;
+    if (ok) q.score++; else q.score--;
     saveQuiz(lid, q);
     renderLesson();
   };

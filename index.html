@@ -46517,20 +46517,9 @@ quiz:[
       if (isActive) {
         var cards = _buildLessonCards(lv.key);
         var dash = _buildDashboard(lvOverall);
-        var caEntry = '';
-        if (lv.key === 'beginner') {
-          caEntry = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库">' +
-            '<div class="caprep-entry-ico">🎓</div>' +
-            '<div class="caprep-entry-body">' +
-              '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
-              '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
-            '</div>' +
-            '<div class="caprep-entry-cta">进入题库 →</div>' +
-          '</div>';
-        }
         bodyHtml =
           '<div class="plmb-acc-body"><div class="plmb-acc-inner">' +
-            dash + caEntry +
+            dash +
             '<div class="plmb-grid">' + cards + '</div>' +
           '</div></div>';
       }
@@ -46538,7 +46527,17 @@ quiz:[
       accHtml += '<div class="plmb-acc' + openClass + '" data-level="' + lv.key + '">' + headHtml + bodyHtml + '</div>';
     });
 
-    c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + '</div>';
+    /* Standalone CA License Prep card — always visible below all 3 levels */
+    var caStandalone = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库" style="margin-top:16px">' +
+      '<div class="caprep-entry-ico">🎓</div>' +
+      '<div class="caprep-entry-body">' +
+        '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
+        '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
+      '</div>' +
+      '<div class="caprep-entry-cta">进入题库 →</div>' +
+    '</div>';
+
+    c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + caStandalone + '</div>';
     _plmbFirstRender = false;
   }
 

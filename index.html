@@ -11944,8 +11944,15 @@ function _dlgMcqHTML(d) {
   }).join('');
   var opts = q.opts.slice(); var correct = opts[q.ci];
   for (var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=opts[i];opts[i]=opts[j];opts[j]=t;}
-  var optsH = opts.map(function(o){
-    return '<button class="dlg-qopt" onclick="dlgQAnswer(this,\'' + o.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\',\'' + correct.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' + o + '</button>';
+  /* Store option text on the element via dataset to avoid quote-escaping hell.
+     Previously we inlined the text into onclick="..." which broke when
+     option text contained double quotes (e.g. quoted phrases like "I work hard."). */
+  var correctIdx = opts.indexOf(correct);
+  var escHtml = function(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  };
+  var optsH = opts.map(function(o, idx){
+    return '<button class="dlg-qopt" data-dlg-idx="' + idx + '" data-dlg-correct="' + correctIdx + '" onclick="dlgQAnswer(this)">' + escHtml(o) + '</button>';
   }).join('');
   return '<div class="dlg-qwrap">' +
     '<div class="dlg-qhd"><span>🎯 词汇理解测验</span><div class="dlg-qprog">' + progH + '</div></div>' +
@@ -12032,14 +12039,28 @@ function _dlgTheaterNext() {
   window.speechSynthesis.speak(utt);
 }
 
-function dlgQAnswer(btn,chosen,correct){
+function dlgQAnswer(btn, chosen, correct){
   if(_dlgSt.qAnswered)return;
   _dlgSt.qAnswered=true;
-  var isOk=(chosen===correct);
+  /* Prefer the index stored on the button's dataset (new, robust approach).
+     Fall back to the legacy text-comparison if older HTML is still in the DOM. */
+  var idx = btn && btn.dataset ? parseInt(btn.dataset.dlgIdx, 10) : NaN;
+  var correctIdx = btn && btn.dataset ? parseInt(btn.dataset.dlgCorrect, 10) : NaN;
+  var isOk;
+  if (!isNaN(idx) && !isNaN(correctIdx)) {
+    isOk = (idx === correctIdx);
+  } else {
+    isOk = (chosen === correct);
+  }
   if(isOk){_dlgSt.qScore++;awardPts(5);localCorrect--;completeMission('correct');toast('+5分 ✅ 职场词汇答对！','ok');}
   document.querySelectorAll('#dlg-qbox .dlg-qopt').forEach(function(b){
     b.disabled=true;
-    if(b.textContent===correct)b.classList.add('correct');
+    var bIdx = b.dataset ? parseInt(b.dataset.dlgIdx, 10) : NaN;
+    if (!isNaN(bIdx) && !isNaN(correctIdx)) {
+      if (bIdx === correctIdx) b.classList.add('correct');
+    } else if (b.textContent===correct) {
+      b.classList.add('correct');
+    }
   });
   if(!isOk)btn.classList.add('wrong');
   var exp=document.getElementById('dlg-qexp');if(exp)exp.classList.add('show');

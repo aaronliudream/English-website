@@ -32641,6 +32641,19 @@ function _countCompletedLessons(lvId) {
 function _isLevelUnlocked(lvId) {
   return true; // All levels freely accessible
 }
+function _showLockTip(e) {
+  var old = document.getElementById('lock-tip-float');
+  if (old) old.remove();
+  var tip = document.createElement('div');
+  tip.id = 'lock-tip-float';
+  tip.textContent = '🔒 请完成上一节课才可以继续学习新的课程';
+  tip.style.cssText = 'position:fixed;z-index:99999;background:#1e2640;color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap;transition:opacity .3s';
+  tip.style.left = e.clientX + 'px';
+  tip.style.top = (e.clientY - 44) + 'px';
+  document.body.appendChild(tip);
+  setTimeout(function(){ tip.style.opacity = '0'; }, 1600);
+  setTimeout(function(){ tip.remove(); }, 2000);
+}
 function _isLessonUnlocked(lvId, lessonIdx) {
   // First 3 lessons always unlocked (index 0, 1, 2)
   if (lessonIdx < 3) return true;
@@ -32801,7 +32814,7 @@ function _renderCrsLevel(wrap) {
     var numClass = status ? 'done' : (isUT ? 'test' : (unlocked ? 'curr' : 'lock'));
     var numText = isUT ? '📝' : (status ? '✅' : (idx + 1));
 
-    html += '<div class="crs-lesson-row' + (unlocked ? '' : ' locked') + (status ? ' completed' : '') + (isUT ? ' unit-test' : '') + '" onclick="' + (unlocked ? 'crsStartLesson(' + idx + ')' : '') + '">' +
+    html += '<div class="crs-lesson-row' + (unlocked ? '' : ' locked') + (status ? ' completed' : '') + (isUT ? ' unit-test' : '') + '" onclick="' + (unlocked ? 'crsStartLesson(' + idx + ')' : '_showLockTip(event)') + '">' +
       '<div class="crs-lrow-num ' + numClass + '">' + numText + '</div>' +
       '<div class="crs-lrow-body">' +
         '<div class="crs-lrow-title">' + (isUT ? '📝 ' : '') + l.title_cn + '</div>' +

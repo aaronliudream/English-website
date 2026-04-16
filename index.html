@@ -630,6 +630,205 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .name-edit:focus{border-color:var(--blue)}
 .save-btn{padding:9px 22px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer}
 
+/* ═══════════════════════════════════════════
+   NEW PROFILE PAGE (p2-*) — dashboard redesign
+   ═══════════════════════════════════════════ */
+.p2-wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+
+/* Hero card */
+.p2-hero{position:relative;background:linear-gradient(135deg,#1e3a5f 0%,#0369a1 45%,#0ea5e9 100%);color:#fff;border-radius:22px;padding:32px 30px;overflow:hidden;box-shadow:0 20px 50px -12px rgba(3,105,161,.4)}
+.p2-hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.15),transparent 50%),radial-gradient(circle at 20% 80%,rgba(14,165,233,.3),transparent 50%);pointer-events:none}
+.p2-hero-main{position:relative;display:flex;gap:22px;align-items:center;z-index:1}
+.p2-avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#fff,#e0e7ff);color:#1e3a5f;display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,.25),inset 0 2px 4px rgba(255,255,255,.5);border:3px solid rgba(255,255,255,.35)}
+.p2-hero-info{flex:1;min-width:0}
+.p2-hero-name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.p2-name{font-size:26px;font-weight:800;margin:0;letter-spacing:-.5px;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.p2-level-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.2);border:1.5px solid rgba(255,255,255,.3)}
+.p2-level-icon{font-size:15px}
+.p2-email{font-size:13px;opacity:.85;margin-bottom:10px}
+.p2-meta-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.p2-meta-chip{font-size:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:4px 10px;border-radius:999px;backdrop-filter:blur(8px);font-weight:600}
+.p2-sync-chip{background:rgba(16,185,129,.35);border-color:rgba(110,231,183,.5)}
+.p2-local-chip{background:rgba(251,191,36,.3);border-color:rgba(253,224,71,.5)}
+.p2-level-prog{margin-top:10px;max-width:380px}
+.p2-level-prog-lbl{font-size:12px;opacity:.92;margin-bottom:5px;font-weight:600}
+.p2-level-prog-lbl b{font-weight:800}
+.p2-level-prog-bar{height:6px;background:rgba(0,0,0,.25);border-radius:3px;overflow:hidden}
+.p2-level-prog-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(255,255,255,.3)}
+.p2-name-edit{display:flex;gap:8px;margin-top:12px;max-width:320px}
+.p2-name-inp{flex:1;padding:8px 12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:8px;color:#fff;font-size:14px;outline:none}
+.p2-name-inp::placeholder{color:rgba(255,255,255,.6)}
+.p2-name-save{padding:8px 18px;background:#fff;color:#0369a1;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .2s}
+.p2-name-save:hover{transform:translateY(-1px)}
+
+/* Stats grid — 6 cards */
+.p2-stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+@media(max-width:900px){.p2-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.p2-stats{grid-template-columns:repeat(2,1fr)}}
+.p2-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.p2-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:.8}
+.p2-stat:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.p2-stat-ico{font-size:22px;margin-bottom:6px}
+.p2-stat-num{font-size:24px;font-weight:800;color:var(--text1);line-height:1.1;margin-bottom:4px}
+.p2-stat-lbl{font-size:11px;color:var(--text3);font-weight:600;line-height:1.4}
+.p2-stat-sub{font-size:10px;opacity:.85;color:var(--accent);font-weight:700}
+
+/* Section framework */
+.p2-section{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 26px;box-shadow:0 4px 16px -4px rgba(0,0,0,.05)}
+.p2-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.p2-section-title{font-size:18px;font-weight:800;color:var(--text1);margin:0;letter-spacing:-.3px}
+.p2-section-sum{font-size:13px;color:var(--text2);font-weight:600;background:var(--card2);padding:4px 12px;border-radius:999px}
+
+/* Plumber track cards */
+.p2-track-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.p2-track-card{display:flex;align-items:center;gap:16px;padding:16px;background:var(--card2);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .25s}
+.p2-track-card:hover{border-color:#0ea5e9;background:rgba(14,165,233,.05);transform:translateX(3px)}
+.p2-track-ring{width:72px;height:72px;flex-shrink:0}
+.p2-track-info{flex:1;min-width:0}
+.p2-track-title{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:2px;line-height:1.3}
+.p2-track-sub{font-size:11px;color:var(--text3);margin-bottom:8px}
+.p2-track-stats{display:flex;gap:5px;flex-wrap:wrap}
+.p2-track-chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
+.p2-track-chip.pass{background:#10b981}
+.p2-track-chip.learn{background:#4476d6}
+.p2-track-chip.retry{background:#c97d10}
+.p2-track-chip.new{background:#94a3b8}
+.p2-track-arrow{font-size:18px;color:var(--text3);font-weight:700;transition:transform .2s}
+.p2-track-card:hover .p2-track-arrow{transform:translateX(4px);color:#0ea5e9}
+
+/* Idiom mastery cards */
+.p2-idiom-duehint{margin-bottom:14px;padding:10px 16px;background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(251,146,60,.08));border:1.5px solid rgba(239,68,68,.3);border-radius:10px;font-size:13px;color:#b45309;font-weight:600;cursor:pointer;transition:all .2s}
+.p2-idiom-duehint:hover{transform:translateX(3px);border-color:#ef4444;background:linear-gradient(135deg,rgba(239,68,68,.14),rgba(251,146,60,.1))}
+[data-theme="dark"] .p2-idiom-duehint{color:#fbbf24;border-color:rgba(251,191,36,.4)}
+.p2-idiom-duehint b{font-weight:800}
+.p2-idiom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.p2-idiom-card{background:var(--card2);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s}
+.p2-idiom-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.1);border-color:transparent}
+.p2-idiom-head{display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff}
+.p2-idiom-emoji{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2));flex-shrink:0}
+.p2-idiom-head-info{flex:1;min-width:0}
+.p2-idiom-title{font-size:14px;font-weight:800;line-height:1.3;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.p2-idiom-total{font-size:11px;opacity:.95;font-weight:600;margin-top:2px}
+.p2-idiom-segbar{display:flex;height:8px;background:rgba(0,0,0,.08);overflow:hidden}
+.p2-idiom-seg{height:100%;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.p2-idiom-seg.master{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.p2-idiom-seg.learn{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.p2-idiom-seg.due{background:linear-gradient(90deg,#ef4444,#f87171)}
+.p2-idiom-seg.new{background:rgba(0,0,0,.12)}
+[data-theme="dark"] .p2-idiom-seg.new{background:rgba(255,255,255,.12)}
+.p2-idiom-stats{display:flex;gap:5px;flex-wrap:wrap;padding:12px 14px;background:var(--card)}
+.p2-idiom-chip{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;color:#fff}
+.p2-idiom-chip.master{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.p2-idiom-chip.learn{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.p2-idiom-chip.due{background:linear-gradient(135deg,#ef4444,#dc2626);animation:p2DuePulse 2s ease-in-out infinite}
+.p2-idiom-chip.new{background:#94a3b8}
+@keyframes p2DuePulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}50%{box-shadow:0 0 0 5px rgba(239,68,68,0)}}
+
+/* Bay Area Workplace English progress */
+.p2-bay-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;padding:14px 18px;background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#0f3460 100%);border-radius:12px;color:#fff}
+[data-theme="dark"] .p2-bay-summary{background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#0f3460 100%)}
+.p2-bay-sum-stat{text-align:center;padding:4px 2px}
+.p2-bay-sum-num{font-size:22px;font-weight:800;line-height:1.1;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.p2-bay-sum-lbl{font-size:11px;color:rgba(255,255,255,.82);font-weight:600}
+@media(max-width:640px){.p2-bay-summary{grid-template-columns:repeat(2,1fr);gap:8px}}
+
+.p2-bay-groups{display:flex;flex-direction:column;gap:12px}
+.p2-bay-group{background:var(--card2);border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
+.p2-bay-group-head{display:flex;align-items:center;gap:12px;padding:12px 16px;color:#fff}
+.p2-bay-group-hd{font-size:24px;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.p2-bay-group-info{flex:1;min-width:0}
+.p2-bay-group-title{font-size:14px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.p2-bay-group-sum{font-size:11px;opacity:.92;font-weight:600;margin-top:2px}
+.p2-bay-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;padding:12px}
+.p2-bay-cat{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative}
+.p2-bay-cat:hover{transform:translateY(-2px);border-color:#4f46e5;box-shadow:0 6px 14px rgba(0,0,0,.08)}
+.p2-bay-cat.done{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b}
+[data-theme="dark"] .p2-bay-cat.done{background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.1));border-color:#d97706}
+.p2-bay-cat.progress{border-color:rgba(79,70,229,.3)}
+.p2-bay-cat-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.p2-bay-cat-ico{font-size:16px;flex-shrink:0}
+.p2-bay-cat-label{font-size:12px;font-weight:800;color:var(--text1);flex:1;min-width:0}
+.p2-bay-cat.done .p2-bay-cat-label{color:#92400e}
+[data-theme="dark"] .p2-bay-cat.done .p2-bay-cat-label{color:#fcd34d}
+.p2-bay-cat-status{font-size:14px;line-height:1;flex-shrink:0}
+.p2-bay-cat-bar{height:4px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden;margin-bottom:4px}
+[data-theme="dark"] .p2-bay-cat-bar{background:rgba(255,255,255,.08)}
+.p2-bay-cat-fill{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.p2-bay-cat-nums{font-size:10.5px;color:var(--text3);font-weight:700;text-align:right}
+.p2-bay-cat.done .p2-bay-cat-nums{color:#b45309}
+[data-theme="dark"] .p2-bay-cat.done .p2-bay-cat-nums{color:#fde68a}
+
+/* Welcome / onboarding card for new users */
+.p2-welcome{display:flex;gap:22px;align-items:center;background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);border:1.5px solid #7dd3fc}
+[data-theme="dark"] .p2-welcome{background:linear-gradient(135deg,rgba(14,165,233,.15),rgba(3,105,161,.1));border-color:rgba(56,189,248,.3)}
+.p2-welcome-ico{font-size:54px;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(14,165,233,.3))}
+.p2-welcome-body{flex:1;min-width:0}
+.p2-welcome-title{font-size:20px;font-weight:800;color:#0c4a6e;margin-bottom:4px;letter-spacing:-.3px}
+[data-theme="dark"] .p2-welcome-title{color:#bae6fd}
+.p2-welcome-sub{font-size:13px;color:#075985;margin-bottom:16px;font-weight:600}
+[data-theme="dark"] .p2-welcome-sub{color:#7dd3fc}
+.p2-welcome-cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.p2-welcome-cta{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:1.5px solid rgba(14,165,233,.3);border-radius:12px;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit}
+[data-theme="dark"] .p2-welcome-cta{background:rgba(15,23,42,.5);border-color:rgba(56,189,248,.25)}
+.p2-welcome-cta:hover{transform:translateY(-3px);border-color:#0ea5e9;box-shadow:0 10px 24px rgba(14,165,233,.25)}
+.p2-welcome-cta-ico{font-size:26px;flex-shrink:0}
+.p2-welcome-cta-title{font-size:13px;font-weight:800;color:var(--text1);margin-bottom:2px}
+.p2-welcome-cta-sub{font-size:11px;color:var(--text3);font-weight:600;line-height:1.3}
+@media(max-width:640px){.p2-welcome{flex-direction:column;text-align:center;padding:20px 18px}.p2-welcome-cta-row{grid-template-columns:1fr}}
+
+/* Trophy grid */
+.p2-trophies{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.p2-trophy{background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;transition:transform .2s;cursor:help}
+.p2-trophy.earned{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;box-shadow:0 4px 12px rgba(245,158,11,.2)}
+[data-theme="dark"] .p2-trophy.earned{background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.1));border-color:#d97706}
+.p2-trophy.locked{opacity:.45}
+.p2-trophy:hover{transform:translateY(-3px) scale(1.03)}
+.p2-trophy-ico{font-size:30px;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+.p2-trophy-name{font-size:12px;font-weight:800;color:var(--text1);margin-bottom:2px}
+.p2-trophy-req{font-size:10px;color:var(--text3);line-height:1.3;font-weight:600}
+.p2-trophy.earned .p2-trophy-name{color:#92400e}
+[data-theme="dark"] .p2-trophy.earned .p2-trophy-name{color:#fcd34d}
+.p2-trophy.earned .p2-trophy-req{color:#b45309;opacity:.85}
+[data-theme="dark"] .p2-trophy.earned .p2-trophy-req{color:#fde68a}
+
+/* Activity heatmap */
+.p2-heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;padding:12px 8px;background:var(--card2);border-radius:10px;overflow-x:auto}
+.p2-hm-cell{width:14px;height:14px;border-radius:3px;transition:transform .15s}
+.p2-hm-cell:hover{transform:scale(1.4)}
+.p2-hm-l0{background:#e5e7eb;border:1px solid rgba(0,0,0,.05)}
+.p2-hm-l1{background:#a7f3d0}
+.p2-hm-l2{background:#6ee7b7}
+.p2-hm-l3{background:#34d399}
+.p2-hm-l4{background:#059669;box-shadow:0 0 4px rgba(5,150,105,.5)}
+.p2-hm-future{background:transparent;border:1px dashed rgba(0,0,0,.08)}
+[data-theme="dark"] .p2-hm-l0{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+.p2-hm-legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:10px;font-size:11px;color:var(--text3);font-weight:600}
+.p2-hm-legend .p2-hm-cell{width:12px;height:12px}
+
+/* Footer */
+.p2-footer{text-align:center;padding:4px 0}
+.p2-logout{padding:12px 28px;border-radius:10px;border:1.5px solid #ef4444;background:transparent;color:#ef4444;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.p2-logout:hover{background:#ef4444;color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(239,68,68,.35)}
+.p2-cta-login{display:flex;align-items:center;gap:18px;padding:22px 26px;background:linear-gradient(135deg,#0f766e 0%,#14b8a6 60%,#5eead4 100%);border-radius:16px;color:#fff;box-shadow:0 12px 30px rgba(15,118,110,.3);border:1.5px solid rgba(255,255,255,.2)}
+.p2-cta-icon{font-size:36px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.2))}
+.p2-cta-body{flex:1}
+.p2-cta-title{font-size:16px;font-weight:800;margin-bottom:3px;text-shadow:0 1px 3px rgba(0,0,0,.2)}
+.p2-cta-sub{font-size:12px;opacity:.92}
+.p2-cta-btn{padding:11px 22px;background:#fff;color:#0f766e;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
+.p2-cta-btn:hover{transform:translateY(-2px) scale(1.04)}
+
+@media(max-width:640px){
+  .p2-hero{padding:22px 18px}
+  .p2-hero-main{flex-direction:column;text-align:center;gap:14px}
+  .p2-hero-name-row{justify-content:center}
+  .p2-level-prog{margin:10px auto 0}
+  .p2-avatar{width:78px;height:78px;font-size:36px}
+  .p2-name{font-size:22px}
+  .p2-cta-login{flex-direction:column;text-align:center}
+  .p2-section{padding:18px 18px}
+  .p2-trophies{grid-template-columns:repeat(auto-fill,minmax(95px,1fr));gap:8px}
+}
+
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
@@ -11854,6 +12053,15 @@ function dlgQNext(){
     var box=document.getElementById('dlg-qbox');
     if(!box)return;
     var sc=_dlgSt.qScore,tot=d.quiz.length,pct=Math.round(sc/tot*100);
+    /* Save completion status for profile */
+    try {
+      var bayDone = JSON.parse(localStorage.getItem('bayarea_done')||'{}');
+      var prevBest = (bayDone[d.id] && bayDone[d.id].pct) || 0;
+      if (pct > prevBest) {
+        bayDone[d.id] = { pct: pct, score: sc, total: tot, cat: d.cat, ts: Date.now() };
+        localStorage.setItem('bayarea_done', JSON.stringify(bayDone));
+      }
+    } catch(e){}
     var msg=pct===100?'🏆 满分！你已完全掌握本期职场表达！':pct>=80?'🎉 非常棒！继续保持！':pct>=60?'👍 不错，多听几遍对话会更好！':'💪 建议重读对话后重新挑战！';
     box.innerHTML='<div class="dlg-qwrap"><div class="dlg-qresult">' +
       '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
@@ -14749,77 +14957,519 @@ function classicsProgressHtml() {
 
 function renderProfile() {
   var c = document.getElementById('profdata');
-  // Build registration date / IP country chip
-  var joinDate   = localStorage.getItem('join_date')   || '';
-  var ipCountry  = localStorage.getItem('ip_country')  || '';
-  var metaChips = '';
-  if (joinDate || ipCountry) {
-    metaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';
-    if (joinDate)   metaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">📅 加入 ' + joinDate + '</span>';
-    if (ipCountry)  metaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">🌍 ' + ipCountry + '</span>';
-    metaChips += '</div>';
+  if (!c) return;
+
+  /* ── Collect ALL the data we'll need ── */
+  var isLogged = !!(user && profile);
+  var p = isLogged ? profile : null;
+  var displayName = isLogged ? p.username : localName;
+  var email = isLogged ? user.email : '';
+  var initial = (displayName || 'U')[0].toUpperCase();
+  var joinDate = localStorage.getItem('join_date') || '';
+  var ipCountry = localStorage.getItem('ip_country') || '';
+  var regDate = (isLogged && user.created_at)
+    ? (function(){ var d = new Date(user.created_at); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })()
+    : joinDate;
+
+  var pts = isLogged ? (p.points || 0) : localPts;
+  var quizzes = isLogged ? (p.quizzes_taken || 0) : localQuizzes;
+  var correct = isLogged ? (p.correct_total || 0) : localCorrect;
+  var accuracy = quizzes > 0 ? Math.round((correct / (quizzes * 5 || 1)) * 100) : 0;
+  if (accuracy > 100) accuracy = 100;
+
+  var streak = streakData.count || 0;
+  var longestStreak = streakData.longest || 0;
+  var timeSecs = _activeTimeSecs || 0;
+  var studyDays = Object.keys(_studyDailyLog || {}).length;
+  var wrongBookCount = (typeof wb !== 'undefined' && wb) ? wb.length : 0;
+
+  /* ── Plumber progress (the core of this site) ── */
+  var plmbTracks = [];
+  var plmbTotalDone = 0, plmbTotalAll = 0;
+  var plmbAnyTouched = false;
+  if (window.PLMB_LEVELS && window._plmbCourseOverall) {
+    window.PLMB_LEVELS.forEach(function(lv){
+      if (lv.status !== 'active') return;
+      var ov = window._plmbCourseOverall(lv.key);
+      /* "Touched" = user has at least 1 passed, learning, or retry lesson in this track */
+      var touched = (ov.passed || 0) + (ov.learning || 0) + (ov.retry || 0) > 0;
+      if (touched) plmbAnyTouched = true;
+      plmbTracks.push({cfg:lv, overall:ov, touched:touched});
+      plmbTotalDone += (ov.passed || 0);
+      plmbTotalAll += (ov.total || 0);
+    });
   }
-  if (user && profile) {
-    // Logged-in profile
-    var p    = profile;
-    var init = (p.username || 'U')[0].toUpperCase();
-    var regDate = user.created_at
-      ? (function(){ var d = new Date(user.created_at); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })()
-      : joinDate;
-    var loggedMetaChips = '';
-    if (regDate || ipCountry) {
-      loggedMetaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';
-      if (regDate)   loggedMetaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">📅 注册 ' + regDate + '</span>';
-      if (ipCountry) loggedMetaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">🌍 ' + ipCountry + '</span>';
-      loggedMetaChips += '</div>';
-    }
-    c.innerHTML =
-      '<div class="prof-card">' +
-        '<div class="prof-av">' + init + '</div>' +
-        '<div><h2 style="font-size:20px;font-weight:700;margin-bottom:4px">' + p.username + '</h2>' +
-        '<p style="font-size:13px;color:var(--text2)">' + user.email + '</p></div>' +
-      '</div>' +
-      loggedMetaChips +
-      '<div class="sgrid">' +
-        '<div class="scard"><div class="n" style="color:var(--amber)">' + (p.points || 0) + '</div><div class="l">Total Points</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--blue)">' + (p.quizzes_taken || 0) + '</div><div class="l">Quizzes Taken</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--green)">' + (p.correct_total || 0) + '</div><div class="l">Correct Answers</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--purple)">' + wb.length + '</div><div class="l">In Wrong Book</div></div>' +
-      '</div>' +
-      classicsProgressHtml() +
-      srsProfileHtml() +
-      renderBadgesHtml() +
-      '<button class="logout-btn" onclick="doLogout()" style="margin-top:8px">Sign Out</button>';
-  } else {
-    // Local (guest) profile
-    var init2 = localName[0].toUpperCase();
-    c.innerHTML =
-      '<div class="prof-card">' +
-        '<div class="prof-av">' + init2 + '</div>' +
-        '<div style="flex:1">' +
-          '<h2 style="font-size:20px;font-weight:700;margin-bottom:4px">' + localName + '</h2>' +
-          '<p style="font-size:12px;color:var(--text3)">Local mode · points saved on this device</p>' +
+
+  /* ── Idiomatic Fluency mastery (SRS-based per type) ── */
+  var idiomStats = null;
+  if (typeof DATA !== 'undefined' && typeof srsStatus === 'function' && typeof isDue === 'function') {
+    var typeMap = {
+      idiom:  {label:'习语 Idioms',    emoji:'💬', color:'#06b6d4', gradient:'linear-gradient(135deg,#06b6d4,#0284c7)', total:0, master:0, learn:0, due:0, newCount:0},
+      phrase: {label:'短语 Phrases',   emoji:'🗣️', color:'#8b5cf6', gradient:'linear-gradient(135deg,#8b5cf6,#6366f1)', total:0, master:0, learn:0, due:0, newCount:0},
+      vocab:  {label:'词汇 Vocabulary',emoji:'📖', color:'#10b981', gradient:'linear-gradient(135deg,#10b981,#047857)', total:0, master:0, learn:0, due:0, newCount:0}
+    };
+    DATA.forEach(function(d){
+      var t = typeMap[d.type];
+      if (!t) return;
+      t.total++;
+      var s = srsStatus(d.id);
+      if (s === 'master') t.master++;
+      else if (s === 'due') t.due++;
+      else if (s === 'learn') t.learn++;
+      else t.newCount++;
+    });
+    idiomStats = {
+      types: [typeMap.idiom, typeMap.phrase, typeMap.vocab],
+      totalAll:  (typeMap.idiom.total  + typeMap.phrase.total  + typeMap.vocab.total),
+      masterAll: (typeMap.idiom.master + typeMap.phrase.master + typeMap.vocab.master),
+      learnAll:  (typeMap.idiom.learn  + typeMap.phrase.learn  + typeMap.vocab.learn),
+      dueAll:    (typeMap.idiom.due    + typeMap.phrase.due    + typeMap.vocab.due)
+    };
+  }
+
+  /* ── Bay Area Workplace English progress (per category group) ── */
+  var bayStats = null;
+  if (typeof DLG_DATA !== 'undefined' && typeof _DLG_CAT_GROUPS !== 'undefined' && typeof _DLG_CAT_META !== 'undefined') {
+    var bayDone = {};
+    try { bayDone = JSON.parse(localStorage.getItem('bayarea_done') || '{}'); } catch(e){ bayDone = {}; }
+    var bayGroups = _DLG_CAT_GROUPS.map(function(g){
+      var grp = {id:g.id, hd:g.hd, title:g.title, cats:[], total:0, mastered:0, passed:0, attempted:0};
+      g.cats.forEach(function(catKey){
+        var meta = _DLG_CAT_META[catKey] || {};
+        var dlgs = DLG_DATA.filter(function(d){ return d.cat === catKey; });
+        var mastered = 0, passed = 0, attempted = 0;
+        dlgs.forEach(function(d){
+          var done = bayDone[d.id];
+          if (done) {
+            attempted++;
+            if (done.pct >= 100) mastered++;
+            else if (done.pct >= 60) passed++;
+          }
+        });
+        grp.cats.push({key:catKey, icon:meta.icon||'', label:meta.label||catKey, total:dlgs.length, mastered:mastered, passed:passed, attempted:attempted});
+        grp.total += dlgs.length;
+        grp.mastered += mastered;
+        grp.passed += passed;
+        grp.attempted += attempted;
+      });
+      return grp;
+    });
+    var bayTotal = bayGroups.reduce(function(s,g){return s+g.total;}, 0);
+    var bayMastered = bayGroups.reduce(function(s,g){return s+g.mastered;}, 0);
+    var bayPassed = bayGroups.reduce(function(s,g){return s+g.passed;}, 0);
+    var bayAttempted = bayGroups.reduce(function(s,g){return s+g.attempted;}, 0);
+    bayStats = {groups:bayGroups, total:bayTotal, mastered:bayMastered, passed:bayPassed, attempted:bayAttempted};
+  }
+
+  /* ── Level title based on points (gamification) ── */
+  var lvl = (function(){
+    if (pts >= 5000) return {icon:'👑', name:'英语大师', color:'#9333ea', next:null};
+    if (pts >= 3000) return {icon:'💎', name:'钻石学员', color:'#0ea5e9', next:{at:5000, name:'英语大师'}};
+    if (pts >= 1500) return {icon:'🏆', name:'金牌学员', color:'#f59e0b', next:{at:3000, name:'钻石学员'}};
+    if (pts >= 500)  return {icon:'🥈', name:'银牌学员', color:'#64748b', next:{at:1500, name:'金牌学员'}};
+    if (pts >= 100)  return {icon:'🥉', name:'铜牌学员', color:'#b45309', next:{at:500, name:'银牌学员'}};
+    return {icon:'🌱', name:'新手学员', color:'#16a34a', next:{at:100, name:'铜牌学员'}};
+  })();
+  var levelProgress = lvl.next ? Math.round((pts / lvl.next.at) * 100) : 100;
+  if (levelProgress > 100) levelProgress = 100;
+
+  /* ─────────────────────────────────────────────
+   * SECTION 1: HERO PROFILE CARD
+   * ───────────────────────────────────────────── */
+  var metaChips = '';
+  var chipsArr = [];
+  if (regDate)   chipsArr.push('<span class="p2-meta-chip">📅 ' + (isLogged ? '注册' : '加入') + ' ' + regDate + '</span>');
+  if (ipCountry) chipsArr.push('<span class="p2-meta-chip">🌍 ' + ipCountry + '</span>');
+  if (isLogged)  chipsArr.push('<span class="p2-meta-chip p2-sync-chip">☁️ 云端同步</span>');
+  else           chipsArr.push('<span class="p2-meta-chip p2-local-chip">💾 仅本地</span>');
+  if (chipsArr.length) metaChips = '<div class="p2-meta-chips">' + chipsArr.join('') + '</div>';
+
+  var levelBadgeHtml =
+    '<div class="p2-level-badge" style="background:linear-gradient(135deg,' + lvl.color + ', rgba(0,0,0,.15))">' +
+      '<span class="p2-level-icon">' + lvl.icon + '</span>' +
+      '<span class="p2-level-name">' + lvl.name + '</span>' +
+    '</div>';
+
+  var levelProgHtml = lvl.next
+    ? '<div class="p2-level-prog">' +
+        '<div class="p2-level-prog-lbl">距离 <b>' + lvl.next.name + '</b> 还差 <b>' + (lvl.next.at - pts) + ' 分</b></div>' +
+        '<div class="p2-level-prog-bar"><div class="p2-level-prog-fill" style="width:' + levelProgress + '%;background:' + lvl.color + '"></div></div>' +
+      '</div>'
+    : '<div class="p2-level-prog"><div class="p2-level-prog-lbl" style="color:#fbbf24">🎉 已达最高等级！</div></div>';
+
+  var nameEditor = !isLogged
+    ? '<div class="p2-name-edit"><input class="p2-name-inp" id="name-inp" value="' + displayName + '" placeholder="Your name" maxlength="20"><button class="p2-name-save" onclick="saveName()">保存</button></div>'
+    : '';
+
+  var heroHtml =
+    '<div class="p2-hero">' +
+      '<div class="p2-hero-bg"></div>' +
+      '<div class="p2-hero-main">' +
+        '<div class="p2-avatar">' + initial + '</div>' +
+        '<div class="p2-hero-info">' +
+          '<div class="p2-hero-name-row">' +
+            '<h2 class="p2-name">' + displayName + '</h2>' +
+            levelBadgeHtml +
+          '</div>' +
+          (email ? '<div class="p2-email">' + email + '</div>' : '<div class="p2-email" style="opacity:.7">' + (isLogged?'':'本地账号 · 登录后可跨设备同步') + '</div>') +
+          metaChips +
+          levelProgHtml +
+          nameEditor +
         '</div>' +
       '</div>' +
-      metaChips +
-      '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">' +
-        '<p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Your Display Name</p>' +
-        '<input class="name-edit" id="name-inp" value="' + localName + '" placeholder="Enter your name" maxlength="20">' +
-        '<button class="save-btn" onclick="saveName()">Save Name</button>' +
-      '</div>' +
-      '<div class="sgrid">' +
-        '<div class="scard"><div class="n" style="color:var(--amber)">' + localPts + '</div><div class="l">Total Points</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--blue)">' + localQuizzes + '</div><div class="l">Quizzes Taken</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--green)">' + localCorrect + '</div><div class="l">Correct Answers</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--purple)">' + wb.length + '</div><div class="l">In Wrong Book</div></div>' +
-      '</div>' +
-      classicsProgressHtml() +
-      srsProfileHtml() +
-      renderBadgesHtml() +
-      (sbEnabled
-        ? '<p style="text-align:center;margin-top:16px;font-size:12px;color:var(--text3)">想同步数据或加入排行榜？<a onclick="openModal(\'login\')" style="color:var(--blue);cursor:pointer;text-decoration:underline">登录 / 注册</a></p>'
-        : '');
+    '</div>';
+
+  /* ─────────────────────────────────────────────
+   * SECTION 2: HEADLINE STATS (6 big number cards)
+   * ───────────────────────────────────────────── */
+  var statsHtml =
+    '<div class="p2-stats">' +
+      '<div class="p2-stat" style="--accent:#f59e0b"><div class="p2-stat-ico">💰</div><div class="p2-stat-num">' + pts + '</div><div class="p2-stat-lbl">总积分</div></div>' +
+      '<div class="p2-stat" style="--accent:#ef4444"><div class="p2-stat-ico">🔥</div><div class="p2-stat-num">' + streak + '</div><div class="p2-stat-lbl">连续天数<br><span class="p2-stat-sub">最长 ' + longestStreak + ' 天</span></div></div>' +
+      '<div class="p2-stat" style="--accent:#0ea5e9"><div class="p2-stat-ico">⏱️</div><div class="p2-stat-num">' + (typeof formatActiveTime === 'function' ? formatActiveTime(timeSecs) : Math.round(timeSecs/60)+'m') + '</div><div class="p2-stat-lbl">累计学习时长</div></div>' +
+      '<div class="p2-stat" style="--accent:#10b981"><div class="p2-stat-ico">✅</div><div class="p2-stat-num">' + correct + '</div><div class="p2-stat-lbl">答对题数<br><span class="p2-stat-sub">正确率 ' + accuracy + '%</span></div></div>' +
+      '<div class="p2-stat" style="--accent:#8b5cf6"><div class="p2-stat-ico">📝</div><div class="p2-stat-num">' + quizzes + '</div><div class="p2-stat-lbl">完成测验</div></div>' +
+      '<div class="p2-stat" style="--accent:#ec4899"><div class="p2-stat-ico">📚</div><div class="p2-stat-num">' + studyDays + '</div><div class="p2-stat-lbl">学习天数</div></div>' +
+    '</div>';
+
+  /* ─────────────────────────────────────────────
+   * SECTION 3: PLUMBING COURSE PROGRESS (rings per track)
+   * Only shown if the user has touched at least one track.
+   * Only touched tracks are rendered as cards.
+   * ───────────────────────────────────────────── */
+  var plmbSectionHtml = '';
+  if (plmbAnyTouched) {
+    var touchedTracks = plmbTracks.filter(function(t){ return t.touched; });
+    var tracksHtml = touchedTracks.map(function(t){
+      var ov = t.overall;
+      var r = 42;
+      var circ = 2 * Math.PI * r;
+      var offset = circ * (1 - (ov.pct || 0) / 100);
+      var ring =
+        '<svg class="p2-track-ring" viewBox="0 0 100 100">' +
+          '<circle cx="50" cy="50" r="' + r + '" stroke="rgba(0,0,0,.08)" stroke-width="8" fill="none"/>' +
+          '<circle cx="50" cy="50" r="' + r + '" stroke="url(#grad-' + t.cfg.key + ')" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .8s"/>' +
+          '<defs><linearGradient id="grad-' + t.cfg.key + '" x1="0%" y1="0%" x2="100%" y2="100%">' +
+            '<stop offset="0%" stop-color="' + (t.cfg.key==='beginner'?'#0ea5e9':t.cfg.key==='elementary'?'#10b981':'#6366f1') + '"/>' +
+            '<stop offset="100%" stop-color="' + (t.cfg.key==='beginner'?'#0369a1':t.cfg.key==='elementary'?'#047857':'#4338ca') + '"/>' +
+          '</linearGradient></defs>' +
+          '<text x="50" y="54" text-anchor="middle" font-size="18" font-weight="800" fill="var(--text1)">' + (ov.pct||0) + '%</text>' +
+        '</svg>';
+      return '<div class="p2-track-card" onclick="show(\'plumber\')">' +
+        ring +
+        '<div class="p2-track-info">' +
+          '<div class="p2-track-title">' + t.cfg.emoji + ' ' + t.cfg.title + '</div>' +
+          '<div class="p2-track-sub">' + t.cfg.titleEn + '</div>' +
+          '<div class="p2-track-stats">' +
+            '<span class="p2-track-chip pass">✅ ' + (ov.passed||0) + '</span>' +
+            (ov.learning ? '<span class="p2-track-chip learn">📖 ' + ov.learning + '</span>' : '') +
+            (ov.retry ? '<span class="p2-track-chip retry">⚠️ ' + ov.retry + '</span>' : '') +
+            '<span class="p2-track-chip new">⬜ ' + Math.max(0, (ov.total||0) - (ov.passed||0) - (ov.learning||0) - (ov.retry||0)) + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="p2-track-arrow">→</div>' +
+      '</div>';
+    }).join('');
+
+    /* Summary reflects only touched tracks */
+    var touchedDone = touchedTracks.reduce(function(s,t){return s+(t.overall.passed||0);}, 0);
+    var touchedAll = touchedTracks.reduce(function(s,t){return s+(t.overall.total||0);}, 0);
+    var overallPct = touchedAll > 0 ? Math.round((touchedDone / touchedAll) * 100) : 0;
+    plmbSectionHtml =
+      '<div class="p2-section">' +
+        '<div class="p2-section-head">' +
+          '<h3 class="p2-section-title">🔧 水管工程英语 · 课程进度</h3>' +
+          '<div class="p2-section-sum">' + touchedDone + ' / ' + touchedAll + ' 课通过 · ' + overallPct + '%</div>' +
+        '</div>' +
+        '<div class="p2-track-grid">' + tracksHtml + '</div>' +
+      '</div>';
   }
+
+  /* ─────────────────────────────────────────────
+   * SECTION 3.5: IDIOMATIC FLUENCY MASTERY
+   * Only shown if user has studied at least one item.
+   * Only touched types (idiom/phrase/vocab) are shown.
+   * ───────────────────────────────────────────── */
+  var idiomSectionHtml = '';
+  if (idiomStats && idiomStats.totalAll > 0) {
+    /* Filter to only types the user has actually engaged with */
+    var touchedTypes = idiomStats.types.filter(function(t){
+      return (t.master + t.learn + t.due) > 0;
+    });
+
+    if (touchedTypes.length > 0) {
+      var touchedMaster = touchedTypes.reduce(function(s,t){return s+t.master;}, 0);
+      var touchedTotal  = touchedTypes.reduce(function(s,t){return s+t.total;}, 0);
+      var masterPct = touchedTotal > 0 ? Math.round((touchedMaster / touchedTotal) * 100) : 0;
+      var dueHint = idiomStats.dueAll > 0
+        ? '<div class="p2-idiom-duehint" onclick="show(\'learn\')">⏰ <b>' + idiomStats.dueAll + ' 个</b>词条等待复习，现在复习可以巩固记忆 →</div>'
+        : '';
+
+      var cardsHtml = touchedTypes.map(function(t){
+        var mPct = Math.round((t.master / t.total) * 100);
+        var lPct = Math.round((t.learn / t.total) * 100);
+        var dPct = Math.round((t.due / t.total) * 100);
+        var nPct = 100 - mPct - lPct - dPct;
+        return '<div class="p2-idiom-card" onclick="show(\'learn\');setTimeout(function(){var b=document.querySelector(\'.ct[onclick*=&quot;' + (t.label.indexOf('Idiom')>=0?'idiom':(t.label.indexOf('Phrase')>=0?'phrase':'vocab')) + '&quot;]\');if(b)b.click();},50)">' +
+          '<div class="p2-idiom-head" style="background:' + t.gradient + '">' +
+            '<span class="p2-idiom-emoji">' + t.emoji + '</span>' +
+            '<div class="p2-idiom-head-info">' +
+              '<div class="p2-idiom-title">' + t.label + '</div>' +
+              '<div class="p2-idiom-total">' + t.master + ' / ' + t.total + ' 已掌握 · ' + mPct + '%</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="p2-idiom-segbar">' +
+            (mPct > 0 ? '<div class="p2-idiom-seg master" style="width:' + mPct + '%" title="已掌握 ' + t.master + '"></div>' : '') +
+            (lPct > 0 ? '<div class="p2-idiom-seg learn" style="width:' + lPct + '%" title="学习中 ' + t.learn + '"></div>' : '') +
+            (dPct > 0 ? '<div class="p2-idiom-seg due" style="width:' + dPct + '%" title="待复习 ' + t.due + '"></div>' : '') +
+            (nPct > 0 ? '<div class="p2-idiom-seg new" style="width:' + nPct + '%" title="未学习 ' + t.newCount + '"></div>' : '') +
+          '</div>' +
+          '<div class="p2-idiom-stats">' +
+            '<span class="p2-idiom-chip master">⭐ ' + t.master + ' 已掌握</span>' +
+            (t.learn ? '<span class="p2-idiom-chip learn">📖 ' + t.learn + ' 学习中</span>' : '') +
+            (t.due   ? '<span class="p2-idiom-chip due">⏰ ' + t.due + ' 待复习</span>' : '') +
+            '<span class="p2-idiom-chip new">🆕 ' + t.newCount + ' 未学习</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      idiomSectionHtml =
+        '<div class="p2-section">' +
+          '<div class="p2-section-head">' +
+            '<h3 class="p2-section-title">📚 Idiomatic Fluency · 习语掌握</h3>' +
+            '<div class="p2-section-sum">' + touchedMaster + ' / ' + touchedTotal + ' 已掌握 · ' + masterPct + '%</div>' +
+          '</div>' +
+          dueHint +
+          '<div class="p2-idiom-grid">' + cardsHtml + '</div>' +
+        '</div>';
+    }
+  }
+
+  /* ─────────────────────────────────────────────
+   * SECTION 3.7: BAY AREA WORKPLACE ENGLISH PROGRESS
+   * Only shown if user has attempted at least one dialogue.
+   * Only touched categories within each group are rendered.
+   * Groups with no touched categories are skipped.
+   * ───────────────────────────────────────────── */
+  var baySectionHtml = '';
+  if (bayStats && bayStats.attempted > 0) {
+    /* Keep only groups where at least one category has been attempted;
+       within each such group, keep only the touched categories. */
+    var touchedGroups = bayStats.groups
+      .map(function(g){
+        var touchedCats = g.cats.filter(function(c){ return c.attempted > 0; });
+        if (touchedCats.length === 0) return null;
+        var tCatsTotal    = touchedCats.reduce(function(s,c){return s+c.total;}, 0);
+        var tCatsMastered = touchedCats.reduce(function(s,c){return s+c.mastered;}, 0);
+        var tCatsPassed   = touchedCats.reduce(function(s,c){return s+c.passed;}, 0);
+        return {
+          id:g.id, hd:g.hd, title:g.title,
+          cats:touchedCats,
+          total:tCatsTotal, mastered:tCatsMastered, passed:tCatsPassed
+        };
+      })
+      .filter(function(g){ return g !== null; });
+
+    if (touchedGroups.length > 0) {
+      var bayDonePassed  = touchedGroups.reduce(function(s,g){return s+g.passed+g.mastered;}, 0);
+      var bayTotalTouched = touchedGroups.reduce(function(s,g){return s+g.total;}, 0);
+      var bayOverallPct = bayTotalTouched > 0 ? Math.round(bayDonePassed / bayTotalTouched * 100) : 0;
+
+      /* Group color palette that matches the Bay Area page aesthetic */
+      var _grpColors = {
+        core:   {bg:'linear-gradient(135deg,#4f46e5,#6366f1)', dot:'#6366f1'},
+        social: {bg:'linear-gradient(135deg,#7c3aed,#a855f7)', dot:'#a855f7'},
+        biz:    {bg:'linear-gradient(135deg,#b45309,#d97706)', dot:'#d97706'},
+        tech:   {bg:'linear-gradient(135deg,#0f766e,#14b8a6)', dot:'#14b8a6'}
+      };
+      var groupsHtml = touchedGroups.map(function(g){
+        var gPct = g.total > 0 ? Math.round((g.mastered + g.passed) / g.total * 100) : 0;
+        var gColor = _grpColors[g.id] || _grpColors.core;
+        var catsHtml = g.cats.map(function(c){
+          var cPct = c.total > 0 ? Math.round((c.mastered + c.passed) / c.total * 100) : 0;
+          var statusClass = c.mastered === c.total && c.total > 0 ? 'done' : 'progress';
+          var statusIcon = statusClass === 'done' ? '🏆' : '📖';
+          return '<div class="p2-bay-cat ' + statusClass + '" onclick="show(\'bayarea\')" title="' + c.label + '">' +
+            '<div class="p2-bay-cat-head">' +
+              '<span class="p2-bay-cat-ico">' + (c.icon || '📋') + '</span>' +
+              '<span class="p2-bay-cat-label">' + c.label + '</span>' +
+              '<span class="p2-bay-cat-status">' + statusIcon + '</span>' +
+            '</div>' +
+            '<div class="p2-bay-cat-bar"><div class="p2-bay-cat-fill" style="width:' + cPct + '%;background:' + gColor.dot + '"></div></div>' +
+            '<div class="p2-bay-cat-nums">' + (c.mastered + c.passed) + ' / ' + c.total + '</div>' +
+          '</div>';
+        }).join('');
+        return '<div class="p2-bay-group">' +
+          '<div class="p2-bay-group-head" style="background:' + gColor.bg + '">' +
+            '<span class="p2-bay-group-hd">' + g.hd + '</span>' +
+            '<div class="p2-bay-group-info">' +
+              '<div class="p2-bay-group-title">' + g.title + '</div>' +
+              '<div class="p2-bay-group-sum">' + (g.mastered + g.passed) + ' / ' + g.total + ' 对话通过 · ' + gPct + '%</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="p2-bay-cats">' + catsHtml + '</div>' +
+        '</div>';
+      }).join('');
+
+      /* Summary: only include stats about touched categories */
+      var masteredTouched = bayStats.mastered; // overall mastered is already user-specific
+      var passedTouched = bayStats.passed;
+      var inProgressTouched = Math.max(0, bayStats.attempted - bayStats.mastered - bayStats.passed);
+
+      baySectionHtml =
+        '<div class="p2-section">' +
+          '<div class="p2-section-head">' +
+            '<h3 class="p2-section-title">💼 Bay Area Workplace English · 职场对话</h3>' +
+            '<div class="p2-section-sum">' + bayDonePassed + ' / ' + bayTotalTouched + ' 对话通过 · ' + bayOverallPct + '%</div>' +
+          '</div>' +
+          '<div class="p2-bay-summary">' +
+            '<div class="p2-bay-sum-stat"><div class="p2-bay-sum-num" style="color:#f59e0b">🏆 ' + masteredTouched + '</div><div class="p2-bay-sum-lbl">满分掌握</div></div>' +
+            '<div class="p2-bay-sum-stat"><div class="p2-bay-sum-num" style="color:#10b981">✅ ' + passedTouched + '</div><div class="p2-bay-sum-lbl">已通过（≥60%）</div></div>' +
+            '<div class="p2-bay-sum-stat"><div class="p2-bay-sum-num" style="color:#3b82f6">📖 ' + inProgressTouched + '</div><div class="p2-bay-sum-lbl">已尝试</div></div>' +
+          '</div>' +
+          '<div class="p2-bay-groups">' + groupsHtml + '</div>' +
+        '</div>';
+    }
+  }
+
+  /* ─────────────────────────────────────────────
+   * WELCOME CARD — shown only to users with no
+   * progress in any learning section yet.
+   * ───────────────────────────────────────────── */
+  var welcomeHtml = '';
+  var hasAnyProgress = !!(plmbSectionHtml || idiomSectionHtml || baySectionHtml);
+  if (!hasAnyProgress) {
+    welcomeHtml =
+      '<div class="p2-section p2-welcome">' +
+        '<div class="p2-welcome-ico">🚀</div>' +
+        '<div class="p2-welcome-body">' +
+          '<div class="p2-welcome-title">开始你的学习之旅</div>' +
+          '<div class="p2-welcome-sub">选择一个方向开始学习，你的进度将自动在这里显示</div>' +
+          '<div class="p2-welcome-cta-row">' +
+            '<button class="p2-welcome-cta" onclick="show(\'plumber\')"><span class="p2-welcome-cta-ico">🔧</span><div><div class="p2-welcome-cta-title">水管工程英语</div><div class="p2-welcome-cta-sub">60 节课程 · 零基础到独立接单</div></div></button>' +
+            '<button class="p2-welcome-cta" onclick="show(\'learn\')"><span class="p2-welcome-cta-ico">📚</span><div><div class="p2-welcome-cta-title">Idiomatic Fluency</div><div class="p2-welcome-cta-sub">300+ 地道表达 · 习语精修</div></div></button>' +
+            '<button class="p2-welcome-cta" onclick="show(\'bayarea\')"><span class="p2-welcome-cta-ico">💼</span><div><div class="p2-welcome-cta-title">Bay Area Workplace</div><div class="p2-welcome-cta-sub">硅谷职场真实对话</div></div></button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  /* ─────────────────────────────────────────────
+   * SECTION 4: ACHIEVEMENT SHOWCASE
+   * ───────────────────────────────────────────── */
+  var TROPHIES_V2 = [
+    {id:'t_p10',    icon:'🥉', name:'初学者',    desc:'获得 10 积分',    test:function(){return pts>=10;}},
+    {id:'t_p100',   icon:'🥈', name:'进步者',    desc:'获得 100 积分',   test:function(){return pts>=100;}},
+    {id:'t_p500',   icon:'🥇', name:'熟练者',    desc:'获得 500 积分',   test:function(){return pts>=500;}},
+    {id:'t_p1500',  icon:'🏆', name:'金牌学员',  desc:'获得 1500 积分',  test:function(){return pts>=1500;}},
+    {id:'t_p3000',  icon:'💎', name:'钻石学员',  desc:'获得 3000 积分',  test:function(){return pts>=3000;}},
+    {id:'t_p5000',  icon:'👑', name:'英语大师',  desc:'获得 5000 积分',  test:function(){return pts>=5000;}},
+    {id:'t_s3',     icon:'🔥', name:'三连打卡',  desc:'连续学习 3 天',   test:function(){return streak>=3;}},
+    {id:'t_s7',     icon:'⚡', name:'一周坚持',  desc:'连续学习 7 天',   test:function(){return streak>=7;}},
+    {id:'t_s30',    icon:'🌟', name:'月度勇者',  desc:'连续学习 30 天',  test:function(){return streak>=30;}},
+    {id:'t_s100',   icon:'💫', name:'百日不辍',  desc:'连续学习 100 天', test:function(){return streak>=100;}},
+    {id:'t_q10',    icon:'📝', name:'勤学好问',  desc:'完成 10 个测验',  test:function(){return quizzes>=10;}},
+    {id:'t_q50',    icon:'📚', name:'学海无涯',  desc:'完成 50 个测验',  test:function(){return quizzes>=50;}},
+    {id:'t_plmb1',  icon:'🔧', name:'初试牛刀',  desc:'通过 1 节水管课', test:function(){return plmbTotalDone>=1;}},
+    {id:'t_plmb10', icon:'🛠️', name:'手艺精湛',  desc:'通过 10 节水管课',test:function(){return plmbTotalDone>=10;}},
+    {id:'t_plmb30', icon:'🏅', name:'水管行家',  desc:'通过 30 节水管课',test:function(){return plmbTotalDone>=30;}},
+    {id:'t_plmball',icon:'🎓', name:'全科满贯',  desc:'通过全部 60 节课',test:function(){return plmbTotalDone>=60;}},
+    {id:'t_t60',    icon:'⏰', name:'专注一小时',desc:'累计学习 1 小时', test:function(){return timeSecs>=3600;}},
+    {id:'t_t600',   icon:'⏳', name:'十小时修行',desc:'累计学习 10 小时',test:function(){return timeSecs>=36000;}},
+  ];
+  var earnedCount = TROPHIES_V2.filter(function(t){return t.test();}).length;
+  var trophiesHtml = TROPHIES_V2.map(function(t){
+    var earned = t.test();
+    return '<div class="p2-trophy' + (earned ? ' earned' : ' locked') + '" title="' + t.name + ' — ' + t.desc + '">' +
+      '<div class="p2-trophy-ico">' + (earned ? t.icon : '🔒') + '</div>' +
+      '<div class="p2-trophy-name">' + t.name + '</div>' +
+      '<div class="p2-trophy-req">' + t.desc + '</div>' +
+    '</div>';
+  }).join('');
+  var achievementsHtml =
+    '<div class="p2-section">' +
+      '<div class="p2-section-head">' +
+        '<h3 class="p2-section-title">🏆 成就徽章</h3>' +
+        '<div class="p2-section-sum">' + earnedCount + ' / ' + TROPHIES_V2.length + ' 已获得</div>' +
+      '</div>' +
+      '<div class="p2-trophies">' + trophiesHtml + '</div>' +
+    '</div>';
+
+  /* ─────────────────────────────────────────────
+   * SECTION 5: 12-WEEK ACTIVITY HEATMAP (GitHub-style)
+   * ───────────────────────────────────────────── */
+  var heatmapHtml = '';
+  (function(){
+    var daily = _studyDailyLog || {};
+    var weeks = 12;
+    var today = new Date(); today.setHours(0,0,0,0);
+    var startDay = new Date(today); startDay.setDate(today.getDate() - (weeks*7 - 1));
+    // align start to Sunday
+    var startDow = startDay.getDay();
+    startDay.setDate(startDay.getDate() - startDow);
+    var cells = [];
+    var totalMinutes = 0;
+    for (var w = 0; w < weeks+1; w++) {
+      for (var d = 0; d < 7; d++) {
+        var dt = new Date(startDay); dt.setDate(startDay.getDate() + w*7 + d);
+        if (dt > today) { cells.push({future:true}); continue; }
+        var key = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+        var secs = Math.round(daily[key] || 0);
+        totalMinutes += secs / 60;
+        var level = 0;
+        if (secs >= 1800) level = 4;   // 30min+
+        else if (secs >= 600) level = 3;  // 10min+
+        else if (secs >= 180) level = 2;  // 3min+
+        else if (secs > 0)    level = 1;
+        cells.push({date:key, level:level, minutes:Math.round(secs/60)});
+      }
+    }
+    var cellsHtml = cells.map(function(cell){
+      if (cell.future) return '<div class="p2-hm-cell p2-hm-future"></div>';
+      return '<div class="p2-hm-cell p2-hm-l' + cell.level + '" title="' + cell.date + ' · ' + cell.minutes + ' 分钟"></div>';
+    }).join('');
+    heatmapHtml =
+      '<div class="p2-section">' +
+        '<div class="p2-section-head">' +
+          '<h3 class="p2-section-title">📅 过去 12 周学习轨迹</h3>' +
+          '<div class="p2-section-sum">约 ' + Math.round(totalMinutes) + ' 分钟</div>' +
+        '</div>' +
+        '<div class="p2-heatmap">' + cellsHtml + '</div>' +
+        '<div class="p2-hm-legend">少 <span class="p2-hm-cell p2-hm-l0"></span><span class="p2-hm-cell p2-hm-l1"></span><span class="p2-hm-cell p2-hm-l2"></span><span class="p2-hm-cell p2-hm-l3"></span><span class="p2-hm-cell p2-hm-l4"></span> 多</div>' +
+      '</div>';
+  })();
+
+  /* ─────────────────────────────────────────────
+   * SECTION 6: SIGN-IN CTA / LOGOUT
+   * ───────────────────────────────────────────── */
+  var footerHtml = isLogged
+    ? '<div class="p2-footer"><button class="p2-logout" onclick="doLogout()">🚪 退出登录</button></div>'
+    : (sbEnabled
+        ? '<div class="p2-cta-login">' +
+            '<div class="p2-cta-icon">☁️</div>' +
+            '<div class="p2-cta-body">' +
+              '<div class="p2-cta-title">登录后数据永不丢失</div>' +
+              '<div class="p2-cta-sub">跨设备同步进度、参与排行榜、获得完整成就记录</div>' +
+            '</div>' +
+            '<button class="p2-cta-btn" onclick="openModal(\'login\')">立即登录</button>' +
+          '</div>'
+        : '');
+
+  /* ─────────────────────────────────────────────
+   * ASSEMBLE
+   * ───────────────────────────────────────────── */
+  c.innerHTML =
+    '<div class="p2-wrap">' +
+      heroHtml +
+      statsHtml +
+      plmbSectionHtml +
+      idiomSectionHtml +
+      baySectionHtml +
+      welcomeHtml +
+      achievementsHtml +
+      heatmapHtml +
+      footerHtml +
+    '</div>';
 }
 
 function srsProfileHtml() {
@@ -47182,6 +47832,14 @@ quiz:[
   };
 
   // Initial render on DOM ready (so it's there when first viewed)
+  /* ── Expose key functions globally so the Profile page can read plumber progress ── */
+  window.PLMB_LEVELS = PLMB_LEVELS;
+  window._plmbLessonStatus = lessonStatus;
+  window._plmbCourseOverall = courseOverall;
+  window._plmbExamStatus = examStatus;
+  window._plmbGetLevelData = _getLevelData;
+  window._plmbGetLevelExams = _getLevelExams;
+
   function _plmbInitRender() {
     if (state.view === 'lesson') renderLesson();
     else if (state.view === 'exam') renderExam();

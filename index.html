@@ -3784,7 +3784,7 @@ function submitHWTest() {
     var chosen  = hwSel[i];
     var correct = q.a;
     var isRight = (chosen === correct);
-    if (isRight) score++; else score--;
+    if (isRight) score++; else score -= 2;
     // Style options
     q.o.forEach(function(_, oi) {
       var b = document.getElementById('hwopt' + qi + '_' + oi);
@@ -3999,8 +3999,8 @@ function answerMW(qi, chosen) {
     // Mark progress
     setProgress('monthly_' + q.id, 'pass');
   } else {
-    mwQuiz.score--;
-    toast('❌ 再想想！ −1 分', 'bad');
+    mwQuiz.score -= 2;
+    toast('❌ 再想想！ −2 分', 'bad');
     setProgress('monthly_' + q.id, 'learning');
   }
   // Show result hint
@@ -5112,7 +5112,7 @@ function cnqPickMCQ(idx, chosen) {
   var q = cnqState.qs[cnqState.cur];
   var correct = q.answer;
   var isOk = (chosen === correct);
-  if (isOk) cnqState.score++; else cnqState.score--;
+  if (isOk) cnqState.score++; else cnqState.score -= 2;
 
   // Highlight buttons
   q.opts.forEach(function(opt, i) {
@@ -5149,7 +5149,7 @@ function cnqCheckType() {
 
   inp.classList.add(isOk ? 'ok' : 'bad');
   inp.disabled = true;
-  if (isOk) cnqState.score++; else cnqState.score--;
+  if (isOk) cnqState.score++; else cnqState.score -= 2;
 
   cnqState.answers.push({word: w, correct: isOk, userAnswer: inp.value.trim(), rightAnswer: w.en, mode: q.mode});
   _cnqShowFeedback(isOk, q);
@@ -6073,7 +6073,7 @@ function _ispAnswer(btn, isCorrect) {
   btn.classList.add(isCorrect ? 'correct' : 'wrong');
   // If wrong, reveal the correct one
   if (!isCorrect) {
-    _ispState.score--;
+    _ispState.score -= 2;
     opts.forEach(function(b) {
       if (b.textContent.trim() === q.meaning) {
         b.classList.remove('revealed');
@@ -7457,7 +7457,7 @@ function laAnswer(btn, chosen) {
   _laState.answered = true;
   var q = _laState.questions[_laState.curIdx];
   var isCorrect = chosen === q.correct;
-  if (isCorrect) _laState.score++; else _laState.score--;
+  if (isCorrect) _laState.score++; else _laState.score -= 2;
   // Highlight options
   document.querySelectorAll('#la-card .la-opt').forEach(function(b) {
     b.disabled = true;
@@ -8437,7 +8437,7 @@ function bqPick(idx, chosen) {
   var item = s.picks[s.cur];
   var correct = item.meaning;
   var isOk = (chosen === correct);
-  if (isOk) s.score++; else s.score--;
+  if (isOk) s.score++; else s.score -= 2;
   s.answers.push({item: item, ok: isOk, chosen: chosen});
 
   var btns = document.querySelectorAll('#bq-opts .wbr-opt');
@@ -9470,7 +9470,7 @@ function wbrPick(idx, chosen) {
     chosen = s._opts[idx];
   }
   var isOk = (chosen === correct);
-  if (isOk) { s.score++; s.correctIds.push(item.id); } else { s.score--; }
+  if (isOk) { s.score++; s.correctIds.push(item.id); } else { s.score -= 2; }
 
   // Highlight buttons
   var btns = document.querySelectorAll('#wbr-opts .wbr-opt');
@@ -32642,7 +32642,15 @@ function _isLevelUnlocked(lvId) {
   return true; // All levels freely accessible
 }
 function _isLessonUnlocked(lvId, lessonIdx) {
-  return true; // All lessons freely accessible
+  // First 3 lessons always unlocked (index 0, 1, 2)
+  if (lessonIdx < 3) return true;
+  // Must complete previous lesson to unlock
+  var lessons = CRS_LESSONS[lvId] || [];
+  if (lessonIdx > 0 && lessonIdx < lessons.length) {
+    var prevLesson = lessons[lessonIdx - 1];
+    return !!_getLessonStatus(lvId, prevLesson.id);
+  }
+  return false;
 }
 
 // ── Achievement System ──
@@ -36496,7 +36504,7 @@ sentences:[
     else if (qi < nl+nv) correct = ex.vocab[qi-nl].a;
     else correct = ex.sentences[qi-nl-nv].a;
     e.answers[qi] = oi;
-    if (oi === correct) e.score++; else e.score--;
+    if (oi === correct) e.score++; else e.score -= 2;
     saveExam(eid, e);
     renderExam();
   };
@@ -36950,7 +36958,7 @@ sentences:[
     var q = state.quiz[lid];
     if (q.answers[qi] !== undefined) return;
     q.answers[qi] = oi;
-    if (oi === ls.quiz[qi].a) q.score++; else q.score--;
+    if (oi === ls.quiz[qi].a) q.score++; else q.score -= 2;
     saveQuiz(lid, q);
     renderLesson();
   };
@@ -36977,7 +36985,7 @@ sentences:[
       }
     }
     q.answers[qi] = { val: val, ok: ok };
-    if (ok) q.score++; else q.score--;
+    if (ok) q.score++; else q.score -= 2;
     saveQuiz(lid, q);
     renderLesson();
   };

@@ -2901,18 +2901,53 @@ function _collectProgressData(){
   return out;
 }
 var _syncUploadTimer = null;
+var _syncStatus = 'idle'; // 'idle' | 'saving' | 'saved' | 'error' | 'offline'
+function _showSyncStatus(status, msg){
+  _syncStatus = status;
+  var el = document.getElementById('sync-indicator');
+  if (!el){
+    el = document.createElement('div');
+    el.id = 'sync-indicator';
+    el.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:9999;font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.15);transition:all .3s;pointer-events:none;opacity:0;transform:translateY(10px)';
+    document.body.appendChild(el);
+  }
+  var map = {
+    saving:  { bg:'#eff6ff', color:'#1d4ed8', border:'#bfdbfe', text:'☁️ 保存中…' },
+    saved:   { bg:'#ecfdf5', color:'#047857', border:'#a7f3d0', text:'✓ 已同步到云端' },
+    error:   { bg:'#fef2f2', color:'#b91c1c', border:'#fecaca', text:'⚠️ 同步失败 · 本地已保存' },
+    offline: { bg:'#fffbeb', color:'#b45309', border:'#fde68a', text:'💾 仅本地保存（未登录）' }
+  };
+  var cfg = map[status];
+  if (!cfg){ el.style.opacity = 0; el.style.transform = 'translateY(10px)'; return; }
+  el.style.background = cfg.bg;
+  el.style.color = cfg.color;
+  el.style.border = '1px solid ' + cfg.border;
+  el.textContent = msg || cfg.text;
+  el.style.opacity = 1;
+  el.style.transform = 'translateY(0)';
+  if (status === 'saved' || status === 'offline'){
+    setTimeout(function(){ if (_syncStatus === status){ el.style.opacity = 0; el.style.transform = 'translateY(10px)'; } }, 2200);
+  }
+}
 async function uploadProgressToCloud(){
   if (!sbEnabled || typeof user==='undefined' || !user) return;
+  _showSyncStatus('saving');
   try {
     var data = _collectProgressData();
     var res = await sb.from('user_progress').upsert({
       user_id: user.id, data: data, updated_at: new Date().toISOString()
     }, { onConflict: 'user_id' });
-    if (res.error) console.warn('[sync] upload error', res.error);
-  } catch(e){ console.warn('[sync] upload failed', e); }
+    if (res.error) { console.warn('[sync] upload error', res.error); _showSyncStatus('error'); }
+    else { _showSyncStatus('saved'); }
+  } catch(e){ console.warn('[sync] upload failed', e); _showSyncStatus('error'); }
 }
 function scheduleCloudUpload(){
-  if (!sbEnabled || typeof user==='undefined' || !user) return;
+  if (!sbEnabled) return;
+  if (typeof user==='undefined' || !user){
+    /* Not logged in — still save locally, but let user know they should log in */
+    if (!window._offlineHintShown){ window._offlineHintShown = true; _showSyncStatus('offline'); }
+    return;
+  }
   if (_syncUploadTimer) clearTimeout(_syncUploadTimer);
   _syncUploadTimer = setTimeout(uploadProgressToCloud, 1500);
 }
@@ -42682,6 +42717,42 @@ window.LEARN_EXTRAS = {
 .plmb-acc-coming-ico{font-size:48px;margin-bottom:10px;opacity:.5}
 .plmb-acc-progbar{height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:8px;overflow:hidden}
 .plmb-acc-progfill{height:100%;background:#fff;border-radius:2px;transition:width .5s}
+/* ── Continue-where-you-left-off banner ── */
+.plmb-continue{display:flex;align-items:center;gap:18px;padding:18px 24px;margin:0 0 18px;background:linear-gradient(135deg,#0f766e 0%,#14b8a6 60%,#5eead4 100%);border-radius:14px;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(15,118,110,.3);position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.2)}
+.plmb-continue:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(15,118,110,.42)}
+.plmb-continue::before{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-18deg);animation:plmbContinueShine 3.8s ease-in-out infinite;pointer-events:none}
+@keyframes plmbContinueShine{0%{left:-60%}55%{left:130%}100%{left:130%}}
+.plmb-continue-left{flex:1;min-width:0;position:relative;z-index:1}
+.plmb-continue-label{font-size:11px;font-weight:700;letter-spacing:.1em;opacity:.9;margin-bottom:4px;text-transform:uppercase}
+.plmb-continue-title{font-size:18px;font-weight:800;margin-bottom:3px;text-shadow:0 1px 3px rgba(0,0,0,.2);line-height:1.3}
+.plmb-continue-sub{font-size:12px;opacity:.9}
+.plmb-continue-cta{font-size:13px;font-weight:700;color:#0f766e;background:#fff;padding:10px 18px;border-radius:999px;white-space:nowrap;position:relative;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s}
+.plmb-continue:hover .plmb-continue-cta{transform:scale(1.05)}
+@media(max-width:640px){.plmb-continue{flex-direction:column;align-items:stretch;text-align:center}.plmb-continue-cta{margin-top:4px}}
+
+/* ── Legend (dot-color key) ── */
+.plmb-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;margin:0 4px 14px;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;color:var(--text2);font-weight:600}
+.plmb-legend-item{display:flex;align-items:center;gap:5px}
+
+/* ── Dots (lesson-by-lesson status strip) ── */
+.plmb-acc-stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.plmb-acc-chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px)}
+.plmb-acc-chip.pass{background:rgba(30,158,92,.85);border-color:rgba(255,255,255,.35)}
+.plmb-acc-chip.learn{background:rgba(68,118,214,.85);border-color:rgba(255,255,255,.35)}
+.plmb-acc-chip.retry{background:rgba(201,125,16,.9);border-color:rgba(255,255,255,.35)}
+.plmb-acc-chip.new{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3)}
+.plmb-dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;padding:6px 8px;background:rgba(0,0,0,.18);border-radius:8px;max-width:fit-content}
+.plmb-dot{display:inline-block;width:11px;height:11px;border-radius:3px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.35);transition:transform .15s}
+.plmb-dot:hover{transform:scale(1.5)}
+.plmb-dot.pass{background:#22c55e;border-color:#16a34a;box-shadow:0 0 4px rgba(34,197,94,.5)}
+.plmb-dot.learn{background:#60a5fa;border-color:#3b82f6;box-shadow:0 0 4px rgba(96,165,250,.5)}
+.plmb-dot.retry{background:#fb923c;border-color:#ea580c;box-shadow:0 0 4px rgba(251,146,60,.5)}
+.plmb-dot-exam{border-radius:50%;width:11px;height:11px}
+/* Legend dot variant (neutral bg so it's visible against cream page) */
+.plmb-legend .plmb-dot{background:#d6d0c0;border-color:#b8b0a0}
+.plmb-legend .plmb-dot.pass{background:#22c55e;border-color:#16a34a}
+.plmb-legend .plmb-dot.learn{background:#60a5fa;border-color:#3b82f6}
+.plmb-legend .plmb-dot.retry{background:#fb923c;border-color:#ea580c}
 @media(max-width:720px){.plmb-hero h1{font-size:24px}.plmb-hero::before{font-size:80px;right:10px}.plmb-tab{min-width:auto;padding:10px 8px;font-size:12px}.plmb-home-hero h1{font-size:24px}.plmb-levels{grid-template-columns:1fr}}
 </style>
 
@@ -46472,6 +46543,56 @@ quiz:[
   }
 
   /* ---- Unified accordion home view ---- */
+  /* ════════ Progress helpers for home view ════════ */
+  function _plmbGetLastLesson(){
+    try {
+      var raw = localStorage.getItem('plmb_last_lesson');
+      if (!raw) return null;
+      var obj = JSON.parse(raw);
+      if (!obj || !obj.id) return null;
+      /* Find the lesson data */
+      var all = (window.PLMB_DATA||[]).concat(window.PLMB_ELEM_DATA||[]).concat(window.PLMB_INTER_DATA||[]);
+      var L = all.find(function(x){ return x.id === obj.id; });
+      if (!L) return null;
+      /* Figure out which level it belongs to */
+      var levelKey = obj.level;
+      if (!levelKey) {
+        if ((window.PLMB_DATA||[]).find(function(x){return x.id===obj.id;})) levelKey = 'beginner';
+        else if ((window.PLMB_ELEM_DATA||[]).find(function(x){return x.id===obj.id;})) levelKey = 'elementary';
+        else levelKey = 'intermediate';
+      }
+      var lvCfg = (window.PLMB_LEVELS||[]).find(function(x){return x.key===levelKey;}) || {};
+      var displayNum = L.id > 200 ? L.id - 200 : (L.id > 100 ? L.id - 100 : L.id);
+      var st = lessonStatus(L.id);
+      return { id:L.id, level:levelKey, title:L.title, titleCn:L.titleCn, emoji:L.emoji,
+               displayNum:displayNum, levelTitle:lvCfg.title||'', status:st };
+    } catch(e){ return null; }
+  }
+
+  function _plmbBuildDots(levelKey){
+    var data = _getLevelData(levelKey) || [];
+    var exams = _getLevelExams(levelKey) || [];
+    var dots = '';
+    data.forEach(function(L){
+      var s = lessonStatus(L.id);
+      var cls = 'plmb-dot';
+      if (s.key === 'pass') cls += ' pass';
+      else if (s.key === 'retry') cls += ' retry';
+      else if (s.key === 'learn') cls += ' learn';
+      var num = L.id > 200 ? L.id - 200 : (L.id > 100 ? L.id - 100 : L.id);
+      dots += '<span class="' + cls + '" title="Lesson ' + num + ': ' + L.title + ' — ' + s.label + '"></span>';
+    });
+    exams.forEach(function(E){
+      var s = examStatus(E.id);
+      var cls = 'plmb-dot plmb-dot-exam';
+      if (s.key === 'pass') cls += ' pass';
+      else if (s.key === 'retry') cls += ' retry';
+      else if (s.key === 'learn') cls += ' learn';
+      dots += '<span class="' + cls + '" title="Exam ' + E.id + ': ' + E.title + ' — ' + s.label + '"></span>';
+    });
+    return dots;
+  }
+
   function renderHome() {
     var c = document.getElementById('plmb-main');
     if (!c) return;
@@ -46489,13 +46610,48 @@ quiz:[
         '</div>' +
       '</div>';
 
+    /* Continue where you left off banner */
+    var continueHtml = '';
+    var last = _plmbGetLastLesson();
+    if (last) {
+      var ctaLabel = last.status.key === 'pass' ? '🔁 复习本课' :
+                     last.status.key === 'retry' ? '📖 继续复习' :
+                     last.status.key === 'learn' ? '▶️ 继续学习' :
+                     '▶️ 开始学习';
+      continueHtml =
+        '<div class="plmb-continue" onclick="_plmbOpen(' + last.id + ',\'' + last.level + '\')">' +
+          '<div class="plmb-continue-left">' +
+            '<div class="plmb-continue-label">👋 欢迎回来 · 上次学到</div>' +
+            '<div class="plmb-continue-title">' + last.emoji + ' Lesson ' + last.displayNum + ' · ' + last.title + '</div>' +
+            '<div class="plmb-continue-sub">' + last.titleCn + ' · ' + last.levelTitle + ' · ' + last.status.label + '</div>' +
+          '</div>' +
+          '<div class="plmb-continue-cta">' + ctaLabel + ' →</div>' +
+        '</div>';
+    }
+
     /* Build accordion panels */
     var accHtml = '';
     PLMB_LEVELS.forEach(function(lv, idx) {
       var isActive = lv.status === 'active';
-      var lvOverall = isActive ? courseOverall(lv.key) : {pct:0, passed:0, total:0};
+      var lvOverall = isActive ? courseOverall(lv.key) : {pct:0, passed:0, total:0, learning:0, retry:0};
       var pct = lvOverall.pct;
       var openClass = (!_plmbFirstRender && isActive && state.level === lv.key) ? ' open' : '';
+      var total = lvOverall.total || 0;
+      var notStarted = total - (lvOverall.passed||0) - (lvOverall.learning||0) - (lvOverall.retry||0);
+      if (notStarted < 0) notStarted = 0;
+
+      /* Stats chip row + dot grid (collapsed-state glanceable info) */
+      var statsHtml = '';
+      if (isActive) {
+        statsHtml =
+          '<div class="plmb-acc-stats">' +
+            '<span class="plmb-acc-chip pass">✅ ' + (lvOverall.passed||0) + ' 完成</span>' +
+            (lvOverall.learning ? '<span class="plmb-acc-chip learn">📖 ' + lvOverall.learning + ' 学习中</span>' : '') +
+            (lvOverall.retry ? '<span class="plmb-acc-chip retry">⚠️ ' + lvOverall.retry + ' 需复习</span>' : '') +
+            '<span class="plmb-acc-chip new">⬜ ' + notStarted + ' 未开始</span>' +
+          '</div>' +
+          '<div class="plmb-dots">' + _plmbBuildDots(lv.key) + '</div>';
+      }
 
       /* Accordion header */
       var headHtml =
@@ -46504,6 +46660,7 @@ quiz:[
           '<div class="plmb-acc-info">' +
             '<div class="plmb-acc-title">' + lv.title + '</div>' +
             '<div class="plmb-acc-sub">' + lv.titleEn + ' · ' + lv.desc + '</div>' +
+            statsHtml +
             (isActive ? '<div class="plmb-acc-progbar"><div class="plmb-acc-progfill" style="width:' + pct + '%"></div></div>' : '') +
           '</div>' +
           '<div class="plmb-acc-right">' +
@@ -46537,7 +46694,17 @@ quiz:[
       '<div class="caprep-entry-cta">进入题库 →</div>' +
     '</div>';
 
-    c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + caStandalone + '</div>';
+    /* Dot-legend (tiny key so users know what the colors mean) */
+    var legendHtml =
+      '<div class="plmb-legend">' +
+        '<span class="plmb-legend-item"><span class="plmb-dot pass"></span>已通过</span>' +
+        '<span class="plmb-legend-item"><span class="plmb-dot learn"></span>学习中</span>' +
+        '<span class="plmb-legend-item"><span class="plmb-dot retry"></span>需复习</span>' +
+        '<span class="plmb-legend-item"><span class="plmb-dot"></span>未开始</span>' +
+        '<span class="plmb-legend-item"><span class="plmb-dot plmb-dot-exam"></span>综合测试</span>' +
+      '</div>';
+
+    c.innerHTML = heroHtml + continueHtml + legendHtml + '<div style="padding:0 4px">' + accHtml + caStandalone + '</div>';
     _plmbFirstRender = false;
   }
 
@@ -46563,6 +46730,8 @@ quiz:[
   window._plmbOpen = function(id, levelKey){
     if (levelKey) state.level = levelKey;
     state.view = 'lesson'; state.lessonId = id; state.tab = 'passage';
+    /* Remember last-visited for "Continue" banner */
+    try { localStorage.setItem('plmb_last_lesson', JSON.stringify({id:id, level:levelKey||state.level, ts:Date.now()})); } catch(e){}
     renderLesson();
     window.scrollTo({top:0, behavior:'smooth'});
   };

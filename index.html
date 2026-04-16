@@ -46066,7 +46066,8 @@ quiz:[
    PLUMBER ENGLISH LOGIC · rendering, TTS, quiz
    ═══════════════════════════════════════════ */
 (function(){
-  var state = { view:'home', level:'beginner', lessonId:null, examId:null, tab:'passage', quiz:{}, examAns:{} };
+  var state = { view:'home', level:null, lessonId:null, examId:null, tab:'passage', quiz:{}, examAns:{} };
+  var _plmbFirstRender = true;
   var EXAM_PASS_PCT = 70;
 
   // ── 3-Level Course System ──
@@ -46494,7 +46495,7 @@ quiz:[
       var isActive = lv.status === 'active';
       var lvOverall = isActive ? courseOverall(lv.key) : {pct:0, passed:0, total:0};
       var pct = lvOverall.pct;
-      var openClass = (isActive && state.level === lv.key) ? ' open' : '';
+      var openClass = (!_plmbFirstRender && isActive && state.level === lv.key) ? ' open' : '';
 
       /* Accordion header */
       var headHtml =
@@ -46538,6 +46539,7 @@ quiz:[
     });
 
     c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + '</div>';
+    _plmbFirstRender = false;
   }
 
   /* Toggle accordion open/close */
@@ -46555,7 +46557,7 @@ quiz:[
 
   /* renderGrid now just delegates to renderHome (unified view) */
   function renderGrid(){
-    state.level = state.level || 'beginner';
+    /* Start with all cards collapsed — user picks which to expand */
     renderHome();
   }
 

@@ -8636,7 +8636,7 @@ function renderLearn() {
     el.id = 'vc' + d.id;
     var exPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
     var numDisp = typeof d.id === 'number' ? ('00' + d.id).slice(-3) : String(d.id).replace(/^idn_/i,'N').toUpperCase();
-    var idArg = JSON.stringify(d.id);
+    var idArg = typeof d.id === 'number' ? d.id : "'" + d.id + "'";
     el.innerHTML =
       '<div class="vc-head" onclick="tog(' + idArg + ')" style="--vc-status:' + statusColor + '">' +
         '<div class="vc-head-top">' +

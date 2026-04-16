@@ -215,7 +215,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .hero-landing.show{display:block}
 .hero-top{background:#0a0e1a;background-image:radial-gradient(ellipse at 20% 20%,rgba(99,102,241,.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 75%,rgba(217,119,87,.12) 0%,transparent 60%),linear-gradient(180deg,#0a0e1a 0%,#11172a 100%);color:#f5f1ea;padding:40px 24px 48px;text-align:left;position:relative;overflow:hidden;border-bottom:1px solid rgba(217,119,87,.15)}
 .hero-top::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(245,241,234,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(245,241,234,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(180deg,#000 30%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 100%);pointer-events:none}
-.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;display:flex;align-items:center;gap:48px}
+.hero-left{flex:1;min-width:0}
+.hero-nav-grid{flex:0 0 420px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.hero-nav-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:rgba(245,241,234,.06);border:1px solid rgba(245,241,234,.1);cursor:pointer;transition:all .25s;text-decoration:none;color:#f5f1ea}
+.hero-nav-item:hover{background:rgba(217,119,87,.12);border-color:rgba(217,119,87,.35);transform:translateY(-2px)}
+.hero-nav-item .hni-ico{font-size:18px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:rgba(245,241,234,.08);border-radius:8px}
+.hero-nav-item .hni-txt{font-size:12.5px;font-weight:600;line-height:1.3;letter-spacing:.01em}
+.hero-nav-item .hni-sub{font-size:10px;color:rgba(245,241,234,.45);font-weight:400;margin-top:2px}
+@media(max-width:900px){.hero-inner{flex-direction:column;gap:28px}.hero-nav-grid{flex:none;width:100%}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#d97757;margin-bottom:24px}
 .hero-eyebrow::before{content:'';width:32px;height:1px;background:#d97757}
 .hero-h1{font-family:'Playfair Display','Times New Roman',Georgia,serif;font-size:clamp(30px,4.2vw,48px);font-weight:500;line-height:1.1;margin-bottom:12px;letter-spacing:-.02em;color:#f5f1ea;max-width:880px}
@@ -1781,30 +1789,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="logo" onclick="showHome()"><div class="logo-dot"></div>Aaron's English Hub</div>
   <div class="tb-mid">
     <button class="home-btn" onclick="showHome()"><span class="nb-en">Home</span><span class="nb-cn">首页</span></button>
-    <div class="dd-wrap" id="dd-wrap">
-      <button class="dd-btn" id="dd-btn" onclick="toggleDropdown()">
-        <span class="nb-en">Studio</span><span class="nb-cn">学习工坊</span>
-        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-      </button>
-      <div class="dd-panel" id="dd-panel">
-        <div class="dd-label">每日学习</div>
-        <button class="dd-item" onclick="ddGo('daily')"><span class="dd-ico">📅</span>Daily 每日仪表盘</button>
-        <button class="dd-item" onclick="ddGo('learn')"><span class="dd-ico">📚</span>Learn 习语学习</button>
-        <button class="dd-item" onclick="ddGo('quiz')"><span class="dd-ico">✏️</span>Quiz 测验</button>
-        <div class="dd-sep"></div>
-        <div class="dd-label">系统学习</div>
-        <button class="dd-item" onclick="ddGo('course')"><span class="dd-ico">📖</span>Course 系统课程</button>
-        <button class="dd-item" onclick="ddGo('bayarea')"><span class="dd-ico">💼</span>Workplace 职场英语</button>
-        <button class="dd-item" onclick="ddGo('plumber')"><span class="dd-ico">🔧</span>CA Plumber English 加州水管工英语精修</button>
-        <button class="dd-item" onclick="ddGo('monthly')"><span class="dd-ico">🔥</span>美国月度流行热词</button>
-        <button class="dd-item" onclick="ddGo('cnen')"><span class="dd-ico">🀄</span>CN→EN 汉译英</button>
-        <button class="dd-item" onclick="ddGo('classics')"><span class="dd-ico">📜</span>美国最经典小说选读</button>
-        <div class="dd-sep"></div>
-        <div class="dd-label">数据</div>
-        <button class="dd-item" onclick="ddGo('wrongbook')"><span class="dd-ico">📕</span>Wrong Book 错题本</button>
-        <button class="dd-item" onclick="ddGo('lb')"><span class="dd-ico">🏆</span>Rankings 排行榜</button>
-        <button class="dd-item" onclick="ddGo('profile')"><span class="dd-ico">👤</span>Profile 个人</button>
-      </div>
+    <!-- Studio dropdown removed: hero nav grid replaces it -->
+    <div class="dd-wrap" id="dd-wrap" style="display:none">
+      <div class="dd-panel" id="dd-panel"></div>
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:6px">
@@ -1938,12 +1925,53 @@ document.addEventListener('DOMContentLoaded', function(){
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap">
   <div class="hero-top">
     <div class="hero-inner">
-      <div class="hero-eyebrow">English Mastery · 高阶英语</div>
-      <h1 class="hero-h1">Master English <em>like a native.</em><br>Advance your career.</h1>
-      <p class="hero-sub">A refined English learning platform built for university students and professionals. Sharpen your business communication, academic writing, and everyday fluency — one deliberate session at a time.</p>
-      <div class="hero-cta-row">
-        <button class="hero-cta primary" onclick="ddGo('learn')">Begin Learning →</button>
-        <button class="hero-cta ghost" onclick="ddGo('course')">Explore Curriculum</button>
+      <div class="hero-left">
+        <div class="hero-eyebrow">English Mastery · 高阶英语</div>
+        <h1 class="hero-h1">Master English <em>like a native.</em><br>Advance your career.</h1>
+        <p class="hero-sub">A refined English learning platform built for university students and professionals. Sharpen your business communication, academic writing, and everyday fluency — one deliberate session at a time.</p>
+        <!-- CTA buttons removed: nav grid on the right replaces them -->
+      </div>
+      <div class="hero-nav-grid">
+        <div class="hero-nav-item" onclick="ddGo('learn')">
+          <div class="hni-ico">📚</div>
+          <div><div class="hni-txt">Learn 习语学习</div><div class="hni-sub">300+ 地道表达</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('quiz')">
+          <div class="hni-ico">✏️</div>
+          <div><div class="hni-txt">Quiz 测验</div><div class="hni-sub">自适应测试</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('course')">
+          <div class="hni-ico">📖</div>
+          <div><div class="hni-txt">Course 系统课程</div><div class="hni-sub">分级体系学习</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('bayarea')">
+          <div class="hni-ico">💼</div>
+          <div><div class="hni-txt">Workplace 职场英语</div><div class="hni-sub">硅谷·商务沟通</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('plumber')">
+          <div class="hni-ico">🔧</div>
+          <div><div class="hni-txt">CA Plumber 水管工</div><div class="hni-sub">20课 + 执照备考</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('monthly')">
+          <div class="hni-ico">🔥</div>
+          <div><div class="hni-txt">月度流行热词</div><div class="hni-sub">每月更新</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('cnen')">
+          <div class="hni-ico">🀄</div>
+          <div><div class="hni-txt">CN→EN 汉译英</div><div class="hni-sub">思维训练</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('classics')">
+          <div class="hni-ico">📕</div>
+          <div><div class="hni-txt">经典小说选读</div><div class="hni-sub">美国文学精选</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('wrongbook')">
+          <div class="hni-ico">📝</div>
+          <div><div class="hni-txt">Wrong Book 错题本</div><div class="hni-sub">错题回顾</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('lb')">
+          <div class="hni-ico">🏆</div>
+          <div><div class="hni-txt">Rankings 排行榜</div><div class="hni-sub">积分排名</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -2021,35 +2049,173 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
   </div>
 
-  <div class="hero-features">
-    <div class="hero-section-label">
-      <span class="lbl-num">02 —</span>
-      <span class="lbl-txt">Practice Tools</span>
-      <span class="lbl-line"></span>
-    </div>
-    <div class="feat-grid">
-      <div class="feat-card" onclick="ddGo('quiz')">
-        <div class="fc-ico">✏️</div>
-        <div class="fc-t">Adaptive Quiz</div>
-        <div class="fc-d">Multi-format testing with spaced-repetition. Forgotten items resurface at the optimal moment.</div>
-      </div>
-      <div class="feat-card" onclick="ddGo('wrongbook')">
-        <div class="fc-ico">📕</div>
-        <div class="fc-t">Error Journal</div>
-        <div class="fc-d">Every mistake automatically catalogued for targeted, deliberate review.</div>
-      </div>
-      <div class="feat-card" onclick="ddGo('course')">
-        <div class="fc-ico">📖</div>
-        <div class="fc-t">Structured Curriculum</div>
-        <div class="fc-d">Progressive modules from foundational fluency to executive-level command.</div>
-      </div>
-      <div class="feat-card" onclick="ddGo('lb')">
-        <div class="fc-ico">🏆</div>
-        <div class="fc-t">Progress & Ranking</div>
-        <div class="fc-d">Track your trajectory. Compare with peers. Stay accountable to your goals.</div>
-      </div>
+  <!-- Ocean Scene -->
+  <div class="ocean-scene">
+    <div class="ocean-water">
+      <div class="ocean-seaweed sw1"></div>
+      <div class="ocean-seaweed sw2"></div>
+      <div class="ocean-seaweed sw3"></div>
+      <div class="ocean-seaweed sw4"></div>
+      <div class="ocean-seaweed sw5"></div>
+      <div class="ocean-seaweed sw6"></div>
+      <div class="ocean-seaweed sw7"></div>
+      <div class="ocean-bubble bb1"></div>
+      <div class="ocean-bubble bb2"></div>
+      <div class="ocean-bubble bb3"></div>
+      <div class="ocean-bubble bb4"></div>
+      <div class="ocean-bubble bb5"></div>
+      <div class="ocean-bubble bb6"></div>
+      <div class="ocean-bubble bb7"></div>
+      <div class="ocean-bubble bb8"></div>
+      <div class="ocean-fish fish1">🐠</div>
+      <div class="ocean-fish fish2">🐟</div>
+      <div class="ocean-fish fish3">🐡</div>
+      <div class="ocean-fish fish4 shark-hunt" id="bigShark">🦈</div>
+      <div class="ocean-fish fish5">🐙</div>
+      <div class="ocean-fish fish6">🦑</div>
+      <div class="ocean-fish fish7">🐬</div>
+      <div class="ocean-fish fish8">🦀</div>
+      <div class="ocean-fish fish9">🐢</div>
+      <div class="ocean-fish fish10" id="jellyTarget">🪼</div>
+      <div class="ocean-floor"></div>
     </div>
   </div>
+  <style>
+  .ocean-scene{position:relative;width:100%;max-width:1200px;margin:0 auto;height:280px;overflow:hidden;border-radius:20px;background:linear-gradient(180deg,#006994 0%,#004e7c 25%,#003556 50%,#002640 75%,#001a2e 100%)}
+  .ocean-water{position:relative;width:100%;height:100%;overflow:hidden}
+  /* ── Seaweed ── */
+  .ocean-seaweed{position:absolute;bottom:0;width:18px;border-radius:50% 50% 0 0;transform-origin:bottom center;animation:seaweedSway 3s ease-in-out infinite alternate}
+  .sw1{left:5%;height:90px;background:linear-gradient(0deg,#2d8a4e,#40c463);animation-duration:3.2s}
+  .sw2{left:15%;height:110px;background:linear-gradient(0deg,#1a6b3a,#2ea44f);animation-duration:2.8s;animation-delay:-.5s}
+  .sw3{left:30%;height:70px;background:linear-gradient(0deg,#3cb371,#66d98a);animation-duration:3.5s;animation-delay:-1s}
+  .sw4{left:50%;height:100px;background:linear-gradient(0deg,#228b22,#32cd32);animation-duration:2.6s;animation-delay:-.3s}
+  .sw5{left:65%;height:80px;background:linear-gradient(0deg,#2e8b57,#3cb371);animation-duration:3.1s;animation-delay:-.8s}
+  .sw6{left:80%;height:95px;background:linear-gradient(0deg,#006400,#228b22);animation-duration:2.9s;animation-delay:-1.2s}
+  .sw7{left:92%;height:65px;background:linear-gradient(0deg,#3cb371,#90ee90);animation-duration:3.4s;animation-delay:-.6s}
+  @keyframes seaweedSway{0%{transform:rotate(-8deg) scaleY(1)}50%{transform:rotate(6deg) scaleY(1.05)}100%{transform:rotate(-5deg) scaleY(.97)}}
+  /* ── Bubbles ── */
+  .ocean-bubble{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.4),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.15);animation:bubbleRise linear infinite}
+  .bb1{width:8px;height:8px;left:10%;bottom:-10px;animation-duration:6s}
+  .bb2{width:12px;height:12px;left:25%;bottom:-10px;animation-duration:5s;animation-delay:-1s}
+  .bb3{width:6px;height:6px;left:40%;bottom:-10px;animation-duration:7s;animation-delay:-2s}
+  .bb4{width:10px;height:10px;left:55%;bottom:-10px;animation-duration:5.5s;animation-delay:-3s}
+  .bb5{width:7px;height:7px;left:70%;bottom:-10px;animation-duration:6.5s;animation-delay:-1.5s}
+  .bb6{width:14px;height:14px;left:85%;bottom:-10px;animation-duration:4.8s;animation-delay:-2.5s}
+  .bb7{width:5px;height:5px;left:35%;bottom:-10px;animation-duration:7.5s;animation-delay:-4s}
+  .bb8{width:9px;height:9px;left:60%;bottom:-10px;animation-duration:6.2s;animation-delay:-0.8s}
+  @keyframes bubbleRise{0%{transform:translateY(0) translateX(0);opacity:.7}25%{transform:translateY(-70px) translateX(8px);opacity:.8}50%{transform:translateY(-140px) translateX(-5px);opacity:.6}75%{transform:translateY(-210px) translateX(6px);opacity:.4}100%{transform:translateY(-300px) translateX(-3px);opacity:0}}
+  /* ── Fish ── */
+  .ocean-fish{position:absolute;font-size:28px;animation-timing-function:linear;animation-iteration-count:infinite;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3));display:inline-block}
+  /* Tail wiggle overlay animation */
+  .ocean-fish::after{content:'';display:block}
+  .fish1{top:15%;font-size:32px;animation:fishSwimR 22s linear infinite,tailWag .6s ease-in-out infinite alternate}
+  .fish2{top:35%;font-size:26px;animation:fishSwimL 20s linear infinite,tailWag .5s ease-in-out infinite alternate;animation-delay:-5s,0s}
+  .fish3{top:55%;font-size:24px;animation:fishSwimR 26s linear infinite,tailWag .7s ease-in-out infinite alternate;animation-delay:-9s,0s}
+  .fish4{top:25%;font-size:52px;z-index:10}
+  .fish4:not(.shark-chasing){animation:fishSwimL 30s linear infinite,tailWagBig .8s ease-in-out infinite alternate;animation-delay:-12s,0s}
+  .fish5{top:65%;font-size:30px;animation:fishSwimR 24s linear infinite,tailWag .55s ease-in-out infinite alternate;animation-delay:-4s,0s}
+  .fish6{top:45%;font-size:22px;animation:fishSwimL 25s linear infinite,tailWag .65s ease-in-out infinite alternate;animation-delay:-10s,0s}
+  .fish7{top:10%;font-size:36px;animation:fishSwimR 20s linear infinite,tailWagBig .7s ease-in-out infinite alternate;animation-delay:-2s,0s}
+  .fish8{top:80%;left:20%;font-size:20px;animation:crabWalk 14s linear infinite,crabBounce .4s ease-in-out infinite alternate}
+  .fish9{top:50%;font-size:28px;animation:fishSwimL 28s linear infinite,tailWag .6s ease-in-out infinite alternate;animation-delay:-7s,0s}
+  .fish10{top:30%;font-size:26px;z-index:9}
+  .fish10:not(.jelly-eaten){animation:fishSwimR 23s linear infinite,jellyPulse 1.2s ease-in-out infinite alternate;animation-delay:-14s,0s}
+  .fish10.jelly-eaten{transition:transform .4s,opacity .4s;transform:scale(0) rotate(30deg)!important;opacity:0!important}
+  .shark-chasing{transition:left .8s ease-in-out,top .8s ease-in-out;animation:tailWagBig .4s ease-in-out infinite alternate!important}
+  .shark-chomp{animation:sharkBite .3s ease-in-out!important}
+  @keyframes sharkBite{0%{transform:scaleX(-1) scale(1)}30%{transform:scaleX(-1) scale(1.2) rotate(-8deg)}60%{transform:scaleX(-1) scale(1.15) rotate(5deg)}100%{transform:scaleX(-1) scale(1)}}
+  /* Swim paths — slower, gentle undulation */
+  @keyframes fishSwimR{0%{left:-60px;transform:scaleX(1) translateY(0)}15%{transform:scaleX(1) translateY(-10px)}30%{transform:scaleX(1) translateY(6px)}45%{transform:scaleX(1) translateY(-8px)}60%{transform:scaleX(1) translateY(5px)}75%{transform:scaleX(1) translateY(-6px)}90%{transform:scaleX(1) translateY(4px)}100%{left:calc(100% + 60px);transform:scaleX(1) translateY(0)}}
+  @keyframes fishSwimL{0%{right:-60px;transform:scaleX(-1) translateY(0)}15%{transform:scaleX(-1) translateY(8px)}30%{transform:scaleX(-1) translateY(-6px)}45%{transform:scaleX(-1) translateY(10px)}60%{transform:scaleX(-1) translateY(-5px)}75%{transform:scaleX(-1) translateY(7px)}90%{transform:scaleX(-1) translateY(-4px)}100%{right:calc(100% + 60px);transform:scaleX(-1) translateY(0)}}
+  /* Tail wag — rotate body slightly left/right to simulate tail flick */
+  @keyframes tailWag{0%{transform:rotate(-3deg)}100%{transform:rotate(3deg)}}
+  @keyframes tailWagBig{0%{transform:rotate(-4deg)}100%{transform:rotate(4deg)}}
+  /* Crab sideways bounce */
+  @keyframes crabWalk{0%{transform:translateX(0)}50%{transform:translateX(100px)}100%{transform:translateX(0)}}
+  @keyframes crabBounce{0%{transform:translateY(0) rotate(-2deg)}100%{transform:translateY(-3px) rotate(2deg)}}
+  /* Jellyfish pulse */
+  @keyframes jellyPulse{0%{transform:scaleY(1) scaleX(1)}100%{transform:scaleY(.88) scaleX(1.08)}}
+  /* ── Ocean floor ── */
+  .ocean-floor{position:absolute;bottom:0;width:100%;height:40px;background:linear-gradient(0deg,#8b6914,#a0854a 40%,transparent);border-radius:0 0 20px 20px;opacity:.7}
+  .ocean-floor::before{content:'';position:absolute;bottom:8px;left:8%;width:30px;height:16px;background:radial-gradient(ellipse,#c9a96a,transparent);border-radius:50%;opacity:.5}
+  .ocean-floor::after{content:'';position:absolute;bottom:5px;right:12%;width:45px;height:20px;background:radial-gradient(ellipse,#dab96a,transparent);border-radius:50%;opacity:.4}
+  @media(max-width:768px){.ocean-scene{height:200px;border-radius:14px;margin:0 12px}.ocean-fish{font-size:20px!important}.fish4{font-size:36px!important}}
+  </style>
+  <script>
+  // Shark hunts jellyfish loop
+  (function(){
+    var CYCLE = 18000; // every 18s
+    function huntCycle(){
+      var shark = document.getElementById('bigShark');
+      var jelly = document.getElementById('jellyTarget');
+      var scene = document.querySelector('.ocean-scene');
+      if (!shark || !jelly || !scene) return;
+      var sw = scene.offsetWidth, sh = scene.offsetHeight;
+      // Reset jelly if hidden
+      jelly.classList.remove('jelly-eaten');
+      jelly.style.opacity = ''; jelly.style.transform = '';
+      jelly.style.position = 'absolute';
+      // Place jelly at random spot
+      var jx = 100 + Math.random() * (sw - 200), jy = 30 + Math.random() * (sh - 120);
+      jelly.style.left = jx + 'px'; jelly.style.top = jy + 'px';
+      jelly.style.right = 'auto';
+      jelly.style.animation = 'jellyPulse 1.2s ease-in-out infinite alternate';
+      // After 2s, shark starts chasing
+      setTimeout(function(){
+        shark.classList.add('shark-chasing');
+        shark.style.animation = 'tailWagBig .4s ease-in-out infinite alternate';
+        shark.style.position = 'absolute';
+        shark.style.right = 'auto';
+        // Shark starts from left edge
+        var sx = -50, sy = jy;
+        shark.style.left = sx + 'px'; shark.style.top = sy + 'px';
+        // Flip shark to face right toward jelly
+        shark.style.transform = 'scaleX(1)';
+        // Step 1: swim toward jelly (3 seconds)
+        setTimeout(function(){
+          shark.style.left = (jx - 30) + 'px';
+          shark.style.top = jy + 'px';
+        }, 50);
+        // Step 2: chomp! (at ~3s)
+        setTimeout(function(){
+          shark.classList.add('shark-chomp');
+          jelly.classList.add('jelly-eaten');
+          // Burp text
+          var burp = document.createElement('div');
+          burp.textContent = '😋';
+          burp.style.cssText = 'position:absolute;font-size:24px;z-index:20;pointer-events:none;animation:bubbleRise 2s linear forwards;left:'+(jx+10)+'px;top:'+(jy-20)+'px';
+          scene.querySelector('.ocean-water').appendChild(burp);
+          setTimeout(function(){ burp.remove(); }, 2000);
+        }, 900);
+        // Step 3: shark swims away to the right
+        setTimeout(function(){
+          shark.classList.remove('shark-chomp');
+          shark.style.left = (sw + 80) + 'px';
+          shark.style.top = (20 + Math.random() * (sh - 100)) + 'px';
+        }, 1600);
+        // Step 4: reset shark for normal swim
+        setTimeout(function(){
+          shark.classList.remove('shark-chasing');
+          shark.style.position = '';
+          shark.style.left = ''; shark.style.top = ''; shark.style.right = '';
+          shark.style.transform = ''; shark.style.animation = '';
+        }, 3500);
+        // Step 5: respawn jelly after a bit
+        setTimeout(function(){
+          jelly.classList.remove('jelly-eaten');
+          jelly.style.opacity = ''; jelly.style.transform = '';
+          jelly.style.left = ''; jelly.style.top = ''; jelly.style.right = '';
+          jelly.style.position = ''; jelly.style.animation = '';
+        }, 6000);
+      }, 2000);
+    }
+    // Start after page loads
+    setTimeout(function(){
+      huntCycle();
+      setInterval(huntCycle, CYCLE);
+    }, 3000);
+  })();
+  </script>
 
   <div class="hero-footer">
     Aaron's English Hub &nbsp;·&nbsp; Crafted for ambitious learners &nbsp;·&nbsp; &copy; 2026
@@ -7987,9 +8153,11 @@ function _closeDDOutside(e) {
   }
 }
 function ddGo(p) {
-  // Close dropdown, then navigate (animal pop handled globally)
-  document.getElementById('dd-panel').classList.remove('show');
-  document.getElementById('dd-btn').classList.remove('open');
+  // Close dropdown if present, then navigate
+  var panel = document.getElementById('dd-panel');
+  var btn = document.getElementById('dd-btn');
+  if (panel) panel.classList.remove('show');
+  if (btn) btn.classList.remove('open');
   document.removeEventListener('click', _closeDDOutside);
   show(p);
 }

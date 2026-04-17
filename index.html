@@ -2035,11 +2035,92 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dlg-qexp{margin-top:10px;padding:10px 12px;background:rgba(59,130,246,.07);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6;display:none;border-left:3px solid var(--blue)}
 .dlg-qexp.show{display:block}
 .dlg-qnext{margin-top:10px;padding:9px 22px;border-radius:10px;background:var(--blue);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:none;transition:all .15s}
-.dlg-qnext.show{display:inline-block}
+.dlg-qnext.show{display:inline-block;animation:dlgQNextIn .32s ease-out}
 .dlg-qnext:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,130,246,.4)}
+@keyframes dlgQNextIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.dlg-qnext-attn{animation:dlgQNextAttn .85s cubic-bezier(.4,0,.2,1)}
+@keyframes dlgQNextAttn{
+  0%   {box-shadow:0 0 0 0 rgba(59,130,246,.55)}
+  50%  {box-shadow:0 0 0 10px rgba(59,130,246,.18);transform:translateY(-2px) scale(1.04)}
+  100% {box-shadow:0 0 0 0 rgba(59,130,246,0)}
+}
 .dlg-qresult{text-align:center;padding:12px 0}
 .dlg-qscore-big{font-size:46px;font-weight:900;color:var(--text1);margin-bottom:4px}
 .dlg-qscore-sub{font-size:13px;color:var(--text3);margin-bottom:14px}
+.dlg-result-emoji{font-size:56px;line-height:1;margin-bottom:8px;animation:dlgResultBounce .6s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes dlgResultBounce{0%{transform:scale(0) rotate(-10deg)}50%{transform:scale(1.15) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+.dlg-result-hint{font-size:12px;color:var(--text2);margin:6px 0 14px;padding:8px 14px;background:rgba(59,130,246,.08);border-radius:10px;display:inline-block}
+.dlg-result-hint b{color:#f59e0b;font-weight:800}
+
+/* ── 🏆 Mastered celebration result ── */
+.dlg-qresult-mastered{position:relative;padding:28px 20px 18px;background:linear-gradient(135deg,#fef3c7 0%,#fde68a 50%,#fbbf24 100%);border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(245,158,11,.35),inset 0 1px 0 rgba(255,255,255,.4);animation:dlgMasterPop .55s cubic-bezier(.34,1.56,.64,1) both}
+[data-theme="dark"] .dlg-qresult-mastered{background:linear-gradient(135deg,rgba(245,158,11,.25) 0%,rgba(251,191,36,.2) 50%,rgba(245,158,11,.3) 100%);box-shadow:0 8px 30px rgba(245,158,11,.35)}
+@keyframes dlgMasterPop{0%{opacity:0;transform:scale(.85)}60%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
+.dlg-qresult-mastered::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,255,255,.25) 30deg,transparent 60deg,transparent 360deg);animation:dlgMasterSpin 8s linear infinite;pointer-events:none;opacity:.7}
+@keyframes dlgMasterSpin{to{transform:rotate(360deg)}}
+.dlg-master-confetti{position:absolute;inset:0;pointer-events:none}
+.dlg-conf{position:absolute;font-size:20px;animation:dlgConfetti 1.6s ease-out both;opacity:0}
+.dlg-conf.c1{top:10%;left:12%;animation-delay:.05s}
+.dlg-conf.c2{top:18%;right:14%;animation-delay:.18s}
+.dlg-conf.c3{bottom:22%;left:18%;animation-delay:.3s}
+.dlg-conf.c4{bottom:16%;right:10%;animation-delay:.42s}
+.dlg-conf.c5{top:38%;left:48%;animation-delay:.54s}
+@keyframes dlgConfetti{0%{opacity:0;transform:translateY(-8px) scale(.6) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(40px) scale(1.1) rotate(180deg)}}
+.dlg-master-badge{font-size:68px;line-height:1;filter:drop-shadow(0 6px 16px rgba(245,158,11,.45));margin-bottom:8px;animation:dlgBadgePulse 1.8s ease-in-out infinite;position:relative}
+@keyframes dlgBadgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08) rotate(-3deg)}}
+.dlg-master-title{font-size:22px;font-weight:900;color:#78350f;margin-bottom:4px;letter-spacing:-.3px;position:relative;text-shadow:0 1px 2px rgba(255,255,255,.5)}
+[data-theme="dark"] .dlg-master-title{color:#fde68a}
+.dlg-master-score{font-size:16px;font-weight:800;color:#92400e;margin-bottom:12px;position:relative}
+[data-theme="dark"] .dlg-master-score{color:#fcd34d}
+.dlg-master-sub{font-size:13px;color:#78350f;line-height:1.6;margin-bottom:16px;position:relative;max-width:380px;margin-left:auto;margin-right:auto}
+[data-theme="dark"] .dlg-master-sub{color:#fde68a;opacity:.92}
+.dlg-master-sub b{font-weight:800}
+.dlg-master-rewards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;position:relative}
+.dlg-master-reward{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.8);border-radius:10px;padding:9px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;backdrop-filter:blur(4px)}
+[data-theme="dark"] .dlg-master-reward{background:rgba(0,0,0,.25);border-color:rgba(251,191,36,.25)}
+.dmr-ico{font-size:18px;line-height:1}
+.dmr-val{font-size:15px;font-weight:900;color:#78350f}
+[data-theme="dark"] .dmr-val{color:#fcd34d}
+.dmr-lbl{font-size:10px;color:#92400e;font-weight:700}
+[data-theme="dark"] .dmr-lbl{color:#fde68a;opacity:.85}
+.dlg-master-actions{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;position:relative}
+.dlg-master-next{padding:10px 22px !important;font-size:14px !important;box-shadow:0 4px 14px rgba(59,130,246,.4)}
+.dlg-master-redo{background:transparent;border:1.5px solid rgba(120,53,15,.3);color:#78350f;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s}
+.dlg-master-redo:hover{background:rgba(120,53,15,.08);border-color:#78350f}
+[data-theme="dark"] .dlg-master-redo{color:#fde68a;border-color:rgba(251,191,36,.35)}
+[data-theme="dark"] .dlg-master-redo:hover{background:rgba(251,191,36,.1);border-color:#fcd34d}
+
+/* ── Great (80-99%) result banner ── */
+.dlg-qresult-great{padding:20px 16px;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(59,130,246,.05));border:1.5px solid rgba(16,185,129,.3);border-radius:14px}
+
+/* ── Mastery banner at top of dialogue page ── */
+.dlg-mastery-banner{display:flex;align-items:center;gap:14px;padding:12px 16px;margin-bottom:14px;border-radius:12px;animation:dlgMbSlideIn .35s ease-out both}
+@keyframes dlgMbSlideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dlg-mastery-banner.mastered{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1.5px solid #f59e0b;box-shadow:0 4px 14px rgba(245,158,11,.18)}
+[data-theme="dark"] .dlg-mastery-banner.mastered{background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.1));border-color:rgba(245,158,11,.4)}
+.dlg-mastery-banner.due{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(251,146,60,.06));border:1.5px solid rgba(239,68,68,.3)}
+.dlg-mastery-banner.attempted{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(99,102,241,.06));border:1.5px solid rgba(59,130,246,.25)}
+.dlg-mb-ico{font-size:30px;line-height:1;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.12))}
+.dlg-mb-body{flex:1;min-width:0}
+.dlg-mb-title{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:2px}
+.dlg-mastery-banner.mastered .dlg-mb-title{color:#78350f}
+[data-theme="dark"] .dlg-mastery-banner.mastered .dlg-mb-title{color:#fcd34d}
+.dlg-mb-sub{font-size:12px;color:var(--text2);line-height:1.4}
+.dlg-mastery-banner.mastered .dlg-mb-sub{color:#92400e}
+[data-theme="dark"] .dlg-mastery-banner.mastered .dlg-mb-sub{color:#fde68a;opacity:.88}
+.dlg-mb-review{padding:7px 13px;border:1.5px solid rgba(120,53,15,.3);background:rgba(255,255,255,.6);color:#78350f;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;flex-shrink:0;white-space:nowrap}
+.dlg-mb-review:hover{background:rgba(120,53,15,.1);border-color:#78350f}
+[data-theme="dark"] .dlg-mb-review{background:rgba(0,0,0,.25);color:#fde68a;border-color:rgba(251,191,36,.35)}
+[data-theme="dark"] .dlg-mb-review:hover{background:rgba(251,191,36,.12)}
+
+/* ── Mastery icon on lesson sub-titles ── */
+.dlg-sub-mastery{display:inline-flex;align-items:center;justify-content:center;margin-left:6px;font-size:14px;line-height:1}
+.dlg-sub-mastery.due{animation:dlgDueBlink 2s ease-in-out infinite}
+@keyframes dlgDueBlink{0%,100%{opacity:.6}50%{opacity:1}}
+.dlg-sub-item.mastered{border-left:3px solid #f59e0b;background:linear-gradient(90deg,rgba(245,158,11,.08),transparent)}
+.dlg-sub-item.mastery-due{border-left:3px solid #ef4444}
+.dlg-sub-item.attempted{border-left:3px solid #3b82f6;background:linear-gradient(90deg,rgba(59,130,246,.04),transparent)}
+
 /* ── 连线题 matching quiz ── */
 .dlg-match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
 .dlg-match-col{display:flex;flex-direction:column;gap:7px}
@@ -11718,12 +11799,32 @@ function _dlgRender() {
         var ac = activeCatInGroup[0];
         var catDlgs = DLG_DATA.filter(function(dd){ return dd.cat === ac; });
         var curD = DLG_DATA[_dlgSt.wi];
+        /* Load mastery data to show 🏆 / ⏰ icons on lesson titles */
+        var bayDoneSub = {};
+        try { bayDoneSub = JSON.parse(localStorage.getItem('bayarea_done') || '{}'); } catch(e){}
         catH += '<div class="dlg-sub-titles open"><div class="dlg-sub-list">';
         catDlgs.forEach(function(dd, si){
           var isActive = (curD && curD.id === dd.id) ? ' active' : '';
           var globalIdx = DLG_DATA.indexOf(dd);
-          catH += '<button class="dlg-sub-item' + isActive + '" onclick="_dlgSetWeek(' + globalIdx + ')">' +
-            '<span class="sub-num">' + (si+1) + '</span>' + dd.titleCN +
+          /* Mastery indicator: 🏆 mastered (within SRS window) / ⏰ due for review / 📖 attempted but not mastered */
+          var rec = bayDoneSub[dd.id];
+          var masteryIcon = '';
+          var masteryCls = '';
+          if (rec) {
+            if (rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue) {
+              masteryIcon = '<span class="dlg-sub-mastery" title="已掌握 · Mastered">🏆</span>';
+              masteryCls = ' mastered';
+            } else if (rec.pct === 100) {
+              /* Past the SRS review window — mastered but due for review */
+              masteryIcon = '<span class="dlg-sub-mastery due" title="建议复习 · Due for review">⏰</span>';
+              masteryCls = ' mastery-due';
+            } else if (rec.pct > 0) {
+              masteryIcon = '<span class="dlg-sub-mastery attempted" title="已尝试 · ' + rec.pct + '%">📖</span>';
+              masteryCls = ' attempted';
+            }
+          }
+          catH += '<button class="dlg-sub-item' + isActive + masteryCls + '" onclick="_dlgSetWeek(' + globalIdx + ')">' +
+            '<span class="sub-num">' + (si+1) + '</span>' + dd.titleCN + masteryIcon +
             '</button>';
         });
         catH += '</div></div>';
@@ -11797,8 +11898,42 @@ function _dlgHTML(d) {
     '</div>';
   }).join('');
 
+  // ── Mastery badge (only shows if this lesson has mastery data) ──
+  var _bayDoneRec = null;
+  try { _bayDoneRec = (JSON.parse(localStorage.getItem('bayarea_done')||'{}'))[d.id] || null; } catch(e){}
+  var masteryBanner = '';
+  if (_bayDoneRec && _bayDoneRec.pct === 100 && _bayDoneRec.reviewDue && Date.now() < _bayDoneRec.reviewDue) {
+    var daysLeft = Math.max(1, Math.ceil((_bayDoneRec.reviewDue - Date.now()) / 86400000));
+    masteryBanner = '<div id="dlg-mastery-badge" class="dlg-mastery-banner mastered">' +
+      '<span class="dlg-mb-ico">🏆</span>' +
+      '<div class="dlg-mb-body">' +
+        '<div class="dlg-mb-title">已掌握 · Mastered</div>' +
+        '<div class="dlg-mb-sub">' + daysLeft + ' 天后再复习即可 · 无需重做</div>' +
+      '</div>' +
+      '<button class="dlg-mb-review" onclick="document.querySelector(\'#dlg-qbox\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">💡 仍想复习</button>' +
+    '</div>';
+  } else if (_bayDoneRec && _bayDoneRec.pct === 100) {
+    /* Past the SRS window — suggest review */
+    masteryBanner = '<div id="dlg-mastery-badge" class="dlg-mastery-banner due">' +
+      '<span class="dlg-mb-ico">⏰</span>' +
+      '<div class="dlg-mb-body">' +
+        '<div class="dlg-mb-title">建议复习 · Review Due</div>' +
+        '<div class="dlg-mb-sub">距上次掌握已有一段时间，复习一下巩固记忆</div>' +
+      '</div>' +
+    '</div>';
+  } else if (_bayDoneRec && _bayDoneRec.pct > 0) {
+    masteryBanner = '<div id="dlg-mastery-badge" class="dlg-mastery-banner attempted">' +
+      '<span class="dlg-mb-ico">📖</span>' +
+      '<div class="dlg-mb-body">' +
+        '<div class="dlg-mb-title">已尝试 · In Progress (' + _bayDoneRec.pct + '%)</div>' +
+        '<div class="dlg-mb-sub">挑战满分 100% 解锁 🏆 Mastered 徽章</div>' +
+      '</div>' +
+    '</div>';
+  }
+
   // ── Scene card (full width) ──
-  var topH = '<div class="dlg-scene-card">' +
+  var topH = masteryBanner +
+    '<div class="dlg-scene-card">' +
       '<div class="dlg-scene-en">📍 ' + d.scene + '</div>' +
       '<div class="dlg-scene-cn">' + d.sceneCN + '</div>' +
     '</div>' +
@@ -12068,7 +12203,24 @@ function dlgQAnswer(btn, chosen, correct){
   });
   if(!isOk)btn.classList.add('wrong');
   var exp=document.getElementById('dlg-qexp');if(exp)exp.classList.add('show');
-  var nxt=document.getElementById('dlg-qnext');if(nxt)nxt.classList.add('show');
+  var nxt=document.getElementById('dlg-qnext');
+  if(nxt){
+    nxt.classList.add('show');
+    /* After the explanation reveals, scroll the Next button into comfortable view
+       so the user doesn't have to hunt for it. Slight delay lets the .show
+       CSS transition start before we measure. */
+    setTimeout(function(){
+      try {
+        nxt.scrollIntoView({behavior:'smooth', block:'center'});
+      } catch(e) {
+        /* Older browsers without options support */
+        try { nxt.scrollIntoView(false); } catch(_){}
+      }
+      /* Also give it a subtle focus pulse so eyes land on it naturally */
+      nxt.classList.add('dlg-qnext-attn');
+      setTimeout(function(){ if(nxt) nxt.classList.remove('dlg-qnext-attn'); }, 900);
+    }, 120);
+  }
 }
 
 function dlgQNext(){
@@ -12078,26 +12230,150 @@ function dlgQNext(){
     var box=document.getElementById('dlg-qbox');
     if(!box)return;
     var sc=_dlgSt.qScore,tot=d.quiz.length,pct=Math.round(sc/tot*100);
-    /* Save completion status for profile */
+    /* Save completion status + spaced-repetition interval for profile */
+    var justMasteredFirstTime = false;
+    var wasAlreadyMastered = false;
     try {
       var bayDone = JSON.parse(localStorage.getItem('bayarea_done')||'{}');
-      var prevBest = (bayDone[d.id] && bayDone[d.id].pct) || 0;
-      if (pct > prevBest) {
-        bayDone[d.id] = { pct: pct, score: sc, total: tot, cat: d.cat, ts: Date.now() };
-        localStorage.setItem('bayarea_done', JSON.stringify(bayDone));
+      var prev = bayDone[d.id] || {};
+      var prevBest = prev.pct || 0;
+      wasAlreadyMastered = prevBest === 100;
+      /* SRS interval for mastered lessons: 7d → 14d → 30d → 60d → 90d */
+      var newRec = prev.pct ? Object.assign({}, prev) : {cat: d.cat};
+      if (pct >= prevBest) {
+        newRec.pct = pct;
+        newRec.score = sc;
+        newRec.total = tot;
+        newRec.ts = Date.now();
+      }
+      if (pct === 100) {
+        var reviews = (prev.masteryReviews || 0) + 1;
+        var intervalDays;
+        if      (reviews === 1) intervalDays = 7;
+        else if (reviews === 2) intervalDays = 14;
+        else if (reviews === 3) intervalDays = 30;
+        else if (reviews === 4) intervalDays = 60;
+        else                    intervalDays = 90;
+        newRec.masteryReviews = reviews;
+        newRec.masteredAt = Date.now();
+        newRec.reviewDue = Date.now() + intervalDays * 86400000;
+        newRec.intervalDays = intervalDays;
+        if (!wasAlreadyMastered) justMasteredFirstTime = true;
+      }
+      bayDone[d.id] = newRec;
+      localStorage.setItem('bayarea_done', JSON.stringify(bayDone));
+    } catch(e){}
+
+    /* Celebration result screen — differentiate between 100%, high, medium, low */
+    var resultHtml = '';
+    if (pct === 100) {
+      var intervalText = '';
+      try {
+        var bd2 = JSON.parse(localStorage.getItem('bayarea_done')||'{}')[d.id];
+        if (bd2 && bd2.intervalDays) intervalText = bd2.intervalDays;
+      } catch(e){}
+      resultHtml = '<div class="dlg-qwrap">' +
+        '<div class="dlg-qresult dlg-qresult-mastered">' +
+          '<div class="dlg-master-confetti">' +
+            '<span class="dlg-conf c1">🎉</span><span class="dlg-conf c2">⭐</span><span class="dlg-conf c3">✨</span>' +
+            '<span class="dlg-conf c4">🎊</span><span class="dlg-conf c5">💫</span>' +
+          '</div>' +
+          '<div class="dlg-master-badge">🏆</div>' +
+          '<div class="dlg-master-title">' + (justMasteredFirstTime ? 'Lesson Mastered! 课程掌握！' : 'Perfect Again! 再次满分！') + '</div>' +
+          '<div class="dlg-master-score">' + sc + ' / ' + tot + ' · 100%</div>' +
+          '<div class="dlg-master-sub">' +
+            (justMasteredFirstTime
+              ? '你已完全掌握本课对话和词汇。根据遗忘曲线，<b>' + intervalText + ' 天后</b>再来复习即可。'
+              : '太棒了！本课下次复习时间已更新为 <b>' + intervalText + ' 天后</b>。'
+            ) +
+          '</div>' +
+          '<div class="dlg-master-rewards">' +
+            '<div class="dlg-master-reward"><span class="dmr-ico">💰</span><span class="dmr-val">+' + (sc*5) + '</span><span class="dmr-lbl">积分</span></div>' +
+            '<div class="dlg-master-reward"><span class="dmr-ico">🎯</span><span class="dmr-val">' + pct + '%</span><span class="dmr-lbl">正确率</span></div>' +
+            '<div class="dlg-master-reward"><span class="dmr-ico">⏰</span><span class="dmr-val">' + intervalText + 'd</span><span class="dmr-lbl">下次复习</span></div>' +
+          '</div>' +
+          '<div class="dlg-master-actions">' +
+            '<button class="btn-p dlg-master-next" onclick="_dlgGoNextLesson()">下一课 →</button>' +
+            '<button class="dlg-master-redo" onclick="dlgQRetry()">🔄 再做一次</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+      /* Fire a bigger celebration toast */
+      try { toast && toast('🏆 满分！本课已掌握 · 7天后复习','ok'); } catch(e){}
+    } else if (pct >= 80) {
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult dlg-qresult-great">' +
+        '<div class="dlg-result-emoji">🎉</div>' +
+        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-qscore-sub">非常棒！离完全掌握就差一点了</div>' +
+        '<div class="dlg-result-hint">💡 挑战满分解锁 <b>🏆 Mastered</b> 徽章</div>' +
+        '<div class="dlg-master-actions">' +
+          '<button class="btn-p" onclick="dlgQRetry()">🔄 冲击满分</button>' +
+        '</div>' +
+      '</div></div>';
+      try { toast && toast('🎉 ' + sc + '/' + tot + '！冲击满分解锁 Mastered 徽章','ok'); } catch(e){}
+    } else if (pct >= 60) {
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult">' +
+        '<div class="dlg-result-emoji">👍</div>' +
+        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-qscore-sub">不错 — 建议重读对话后再试</div>' +
+        '<div class="dlg-master-actions">' +
+          '<button class="btn-p" onclick="dlgQRetry()">🔄 再来一次</button>' +
+        '</div>' +
+      '</div></div>';
+    } else {
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult">' +
+        '<div class="dlg-result-emoji">💪</div>' +
+        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-qscore-sub">别灰心！仔细看一遍对话再来挑战</div>' +
+        '<div class="dlg-master-actions">' +
+          '<button class="btn-p" onclick="dlgQRetry()">🔄 重读后再试</button>' +
+        '</div>' +
+      '</div></div>';
+    }
+    box.innerHTML = resultHtml;
+
+    /* Refresh the lesson list (and cat badges) so the 🏆 appears immediately */
+    try {
+      if (typeof _dlgRenderCats === 'function') _dlgRenderCats();
+      /* Mastered badge at top of dialogue */
+      var mb = document.getElementById('dlg-mastery-badge');
+      if (mb && pct === 100) {
+        mb.style.display = '';
+        mb.innerHTML = '🏆 已掌握 · Mastered';
       }
     } catch(e){}
-    var msg=pct===100?'🏆 满分！你已完全掌握本期职场表达！':pct>=80?'🎉 非常棒！继续保持！':pct>=60?'👍 不错，多听几遍对话会更好！':'💪 建议重读对话后重新挑战！';
-    box.innerHTML='<div class="dlg-qwrap"><div class="dlg-qresult">' +
-      '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
-      '<div class="dlg-qscore-sub">' + msg + '</div>' +
-      '<button class="btn-p" onclick="dlgQRetry()" style="margin-top:8px">🔄 重新测验</button>' +
-    '</div></div>';
-    if(sc>=4)toast('🎬 职场对话测验 '+sc+'/'+tot+'！+'+sc*5+'积分','ok');
   } else {
     var box2=document.getElementById('dlg-qbox');
     if(box2)box2.innerHTML=_dlgMcqHTML(d);
   }
+}
+
+/* Navigate to the next lesson in the current category (or the first unmastered) */
+function _dlgGoNextLesson(){
+  try {
+    var filtered = (_dlgSt.catFilter === 'ALL') ? DLG_DATA : DLG_DATA.filter(function(dd){return dd.cat === _dlgSt.catFilter;});
+    var curIdx = filtered.indexOf(DLG_DATA[_dlgSt.wi]);
+    var bayDone = {};
+    try { bayDone = JSON.parse(localStorage.getItem('bayarea_done')||'{}'); } catch(e){}
+    /* Prefer the next unmastered lesson (SRS-wise) */
+    for (var i = curIdx + 1; i < filtered.length; i++) {
+      var rec = bayDone[filtered[i].id];
+      var isMastered = rec && rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue;
+      if (!isMastered) { _dlgSetWeek(DLG_DATA.indexOf(filtered[i])); return; }
+    }
+    /* Else wrap around to find any unmastered */
+    for (var j = 0; j < curIdx; j++) {
+      var rec2 = bayDone[filtered[j].id];
+      var isMastered2 = rec2 && rec2.pct === 100 && rec2.reviewDue && Date.now() < rec2.reviewDue;
+      if (!isMastered2) { _dlgSetWeek(DLG_DATA.indexOf(filtered[j])); return; }
+    }
+    /* All in category are mastered — go to next one anyway */
+    if (curIdx + 1 < filtered.length) {
+      _dlgSetWeek(DLG_DATA.indexOf(filtered[curIdx + 1]));
+    } else {
+      try { toast && toast('🎊 本分类全部掌握！去试试其他分类吧','ok'); } catch(e){}
+    }
+  } catch(e){}
 }
 
 function dlgQRetry(){

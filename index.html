@@ -630,205 +630,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .name-edit:focus{border-color:var(--blue)}
 .save-btn{padding:9px 22px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer}
 
-/* ═══════════════════════════════════════════
-   NEW PROFILE PAGE (p2-*) — dashboard redesign
-   ═══════════════════════════════════════════ */
-.p2-wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
-
-/* Hero card */
-.p2-hero{position:relative;background:linear-gradient(135deg,#1e3a5f 0%,#0369a1 45%,#0ea5e9 100%);color:#fff;border-radius:22px;padding:32px 30px;overflow:hidden;box-shadow:0 20px 50px -12px rgba(3,105,161,.4)}
-.p2-hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.15),transparent 50%),radial-gradient(circle at 20% 80%,rgba(14,165,233,.3),transparent 50%);pointer-events:none}
-.p2-hero-main{position:relative;display:flex;gap:22px;align-items:center;z-index:1}
-.p2-avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#fff,#e0e7ff);color:#1e3a5f;display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,.25),inset 0 2px 4px rgba(255,255,255,.5);border:3px solid rgba(255,255,255,.35)}
-.p2-hero-info{flex:1;min-width:0}
-.p2-hero-name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-.p2-name{font-size:26px;font-weight:800;margin:0;letter-spacing:-.5px;text-shadow:0 2px 8px rgba(0,0,0,.25)}
-.p2-level-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.2);border:1.5px solid rgba(255,255,255,.3)}
-.p2-level-icon{font-size:15px}
-.p2-email{font-size:13px;opacity:.85;margin-bottom:10px}
-.p2-meta-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.p2-meta-chip{font-size:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:4px 10px;border-radius:999px;backdrop-filter:blur(8px);font-weight:600}
-.p2-sync-chip{background:rgba(16,185,129,.35);border-color:rgba(110,231,183,.5)}
-.p2-local-chip{background:rgba(251,191,36,.3);border-color:rgba(253,224,71,.5)}
-.p2-level-prog{margin-top:10px;max-width:380px}
-.p2-level-prog-lbl{font-size:12px;opacity:.92;margin-bottom:5px;font-weight:600}
-.p2-level-prog-lbl b{font-weight:800}
-.p2-level-prog-bar{height:6px;background:rgba(0,0,0,.25);border-radius:3px;overflow:hidden}
-.p2-level-prog-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(255,255,255,.3)}
-.p2-name-edit{display:flex;gap:8px;margin-top:12px;max-width:320px}
-.p2-name-inp{flex:1;padding:8px 12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:8px;color:#fff;font-size:14px;outline:none}
-.p2-name-inp::placeholder{color:rgba(255,255,255,.6)}
-.p2-name-save{padding:8px 18px;background:#fff;color:#0369a1;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .2s}
-.p2-name-save:hover{transform:translateY(-1px)}
-
-/* Stats grid — 6 cards */
-.p2-stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
-@media(max-width:900px){.p2-stats{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:520px){.p2-stats{grid-template-columns:repeat(2,1fr)}}
-.p2-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
-.p2-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:.8}
-.p2-stat:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
-.p2-stat-ico{font-size:22px;margin-bottom:6px}
-.p2-stat-num{font-size:24px;font-weight:800;color:var(--text1);line-height:1.1;margin-bottom:4px}
-.p2-stat-lbl{font-size:11px;color:var(--text3);font-weight:600;line-height:1.4}
-.p2-stat-sub{font-size:10px;opacity:.85;color:var(--accent);font-weight:700}
-
-/* Section framework */
-.p2-section{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 26px;box-shadow:0 4px 16px -4px rgba(0,0,0,.05)}
-.p2-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
-.p2-section-title{font-size:18px;font-weight:800;color:var(--text1);margin:0;letter-spacing:-.3px}
-.p2-section-sum{font-size:13px;color:var(--text2);font-weight:600;background:var(--card2);padding:4px 12px;border-radius:999px}
-
-/* Plumber track cards */
-.p2-track-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.p2-track-card{display:flex;align-items:center;gap:16px;padding:16px;background:var(--card2);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .25s}
-.p2-track-card:hover{border-color:#0ea5e9;background:rgba(14,165,233,.05);transform:translateX(3px)}
-.p2-track-ring{width:72px;height:72px;flex-shrink:0}
-.p2-track-info{flex:1;min-width:0}
-.p2-track-title{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:2px;line-height:1.3}
-.p2-track-sub{font-size:11px;color:var(--text3);margin-bottom:8px}
-.p2-track-stats{display:flex;gap:5px;flex-wrap:wrap}
-.p2-track-chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
-.p2-track-chip.pass{background:#10b981}
-.p2-track-chip.learn{background:#4476d6}
-.p2-track-chip.retry{background:#c97d10}
-.p2-track-chip.new{background:#94a3b8}
-.p2-track-arrow{font-size:18px;color:var(--text3);font-weight:700;transition:transform .2s}
-.p2-track-card:hover .p2-track-arrow{transform:translateX(4px);color:#0ea5e9}
-
-/* Idiom mastery cards */
-.p2-idiom-duehint{margin-bottom:14px;padding:10px 16px;background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(251,146,60,.08));border:1.5px solid rgba(239,68,68,.3);border-radius:10px;font-size:13px;color:#b45309;font-weight:600;cursor:pointer;transition:all .2s}
-.p2-idiom-duehint:hover{transform:translateX(3px);border-color:#ef4444;background:linear-gradient(135deg,rgba(239,68,68,.14),rgba(251,146,60,.1))}
-[data-theme="dark"] .p2-idiom-duehint{color:#fbbf24;border-color:rgba(251,191,36,.4)}
-.p2-idiom-duehint b{font-weight:800}
-.p2-idiom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.p2-idiom-card{background:var(--card2);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s}
-.p2-idiom-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.1);border-color:transparent}
-.p2-idiom-head{display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff}
-.p2-idiom-emoji{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2));flex-shrink:0}
-.p2-idiom-head-info{flex:1;min-width:0}
-.p2-idiom-title{font-size:14px;font-weight:800;line-height:1.3;text-shadow:0 1px 2px rgba(0,0,0,.2)}
-.p2-idiom-total{font-size:11px;opacity:.95;font-weight:600;margin-top:2px}
-.p2-idiom-segbar{display:flex;height:8px;background:rgba(0,0,0,.08);overflow:hidden}
-.p2-idiom-seg{height:100%;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.p2-idiom-seg.master{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
-.p2-idiom-seg.learn{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
-.p2-idiom-seg.due{background:linear-gradient(90deg,#ef4444,#f87171)}
-.p2-idiom-seg.new{background:rgba(0,0,0,.12)}
-[data-theme="dark"] .p2-idiom-seg.new{background:rgba(255,255,255,.12)}
-.p2-idiom-stats{display:flex;gap:5px;flex-wrap:wrap;padding:12px 14px;background:var(--card)}
-.p2-idiom-chip{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;color:#fff}
-.p2-idiom-chip.master{background:linear-gradient(135deg,#f59e0b,#d97706)}
-.p2-idiom-chip.learn{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
-.p2-idiom-chip.due{background:linear-gradient(135deg,#ef4444,#dc2626);animation:p2DuePulse 2s ease-in-out infinite}
-.p2-idiom-chip.new{background:#94a3b8}
-@keyframes p2DuePulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}50%{box-shadow:0 0 0 5px rgba(239,68,68,0)}}
-
-/* Bay Area Workplace English progress */
-.p2-bay-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;padding:14px 18px;background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#0f3460 100%);border-radius:12px;color:#fff}
-[data-theme="dark"] .p2-bay-summary{background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#0f3460 100%)}
-.p2-bay-sum-stat{text-align:center;padding:4px 2px}
-.p2-bay-sum-num{font-size:22px;font-weight:800;line-height:1.1;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
-.p2-bay-sum-lbl{font-size:11px;color:rgba(255,255,255,.82);font-weight:600}
-@media(max-width:640px){.p2-bay-summary{grid-template-columns:repeat(2,1fr);gap:8px}}
-
-.p2-bay-groups{display:flex;flex-direction:column;gap:12px}
-.p2-bay-group{background:var(--card2);border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
-.p2-bay-group-head{display:flex;align-items:center;gap:12px;padding:12px 16px;color:#fff}
-.p2-bay-group-hd{font-size:24px;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
-.p2-bay-group-info{flex:1;min-width:0}
-.p2-bay-group-title{font-size:14px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.2)}
-.p2-bay-group-sum{font-size:11px;opacity:.92;font-weight:600;margin-top:2px}
-.p2-bay-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;padding:12px}
-.p2-bay-cat{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative}
-.p2-bay-cat:hover{transform:translateY(-2px);border-color:#4f46e5;box-shadow:0 6px 14px rgba(0,0,0,.08)}
-.p2-bay-cat.done{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b}
-[data-theme="dark"] .p2-bay-cat.done{background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.1));border-color:#d97706}
-.p2-bay-cat.progress{border-color:rgba(79,70,229,.3)}
-.p2-bay-cat-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.p2-bay-cat-ico{font-size:16px;flex-shrink:0}
-.p2-bay-cat-label{font-size:12px;font-weight:800;color:var(--text1);flex:1;min-width:0}
-.p2-bay-cat.done .p2-bay-cat-label{color:#92400e}
-[data-theme="dark"] .p2-bay-cat.done .p2-bay-cat-label{color:#fcd34d}
-.p2-bay-cat-status{font-size:14px;line-height:1;flex-shrink:0}
-.p2-bay-cat-bar{height:4px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden;margin-bottom:4px}
-[data-theme="dark"] .p2-bay-cat-bar{background:rgba(255,255,255,.08)}
-.p2-bay-cat-fill{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.p2-bay-cat-nums{font-size:10.5px;color:var(--text3);font-weight:700;text-align:right}
-.p2-bay-cat.done .p2-bay-cat-nums{color:#b45309}
-[data-theme="dark"] .p2-bay-cat.done .p2-bay-cat-nums{color:#fde68a}
-
-/* Welcome / onboarding card for new users */
-.p2-welcome{display:flex;gap:22px;align-items:center;background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);border:1.5px solid #7dd3fc}
-[data-theme="dark"] .p2-welcome{background:linear-gradient(135deg,rgba(14,165,233,.15),rgba(3,105,161,.1));border-color:rgba(56,189,248,.3)}
-.p2-welcome-ico{font-size:54px;flex-shrink:0;filter:drop-shadow(0 4px 8px rgba(14,165,233,.3))}
-.p2-welcome-body{flex:1;min-width:0}
-.p2-welcome-title{font-size:20px;font-weight:800;color:#0c4a6e;margin-bottom:4px;letter-spacing:-.3px}
-[data-theme="dark"] .p2-welcome-title{color:#bae6fd}
-.p2-welcome-sub{font-size:13px;color:#075985;margin-bottom:16px;font-weight:600}
-[data-theme="dark"] .p2-welcome-sub{color:#7dd3fc}
-.p2-welcome-cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-.p2-welcome-cta{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:1.5px solid rgba(14,165,233,.3);border-radius:12px;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit}
-[data-theme="dark"] .p2-welcome-cta{background:rgba(15,23,42,.5);border-color:rgba(56,189,248,.25)}
-.p2-welcome-cta:hover{transform:translateY(-3px);border-color:#0ea5e9;box-shadow:0 10px 24px rgba(14,165,233,.25)}
-.p2-welcome-cta-ico{font-size:26px;flex-shrink:0}
-.p2-welcome-cta-title{font-size:13px;font-weight:800;color:var(--text1);margin-bottom:2px}
-.p2-welcome-cta-sub{font-size:11px;color:var(--text3);font-weight:600;line-height:1.3}
-@media(max-width:640px){.p2-welcome{flex-direction:column;text-align:center;padding:20px 18px}.p2-welcome-cta-row{grid-template-columns:1fr}}
-
-/* Trophy grid */
-.p2-trophies{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-.p2-trophy{background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;transition:transform .2s;cursor:help}
-.p2-trophy.earned{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;box-shadow:0 4px 12px rgba(245,158,11,.2)}
-[data-theme="dark"] .p2-trophy.earned{background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.1));border-color:#d97706}
-.p2-trophy.locked{opacity:.45}
-.p2-trophy:hover{transform:translateY(-3px) scale(1.03)}
-.p2-trophy-ico{font-size:30px;margin-bottom:4px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
-.p2-trophy-name{font-size:12px;font-weight:800;color:var(--text1);margin-bottom:2px}
-.p2-trophy-req{font-size:10px;color:var(--text3);line-height:1.3;font-weight:600}
-.p2-trophy.earned .p2-trophy-name{color:#92400e}
-[data-theme="dark"] .p2-trophy.earned .p2-trophy-name{color:#fcd34d}
-.p2-trophy.earned .p2-trophy-req{color:#b45309;opacity:.85}
-[data-theme="dark"] .p2-trophy.earned .p2-trophy-req{color:#fde68a}
-
-/* Activity heatmap */
-.p2-heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;padding:12px 8px;background:var(--card2);border-radius:10px;overflow-x:auto}
-.p2-hm-cell{width:14px;height:14px;border-radius:3px;transition:transform .15s}
-.p2-hm-cell:hover{transform:scale(1.4)}
-.p2-hm-l0{background:#e5e7eb;border:1px solid rgba(0,0,0,.05)}
-.p2-hm-l1{background:#a7f3d0}
-.p2-hm-l2{background:#6ee7b7}
-.p2-hm-l3{background:#34d399}
-.p2-hm-l4{background:#059669;box-shadow:0 0 4px rgba(5,150,105,.5)}
-.p2-hm-future{background:transparent;border:1px dashed rgba(0,0,0,.08)}
-[data-theme="dark"] .p2-hm-l0{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
-.p2-hm-legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:10px;font-size:11px;color:var(--text3);font-weight:600}
-.p2-hm-legend .p2-hm-cell{width:12px;height:12px}
-
-/* Footer */
-.p2-footer{text-align:center;padding:4px 0}
-.p2-logout{padding:12px 28px;border-radius:10px;border:1.5px solid #ef4444;background:transparent;color:#ef4444;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
-.p2-logout:hover{background:#ef4444;color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(239,68,68,.35)}
-.p2-cta-login{display:flex;align-items:center;gap:18px;padding:22px 26px;background:linear-gradient(135deg,#0f766e 0%,#14b8a6 60%,#5eead4 100%);border-radius:16px;color:#fff;box-shadow:0 12px 30px rgba(15,118,110,.3);border:1.5px solid rgba(255,255,255,.2)}
-.p2-cta-icon{font-size:36px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.2))}
-.p2-cta-body{flex:1}
-.p2-cta-title{font-size:16px;font-weight:800;margin-bottom:3px;text-shadow:0 1px 3px rgba(0,0,0,.2)}
-.p2-cta-sub{font-size:12px;opacity:.92}
-.p2-cta-btn{padding:11px 22px;background:#fff;color:#0f766e;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:transform .2s}
-.p2-cta-btn:hover{transform:translateY(-2px) scale(1.04)}
-
-@media(max-width:640px){
-  .p2-hero{padding:22px 18px}
-  .p2-hero-main{flex-direction:column;text-align:center;gap:14px}
-  .p2-hero-name-row{justify-content:center}
-  .p2-level-prog{margin:10px auto 0}
-  .p2-avatar{width:78px;height:78px;font-size:36px}
-  .p2-name{font-size:22px}
-  .p2-cta-login{flex-direction:column;text-align:center}
-  .p2-section{padding:18px 18px}
-  .p2-trophies{grid-template-columns:repeat(auto-fill,minmax(95px,1fr));gap:8px}
-}
-
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
@@ -1980,24 +1781,18 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* Vocab */
 .dlg-vocab-hd{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:10px}
 /* Two-column layout: dialogue left, vocab right */
-.dlg-two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.dlg-two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
 .dlg-col{min-width:0}
-/* Left column: independent scrollable area.
-   - position:sticky keeps it pinned while the right column scrolls the page
-   - overflow-y:auto makes its content scroll internally
-   - overscroll-behavior:contain stops scroll-chaining to the page, so when the
-     user's cursor is over the left column, the wheel scrolls the dialogue
-     (not the page). Once the left column can no longer scroll in that
-     direction, further wheel events are simply consumed (not passed to page). */
-.dlg-col-left{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:6px}
-.dlg-col-left::-webkit-scrollbar{width:4px}
-.dlg-col-left::-webkit-scrollbar-thumb{background:#d4c7ba;border-radius:4px}
+.dlg-col-left{padding-right:6px}
+.dlg-col-right{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin}
+.dlg-col-right::-webkit-scrollbar{width:4px}
+.dlg-col-right::-webkit-scrollbar-thumb{background:#d4c7ba;border-radius:4px}
 .dlg-col-hd{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:var(--text1);margin-bottom:14px;padding:10px 14px;background:linear-gradient(135deg,rgba(99,102,241,.06),rgba(59,130,246,.04));border-radius:12px;border:1px solid rgba(99,102,241,.1)}
 .dlg-col-icon{font-size:20px;line-height:1}
 .dlg-vocab-list{display:flex;flex-direction:column;gap:8px}
 [data-theme="dark"] .dlg-col-hd{background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(59,130,246,.06));border-color:rgba(99,102,241,.18)}
-[data-theme="dark"] .dlg-col-left::-webkit-scrollbar-thumb{background:#3a4356}
-@media(max-width:860px){.dlg-two-col{grid-template-columns:1fr}.dlg-col-left{position:static;max-height:none;overflow:visible;overscroll-behavior:auto;padding-right:0}}
+[data-theme="dark"] .dlg-col-right::-webkit-scrollbar-thumb{background:#3a4356}
+@media(max-width:860px){.dlg-two-col{grid-template-columns:1fr}.dlg-col-right{position:static;max-height:none;overflow:visible}}
 .dlg-step-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:24px 0 14px;padding:12px 16px;background:linear-gradient(135deg,rgba(99,102,241,.06) 0%,rgba(59,130,246,.04) 100%);border-radius:14px;border:1px solid rgba(99,102,241,.12);font-size:15px;font-weight:800;color:var(--text1)}
 .dlg-step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
 .dlg-step-sub{font-size:12px;font-weight:500;color:var(--text3);margin-left:auto}
@@ -2027,154 +1822,64 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dlg-qnum{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text3);letter-spacing:.08em;margin-bottom:5px}
 .dlg-qtxt{font-size:16px;font-weight:700;color:var(--text1);margin-bottom:14px;line-height:1.5}
 .dlg-qopts{display:grid;gap:8px}
-.dlg-qopt{padding:11px 14px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:all .15s;-webkit-tap-highlight-color:transparent;position:relative}
+.dlg-qopt{padding:11px 14px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:all .15s;-webkit-tap-highlight-color:transparent}
 .dlg-qopt:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
-/* Correct answer when the user picked it — green, subtle */
 .dlg-qopt.correct{background:#d1fae5;border-color:#10b981;color:#065f46;pointer-events:none}
-.dlg-qopt.correct::before{content:'✅';margin-right:6px;font-size:15px;vertical-align:-1px}
-/* Wrong answer — user's pick, turns red + gentle shake */
-.dlg-qopt.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d;pointer-events:none;animation:dlgWrongShake .42s cubic-bezier(.36,.07,.19,.97) both}
-.dlg-qopt.wrong::before{content:'❌';margin-right:6px;font-size:15px;vertical-align:-1px}
-@keyframes dlgWrongShake{
-  10%,90%{transform:translateX(-2px)}
-  20%,80%{transform:translateX(3px)}
-  30%,50%,70%{transform:translateX(-5px)}
-  40%,60%{transform:translateX(5px)}
-}
-/* Correct-reveal = extra-obvious highlight when user picked wrong.
-   Thicker border, stronger green, animated glow arrow nudges toward it. */
-.dlg-qopt.correct.correct-reveal{
-  background:linear-gradient(135deg,#a7f3d0,#6ee7b7);
-  border:2.5px solid #059669;
-  color:#064e3b;font-weight:800;font-size:13.5px;
-  box-shadow:0 0 0 4px rgba(16,185,129,.2),0 6px 20px rgba(16,185,129,.35);
-  transform:scale(1.015);
-  animation:dlgCorrectReveal 1.4s cubic-bezier(.25,.8,.25,1) both,dlgCorrectPulse 1.8s ease-in-out 1.4s infinite;
-  padding:11px 90px 11px 52px;
-}
-.dlg-qopt.correct.correct-reveal::before{
-  content:'👉✅';
-  position:absolute;left:10px;top:50%;transform:translateY(-50%);
-  font-size:16px;margin-right:0;letter-spacing:-2px;
-  animation:dlgCorrectPoint 1s ease-in-out infinite;
-}
-.dlg-qopt.correct.correct-reveal::after{
-  content:'正确答案';
-  position:absolute;right:10px;top:50%;transform:translateY(-50%);
-  background:#059669;color:#fff;padding:3px 8px;border-radius:6px;
-  font-size:10.5px;font-weight:800;letter-spacing:.05em;
-  box-shadow:0 2px 6px rgba(5,150,105,.35);
-}
-@keyframes dlgCorrectReveal{
-  0%{opacity:.4;transform:scale(.95)}
-  40%{opacity:1;transform:scale(1.035)}
-  70%{transform:scale(1.01)}
-  100%{transform:scale(1.015)}
-}
-@keyframes dlgCorrectPulse{
-  0%,100%{box-shadow:0 0 0 4px rgba(16,185,129,.2),0 6px 20px rgba(16,185,129,.35)}
-  50%{box-shadow:0 0 0 7px rgba(16,185,129,.12),0 8px 28px rgba(16,185,129,.5)}
-}
-@keyframes dlgCorrectPoint{
-  0%,100%{transform:translateY(-50%) translateX(0)}
-  50%{transform:translateY(-50%) translateX(3px)}
-}
+.dlg-qopt.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d;pointer-events:none}
 .dlg-qopt:disabled{pointer-events:none;opacity:.75}
 .dlg-qexp{margin-top:10px;padding:10px 12px;background:rgba(59,130,246,.07);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6;display:none;border-left:3px solid var(--blue)}
 .dlg-qexp.show{display:block}
 .dlg-qnext{margin-top:10px;padding:9px 22px;border-radius:10px;background:var(--blue);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:none;transition:all .15s}
-.dlg-qnext.show{display:inline-block;animation:dlgQNextIn .32s ease-out}
+.dlg-qnext.show{display:inline-block}
 .dlg-qnext:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,130,246,.4)}
-@keyframes dlgQNextIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.dlg-qnext-attn{animation:dlgQNextAttn .85s cubic-bezier(.4,0,.2,1)}
-@keyframes dlgQNextAttn{
-  0%   {box-shadow:0 0 0 0 rgba(59,130,246,.55)}
-  50%  {box-shadow:0 0 0 10px rgba(59,130,246,.18);transform:translateY(-2px) scale(1.04)}
-  100% {box-shadow:0 0 0 0 rgba(59,130,246,0)}
-}
 .dlg-qresult{text-align:center;padding:12px 0}
 .dlg-qscore-big{font-size:46px;font-weight:900;color:var(--text1);margin-bottom:4px}
 .dlg-qscore-sub{font-size:13px;color:var(--text3);margin-bottom:14px}
-.dlg-result-emoji{font-size:56px;line-height:1;margin-bottom:8px;animation:dlgResultBounce .6s cubic-bezier(.34,1.56,.64,1) both}
-@keyframes dlgResultBounce{0%{transform:scale(0) rotate(-10deg)}50%{transform:scale(1.15) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
-.dlg-result-hint{font-size:12px;color:var(--text2);margin:6px 0 14px;padding:8px 14px;background:rgba(59,130,246,.08);border-radius:10px;display:inline-block}
-.dlg-result-hint b{color:#f59e0b;font-weight:800}
-
-/* ── 🏆 Mastered celebration result ── */
-.dlg-qresult-mastered{position:relative;padding:28px 20px 18px;background:linear-gradient(135deg,#fef3c7 0%,#fde68a 50%,#fbbf24 100%);border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(245,158,11,.35),inset 0 1px 0 rgba(255,255,255,.4);animation:dlgMasterPop .55s cubic-bezier(.34,1.56,.64,1) both}
-[data-theme="dark"] .dlg-qresult-mastered{background:linear-gradient(135deg,rgba(245,158,11,.25) 0%,rgba(251,191,36,.2) 50%,rgba(245,158,11,.3) 100%);box-shadow:0 8px 30px rgba(245,158,11,.35)}
-@keyframes dlgMasterPop{0%{opacity:0;transform:scale(.85)}60%{transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
-.dlg-qresult-mastered::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,255,255,.25) 30deg,transparent 60deg,transparent 360deg);animation:dlgMasterSpin 8s linear infinite;pointer-events:none;opacity:.7}
-@keyframes dlgMasterSpin{to{transform:rotate(360deg)}}
-.dlg-master-confetti{position:absolute;inset:0;pointer-events:none}
-.dlg-conf{position:absolute;font-size:20px;animation:dlgConfetti 1.6s ease-out both;opacity:0}
-.dlg-conf.c1{top:10%;left:12%;animation-delay:.05s}
-.dlg-conf.c2{top:18%;right:14%;animation-delay:.18s}
-.dlg-conf.c3{bottom:22%;left:18%;animation-delay:.3s}
-.dlg-conf.c4{bottom:16%;right:10%;animation-delay:.42s}
-.dlg-conf.c5{top:38%;left:48%;animation-delay:.54s}
-@keyframes dlgConfetti{0%{opacity:0;transform:translateY(-8px) scale(.6) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(40px) scale(1.1) rotate(180deg)}}
-.dlg-master-badge{font-size:68px;line-height:1;filter:drop-shadow(0 6px 16px rgba(245,158,11,.45));margin-bottom:8px;animation:dlgBadgePulse 1.8s ease-in-out infinite;position:relative}
-@keyframes dlgBadgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08) rotate(-3deg)}}
-.dlg-master-title{font-size:22px;font-weight:900;color:#78350f;margin-bottom:4px;letter-spacing:-.3px;position:relative;text-shadow:0 1px 2px rgba(255,255,255,.5)}
-[data-theme="dark"] .dlg-master-title{color:#fde68a}
-.dlg-master-score{font-size:16px;font-weight:800;color:#92400e;margin-bottom:12px;position:relative}
-[data-theme="dark"] .dlg-master-score{color:#fcd34d}
-.dlg-master-sub{font-size:13px;color:#78350f;line-height:1.6;margin-bottom:16px;position:relative;max-width:380px;margin-left:auto;margin-right:auto}
-[data-theme="dark"] .dlg-master-sub{color:#fde68a;opacity:.92}
-.dlg-master-sub b{font-weight:800}
-.dlg-master-rewards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;position:relative}
-.dlg-master-reward{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.8);border-radius:10px;padding:9px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;backdrop-filter:blur(4px)}
-[data-theme="dark"] .dlg-master-reward{background:rgba(0,0,0,.25);border-color:rgba(251,191,36,.25)}
-.dmr-ico{font-size:18px;line-height:1}
-.dmr-val{font-size:15px;font-weight:900;color:#78350f}
-[data-theme="dark"] .dmr-val{color:#fcd34d}
-.dmr-lbl{font-size:10px;color:#92400e;font-weight:700}
-[data-theme="dark"] .dmr-lbl{color:#fde68a;opacity:.85}
-.dlg-master-actions{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;position:relative}
-.dlg-master-next{padding:10px 22px !important;font-size:14px !important;box-shadow:0 4px 14px rgba(59,130,246,.4)}
-.dlg-master-redo{background:transparent;border:1.5px solid rgba(120,53,15,.3);color:#78350f;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s}
-.dlg-master-redo:hover{background:rgba(120,53,15,.08);border-color:#78350f}
-[data-theme="dark"] .dlg-master-redo{color:#fde68a;border-color:rgba(251,191,36,.35)}
-[data-theme="dark"] .dlg-master-redo:hover{background:rgba(251,191,36,.1);border-color:#fcd34d}
-
-/* ── Great (80-99%) result banner ── */
-.dlg-qresult-great{padding:20px 16px;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(59,130,246,.05));border:1.5px solid rgba(16,185,129,.3);border-radius:14px}
-
-/* ── Mastery banner at top of dialogue page ── */
-.dlg-mastery-banner{display:flex;align-items:center;gap:14px;padding:12px 16px;margin-bottom:14px;border-radius:12px;animation:dlgMbSlideIn .35s ease-out both}
-@keyframes dlgMbSlideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.dlg-mastery-banner.mastered{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1.5px solid #f59e0b;box-shadow:0 4px 14px rgba(245,158,11,.18)}
-[data-theme="dark"] .dlg-mastery-banner.mastered{background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(251,191,36,.1));border-color:rgba(245,158,11,.4)}
-.dlg-mastery-banner.due{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(251,146,60,.06));border:1.5px solid rgba(239,68,68,.3)}
-.dlg-mastery-banner.attempted{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(99,102,241,.06));border:1.5px solid rgba(59,130,246,.25)}
-.dlg-mb-ico{font-size:30px;line-height:1;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.12))}
-.dlg-mb-body{flex:1;min-width:0}
-.dlg-mb-title{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:2px}
-.dlg-mastery-banner.mastered .dlg-mb-title{color:#78350f}
-[data-theme="dark"] .dlg-mastery-banner.mastered .dlg-mb-title{color:#fcd34d}
-.dlg-mb-sub{font-size:12px;color:var(--text2);line-height:1.4}
-.dlg-mastery-banner.mastered .dlg-mb-sub{color:#92400e}
-[data-theme="dark"] .dlg-mastery-banner.mastered .dlg-mb-sub{color:#fde68a;opacity:.88}
-.dlg-mb-review{padding:7px 13px;border:1.5px solid rgba(120,53,15,.3);background:rgba(255,255,255,.6);color:#78350f;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;flex-shrink:0;white-space:nowrap}
-.dlg-mb-review:hover{background:rgba(120,53,15,.1);border-color:#78350f}
-[data-theme="dark"] .dlg-mb-review{background:rgba(0,0,0,.25);color:#fde68a;border-color:rgba(251,191,36,.35)}
-[data-theme="dark"] .dlg-mb-review:hover{background:rgba(251,191,36,.12)}
-
-/* ── Mastery icon on lesson sub-titles ── */
-.dlg-sub-mastery{display:inline-flex;align-items:center;justify-content:center;margin-left:6px;font-size:14px;line-height:1}
-.dlg-sub-mastery.due{animation:dlgDueBlink 2s ease-in-out infinite}
-@keyframes dlgDueBlink{0%,100%{opacity:.6}50%{opacity:1}}
-.dlg-sub-item.mastered{border-left:3px solid #f59e0b;background:linear-gradient(90deg,rgba(245,158,11,.08),transparent)}
-.dlg-sub-item.mastery-due{border-left:3px solid #ef4444}
-.dlg-sub-item.attempted{border-left:3px solid #3b82f6;background:linear-gradient(90deg,rgba(59,130,246,.04),transparent)}
-
 /* ── 连线题 matching quiz ── */
 .dlg-match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
 .dlg-match-col{display:flex;flex-direction:column;gap:7px}
 .dlg-mitem{padding:9px 12px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;line-height:1.4;transition:all .18s;-webkit-tap-highlight-color:transparent;user-select:none}
 .dlg-mitem:hover:not(.matched):not(.wrong){border-color:var(--blue);color:var(--blue)}
 .dlg-mitem.selected{border-color:var(--blue);background:rgba(59,130,246,.12);color:var(--blue);transform:scale(1.02)}
+/* ── 听力填空测试 Listening Fill-in-Blank ── */
+.dlg-listen-wrap{background:var(--card);border:2px solid rgba(14,165,233,.2);border-radius:16px;padding:20px;margin-bottom:16px}
+.dlg-listen-hd{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.dlg-listen-prog{display:flex;gap:4px}
+.dlg-listen-dot{width:22px;height:4px;border-radius:3px;background:var(--border)}
+.dlg-listen-dot.done{background:#22c55e}
+.dlg-listen-dot.active{background:#0ea5e9}
+.dlg-listen-dot.wrong{background:#ef4444}
+.dlg-listen-num{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text3);letter-spacing:.08em;margin-bottom:8px}
+.dlg-listen-sentence{font-size:15px;font-weight:600;color:var(--text1);line-height:1.7;margin-bottom:14px;padding:14px;background:linear-gradient(135deg,rgba(14,165,233,.06),rgba(99,102,241,.04));border-radius:12px;border:1px solid rgba(14,165,233,.12)}
+.dlg-listen-blank{display:inline-block;min-width:90px;border-bottom:2.5px dashed #0ea5e9;color:#0ea5e9;font-weight:800;text-align:center;padding:0 4px;margin:0 2px}
+.dlg-listen-play{display:flex;gap:8px;margin-bottom:14px}
+.dlg-listen-play-btn{padding:8px 18px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#3b82f6);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s}
+.dlg-listen-play-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(14,165,233,.4)}
+.dlg-listen-play-btn.slow{background:linear-gradient(135deg,#f59e0b,#f97316)}
+.dlg-listen-play-btn.slow:hover{box-shadow:0 4px 14px rgba(245,158,11,.4)}
+.dlg-listen-input-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.dlg-listen-input{flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--card2);color:var(--text1);font-size:14px;font-weight:600;outline:none;transition:border-color .15s}
+.dlg-listen-input:focus{border-color:#0ea5e9}
+.dlg-listen-input.correct{border-color:#22c55e;background:#d1fae5;color:#065f46}
+.dlg-listen-input.wrong{border-color:#ef4444;background:#fee2e2;color:#7f1d1d}
+.dlg-listen-submit{padding:10px 20px;border-radius:10px;background:#0ea5e9;border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
+.dlg-listen-submit:hover{background:#0284c7;transform:translateY(-1px)}
+.dlg-listen-submit:disabled{opacity:.5;cursor:default;transform:none}
+.dlg-listen-fb{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.5;display:none}
+.dlg-listen-fb.show{display:block}
+.dlg-listen-fb.ok{background:#d1fae5;border:1px solid #22c55e;color:#065f46}
+.dlg-listen-fb.no{background:#fee2e2;border:1px solid #ef4444;color:#7f1d1d}
+.dlg-listen-next{margin-top:10px;padding:9px 22px;border-radius:10px;background:#0ea5e9;border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:none;transition:all .15s}
+.dlg-listen-next.show{display:inline-block}
+.dlg-listen-next:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(14,165,233,.4)}
+.dlg-listen-result{text-align:center;padding:16px 0}
+.dlg-listen-score-big{font-size:46px;font-weight:900;margin-bottom:4px}
+.dlg-listen-score-big.pass{color:#22c55e}
+.dlg-listen-score-big.fail{color:#ef4444}
+.dlg-listen-score-sub{font-size:13px;color:var(--text3);margin-bottom:14px}
+/* mastery badge */
+.dlg-mastery-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;color:#fff;background:linear-gradient(135deg,#22c55e,#16a34a);padding:2px 7px;border-radius:8px;margin-left:6px;vertical-align:middle}
+.dlg-sub-item .dlg-mastery-badge{margin-left:auto}
 .dlg-mitem.matched{background:#d1fae5;border-color:#10b981;color:#065f46;cursor:default;pointer-events:none}
 .dlg-mitem.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d}
 @media(max-width:480px){.dlg-match-grid{grid-template-columns:1fr 1fr}.dlg-mitem{font-size:12px;padding:8px 9px}}
@@ -2414,6 +2119,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:6px">
+    <button class="profile-btn" id="profile-btn" onclick="_profileOpen()" title="切换档案 / Switch profile">
+      <span class="profile-ico">👤</span><span class="profile-name" id="profile-name-lbl">default</span>
+    </button>
     <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="切换 浅色/深色 · Toggle light/dark">
       <span class="th-ico-light">☾</span><span class="th-ico-dark">☀</span>
       <span class="th-label">深色</span>
@@ -2894,6 +2602,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="ct" onclick="setCat('phrase',this)">Phrases<span class="ct-cnt">100</span></button>
     <button class="ct" onclick="setCat('vocab',this)">Vocabulary<span class="ct-cnt">50</span></button>
     <button class="ct" onclick="setCat('due',this)" id="tab-due">Due Today<span class="ct-cnt due-cnt" id="due-cnt">0</span></button>
+    <button class="ct" onclick="openGlobalListen('learn')" style="background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(99,102,241,.06));border-color:rgba(14,165,233,.2)">🎧 听力</button>
   </div>
   <div class="vgrid" id="llist"></div>
 </div>
@@ -3019,6 +2728,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="mq-tabs">
     <button class="mq-tab on" id="mq-tab-list" onclick="showMonthlyTab('list')"><span class="mqt-ico">📋</span><span class="mqt-cn">词汇列表</span><span class="mqt-en">Word List</span></button>
     <button class="mq-tab" id="mq-tab-quiz" onclick="showMonthlyTab('quiz')"><span class="mqt-ico">✏️</span><span class="mqt-cn">本月测验</span><span class="mqt-en">Monthly Quiz</span></button>
+    <button class="mq-tab" onclick="openGlobalListen('monthly')" style="background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(99,102,241,.06));border-color:rgba(14,165,233,.2)"><span class="mqt-ico">🎧</span><span class="mqt-cn">听力练习</span><span class="mqt-en">Listening</span></button>
   </div>
   <div id="monthly-list"></div>
   <div id="monthly-quiz" style="display:none"></div>
@@ -3052,6 +2762,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="ctabs" style="margin-top:16px">
     <button class="ct on" id="cnen-tab-list" onclick="showCNENTab('list')">📚 词汇列表</button>
     <button class="ct" id="cnen-tab-quiz" onclick="showCNENTab('quiz')">✏️ 汉译英测验</button>
+    <button class="ct" onclick="openGlobalListen('cnen')" style="background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(99,102,241,.06));border-color:rgba(14,165,233,.2)">🎧 听力练习</button>
   </div>
   <!-- LIST view -->
   <div id="cnen-list-view">
@@ -3233,53 +2944,18 @@ function _collectProgressData(){
   return out;
 }
 var _syncUploadTimer = null;
-var _syncStatus = 'idle'; // 'idle' | 'saving' | 'saved' | 'error' | 'offline'
-function _showSyncStatus(status, msg){
-  _syncStatus = status;
-  var el = document.getElementById('sync-indicator');
-  if (!el){
-    el = document.createElement('div');
-    el.id = 'sync-indicator';
-    el.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:9999;font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.15);transition:all .3s;pointer-events:none;opacity:0;transform:translateY(10px)';
-    document.body.appendChild(el);
-  }
-  var map = {
-    saving:  { bg:'#eff6ff', color:'#1d4ed8', border:'#bfdbfe', text:'☁️ 保存中…' },
-    saved:   { bg:'#ecfdf5', color:'#047857', border:'#a7f3d0', text:'✓ 已同步到云端' },
-    error:   { bg:'#fef2f2', color:'#b91c1c', border:'#fecaca', text:'⚠️ 同步失败 · 本地已保存' },
-    offline: { bg:'#fffbeb', color:'#b45309', border:'#fde68a', text:'💾 仅本地保存（未登录）' }
-  };
-  var cfg = map[status];
-  if (!cfg){ el.style.opacity = 0; el.style.transform = 'translateY(10px)'; return; }
-  el.style.background = cfg.bg;
-  el.style.color = cfg.color;
-  el.style.border = '1px solid ' + cfg.border;
-  el.textContent = msg || cfg.text;
-  el.style.opacity = 1;
-  el.style.transform = 'translateY(0)';
-  if (status === 'saved' || status === 'offline'){
-    setTimeout(function(){ if (_syncStatus === status){ el.style.opacity = 0; el.style.transform = 'translateY(10px)'; } }, 2200);
-  }
-}
 async function uploadProgressToCloud(){
   if (!sbEnabled || typeof user==='undefined' || !user) return;
-  _showSyncStatus('saving');
   try {
     var data = _collectProgressData();
     var res = await sb.from('user_progress').upsert({
       user_id: user.id, data: data, updated_at: new Date().toISOString()
     }, { onConflict: 'user_id' });
-    if (res.error) { console.warn('[sync] upload error', res.error); _showSyncStatus('error'); }
-    else { _showSyncStatus('saved'); }
-  } catch(e){ console.warn('[sync] upload failed', e); _showSyncStatus('error'); }
+    if (res.error) console.warn('[sync] upload error', res.error);
+  } catch(e){ console.warn('[sync] upload failed', e); }
 }
 function scheduleCloudUpload(){
-  if (!sbEnabled) return;
-  if (typeof user==='undefined' || !user){
-    /* Not logged in — still save locally, but let user know they should log in */
-    if (!window._offlineHintShown){ window._offlineHintShown = true; _showSyncStatus('offline'); }
-    return;
-  }
+  if (!sbEnabled || typeof user==='undefined' || !user) return;
   if (_syncUploadTimer) clearTimeout(_syncUploadTimer);
   _syncUploadTimer = setTimeout(uploadProgressToCloud, 1500);
 }
@@ -11747,6 +11423,11 @@ var _dlgSt = {
   matched: [],          // bool[] — which pairs are matched
   shuffledRight: [],    // shuffled origIdx array for right column
   matchMistakes: 0,     // mistake count
+  // Listening fill-in-blank state
+  listenQs: [],          // array of {lineIdx, key, sentence} for current scene
+  listenCur: 0,          // current listening question index
+  listenScore: 0,        // listening quiz score
+  listenAnswered: false,  // has current listening question been answered
 };
 
 var _DLG_CAT_META = {
@@ -11783,10 +11464,10 @@ function _dlgSetCat(cat) {
   _dlgSt.catFilter = cat;
   var filtered = _dlgFiltered();
   if (!filtered.length) return;
-  // Find index in full DLG_DATA for first item of filtered list
   _dlgSt.wi = DLG_DATA.indexOf(filtered[0]);
   _dlgSt.trans = {}; _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
   _dlgSt.matchPhase='match'; _dlgMatchInit(DLG_DATA[_dlgSt.wi]);
+  _dlgListenInit(DLG_DATA[_dlgSt.wi]);
   if (_dlgSt.theater) { _stopAll(); _dlgSt.theater = false; }
   _dlgRender();
 }
@@ -11796,12 +11477,14 @@ function renderDialogue() {
   if (_dlgSt.wi === null) _dlgSt.wi = weekNum % DLG_DATA.length;
   _dlgSt.trans = {}; _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false; _dlgSt.theater = false;
   _dlgSt.matchPhase='match'; _dlgMatchInit(DLG_DATA[_dlgSt.wi]);
+  _dlgListenInit(DLG_DATA[_dlgSt.wi]);
   _dlgRender();
 }
 
 function _dlgSetWeek(i) {
   _dlgSt.wi = i; _dlgSt.trans = {}; _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
   _dlgSt.matchPhase='match'; _dlgMatchInit(DLG_DATA[i]);
+  _dlgListenInit(DLG_DATA[i]);
   if (_dlgSt.theater) { _stopAll(); _dlgSt.theater = false; }
   _dlgRender();
 }
@@ -11847,32 +11530,14 @@ function _dlgRender() {
         var ac = activeCatInGroup[0];
         var catDlgs = DLG_DATA.filter(function(dd){ return dd.cat === ac; });
         var curD = DLG_DATA[_dlgSt.wi];
-        /* Load mastery data to show 🏆 / ⏰ icons on lesson titles */
-        var bayDoneSub = {};
-        try { bayDoneSub = JSON.parse(localStorage.getItem('bayarea_done') || '{}'); } catch(e){}
         catH += '<div class="dlg-sub-titles open"><div class="dlg-sub-list">';
         catDlgs.forEach(function(dd, si){
           var isActive = (curD && curD.id === dd.id) ? ' active' : '';
           var globalIdx = DLG_DATA.indexOf(dd);
-          /* Mastery indicator: 🏆 mastered (within SRS window) / ⏰ due for review / 📖 attempted but not mastered */
-          var rec = bayDoneSub[dd.id];
-          var masteryIcon = '';
-          var masteryCls = '';
-          if (rec) {
-            if (rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue) {
-              masteryIcon = '<span class="dlg-sub-mastery" title="已掌握 · Mastered">🏆</span>';
-              masteryCls = ' mastered';
-            } else if (rec.pct === 100) {
-              /* Past the SRS review window — mastered but due for review */
-              masteryIcon = '<span class="dlg-sub-mastery due" title="建议复习 · Due for review">⏰</span>';
-              masteryCls = ' mastery-due';
-            } else if (rec.pct > 0) {
-              masteryIcon = '<span class="dlg-sub-mastery attempted" title="已尝试 · ' + rec.pct + '%">📖</span>';
-              masteryCls = ' attempted';
-            }
-          }
-          catH += '<button class="dlg-sub-item' + isActive + masteryCls + '" onclick="_dlgSetWeek(' + globalIdx + ')">' +
-            '<span class="sub-num">' + (si+1) + '</span>' + dd.titleCN + masteryIcon +
+          var hasBadge = _dlgHasMastery(dd.id);
+          catH += '<button class="dlg-sub-item' + isActive + '" onclick="_dlgSetWeek(' + globalIdx + ')">' +
+            '<span class="sub-num">' + (si+1) + '</span>' + dd.titleCN +
+            (hasBadge ? '<span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
             '</button>';
         });
         catH += '</div></div>';
@@ -11946,42 +11611,8 @@ function _dlgHTML(d) {
     '</div>';
   }).join('');
 
-  // ── Mastery badge (only shows if this lesson has mastery data) ──
-  var _bayDoneRec = null;
-  try { _bayDoneRec = (JSON.parse(localStorage.getItem('bayarea_done')||'{}'))[d.id] || null; } catch(e){}
-  var masteryBanner = '';
-  if (_bayDoneRec && _bayDoneRec.pct === 100 && _bayDoneRec.reviewDue && Date.now() < _bayDoneRec.reviewDue) {
-    var daysLeft = Math.max(1, Math.ceil((_bayDoneRec.reviewDue - Date.now()) / 86400000));
-    masteryBanner = '<div id="dlg-mastery-badge" class="dlg-mastery-banner mastered">' +
-      '<span class="dlg-mb-ico">🏆</span>' +
-      '<div class="dlg-mb-body">' +
-        '<div class="dlg-mb-title">已掌握 · Mastered</div>' +
-        '<div class="dlg-mb-sub">' + daysLeft + ' 天后再复习即可 · 无需重做</div>' +
-      '</div>' +
-      '<button class="dlg-mb-review" onclick="document.querySelector(\'#dlg-qbox\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">💡 仍想复习</button>' +
-    '</div>';
-  } else if (_bayDoneRec && _bayDoneRec.pct === 100) {
-    /* Past the SRS window — suggest review */
-    masteryBanner = '<div id="dlg-mastery-badge" class="dlg-mastery-banner due">' +
-      '<span class="dlg-mb-ico">⏰</span>' +
-      '<div class="dlg-mb-body">' +
-        '<div class="dlg-mb-title">建议复习 · Review Due</div>' +
-        '<div class="dlg-mb-sub">距上次掌握已有一段时间，复习一下巩固记忆</div>' +
-      '</div>' +
-    '</div>';
-  } else if (_bayDoneRec && _bayDoneRec.pct > 0) {
-    masteryBanner = '<div id="dlg-mastery-badge" class="dlg-mastery-banner attempted">' +
-      '<span class="dlg-mb-ico">📖</span>' +
-      '<div class="dlg-mb-body">' +
-        '<div class="dlg-mb-title">已尝试 · In Progress (' + _bayDoneRec.pct + '%)</div>' +
-        '<div class="dlg-mb-sub">挑战满分 100% 解锁 🏆 Mastered 徽章</div>' +
-      '</div>' +
-    '</div>';
-  }
-
   // ── Scene card (full width) ──
-  var topH = masteryBanner +
-    '<div class="dlg-scene-card">' +
+  var topH = '<div class="dlg-scene-card">' +
       '<div class="dlg-scene-en">📍 ' + d.scene + '</div>' +
       '<div class="dlg-scene-cn">' + d.sceneCN + '</div>' +
     '</div>' +
@@ -12001,6 +11632,10 @@ function _dlgHTML(d) {
     '<div class="dlg-vocab-list">' + vocabH + '</div>' +
     '<div class="dlg-col-hd" style="margin-top:20px"><span class="dlg-col-icon">✏️</span>词汇测试 · Quick Check</div>' +
     '<div id="dlg-qbox">' + _dlgQuizHTML(d) + '</div>' +
+    '<div class="dlg-col-hd" style="margin-top:20px"><span class="dlg-col-icon">🎧</span>听力填空 · Listening Test' +
+      (_dlgHasMastery(d.id) ? '<span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+    '</div>' +
+    '<div id="dlg-listen-box">' + _dlgListenHTML(d) + '</div>' +
   '</div>';
 
   return topH + '<div class="dlg-two-col">' + leftH + rightH + '</div>';
@@ -12110,42 +11745,6 @@ function dlgMatchRight(si) {
 
 function dlgMatchDone() {
   var d = DLG_DATA[_dlgSt.wi];
-  /* Mark matching as "aced" for smart retry — user successfully matched all pairs */
-  _dlgSt.matchAced = true;
-
-  /* Smart retry shortcut: if user previously aced MCQ and was retrying ONLY the matching,
-     skip straight to completion (no need to re-do MCQ). */
-  if (_dlgSt.retrySkipMcq) {
-    _dlgSt.retrySkipMcq = false;
-    /* Show a small completion message; they already got 100% on MCQ previously.
-       The lesson's mastery record is already saved, so we just confirm. */
-    var box = document.getElementById('dlg-qbox');
-    if (box) {
-      var fromRec = null;
-      try { fromRec = (JSON.parse(localStorage.getItem('bayarea_done')||'{}'))[d.id] || null; } catch(e){}
-      var intervalText = (fromRec && fromRec.intervalDays) ? fromRec.intervalDays : 7;
-      box.innerHTML =
-        '<div class="dlg-qwrap">' +
-          '<div class="dlg-qresult dlg-qresult-mastered">' +
-            '<div class="dlg-master-confetti">' +
-              '<span class="dlg-conf c1">🎉</span><span class="dlg-conf c2">⭐</span><span class="dlg-conf c3">✨</span>' +
-              '<span class="dlg-conf c4">🎊</span><span class="dlg-conf c5">💫</span>' +
-            '</div>' +
-            '<div class="dlg-master-badge">🏆</div>' +
-            '<div class="dlg-master-title">连线题通过 · Matching Complete!</div>' +
-            '<div class="dlg-master-score">词汇测试无需重做</div>' +
-            '<div class="dlg-master-sub">词汇测试已满分，<b>本课完全掌握</b>。' + intervalText + ' 天后再复习即可。</div>' +
-            '<div class="dlg-master-actions">' +
-              '<button class="btn-p dlg-master-next" onclick="_dlgGoNextLesson()">下一课 →</button>' +
-              '<button class="dlg-master-redo" onclick="_dlgSt.matchAced=false;_dlgSt.mcqAced=false;dlgQRetry()">🔄 完整重做</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-    }
-    try { toast && toast('🎊 连线题通过 · 本课掌握！','ok'); } catch(e){}
-    return;
-  }
-
   _dlgSt.matchPhase = 'mcq';
   _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
   var box = document.getElementById('dlg-qbox');
@@ -12167,15 +11766,8 @@ function _dlgMcqHTML(d) {
   }).join('');
   var opts = q.opts.slice(); var correct = opts[q.ci];
   for (var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=opts[i];opts[i]=opts[j];opts[j]=t;}
-  /* Store option text on the element via dataset to avoid quote-escaping hell.
-     Previously we inlined the text into onclick="..." which broke when
-     option text contained double quotes (e.g. quoted phrases like "I work hard."). */
-  var correctIdx = opts.indexOf(correct);
-  var escHtml = function(s){
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  };
-  var optsH = opts.map(function(o, idx){
-    return '<button class="dlg-qopt" data-dlg-idx="' + idx + '" data-dlg-correct="' + correctIdx + '" onclick="dlgQAnswer(this)">' + escHtml(o) + '</button>';
+  var optsH = opts.map(function(o){
+    return '<button class="dlg-qopt" onclick="dlgQAnswer(this,\'' + o.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\',\'' + correct.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">' + o + '</button>';
   }).join('');
   return '<div class="dlg-qwrap">' +
     '<div class="dlg-qhd"><span>🎯 词汇理解测验</span><div class="dlg-qprog">' + progH + '</div></div>' +
@@ -12262,56 +11854,18 @@ function _dlgTheaterNext() {
   window.speechSynthesis.speak(utt);
 }
 
-function dlgQAnswer(btn, chosen, correct){
+function dlgQAnswer(btn,chosen,correct){
   if(_dlgSt.qAnswered)return;
   _dlgSt.qAnswered=true;
-  /* Prefer the index stored on the button's dataset (new, robust approach).
-     Fall back to the legacy text-comparison if older HTML is still in the DOM. */
-  var idx = btn && btn.dataset ? parseInt(btn.dataset.dlgIdx, 10) : NaN;
-  var correctIdx = btn && btn.dataset ? parseInt(btn.dataset.dlgCorrect, 10) : NaN;
-  var isOk;
-  if (!isNaN(idx) && !isNaN(correctIdx)) {
-    isOk = (idx === correctIdx);
-  } else {
-    isOk = (chosen === correct);
-  }
+  var isOk=(chosen===correct);
   if(isOk){_dlgSt.qScore++;awardPts(5);localCorrect--;completeMission('correct');toast('+5分 ✅ 职场词汇答对！','ok');}
   document.querySelectorAll('#dlg-qbox .dlg-qopt').forEach(function(b){
     b.disabled=true;
-    var bIdx = b.dataset ? parseInt(b.dataset.dlgIdx, 10) : NaN;
-    if (!isNaN(bIdx) && !isNaN(correctIdx)) {
-      if (bIdx === correctIdx) b.classList.add('correct');
-    } else if (b.textContent===correct) {
-      b.classList.add('correct');
-    }
+    if(b.textContent===correct)b.classList.add('correct');
   });
-  if(!isOk){
-    btn.classList.add('wrong');
-    /* Add extra-obvious highlight to the correct answer when user got it wrong */
-    document.querySelectorAll('#dlg-qbox .dlg-qopt.correct').forEach(function(cb){
-      cb.classList.add('correct-reveal');
-    });
-    try { toast && toast('❌ 再看一眼正确答案','err'); } catch(e){}
-  }
+  if(!isOk)btn.classList.add('wrong');
   var exp=document.getElementById('dlg-qexp');if(exp)exp.classList.add('show');
-  var nxt=document.getElementById('dlg-qnext');
-  if(nxt){
-    nxt.classList.add('show');
-    /* After the explanation reveals, scroll the Next button into comfortable view
-       so the user doesn't have to hunt for it. Slight delay lets the .show
-       CSS transition start before we measure. */
-    setTimeout(function(){
-      try {
-        nxt.scrollIntoView({behavior:'smooth', block:'center'});
-      } catch(e) {
-        /* Older browsers without options support */
-        try { nxt.scrollIntoView(false); } catch(_){}
-      }
-      /* Also give it a subtle focus pulse so eyes land on it naturally */
-      nxt.classList.add('dlg-qnext-attn');
-      setTimeout(function(){ if(nxt) nxt.classList.remove('dlg-qnext-attn'); }, 900);
-    }, 120);
-  }
+  var nxt=document.getElementById('dlg-qnext');if(nxt)nxt.classList.add('show');
 }
 
 function dlgQNext(){
@@ -12321,195 +11875,201 @@ function dlgQNext(){
     var box=document.getElementById('dlg-qbox');
     if(!box)return;
     var sc=_dlgSt.qScore,tot=d.quiz.length,pct=Math.round(sc/tot*100);
-    /* Track whether this MCQ run was aced — enables smart retry */
-    _dlgSt.mcqAced = (pct === 100);
-    /* Save completion status + spaced-repetition interval for profile */
-    var justMasteredFirstTime = false;
-    var wasAlreadyMastered = false;
-    try {
-      var bayDone = JSON.parse(localStorage.getItem('bayarea_done')||'{}');
-      var prev = bayDone[d.id] || {};
-      var prevBest = prev.pct || 0;
-      wasAlreadyMastered = prevBest === 100;
-      /* SRS interval for mastered lessons: 7d → 14d → 30d → 60d → 90d */
-      var newRec = prev.pct ? Object.assign({}, prev) : {cat: d.cat};
-      if (pct >= prevBest) {
-        newRec.pct = pct;
-        newRec.score = sc;
-        newRec.total = tot;
-        newRec.ts = Date.now();
-      }
-      if (pct === 100) {
-        var reviews = (prev.masteryReviews || 0) + 1;
-        var intervalDays;
-        if      (reviews === 1) intervalDays = 7;
-        else if (reviews === 2) intervalDays = 14;
-        else if (reviews === 3) intervalDays = 30;
-        else if (reviews === 4) intervalDays = 60;
-        else                    intervalDays = 90;
-        newRec.masteryReviews = reviews;
-        newRec.masteredAt = Date.now();
-        newRec.reviewDue = Date.now() + intervalDays * 86400000;
-        newRec.intervalDays = intervalDays;
-        if (!wasAlreadyMastered) justMasteredFirstTime = true;
-      }
-      bayDone[d.id] = newRec;
-      localStorage.setItem('bayarea_done', JSON.stringify(bayDone));
-    } catch(e){}
-
-    /* Celebration result screen — differentiate between 100%, high, medium, low */
-    var resultHtml = '';
-    if (pct === 100) {
-      var intervalText = '';
-      try {
-        var bd2 = JSON.parse(localStorage.getItem('bayarea_done')||'{}')[d.id];
-        if (bd2 && bd2.intervalDays) intervalText = bd2.intervalDays;
-      } catch(e){}
-      resultHtml = '<div class="dlg-qwrap">' +
-        '<div class="dlg-qresult dlg-qresult-mastered">' +
-          '<div class="dlg-master-confetti">' +
-            '<span class="dlg-conf c1">🎉</span><span class="dlg-conf c2">⭐</span><span class="dlg-conf c3">✨</span>' +
-            '<span class="dlg-conf c4">🎊</span><span class="dlg-conf c5">💫</span>' +
-          '</div>' +
-          '<div class="dlg-master-badge">🏆</div>' +
-          '<div class="dlg-master-title">' + (justMasteredFirstTime ? 'Lesson Mastered! 课程掌握！' : 'Perfect Again! 再次满分！') + '</div>' +
-          '<div class="dlg-master-score">' + sc + ' / ' + tot + ' · 100%</div>' +
-          '<div class="dlg-master-sub">' +
-            (justMasteredFirstTime
-              ? '你已完全掌握本课对话和词汇。根据遗忘曲线，<b>' + intervalText + ' 天后</b>再来复习即可。'
-              : '太棒了！本课下次复习时间已更新为 <b>' + intervalText + ' 天后</b>。'
-            ) +
-          '</div>' +
-          '<div class="dlg-master-rewards">' +
-            '<div class="dlg-master-reward"><span class="dmr-ico">💰</span><span class="dmr-val">+' + (sc*5) + '</span><span class="dmr-lbl">积分</span></div>' +
-            '<div class="dlg-master-reward"><span class="dmr-ico">🎯</span><span class="dmr-val">' + pct + '%</span><span class="dmr-lbl">正确率</span></div>' +
-            '<div class="dlg-master-reward"><span class="dmr-ico">⏰</span><span class="dmr-val">' + intervalText + 'd</span><span class="dmr-lbl">下次复习</span></div>' +
-          '</div>' +
-          '<div class="dlg-master-actions">' +
-            '<button class="btn-p dlg-master-next" onclick="_dlgGoNextLesson()">下一课 →</button>' +
-            '<button class="dlg-master-redo" onclick="dlgQRetry()">🔄 再做一次</button>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-      /* Fire a bigger celebration toast */
-      try { toast && toast('🏆 满分！本课已掌握 · 7天后复习','ok'); } catch(e){}
-    } else if (pct >= 80) {
-      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult dlg-qresult-great">' +
-        '<div class="dlg-result-emoji">🎉</div>' +
-        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
-        '<div class="dlg-qscore-sub">非常棒！离完全掌握就差一点了</div>' +
-        '<div class="dlg-result-hint">💡 挑战满分解锁 <b>🏆 Mastered</b> 徽章</div>' +
-        '<div class="dlg-master-actions">' +
-          '<button class="btn-p" onclick="dlgQRetry()">🔄 冲击满分</button>' +
-        '</div>' +
-      '</div></div>';
-      try { toast && toast('🎉 ' + sc + '/' + tot + '！冲击满分解锁 Mastered 徽章','ok'); } catch(e){}
-    } else if (pct >= 60) {
-      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult">' +
-        '<div class="dlg-result-emoji">👍</div>' +
-        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
-        '<div class="dlg-qscore-sub">不错 — 建议重读对话后再试</div>' +
-        '<div class="dlg-master-actions">' +
-          '<button class="btn-p" onclick="dlgQRetry()">🔄 再来一次</button>' +
-        '</div>' +
-      '</div></div>';
-    } else {
-      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult">' +
-        '<div class="dlg-result-emoji">💪</div>' +
-        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
-        '<div class="dlg-qscore-sub">别灰心！仔细看一遍对话再来挑战</div>' +
-        '<div class="dlg-master-actions">' +
-          '<button class="btn-p" onclick="dlgQRetry()">🔄 重读后再试</button>' +
-        '</div>' +
-      '</div></div>';
-    }
-    box.innerHTML = resultHtml;
-
-    /* Refresh the lesson list (and cat badges) so the 🏆 appears immediately */
-    try {
-      if (typeof _dlgRenderCats === 'function') _dlgRenderCats();
-      /* Mastered badge at top of dialogue */
-      var mb = document.getElementById('dlg-mastery-badge');
-      if (mb && pct === 100) {
-        mb.style.display = '';
-        mb.innerHTML = '🏆 已掌握 · Mastered';
-      }
-    } catch(e){}
+    var msg=pct===100?'🏆 满分！你已完全掌握本期职场表达！':pct>=80?'🎉 非常棒！继续保持！':pct>=60?'👍 不错，多听几遍对话会更好！':'💪 建议重读对话后重新挑战！';
+    box.innerHTML='<div class="dlg-qwrap"><div class="dlg-qresult">' +
+      '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+      '<div class="dlg-qscore-sub">' + msg + '</div>' +
+      '<button class="btn-p" onclick="dlgQRetry()" style="margin-top:8px">🔄 重新测验</button>' +
+    '</div></div>';
+    if(sc>=4)toast('🎬 职场对话测验 '+sc+'/'+tot+'！+'+sc*5+'积分','ok');
   } else {
     var box2=document.getElementById('dlg-qbox');
     if(box2)box2.innerHTML=_dlgMcqHTML(d);
   }
 }
 
-/* Navigate to the next lesson in the current category (or the first unmastered) */
-function _dlgGoNextLesson(){
-  try {
-    var filtered = (_dlgSt.catFilter === 'ALL') ? DLG_DATA : DLG_DATA.filter(function(dd){return dd.cat === _dlgSt.catFilter;});
-    var curIdx = filtered.indexOf(DLG_DATA[_dlgSt.wi]);
-    var bayDone = {};
-    try { bayDone = JSON.parse(localStorage.getItem('bayarea_done')||'{}'); } catch(e){}
-    /* Prefer the next unmastered lesson (SRS-wise) */
-    for (var i = curIdx + 1; i < filtered.length; i++) {
-      var rec = bayDone[filtered[i].id];
-      var isMastered = rec && rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue;
-      if (!isMastered) { _dlgSetWeek(DLG_DATA.indexOf(filtered[i])); return; }
-    }
-    /* Else wrap around to find any unmastered */
-    for (var j = 0; j < curIdx; j++) {
-      var rec2 = bayDone[filtered[j].id];
-      var isMastered2 = rec2 && rec2.pct === 100 && rec2.reviewDue && Date.now() < rec2.reviewDue;
-      if (!isMastered2) { _dlgSetWeek(DLG_DATA.indexOf(filtered[j])); return; }
-    }
-    /* All in category are mastered — go to next one anyway */
-    if (curIdx + 1 < filtered.length) {
-      _dlgSetWeek(DLG_DATA.indexOf(filtered[curIdx + 1]));
-    } else {
-      try { toast && toast('🎊 本分类全部掌握！去试试其他分类吧','ok'); } catch(e){}
-    }
-  } catch(e){}
-}
-
 function dlgQRetry(){
   var d=DLG_DATA[_dlgSt.wi];
-  /* Smart retry: skip phases the user already aced.
-     - _dlgSt.matchAced: user completed matching (no mistakes, or OK to skip)
-     - _dlgSt.mcqAced:   user got 100% on MCQ last attempt
-     Logic:
-      * Both aced (100% overall)  → redo everything (user explicitly wants review)
-      * Only matching aced, MCQ failed → skip to MCQ
-      * Only MCQ aced, matching failed → redo matching only, then finish (don't re-quiz)
-      * Nothing aced → redo everything
-  */
-  var matchAced = !!_dlgSt.matchAced;
-  var mcqAced = !!_dlgSt.mcqAced;
-  var box = document.getElementById('dlg-qbox');
-  if (!box) return;
-
-  /* Case: user perfected MCQ last time but got matching wrong */
-  if (mcqAced && !matchAced) {
-    _dlgSt.matchPhase = 'match';
-    _dlgMatchInit(d);
-    _dlgSt.retrySkipMcq = true; // tells dlgMatchDone to skip MCQ and go straight to results
-    try { toast && toast('💡 只需重做连线题 · 词汇测试已满分','ok'); } catch(e){}
-    box.innerHTML = _dlgMatchHTML(d);
-    return;
-  }
-  /* Case: matching already aced, only MCQ failed */
-  if (matchAced && !mcqAced) {
-    _dlgSt.matchPhase = 'mcq';
-    _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
-    try { toast && toast('💡 只需重做词汇测试 · 连线题已通过','ok'); } catch(e){}
-    box.innerHTML = _dlgMcqHTML(d);
-    return;
-  }
-  /* Default: redo everything */
   _dlgSt.qCur=0;_dlgSt.qScore=0;_dlgSt.qAnswered=false;
-  _dlgSt.matchPhase='match';
-  _dlgSt.retrySkipMcq = false;
-  _dlgSt.matchAced = false;
-  _dlgSt.mcqAced = false;
-  _dlgMatchInit(d);
-  box.innerHTML=_dlgMatchHTML(d);
+  _dlgSt.matchPhase='match'; _dlgMatchInit(d);
+  var box=document.getElementById('dlg-qbox');
+  if(box)box.innerHTML=_dlgMatchHTML(d);
+}
+
+// ══════════════════════════════════════════
+// ── Listening Fill-in-Blank Quiz (听力填空) ──
+// ══════════════════════════════════════════
+
+function _dlgListenInit(d) {
+  // Gather all lines with key phrases
+  var candidates = [];
+  d.lines.forEach(function(line, i) {
+    if (line.key && line.key.length) {
+      line.key.forEach(function(kp) {
+        candidates.push({ lineIdx: i, key: kp, sentence: _dlgPlain(line.en) });
+      });
+    }
+  });
+  // Shuffle
+  for (var i = candidates.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = candidates[i]; candidates[i] = candidates[j]; candidates[j] = t;
+  }
+  // Deduplicate by lineIdx — at most one blank per sentence
+  var usedLines = {};
+  var picked = [];
+  for (var k = 0; k < candidates.length && picked.length < 5; k++) {
+    if (!usedLines[candidates[k].lineIdx]) {
+      usedLines[candidates[k].lineIdx] = true;
+      picked.push(candidates[k]);
+    }
+  }
+  _dlgSt.listenQs = picked;
+  _dlgSt.listenCur = 0;
+  _dlgSt.listenScore = 0;
+  _dlgSt.listenAnswered = false;
+}
+
+function _dlgListenHTML(d) {
+  var qs = _dlgSt.listenQs;
+  if (!qs || !qs.length) return '<div class="dlg-listen-wrap"><p style="color:var(--text3);text-align:center">本场景暂无听力题</p></div>';
+  var q = qs[_dlgSt.listenCur];
+  if (!q) return '';
+
+  // Progress dots
+  var progH = qs.map(function(_, i) {
+    return '<div class="dlg-listen-dot' + (i < _dlgSt.listenCur ? ' done' : i === _dlgSt.listenCur ? ' active' : '') + '"></div>';
+  }).join('');
+
+  // Build sentence with blank
+  var sentence = q.sentence;
+  var keyEsc = q.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var blanked = sentence.replace(new RegExp(keyEsc, 'i'), '<span class="dlg-listen-blank">______</span>');
+
+  return '<div class="dlg-listen-wrap">' +
+    '<div class="dlg-listen-hd"><span>🎧 听力填空 · Listening Test</span><div class="dlg-listen-prog">' + progH + '</div></div>' +
+    '<div class="dlg-listen-num">第 ' + (_dlgSt.listenCur + 1) + ' 题 / 共 ' + qs.length + ' 题</div>' +
+    '<div class="dlg-listen-play">' +
+      '<button class="dlg-listen-play-btn" onclick="dlgListenPlay(false)">🔊 播放句子</button>' +
+      '<button class="dlg-listen-play-btn slow" onclick="dlgListenPlay(true)">🐢 慢速</button>' +
+    '</div>' +
+    '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+    '<div class="dlg-listen-input-row">' +
+      '<input class="dlg-listen-input" id="dlg-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" onkeydown="if(event.key===\'Enter\')dlgListenCheck()">' +
+      '<button class="dlg-listen-submit" id="dlg-listen-sub" onclick="dlgListenCheck()">确认</button>' +
+    '</div>' +
+    '<div class="dlg-listen-fb" id="dlg-listen-fb"></div>' +
+    '<button class="dlg-listen-next" id="dlg-listen-nxt" onclick="dlgListenNext()">' +
+      (_dlgSt.listenCur + 1 >= qs.length ? '查看成绩 →' : '下一题 →') +
+    '</button>' +
+  '</div>';
+}
+
+function dlgListenPlay(slow) {
+  var q = _dlgSt.listenQs[_dlgSt.listenCur];
+  if (!q) return;
+  _stopAll();
+  if (!_ttsReady) _loadVoice();
+  var rate = slow ? 0.6 : 0.85;
+  if (_ttsUseGoogle || !window.speechSynthesis) {
+    _googleSpeak(q.sentence, function(){}, rate);
+    return;
+  }
+  var utt = new SpeechSynthesisUtterance(q.sentence);
+  utt.lang = 'en-US'; utt.rate = rate;
+  if (_ttsVoice) utt.voice = _ttsVoice;
+  utt.onerror = function() { _ttsUseGoogle = true; _googleSpeak(q.sentence, function(){}, rate); };
+  window.speechSynthesis.speak(utt);
+}
+
+function dlgListenCheck() {
+  if (_dlgSt.listenAnswered) return;
+  var inp = document.getElementById('dlg-listen-inp');
+  var fb = document.getElementById('dlg-listen-fb');
+  var nxt = document.getElementById('dlg-listen-nxt');
+  var sub = document.getElementById('dlg-listen-sub');
+  if (!inp || !fb) return;
+  var answer = inp.value.trim().toLowerCase().replace(/['']/g, "'");
+  var q = _dlgSt.listenQs[_dlgSt.listenCur];
+  var correct = q.key.toLowerCase().replace(/['']/g, "'");
+  _dlgSt.listenAnswered = true;
+
+  // Allow some flexibility: exact match or answer contains the key or key contains the answer (for multi-word)
+  var isOk = (answer === correct) ||
+    (answer.length > 2 && correct.indexOf(answer) === 0) ||
+    (answer === correct.replace(/\s+/g, ''));
+  // Also check removing articles
+  if (!isOk) {
+    var stripped = answer.replace(/^(a|an|the|to)\s+/i, '');
+    var correctStripped = correct.replace(/^(a|an|the|to)\s+/i, '');
+    isOk = (stripped === correctStripped);
+  }
+
+  if (isOk) {
+    _dlgSt.listenScore++;
+    inp.classList.add('correct');
+    inp.value = q.key;
+    fb.className = 'dlg-listen-fb show ok';
+    fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+    awardPts(5);
+  } else {
+    inp.classList.add('wrong');
+    fb.className = 'dlg-listen-fb show no';
+    fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+  }
+  if (sub) sub.disabled = true;
+  if (nxt) { nxt.classList.add('show'); setTimeout(function(){ var col=nxt.closest('.dlg-col-right'); if(col){col.scrollTop=col.scrollHeight;}else{nxt.scrollIntoView({behavior:'smooth',block:'center'});} },150); }
+}
+
+function dlgListenNext() {
+  var qs = _dlgSt.listenQs;
+  _dlgSt.listenCur++;
+  _dlgSt.listenAnswered = false;
+  if (_dlgSt.listenCur >= qs.length) {
+    // Show results
+    var box = document.getElementById('dlg-listen-box');
+    if (!box) return;
+    var sc = _dlgSt.listenScore, tot = qs.length;
+    var pass = sc === tot;
+    var d = DLG_DATA[_dlgSt.wi];
+    if (pass) {
+      // Save mastery
+      _dlgSaveMastery(d.id);
+    }
+    var msg = pass ? '🏆 满分！听力测试全部通过！已获得掌握徽章！' :
+      sc >= 3 ? '🎉 不错！再试一次争取满分通过！' : '💪 多听几遍对话，再来挑战听力测试！';
+    box.innerHTML = '<div class="dlg-listen-wrap"><div class="dlg-listen-result">' +
+      '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
+      '<div class="dlg-listen-score-sub">' + msg + '</div>' +
+      (pass ? '<div style="font-size:15px;margin-bottom:12px">🏅 <b>已掌握</b> — 本课程听力测试已通过！</div>' : '') +
+      '<button class="btn-p" onclick="dlgListenRetry()" style="margin-top:4px">🔄 重新测试</button>' +
+    '</div></div>';
+    // Refresh nav to show badge
+    _dlgRender();
+  } else {
+    var box2 = document.getElementById('dlg-listen-box');
+    if (box2) box2.innerHTML = _dlgListenHTML(DLG_DATA[_dlgSt.wi]);
+  }
+}
+
+function dlgListenRetry() {
+  var d = DLG_DATA[_dlgSt.wi];
+  _dlgListenInit(d);
+  var box = document.getElementById('dlg-listen-box');
+  if (box) box.innerHTML = _dlgListenHTML(d);
+}
+
+// ── Mastery persistence ──
+function _dlgGetMastery() {
+  try { return JSON.parse(localStorage.getItem('dlg_mastery') || '{}'); } catch(e) { return {}; }
+}
+function _dlgSaveMastery(sceneId) {
+  var m = _dlgGetMastery();
+  m[sceneId] = Date.now();
+  try { localStorage.setItem('dlg_mastery', JSON.stringify(m)); } catch(e) {}
+}
+function _dlgHasMastery(sceneId) {
+  return !!_dlgGetMastery()[sceneId];
 }
 
 function dlgVcToggle(vi) {
@@ -13304,16 +12864,8 @@ window.onload = async function() {
   // Detect if returning user BEFORE _obInit sets the flag
   // Disable old onboarding overlay (Hero page replaces it)
   _obInit();
-  /* Restore the last page the user was on — preserves context across refreshes.
-     If no saved page, land on the Hero home. */
-  var _lastPage = null;
-  try { _lastPage = localStorage.getItem('__sys_last_page'); } catch(e){}
-  var _validPages = {learn:1,quiz:1,wrongbook:1,lb:1,bayarea:1,monthly:1,cnen:1,course:1,profile:1,pk:1,daily:1,plumber:1,caprep:1};
-  if (_lastPage && _validPages[_lastPage] && document.getElementById('page-' + _lastPage)) {
-    show(_lastPage);
-  } else {
-    showHome();
-  }
+  // Always land on Hero home page — users pick a track from there
+  showHome();
   renderLearn();
 
   // Initialize daily missions + badges
@@ -13710,8 +13262,6 @@ function showHome() {
   if (hero) hero.classList.add('show');
   // Update dropdown active state
   document.querySelectorAll('.dd-item').forEach(function(i){ i.classList.remove('on'); });
-  /* Clear saved page so next refresh also shows home (user intentionally went home) */
-  try { localStorage.removeItem('__sys_last_page'); } catch(e){}
   // Scroll to top
   window.scrollTo(0, 0);
 }
@@ -13818,9 +13368,6 @@ function show(p) {
     document.getElementById('qactive-v').style.display = 'none';
     document.getElementById('qresult-v').style.display = 'none';
   }
-  /* Remember current page so a refresh returns the user here (not home).
-     Uses __sys_ prefix so it's shared across profiles and not namespaced. */
-  try { localStorage.setItem('__sys_last_page', p); } catch(e){}
   // Scroll to top
   window.scrollTo(0, 0);
 }
@@ -14244,44 +13791,44 @@ function setCat(c, el) {
 function renderLearn() {
   refreshDueBadge();
   var q = (document.getElementById('lsearch').value || '').toLowerCase();
+  var _lShowMastered = !!window._learnShowMastered;
   var _lTotalMastered = 0;
   var list = DATA.filter(function(v) {
     if (cat === 'due') return isDue(v.id);
     if (cat !== 'all' && v.type !== cat) return false;
     if (q && !v.phrase.toLowerCase().includes(q) && !v.meaning.toLowerCase().includes(q) &&
         !(v.meaning_cn && v.meaning_cn.toLowerCase().includes(q))) return false;
-    if (cat !== 'due' && progressData['learn_' + v.id] === 'pass') _lTotalMastered++;
-    return true; // Keep ALL items — mastered ones sink to the bottom via sort below
+    // Forgetting-curve filter: hide already-mastered items by default (except on "due" tab)
+    if (cat !== 'due' && progressData['learn_' + v.id] === 'pass') {
+      _lTotalMastered++;
+      if (!_lShowMastered) return false;
+    }
+    return true;
   });
   // Sort: 学习中 → 待学习 → 已通过; 同组内新词(idn_*)优先
-  // Split into unmastered-first, mastered-last — each internally sorted.
-  // This creates a "conveyor belt": unmastered items fill the page until
-  // exhausted, then mastered items appear at the end. When the user masters
-  // all 4 visible on a page, the next unmastered items from later pages
-  // naturally flow up into view.
-  var _newFirst = function(a, b){
+  list.sort(function(a, b){
+    var po = _progOrder('learn', a.id) - _progOrder('learn', b.id);
+    if (po !== 0) return po;
     var aNew = typeof a.id === 'string' && a.id.indexOf('idn_') === 0;
     var bNew = typeof b.id === 'string' && b.id.indexOf('idn_') === 0;
     if (aNew && !bNew) return -1;
     if (!aNew && bNew) return 1;
     return 0;
-  };
-  var unmastered = list.filter(function(v){
-    return progressData['learn_' + v.id] !== 'pass';
-  }).sort(function(a, b){
-    var po = _progOrder('learn', a.id) - _progOrder('learn', b.id);
-    if (po !== 0) return po;
-    return _newFirst(a, b);
   });
-  var mastered = list.filter(function(v){
-    return progressData['learn_' + v.id] === 'pass';
-  }).sort(_newFirst);
-  list = unmastered.concat(mastered);
-  var _firstMasteredIdx = unmastered.length; // anything >= this is a mastered card
   document.getElementById('lcount').textContent = list.length + ' shown';
   var c = document.getElementById('llist');
   c.innerHTML = '';
 
+  // Empty state when all are mastered (forgetting-curve filter hid everything)
+  if (cat !== 'due' && list.length === 0 && _lTotalMastered > 0) {
+    c.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text3)">' +
+      '<div style="font-size:48px;margin-bottom:12px">🎉</div>' +
+      '<p style="font-size:16px;font-weight:700;color:var(--green)">太棒了！全部已掌握</p>' +
+      '<p style="font-size:13px;margin-top:8px">根据遗忘曲线，已掌握的词汇暂时不再出现。</p>' +
+      '<button onclick="window._learnShowMastered=true;renderLearn()" style="margin-top:16px;padding:8px 18px;background:var(--card);border:1.5px solid var(--blue);color:var(--blue);border-radius:20px;font-weight:700;cursor:pointer">🔁 仍想复习已掌握的 (' + _lTotalMastered + ')</button>' +
+      '</div>';
+    return;
+  }
   // Empty state for due tab
   if (cat === 'due' && list.length === 0) {
     var studied = getStudiedCount();
@@ -14294,7 +13841,7 @@ function renderLearn() {
     return;
   }
 
-  // ── Pagination: 4 per page ──
+  // ── Pagination: 4 per page, with book-flip animation ──
   var PER_PAGE = 4;
   var totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
   var stateKey = cat + '|' + q;
@@ -14303,7 +13850,6 @@ function renderLearn() {
   if (window._learnPage >= totalPages) window._learnPage = totalPages - 1;
   if (window._learnPage < 0) window._learnPage = 0;
   var page = window._learnPage;
-
   var pageList = list.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
   // Apply flip animation class
   var flipDir = window._learnFlipDir || '';
@@ -14320,8 +13866,7 @@ function renderLearn() {
     else if (st === 'learn')  { srsBadge = '<span class="srs-tag learn">Learning</span>'; statusColor = '#2563eb'; }
     else if (st === 'master') { srsBadge = '<span class="srs-tag master">Mastered</span>'; statusColor = '#0a0e1a'; }
     var el = document.createElement('div');
-    var _isMastered = progressData['learn_' + d.id] === 'pass' || st === 'master';
-    el.className = 'vc' + (_isMastered ? ' vc-mastered' : '');
+    el.className = 'vc';
     el.id = 'vc' + d.id;
     var exPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
     var numDisp = typeof d.id === 'number' ? ('00' + d.id).slice(-3) : String(d.id).replace(/^idn_/i,'N').toUpperCase();
@@ -15401,519 +14946,77 @@ function classicsProgressHtml() {
 
 function renderProfile() {
   var c = document.getElementById('profdata');
-  if (!c) return;
-
-  /* ── Collect ALL the data we'll need ── */
-  var isLogged = !!(user && profile);
-  var p = isLogged ? profile : null;
-  var displayName = isLogged ? p.username : localName;
-  var email = isLogged ? user.email : '';
-  var initial = (displayName || 'U')[0].toUpperCase();
-  var joinDate = localStorage.getItem('join_date') || '';
-  var ipCountry = localStorage.getItem('ip_country') || '';
-  var regDate = (isLogged && user.created_at)
-    ? (function(){ var d = new Date(user.created_at); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })()
-    : joinDate;
-
-  var pts = isLogged ? (p.points || 0) : localPts;
-  var quizzes = isLogged ? (p.quizzes_taken || 0) : localQuizzes;
-  var correct = isLogged ? (p.correct_total || 0) : localCorrect;
-  var accuracy = quizzes > 0 ? Math.round((correct / (quizzes * 5 || 1)) * 100) : 0;
-  if (accuracy > 100) accuracy = 100;
-
-  var streak = streakData.count || 0;
-  var longestStreak = streakData.longest || 0;
-  var timeSecs = _activeTimeSecs || 0;
-  var studyDays = Object.keys(_studyDailyLog || {}).length;
-  var wrongBookCount = (typeof wb !== 'undefined' && wb) ? wb.length : 0;
-
-  /* ── Plumber progress (the core of this site) ── */
-  var plmbTracks = [];
-  var plmbTotalDone = 0, plmbTotalAll = 0;
-  var plmbAnyTouched = false;
-  if (window.PLMB_LEVELS && window._plmbCourseOverall) {
-    window.PLMB_LEVELS.forEach(function(lv){
-      if (lv.status !== 'active') return;
-      var ov = window._plmbCourseOverall(lv.key);
-      /* "Touched" = user has at least 1 passed, learning, or retry lesson in this track */
-      var touched = (ov.passed || 0) + (ov.learning || 0) + (ov.retry || 0) > 0;
-      if (touched) plmbAnyTouched = true;
-      plmbTracks.push({cfg:lv, overall:ov, touched:touched});
-      plmbTotalDone += (ov.passed || 0);
-      plmbTotalAll += (ov.total || 0);
-    });
-  }
-
-  /* ── Idiomatic Fluency mastery (SRS-based per type) ── */
-  var idiomStats = null;
-  if (typeof DATA !== 'undefined' && typeof srsStatus === 'function' && typeof isDue === 'function') {
-    var typeMap = {
-      idiom:  {label:'习语 Idioms',    emoji:'💬', color:'#06b6d4', gradient:'linear-gradient(135deg,#06b6d4,#0284c7)', total:0, master:0, learn:0, due:0, newCount:0},
-      phrase: {label:'短语 Phrases',   emoji:'🗣️', color:'#8b5cf6', gradient:'linear-gradient(135deg,#8b5cf6,#6366f1)', total:0, master:0, learn:0, due:0, newCount:0},
-      vocab:  {label:'词汇 Vocabulary',emoji:'📖', color:'#10b981', gradient:'linear-gradient(135deg,#10b981,#047857)', total:0, master:0, learn:0, due:0, newCount:0}
-    };
-    DATA.forEach(function(d){
-      var t = typeMap[d.type];
-      if (!t) return;
-      t.total++;
-      var s = srsStatus(d.id);
-      if (s === 'master') t.master++;
-      else if (s === 'due') t.due++;
-      else if (s === 'learn') t.learn++;
-      else t.newCount++;
-    });
-    idiomStats = {
-      types: [typeMap.idiom, typeMap.phrase, typeMap.vocab],
-      totalAll:  (typeMap.idiom.total  + typeMap.phrase.total  + typeMap.vocab.total),
-      masterAll: (typeMap.idiom.master + typeMap.phrase.master + typeMap.vocab.master),
-      learnAll:  (typeMap.idiom.learn  + typeMap.phrase.learn  + typeMap.vocab.learn),
-      dueAll:    (typeMap.idiom.due    + typeMap.phrase.due    + typeMap.vocab.due)
-    };
-  }
-
-  /* ── Bay Area Workplace English progress (per category group) ── */
-  var bayStats = null;
-  if (typeof DLG_DATA !== 'undefined' && typeof _DLG_CAT_GROUPS !== 'undefined' && typeof _DLG_CAT_META !== 'undefined') {
-    var bayDone = {};
-    try { bayDone = JSON.parse(localStorage.getItem('bayarea_done') || '{}'); } catch(e){ bayDone = {}; }
-    var bayGroups = _DLG_CAT_GROUPS.map(function(g){
-      var grp = {id:g.id, hd:g.hd, title:g.title, cats:[], total:0, mastered:0, passed:0, attempted:0};
-      g.cats.forEach(function(catKey){
-        var meta = _DLG_CAT_META[catKey] || {};
-        var dlgs = DLG_DATA.filter(function(d){ return d.cat === catKey; });
-        var mastered = 0, passed = 0, attempted = 0;
-        dlgs.forEach(function(d){
-          var done = bayDone[d.id];
-          if (done) {
-            attempted++;
-            if (done.pct >= 100) mastered++;
-            else if (done.pct >= 60) passed++;
-          }
-        });
-        grp.cats.push({key:catKey, icon:meta.icon||'', label:meta.label||catKey, total:dlgs.length, mastered:mastered, passed:passed, attempted:attempted});
-        grp.total += dlgs.length;
-        grp.mastered += mastered;
-        grp.passed += passed;
-        grp.attempted += attempted;
-      });
-      return grp;
-    });
-    var bayTotal = bayGroups.reduce(function(s,g){return s+g.total;}, 0);
-    var bayMastered = bayGroups.reduce(function(s,g){return s+g.mastered;}, 0);
-    var bayPassed = bayGroups.reduce(function(s,g){return s+g.passed;}, 0);
-    var bayAttempted = bayGroups.reduce(function(s,g){return s+g.attempted;}, 0);
-    bayStats = {groups:bayGroups, total:bayTotal, mastered:bayMastered, passed:bayPassed, attempted:bayAttempted};
-  }
-
-  /* ── Level title based on points (gamification) ── */
-  var lvl = (function(){
-    if (pts >= 5000) return {icon:'👑', name:'英语大师', color:'#9333ea', next:null};
-    if (pts >= 3000) return {icon:'💎', name:'钻石学员', color:'#0ea5e9', next:{at:5000, name:'英语大师'}};
-    if (pts >= 1500) return {icon:'🏆', name:'金牌学员', color:'#f59e0b', next:{at:3000, name:'钻石学员'}};
-    if (pts >= 500)  return {icon:'🥈', name:'银牌学员', color:'#64748b', next:{at:1500, name:'金牌学员'}};
-    if (pts >= 100)  return {icon:'🥉', name:'铜牌学员', color:'#b45309', next:{at:500, name:'银牌学员'}};
-    return {icon:'🌱', name:'新手学员', color:'#16a34a', next:{at:100, name:'铜牌学员'}};
-  })();
-  var levelProgress = lvl.next ? Math.round((pts / lvl.next.at) * 100) : 100;
-  if (levelProgress > 100) levelProgress = 100;
-
-  /* ─────────────────────────────────────────────
-   * SECTION 1: HERO PROFILE CARD
-   * ───────────────────────────────────────────── */
+  // Build registration date / IP country chip
+  var joinDate   = localStorage.getItem('join_date')   || '';
+  var ipCountry  = localStorage.getItem('ip_country')  || '';
   var metaChips = '';
-  var chipsArr = [];
-  if (regDate)   chipsArr.push('<span class="p2-meta-chip">📅 ' + (isLogged ? '注册' : '加入') + ' ' + regDate + '</span>');
-  if (ipCountry) chipsArr.push('<span class="p2-meta-chip">🌍 ' + ipCountry + '</span>');
-  if (isLogged)  chipsArr.push('<span class="p2-meta-chip p2-sync-chip">☁️ 云端同步</span>');
-  else           chipsArr.push('<span class="p2-meta-chip p2-local-chip">💾 仅本地</span>');
-  if (chipsArr.length) metaChips = '<div class="p2-meta-chips">' + chipsArr.join('') + '</div>';
-
-  var levelBadgeHtml =
-    '<div class="p2-level-badge" style="background:linear-gradient(135deg,' + lvl.color + ', rgba(0,0,0,.15))">' +
-      '<span class="p2-level-icon">' + lvl.icon + '</span>' +
-      '<span class="p2-level-name">' + lvl.name + '</span>' +
-    '</div>';
-
-  var levelProgHtml = lvl.next
-    ? '<div class="p2-level-prog">' +
-        '<div class="p2-level-prog-lbl">距离 <b>' + lvl.next.name + '</b> 还差 <b>' + (lvl.next.at - pts) + ' 分</b></div>' +
-        '<div class="p2-level-prog-bar"><div class="p2-level-prog-fill" style="width:' + levelProgress + '%;background:' + lvl.color + '"></div></div>' +
-      '</div>'
-    : '<div class="p2-level-prog"><div class="p2-level-prog-lbl" style="color:#fbbf24">🎉 已达最高等级！</div></div>';
-
-  var nameEditor = !isLogged
-    ? '<div class="p2-name-edit"><input class="p2-name-inp" id="name-inp" value="' + displayName + '" placeholder="Your name" maxlength="20"><button class="p2-name-save" onclick="saveName()">保存</button></div>'
-    : '';
-
-  var heroHtml =
-    '<div class="p2-hero">' +
-      '<div class="p2-hero-bg"></div>' +
-      '<div class="p2-hero-main">' +
-        '<div class="p2-avatar">' + initial + '</div>' +
-        '<div class="p2-hero-info">' +
-          '<div class="p2-hero-name-row">' +
-            '<h2 class="p2-name">' + displayName + '</h2>' +
-            levelBadgeHtml +
-          '</div>' +
-          (email ? '<div class="p2-email">' + email + '</div>' : '<div class="p2-email" style="opacity:.7">' + (isLogged?'':'本地账号 · 登录后可跨设备同步') + '</div>') +
-          metaChips +
-          levelProgHtml +
-          nameEditor +
+  if (joinDate || ipCountry) {
+    metaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';
+    if (joinDate)   metaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">📅 加入 ' + joinDate + '</span>';
+    if (ipCountry)  metaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">🌍 ' + ipCountry + '</span>';
+    metaChips += '</div>';
+  }
+  if (user && profile) {
+    // Logged-in profile
+    var p    = profile;
+    var init = (p.username || 'U')[0].toUpperCase();
+    var regDate = user.created_at
+      ? (function(){ var d = new Date(user.created_at); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })()
+      : joinDate;
+    var loggedMetaChips = '';
+    if (regDate || ipCountry) {
+      loggedMetaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';
+      if (regDate)   loggedMetaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">📅 注册 ' + regDate + '</span>';
+      if (ipCountry) loggedMetaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">🌍 ' + ipCountry + '</span>';
+      loggedMetaChips += '</div>';
+    }
+    c.innerHTML =
+      '<div class="prof-card">' +
+        '<div class="prof-av">' + init + '</div>' +
+        '<div><h2 style="font-size:20px;font-weight:700;margin-bottom:4px">' + p.username + '</h2>' +
+        '<p style="font-size:13px;color:var(--text2)">' + user.email + '</p></div>' +
+      '</div>' +
+      loggedMetaChips +
+      '<div class="sgrid">' +
+        '<div class="scard"><div class="n" style="color:var(--amber)">' + (p.points || 0) + '</div><div class="l">Total Points</div></div>' +
+        '<div class="scard"><div class="n" style="color:var(--blue)">' + (p.quizzes_taken || 0) + '</div><div class="l">Quizzes Taken</div></div>' +
+        '<div class="scard"><div class="n" style="color:var(--green)">' + (p.correct_total || 0) + '</div><div class="l">Correct Answers</div></div>' +
+        '<div class="scard"><div class="n" style="color:var(--purple)">' + wb.length + '</div><div class="l">In Wrong Book</div></div>' +
+      '</div>' +
+      classicsProgressHtml() +
+      srsProfileHtml() +
+      renderBadgesHtml() +
+      '<button class="logout-btn" onclick="doLogout()" style="margin-top:8px">Sign Out</button>';
+  } else {
+    // Local (guest) profile
+    var init2 = localName[0].toUpperCase();
+    c.innerHTML =
+      '<div class="prof-card">' +
+        '<div class="prof-av">' + init2 + '</div>' +
+        '<div style="flex:1">' +
+          '<h2 style="font-size:20px;font-weight:700;margin-bottom:4px">' + localName + '</h2>' +
+          '<p style="font-size:12px;color:var(--text3)">Local mode · points saved on this device</p>' +
         '</div>' +
       '</div>' +
-    '</div>';
-
-  /* ─────────────────────────────────────────────
-   * SECTION 2: HEADLINE STATS (6 big number cards)
-   * ───────────────────────────────────────────── */
-  var statsHtml =
-    '<div class="p2-stats">' +
-      '<div class="p2-stat" style="--accent:#f59e0b"><div class="p2-stat-ico">💰</div><div class="p2-stat-num">' + pts + '</div><div class="p2-stat-lbl">总积分</div></div>' +
-      '<div class="p2-stat" style="--accent:#ef4444"><div class="p2-stat-ico">🔥</div><div class="p2-stat-num">' + streak + '</div><div class="p2-stat-lbl">连续天数<br><span class="p2-stat-sub">最长 ' + longestStreak + ' 天</span></div></div>' +
-      '<div class="p2-stat" style="--accent:#0ea5e9"><div class="p2-stat-ico">⏱️</div><div class="p2-stat-num">' + (typeof formatActiveTime === 'function' ? formatActiveTime(timeSecs) : Math.round(timeSecs/60)+'m') + '</div><div class="p2-stat-lbl">累计学习时长</div></div>' +
-      '<div class="p2-stat" style="--accent:#10b981"><div class="p2-stat-ico">✅</div><div class="p2-stat-num">' + correct + '</div><div class="p2-stat-lbl">答对题数<br><span class="p2-stat-sub">正确率 ' + accuracy + '%</span></div></div>' +
-      '<div class="p2-stat" style="--accent:#8b5cf6"><div class="p2-stat-ico">📝</div><div class="p2-stat-num">' + quizzes + '</div><div class="p2-stat-lbl">完成测验</div></div>' +
-      '<div class="p2-stat" style="--accent:#ec4899"><div class="p2-stat-ico">📚</div><div class="p2-stat-num">' + studyDays + '</div><div class="p2-stat-lbl">学习天数</div></div>' +
-    '</div>';
-
-  /* ─────────────────────────────────────────────
-   * SECTION 3: PLUMBING COURSE PROGRESS (rings per track)
-   * Only shown if the user has touched at least one track.
-   * Only touched tracks are rendered as cards.
-   * ───────────────────────────────────────────── */
-  var plmbSectionHtml = '';
-  if (plmbAnyTouched) {
-    var touchedTracks = plmbTracks.filter(function(t){ return t.touched; });
-    var tracksHtml = touchedTracks.map(function(t){
-      var ov = t.overall;
-      var r = 42;
-      var circ = 2 * Math.PI * r;
-      var offset = circ * (1 - (ov.pct || 0) / 100);
-      var ring =
-        '<svg class="p2-track-ring" viewBox="0 0 100 100">' +
-          '<circle cx="50" cy="50" r="' + r + '" stroke="rgba(0,0,0,.08)" stroke-width="8" fill="none"/>' +
-          '<circle cx="50" cy="50" r="' + r + '" stroke="url(#grad-' + t.cfg.key + ')" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .8s"/>' +
-          '<defs><linearGradient id="grad-' + t.cfg.key + '" x1="0%" y1="0%" x2="100%" y2="100%">' +
-            '<stop offset="0%" stop-color="' + (t.cfg.key==='beginner'?'#0ea5e9':t.cfg.key==='elementary'?'#10b981':'#6366f1') + '"/>' +
-            '<stop offset="100%" stop-color="' + (t.cfg.key==='beginner'?'#0369a1':t.cfg.key==='elementary'?'#047857':'#4338ca') + '"/>' +
-          '</linearGradient></defs>' +
-          '<text x="50" y="54" text-anchor="middle" font-size="18" font-weight="800" fill="var(--text1)">' + (ov.pct||0) + '%</text>' +
-        '</svg>';
-      return '<div class="p2-track-card" onclick="show(\'plumber\')">' +
-        ring +
-        '<div class="p2-track-info">' +
-          '<div class="p2-track-title">' + t.cfg.emoji + ' ' + t.cfg.title + '</div>' +
-          '<div class="p2-track-sub">' + t.cfg.titleEn + '</div>' +
-          '<div class="p2-track-stats">' +
-            '<span class="p2-track-chip pass">✅ ' + (ov.passed||0) + '</span>' +
-            (ov.learning ? '<span class="p2-track-chip learn">📖 ' + ov.learning + '</span>' : '') +
-            (ov.retry ? '<span class="p2-track-chip retry">⚠️ ' + ov.retry + '</span>' : '') +
-            '<span class="p2-track-chip new">⬜ ' + Math.max(0, (ov.total||0) - (ov.passed||0) - (ov.learning||0) - (ov.retry||0)) + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="p2-track-arrow">→</div>' +
-      '</div>';
-    }).join('');
-
-    /* Summary reflects only touched tracks */
-    var touchedDone = touchedTracks.reduce(function(s,t){return s+(t.overall.passed||0);}, 0);
-    var touchedAll = touchedTracks.reduce(function(s,t){return s+(t.overall.total||0);}, 0);
-    var overallPct = touchedAll > 0 ? Math.round((touchedDone / touchedAll) * 100) : 0;
-    plmbSectionHtml =
-      '<div class="p2-section">' +
-        '<div class="p2-section-head">' +
-          '<h3 class="p2-section-title">🔧 水管工程英语 · 课程进度</h3>' +
-          '<div class="p2-section-sum">' + touchedDone + ' / ' + touchedAll + ' 课通过 · ' + overallPct + '%</div>' +
-        '</div>' +
-        '<div class="p2-track-grid">' + tracksHtml + '</div>' +
-      '</div>';
-  }
-
-  /* ─────────────────────────────────────────────
-   * SECTION 3.5: IDIOMATIC FLUENCY MASTERY
-   * Only shown if user has studied at least one item.
-   * Only touched types (idiom/phrase/vocab) are shown.
-   * ───────────────────────────────────────────── */
-  var idiomSectionHtml = '';
-  if (idiomStats && idiomStats.totalAll > 0) {
-    /* Filter to only types the user has actually engaged with */
-    var touchedTypes = idiomStats.types.filter(function(t){
-      return (t.master + t.learn + t.due) > 0;
-    });
-
-    if (touchedTypes.length > 0) {
-      var touchedMaster = touchedTypes.reduce(function(s,t){return s+t.master;}, 0);
-      var touchedTotal  = touchedTypes.reduce(function(s,t){return s+t.total;}, 0);
-      var masterPct = touchedTotal > 0 ? Math.round((touchedMaster / touchedTotal) * 100) : 0;
-      var dueHint = idiomStats.dueAll > 0
-        ? '<div class="p2-idiom-duehint" onclick="show(\'learn\')">⏰ <b>' + idiomStats.dueAll + ' 个</b>词条等待复习，现在复习可以巩固记忆 →</div>'
-        : '';
-
-      var cardsHtml = touchedTypes.map(function(t){
-        var mPct = Math.round((t.master / t.total) * 100);
-        var lPct = Math.round((t.learn / t.total) * 100);
-        var dPct = Math.round((t.due / t.total) * 100);
-        var nPct = 100 - mPct - lPct - dPct;
-        return '<div class="p2-idiom-card" onclick="show(\'learn\');setTimeout(function(){var b=document.querySelector(\'.ct[onclick*=&quot;' + (t.label.indexOf('Idiom')>=0?'idiom':(t.label.indexOf('Phrase')>=0?'phrase':'vocab')) + '&quot;]\');if(b)b.click();},50)">' +
-          '<div class="p2-idiom-head" style="background:' + t.gradient + '">' +
-            '<span class="p2-idiom-emoji">' + t.emoji + '</span>' +
-            '<div class="p2-idiom-head-info">' +
-              '<div class="p2-idiom-title">' + t.label + '</div>' +
-              '<div class="p2-idiom-total">' + t.master + ' / ' + t.total + ' 已掌握 · ' + mPct + '%</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="p2-idiom-segbar">' +
-            (mPct > 0 ? '<div class="p2-idiom-seg master" style="width:' + mPct + '%" title="已掌握 ' + t.master + '"></div>' : '') +
-            (lPct > 0 ? '<div class="p2-idiom-seg learn" style="width:' + lPct + '%" title="学习中 ' + t.learn + '"></div>' : '') +
-            (dPct > 0 ? '<div class="p2-idiom-seg due" style="width:' + dPct + '%" title="待复习 ' + t.due + '"></div>' : '') +
-            (nPct > 0 ? '<div class="p2-idiom-seg new" style="width:' + nPct + '%" title="未学习 ' + t.newCount + '"></div>' : '') +
-          '</div>' +
-          '<div class="p2-idiom-stats">' +
-            '<span class="p2-idiom-chip master">⭐ ' + t.master + ' 已掌握</span>' +
-            (t.learn ? '<span class="p2-idiom-chip learn">📖 ' + t.learn + ' 学习中</span>' : '') +
-            (t.due   ? '<span class="p2-idiom-chip due">⏰ ' + t.due + ' 待复习</span>' : '') +
-            '<span class="p2-idiom-chip new">🆕 ' + t.newCount + ' 未学习</span>' +
-          '</div>' +
-        '</div>';
-      }).join('');
-
-      idiomSectionHtml =
-        '<div class="p2-section">' +
-          '<div class="p2-section-head">' +
-            '<h3 class="p2-section-title">📚 Idiomatic Fluency · 习语掌握</h3>' +
-            '<div class="p2-section-sum">' + touchedMaster + ' / ' + touchedTotal + ' 已掌握 · ' + masterPct + '%</div>' +
-          '</div>' +
-          dueHint +
-          '<div class="p2-idiom-grid">' + cardsHtml + '</div>' +
-        '</div>';
-    }
-  }
-
-  /* ─────────────────────────────────────────────
-   * SECTION 3.7: BAY AREA WORKPLACE ENGLISH PROGRESS
-   * Only shown if user has attempted at least one dialogue.
-   * Only touched categories within each group are rendered.
-   * Groups with no touched categories are skipped.
-   * ───────────────────────────────────────────── */
-  var baySectionHtml = '';
-  if (bayStats && bayStats.attempted > 0) {
-    /* Keep only groups where at least one category has been attempted;
-       within each such group, keep only the touched categories. */
-    var touchedGroups = bayStats.groups
-      .map(function(g){
-        var touchedCats = g.cats.filter(function(c){ return c.attempted > 0; });
-        if (touchedCats.length === 0) return null;
-        var tCatsTotal    = touchedCats.reduce(function(s,c){return s+c.total;}, 0);
-        var tCatsMastered = touchedCats.reduce(function(s,c){return s+c.mastered;}, 0);
-        var tCatsPassed   = touchedCats.reduce(function(s,c){return s+c.passed;}, 0);
-        return {
-          id:g.id, hd:g.hd, title:g.title,
-          cats:touchedCats,
-          total:tCatsTotal, mastered:tCatsMastered, passed:tCatsPassed
-        };
-      })
-      .filter(function(g){ return g !== null; });
-
-    if (touchedGroups.length > 0) {
-      var bayDonePassed  = touchedGroups.reduce(function(s,g){return s+g.passed+g.mastered;}, 0);
-      var bayTotalTouched = touchedGroups.reduce(function(s,g){return s+g.total;}, 0);
-      var bayOverallPct = bayTotalTouched > 0 ? Math.round(bayDonePassed / bayTotalTouched * 100) : 0;
-
-      /* Group color palette that matches the Bay Area page aesthetic */
-      var _grpColors = {
-        core:   {bg:'linear-gradient(135deg,#4f46e5,#6366f1)', dot:'#6366f1'},
-        social: {bg:'linear-gradient(135deg,#7c3aed,#a855f7)', dot:'#a855f7'},
-        biz:    {bg:'linear-gradient(135deg,#b45309,#d97706)', dot:'#d97706'},
-        tech:   {bg:'linear-gradient(135deg,#0f766e,#14b8a6)', dot:'#14b8a6'}
-      };
-      var groupsHtml = touchedGroups.map(function(g){
-        var gPct = g.total > 0 ? Math.round((g.mastered + g.passed) / g.total * 100) : 0;
-        var gColor = _grpColors[g.id] || _grpColors.core;
-        var catsHtml = g.cats.map(function(c){
-          var cPct = c.total > 0 ? Math.round((c.mastered + c.passed) / c.total * 100) : 0;
-          var statusClass = c.mastered === c.total && c.total > 0 ? 'done' : 'progress';
-          var statusIcon = statusClass === 'done' ? '🏆' : '📖';
-          return '<div class="p2-bay-cat ' + statusClass + '" onclick="show(\'bayarea\')" title="' + c.label + '">' +
-            '<div class="p2-bay-cat-head">' +
-              '<span class="p2-bay-cat-ico">' + (c.icon || '📋') + '</span>' +
-              '<span class="p2-bay-cat-label">' + c.label + '</span>' +
-              '<span class="p2-bay-cat-status">' + statusIcon + '</span>' +
-            '</div>' +
-            '<div class="p2-bay-cat-bar"><div class="p2-bay-cat-fill" style="width:' + cPct + '%;background:' + gColor.dot + '"></div></div>' +
-            '<div class="p2-bay-cat-nums">' + (c.mastered + c.passed) + ' / ' + c.total + '</div>' +
-          '</div>';
-        }).join('');
-        return '<div class="p2-bay-group">' +
-          '<div class="p2-bay-group-head" style="background:' + gColor.bg + '">' +
-            '<span class="p2-bay-group-hd">' + g.hd + '</span>' +
-            '<div class="p2-bay-group-info">' +
-              '<div class="p2-bay-group-title">' + g.title + '</div>' +
-              '<div class="p2-bay-group-sum">' + (g.mastered + g.passed) + ' / ' + g.total + ' 对话通过 · ' + gPct + '%</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="p2-bay-cats">' + catsHtml + '</div>' +
-        '</div>';
-      }).join('');
-
-      /* Summary: only include stats about touched categories */
-      var masteredTouched = bayStats.mastered; // overall mastered is already user-specific
-      var passedTouched = bayStats.passed;
-      var inProgressTouched = Math.max(0, bayStats.attempted - bayStats.mastered - bayStats.passed);
-
-      baySectionHtml =
-        '<div class="p2-section">' +
-          '<div class="p2-section-head">' +
-            '<h3 class="p2-section-title">💼 Bay Area Workplace English · 职场对话</h3>' +
-            '<div class="p2-section-sum">' + bayDonePassed + ' / ' + bayTotalTouched + ' 对话通过 · ' + bayOverallPct + '%</div>' +
-          '</div>' +
-          '<div class="p2-bay-summary">' +
-            '<div class="p2-bay-sum-stat"><div class="p2-bay-sum-num" style="color:#f59e0b">🏆 ' + masteredTouched + '</div><div class="p2-bay-sum-lbl">满分掌握</div></div>' +
-            '<div class="p2-bay-sum-stat"><div class="p2-bay-sum-num" style="color:#10b981">✅ ' + passedTouched + '</div><div class="p2-bay-sum-lbl">已通过（≥60%）</div></div>' +
-            '<div class="p2-bay-sum-stat"><div class="p2-bay-sum-num" style="color:#3b82f6">📖 ' + inProgressTouched + '</div><div class="p2-bay-sum-lbl">已尝试</div></div>' +
-          '</div>' +
-          '<div class="p2-bay-groups">' + groupsHtml + '</div>' +
-        '</div>';
-    }
-  }
-
-  /* ─────────────────────────────────────────────
-   * WELCOME CARD — shown only to users with no
-   * progress in any learning section yet.
-   * ───────────────────────────────────────────── */
-  var welcomeHtml = '';
-  var hasAnyProgress = !!(plmbSectionHtml || idiomSectionHtml || baySectionHtml);
-  if (!hasAnyProgress) {
-    welcomeHtml =
-      '<div class="p2-section p2-welcome">' +
-        '<div class="p2-welcome-ico">🚀</div>' +
-        '<div class="p2-welcome-body">' +
-          '<div class="p2-welcome-title">开始你的学习之旅</div>' +
-          '<div class="p2-welcome-sub">选择一个方向开始学习，你的进度将自动在这里显示</div>' +
-          '<div class="p2-welcome-cta-row">' +
-            '<button class="p2-welcome-cta" onclick="show(\'plumber\')"><span class="p2-welcome-cta-ico">🔧</span><div><div class="p2-welcome-cta-title">水管工程英语</div><div class="p2-welcome-cta-sub">60 节课程 · 零基础到独立接单</div></div></button>' +
-            '<button class="p2-welcome-cta" onclick="show(\'learn\')"><span class="p2-welcome-cta-ico">📚</span><div><div class="p2-welcome-cta-title">Idiomatic Fluency</div><div class="p2-welcome-cta-sub">300+ 地道表达 · 习语精修</div></div></button>' +
-            '<button class="p2-welcome-cta" onclick="show(\'bayarea\')"><span class="p2-welcome-cta-ico">💼</span><div><div class="p2-welcome-cta-title">Bay Area Workplace</div><div class="p2-welcome-cta-sub">硅谷职场真实对话</div></div></button>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-  }
-
-  /* ─────────────────────────────────────────────
-   * SECTION 4: ACHIEVEMENT SHOWCASE
-   * ───────────────────────────────────────────── */
-  var TROPHIES_V2 = [
-    {id:'t_p10',    icon:'🥉', name:'初学者',    desc:'获得 10 积分',    test:function(){return pts>=10;}},
-    {id:'t_p100',   icon:'🥈', name:'进步者',    desc:'获得 100 积分',   test:function(){return pts>=100;}},
-    {id:'t_p500',   icon:'🥇', name:'熟练者',    desc:'获得 500 积分',   test:function(){return pts>=500;}},
-    {id:'t_p1500',  icon:'🏆', name:'金牌学员',  desc:'获得 1500 积分',  test:function(){return pts>=1500;}},
-    {id:'t_p3000',  icon:'💎', name:'钻石学员',  desc:'获得 3000 积分',  test:function(){return pts>=3000;}},
-    {id:'t_p5000',  icon:'👑', name:'英语大师',  desc:'获得 5000 积分',  test:function(){return pts>=5000;}},
-    {id:'t_s3',     icon:'🔥', name:'三连打卡',  desc:'连续学习 3 天',   test:function(){return streak>=3;}},
-    {id:'t_s7',     icon:'⚡', name:'一周坚持',  desc:'连续学习 7 天',   test:function(){return streak>=7;}},
-    {id:'t_s30',    icon:'🌟', name:'月度勇者',  desc:'连续学习 30 天',  test:function(){return streak>=30;}},
-    {id:'t_s100',   icon:'💫', name:'百日不辍',  desc:'连续学习 100 天', test:function(){return streak>=100;}},
-    {id:'t_q10',    icon:'📝', name:'勤学好问',  desc:'完成 10 个测验',  test:function(){return quizzes>=10;}},
-    {id:'t_q50',    icon:'📚', name:'学海无涯',  desc:'完成 50 个测验',  test:function(){return quizzes>=50;}},
-    {id:'t_plmb1',  icon:'🔧', name:'初试牛刀',  desc:'通过 1 节水管课', test:function(){return plmbTotalDone>=1;}},
-    {id:'t_plmb10', icon:'🛠️', name:'手艺精湛',  desc:'通过 10 节水管课',test:function(){return plmbTotalDone>=10;}},
-    {id:'t_plmb30', icon:'🏅', name:'水管行家',  desc:'通过 30 节水管课',test:function(){return plmbTotalDone>=30;}},
-    {id:'t_plmball',icon:'🎓', name:'全科满贯',  desc:'通过全部 60 节课',test:function(){return plmbTotalDone>=60;}},
-    {id:'t_t60',    icon:'⏰', name:'专注一小时',desc:'累计学习 1 小时', test:function(){return timeSecs>=3600;}},
-    {id:'t_t600',   icon:'⏳', name:'十小时修行',desc:'累计学习 10 小时',test:function(){return timeSecs>=36000;}},
-  ];
-  var earnedCount = TROPHIES_V2.filter(function(t){return t.test();}).length;
-  var trophiesHtml = TROPHIES_V2.map(function(t){
-    var earned = t.test();
-    return '<div class="p2-trophy' + (earned ? ' earned' : ' locked') + '" title="' + t.name + ' — ' + t.desc + '">' +
-      '<div class="p2-trophy-ico">' + (earned ? t.icon : '🔒') + '</div>' +
-      '<div class="p2-trophy-name">' + t.name + '</div>' +
-      '<div class="p2-trophy-req">' + t.desc + '</div>' +
-    '</div>';
-  }).join('');
-  var achievementsHtml =
-    '<div class="p2-section">' +
-      '<div class="p2-section-head">' +
-        '<h3 class="p2-section-title">🏆 成就徽章</h3>' +
-        '<div class="p2-section-sum">' + earnedCount + ' / ' + TROPHIES_V2.length + ' 已获得</div>' +
+      metaChips +
+      '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">' +
+        '<p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Your Display Name</p>' +
+        '<input class="name-edit" id="name-inp" value="' + localName + '" placeholder="Enter your name" maxlength="20">' +
+        '<button class="save-btn" onclick="saveName()">Save Name</button>' +
       '</div>' +
-      '<div class="p2-trophies">' + trophiesHtml + '</div>' +
-    '</div>';
-
-  /* ─────────────────────────────────────────────
-   * SECTION 5: 12-WEEK ACTIVITY HEATMAP (GitHub-style)
-   * ───────────────────────────────────────────── */
-  var heatmapHtml = '';
-  (function(){
-    var daily = _studyDailyLog || {};
-    var weeks = 12;
-    var today = new Date(); today.setHours(0,0,0,0);
-    var startDay = new Date(today); startDay.setDate(today.getDate() - (weeks*7 - 1));
-    // align start to Sunday
-    var startDow = startDay.getDay();
-    startDay.setDate(startDay.getDate() - startDow);
-    var cells = [];
-    var totalMinutes = 0;
-    for (var w = 0; w < weeks+1; w++) {
-      for (var d = 0; d < 7; d++) {
-        var dt = new Date(startDay); dt.setDate(startDay.getDate() + w*7 + d);
-        if (dt > today) { cells.push({future:true}); continue; }
-        var key = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
-        var secs = Math.round(daily[key] || 0);
-        totalMinutes += secs / 60;
-        var level = 0;
-        if (secs >= 1800) level = 4;   // 30min+
-        else if (secs >= 600) level = 3;  // 10min+
-        else if (secs >= 180) level = 2;  // 3min+
-        else if (secs > 0)    level = 1;
-        cells.push({date:key, level:level, minutes:Math.round(secs/60)});
-      }
-    }
-    var cellsHtml = cells.map(function(cell){
-      if (cell.future) return '<div class="p2-hm-cell p2-hm-future"></div>';
-      return '<div class="p2-hm-cell p2-hm-l' + cell.level + '" title="' + cell.date + ' · ' + cell.minutes + ' 分钟"></div>';
-    }).join('');
-    heatmapHtml =
-      '<div class="p2-section">' +
-        '<div class="p2-section-head">' +
-          '<h3 class="p2-section-title">📅 过去 12 周学习轨迹</h3>' +
-          '<div class="p2-section-sum">约 ' + Math.round(totalMinutes) + ' 分钟</div>' +
-        '</div>' +
-        '<div class="p2-heatmap">' + cellsHtml + '</div>' +
-        '<div class="p2-hm-legend">少 <span class="p2-hm-cell p2-hm-l0"></span><span class="p2-hm-cell p2-hm-l1"></span><span class="p2-hm-cell p2-hm-l2"></span><span class="p2-hm-cell p2-hm-l3"></span><span class="p2-hm-cell p2-hm-l4"></span> 多</div>' +
-      '</div>';
-  })();
-
-  /* ─────────────────────────────────────────────
-   * SECTION 6: SIGN-IN CTA / LOGOUT
-   * ───────────────────────────────────────────── */
-  var footerHtml = isLogged
-    ? '<div class="p2-footer"><button class="p2-logout" onclick="doLogout()">🚪 退出登录</button></div>'
-    : (sbEnabled
-        ? '<div class="p2-cta-login">' +
-            '<div class="p2-cta-icon">☁️</div>' +
-            '<div class="p2-cta-body">' +
-              '<div class="p2-cta-title">登录后数据永不丢失</div>' +
-              '<div class="p2-cta-sub">跨设备同步进度、参与排行榜、获得完整成就记录</div>' +
-            '</div>' +
-            '<button class="p2-cta-btn" onclick="openModal(\'login\')">立即登录</button>' +
-          '</div>'
+      '<div class="sgrid">' +
+        '<div class="scard"><div class="n" style="color:var(--amber)">' + localPts + '</div><div class="l">Total Points</div></div>' +
+        '<div class="scard"><div class="n" style="color:var(--blue)">' + localQuizzes + '</div><div class="l">Quizzes Taken</div></div>' +
+        '<div class="scard"><div class="n" style="color:var(--green)">' + localCorrect + '</div><div class="l">Correct Answers</div></div>' +
+        '<div class="scard"><div class="n" style="color:var(--purple)">' + wb.length + '</div><div class="l">In Wrong Book</div></div>' +
+      '</div>' +
+      classicsProgressHtml() +
+      srsProfileHtml() +
+      renderBadgesHtml() +
+      (sbEnabled
+        ? '<p style="text-align:center;margin-top:16px;font-size:12px;color:var(--text3)">想同步数据或加入排行榜？<a onclick="openModal(\'login\')" style="color:var(--blue);cursor:pointer;text-decoration:underline">登录 / 注册</a></p>'
         : '');
-
-  /* ─────────────────────────────────────────────
-   * ASSEMBLE
-   * ───────────────────────────────────────────── */
-  c.innerHTML =
-    '<div class="p2-wrap">' +
-      heroHtml +
-      statsHtml +
-      plmbSectionHtml +
-      idiomSectionHtml +
-      baySectionHtml +
-      welcomeHtml +
-      achievementsHtml +
-      heatmapHtml +
-      footerHtml +
-    '</div>';
+  }
 }
 
 function srsProfileHtml() {
@@ -39159,6 +38262,15 @@ function _renderCrsLesson(wrap) {
     html += '</div>';
   }
 
+  // ─── LISTENING FILL-IN-BLANK ───
+  _crsListenInit(L);
+  html += '<div class="crs-section">' +
+    '<div class="crs-section-title"><span class="crs-ico">🎧</span> 听力填空 Listening Test' +
+      (_crsHasListenMastery(_crsLevelId, L.id) ? ' <span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+    '</div>' +
+    '<div id="crs-listen-box">' + _crsListenHTML(L) + '</div>' +
+  '</div>';
+
   // ─── COMPLETE LESSON BUTTON ───
   html += '<div style="text-align:center;padding:20px">' +
     '<button class="crs-btn crs-btn-primary" onclick="crsFinishLesson()" style="font-size:16px;padding:16px 40px">✅ 完成本课 Complete Lesson</button>' +
@@ -39196,6 +38308,152 @@ function crsFinishLesson() {
 
   _crsView = 'complete';
   renderCourse();
+}
+
+// ══════════════════════════════════════════
+// ── Course Listening Fill-in-Blank Quiz ──
+// ══════════════════════════════════════════
+var _crsListenSt = { qs:[], cur:0, score:0, answered:false };
+
+function _crsListenInit(L) {
+  var vocWords = L.vocab.map(function(v){ return v.word.toLowerCase(); });
+  var candidates = [];
+  L.passage.forEach(function(p, i) {
+    vocWords.forEach(function(vw) {
+      var re = new RegExp('\\b' + vw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
+      if (re.test(p.en) && p.en.split(/\s+/).length >= 3) {
+        candidates.push({ sentence: p.en, key: vw, idx: i });
+      }
+    });
+  });
+  for (var i = candidates.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = candidates[i]; candidates[i] = candidates[j]; candidates[j] = t;
+  }
+  var usedIdx = {};
+  var picked = [];
+  for (var k = 0; k < candidates.length && picked.length < 5; k++) {
+    if (!usedIdx[candidates[k].idx]) {
+      usedIdx[candidates[k].idx] = true;
+      picked.push(candidates[k]);
+    }
+  }
+  _crsListenSt.qs = picked;
+  _crsListenSt.cur = 0;
+  _crsListenSt.score = 0;
+  _crsListenSt.answered = false;
+}
+
+function _crsListenHTML(L) {
+  var qs = _crsListenSt.qs;
+  if (!qs || !qs.length) return '<div class="dlg-listen-wrap"><p style="color:var(--text3);text-align:center;font-size:13px">本课句子太短，暂无听力题</p></div>';
+  var q = qs[_crsListenSt.cur];
+  if (!q) return '';
+
+  var progH = qs.map(function(_, i) {
+    return '<div class="dlg-listen-dot' + (i < _crsListenSt.cur ? ' done' : i === _crsListenSt.cur ? ' active' : '') + '"></div>';
+  }).join('');
+
+  var keyEsc = q.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var blanked = q.sentence.replace(new RegExp('\\b(' + keyEsc + ')\\b', 'i'), '<span class="dlg-listen-blank">______</span>');
+
+  return '<div class="dlg-listen-wrap">' +
+    '<div class="dlg-listen-hd"><span>🎧 听力填空 · Listening Test</span><div class="dlg-listen-prog">' + progH + '</div></div>' +
+    '<div class="dlg-listen-num">第 ' + (_crsListenSt.cur + 1) + ' 题 / 共 ' + qs.length + ' 题</div>' +
+    '<div class="dlg-listen-play">' +
+      '<button class="dlg-listen-play-btn" onclick="_crsListenPlay(false)">🔊 播放句子</button>' +
+      '<button class="dlg-listen-play-btn slow" onclick="_crsListenPlay(true)">🐢 慢速</button>' +
+    '</div>' +
+    '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+    '<div class="dlg-listen-input-row">' +
+      '<input class="dlg-listen-input" id="crs-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" onkeydown="if(event.key===\'Enter\')_crsListenCheck()">' +
+      '<button class="dlg-listen-submit" id="crs-listen-sub" onclick="_crsListenCheck()">确认</button>' +
+    '</div>' +
+    '<div class="dlg-listen-fb" id="crs-listen-fb"></div>' +
+    '<button class="dlg-listen-next" id="crs-listen-nxt" onclick="_crsListenNext()">' +
+      (_crsListenSt.cur + 1 >= qs.length ? '查看成绩 →' : '下一题 →') +
+    '</button>' +
+  '</div>';
+}
+
+function _crsListenPlay(slow) {
+  var q = _crsListenSt.qs[_crsListenSt.cur];
+  if (!q) return;
+  _speak(q.sentence, null, slow ? 0.55 : 0.82);
+}
+
+function _crsListenCheck() {
+  if (_crsListenSt.answered) return;
+  var inp = document.getElementById('crs-listen-inp');
+  var fb = document.getElementById('crs-listen-fb');
+  var nxt = document.getElementById('crs-listen-nxt');
+  var sub = document.getElementById('crs-listen-sub');
+  if (!inp || !fb) return;
+  var answer = inp.value.trim().toLowerCase();
+  var q = _crsListenSt.qs[_crsListenSt.cur];
+  var correct = q.key.toLowerCase();
+  _crsListenSt.answered = true;
+  var isOk = (answer === correct);
+  if (!isOk) {
+    var stripped = answer.replace(/^(a|an|the|to)\s+/i, '');
+    var correctStripped = correct.replace(/^(a|an|the|to)\s+/i, '');
+    isOk = (stripped === correctStripped);
+  }
+  if (isOk) {
+    _crsListenSt.score++;
+    inp.classList.add('correct'); inp.value = q.key;
+    fb.className = 'dlg-listen-fb show ok';
+    fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+    awardPts(5);
+  } else {
+    inp.classList.add('wrong');
+    fb.className = 'dlg-listen-fb show no';
+    fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+  }
+  if (sub) sub.disabled = true;
+  if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
+}
+
+function _crsListenNext() {
+  var qs = _crsListenSt.qs;
+  _crsListenSt.cur++;
+  _crsListenSt.answered = false;
+  if (_crsListenSt.cur >= qs.length) {
+    var box = document.getElementById('crs-listen-box');
+    if (!box) return;
+    var sc = _crsListenSt.score, tot = qs.length, pass = sc === tot;
+    if (pass) _crsSaveListenMastery(_crsLevelId, (CRS_LESSONS[_crsLevelId]||[])[_crsLessonIdx].id);
+    var msg = pass ? '🏆 满分！听力测试全部通过！' : sc >= 3 ? '🎉 不错！再试一次争取满分！' : '💪 多听几遍，再来挑战！';
+    box.innerHTML = '<div class="dlg-listen-wrap"><div class="dlg-listen-result">' +
+      '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
+      '<div class="dlg-listen-score-sub">' + msg + '</div>' +
+      (pass ? '<div style="font-size:15px;margin-bottom:12px">🏅 <b>已掌握</b></div>' : '') +
+      '<button class="btn-p" onclick="_crsListenRetry()" style="margin-top:4px">🔄 重新测试</button>' +
+    '</div></div>';
+  } else {
+    var box2 = document.getElementById('crs-listen-box');
+    var L2 = (CRS_LESSONS[_crsLevelId]||[])[_crsLessonIdx];
+    if (box2 && L2) box2.innerHTML = _crsListenHTML(L2);
+  }
+}
+
+function _crsListenRetry() {
+  var L = (CRS_LESSONS[_crsLevelId]||[])[_crsLessonIdx];
+  if (L) _crsListenInit(L);
+  var box = document.getElementById('crs-listen-box');
+  if (box && L) box.innerHTML = _crsListenHTML(L);
+}
+
+function _crsGetListenMastery() {
+  try { return JSON.parse(localStorage.getItem('crs_listen_mastery') || '{}'); } catch(e) { return {}; }
+}
+function _crsSaveListenMastery(lvl, lid) {
+  var m = _crsGetListenMastery();
+  m[lvl + '_' + lid] = Date.now();
+  try { localStorage.setItem('crs_listen_mastery', JSON.stringify(m)); } catch(e) {}
+}
+function _crsHasListenMastery(lvl, lid) {
+  return !!_crsGetListenMastery()[lvl + '_' + lid];
 }
 
 // ── COMPLETION SCREEN ──
@@ -42492,10 +41750,7 @@ function renderClassics() {
     renderDaily();
   };
 
-  // ---------- Master-toggle stars on learn cards (.vc) ----------
-  // Click the ☆ → marks item as "mastered" via SRS + progress system.
-  // Card smoothly animates to the bottom of the list, next unmastered
-  // card slides up. Click ⭐ again to un-master (revert).
+  // ---------- Add bookmark stars to learn cards (.vc) on render ----------
   function _addStarsToLearnCards(){
     if (typeof DATA === 'undefined') return;
     document.querySelectorAll('#llist .vc').forEach(function(card){
@@ -42503,147 +41758,19 @@ function renderClassics() {
       var id = card.id.replace(/^vc/, '');
       var item = DATA.filter(function(d){ return String(d.id) === String(id); })[0];
       if (!item) return;
+      var on = window.bm.has('learn', id);
       var head = card.querySelector('.vc-head-btm') || card.querySelector('.vc-head');
       if (!head) return;
-
-      var isMastered = function(){
-        try {
-          if (typeof getProgress === 'function' && getProgress('learn_' + id) === 'pass') return true;
-          if (typeof srsStatus === 'function' && srsStatus(item.id) === 'master') return true;
-        } catch(e){}
-        return false;
-      };
-
       var btn = document.createElement('button');
-      btn.className = 'vc-bm vc-master' + (isMastered() ? ' on' : '');
-      btn.title = isMastered() ? '已掌握 · 点击取消' : '点击标记为已掌握';
-      btn.innerHTML = isMastered() ? '⭐' : '☆';
-
+      btn.className = 'vc-bm' + (on?' on':'');
+      btn.title = '收藏 · Bookmark';
+      btn.innerHTML = on ? '★' : '☆';
       btn.onclick = function(e){
         e.stopPropagation();
-        if (btn.classList.contains('vc-busy')) return; // prevent double-fire during animation
-        var currentlyMastered = isMastered();
-
-        if (currentlyMastered) {
-          /* Un-master: revert to 'learning' state */
-          try {
-            if (typeof setProgress === 'function') setProgress('learn_' + id, 'learning');
-            if (typeof srsData !== 'undefined' && srsData[item.id]) {
-              delete srsData[item.id];
-              localStorage.setItem('srs', JSON.stringify(srsData));
-            }
-          } catch(e){}
-          btn.classList.remove('on');
-          btn.innerHTML = '☆';
-          btn.title = '点击标记为已掌握';
-          try { toast && toast('已取消掌握标记', 'info'); } catch(e){}
-          /* Re-render so card goes back to the top, next unmastered card flows in */
-          setTimeout(function(){ if (typeof renderLearn === 'function') renderLearn(); }, 280);
-          return;
-        }
-
-        /* Mark as mastered */
-        btn.classList.add('vc-busy');
-        btn.innerHTML = '⭐';
-        btn.classList.add('on');
-        btn.title = '已掌握 · 点击取消';
-
-        /* Close any currently-expanded card so the grid layout resets cleanly.
-           Otherwise the expanded card stays full-width and the layout looks broken. */
-        try {
-          document.querySelectorAll('#llist .vc.open').forEach(function(oc){
-            oc.classList.remove('open');
-            var arr = oc.querySelector('.vc-arr');
-            if (arr) arr.textContent = '▼';
-          });
-        } catch(e){}
-
-        /* Fire confetti-like micro feedback */
-        try { toast && toast('⭐ 已掌握 · Mastered!', 'ok'); } catch(e){}
-
-        /* Save to progress system */
-        try {
-          if (typeof setProgress === 'function') setProgress('learn_' + id, 'pass');
-        } catch(e){}
-        /* Mark as mastered in SRS (interval ≥ 21 days → 'master' status) */
-        try {
-          if (typeof srsData !== 'undefined') {
-            srsData[item.id] = srsData[item.id] || {interval:30, easeFactor:2.5, reps:4};
-            srsData[item.id].interval = Math.max(30, srsData[item.id].interval || 0);
-            srsData[item.id].reps = Math.max(4, srsData[item.id].reps || 0);
-            srsData[item.id].nextReview = Date.now() + srsData[item.id].interval * 86400000;
-            localStorage.setItem('srs', JSON.stringify(srsData));
-          }
-        } catch(e){}
-
-        /* Award points (matches existing per-correct scoring) */
-        try {
-          if (typeof awardPts === 'function') {
-            awardPts(10);
-            /* awardPts bumps localCorrect +1; we didn't answer a quiz question,
-               so compensate so accuracy stats don't get warped */
-            if (typeof localCorrect !== 'undefined') {
-              localCorrect = Math.max(0, localCorrect - 1);
-              try { localStorage.setItem('lcorrect', localCorrect.toString()); } catch(_){}
-            }
-          }
-        } catch(e){}
-
-        /* Check for badge unlocks */
-        try { if (typeof checkBadges === 'function') checkBadges(); } catch(e){}
-
-        /* Animate the card sinking, then re-render (which applies the sort:
-           mastered items sink to bottom, next unmastered rises to the top). */
-        /* Step 1: capture current positions of all cards in the grid */
-        var grid = document.getElementById('llist');
-        if (!grid){ setTimeout(function(){ if (typeof renderLearn === 'function') renderLearn(); }, 250); return; }
-        var cards = Array.prototype.slice.call(grid.querySelectorAll('.vc'));
-        var before = {};
-        cards.forEach(function(c){ before[c.id] = c.getBoundingClientRect(); });
-
-        /* Step 2: give current card a brief highlight pulse */
-        card.classList.add('vc-mastered-pulse');
-
-        /* Step 3: after the pulse, re-render and play FLIP-style animation */
-        setTimeout(function(){
-          if (typeof renderLearn !== 'function') { btn.classList.remove('vc-busy'); return; }
-          renderLearn();
-
-          /* After re-render, measure new positions and animate the delta */
-          setTimeout(function(){
-            var newGrid = document.getElementById('llist');
-            if (!newGrid) return;
-            var newCards = Array.prototype.slice.call(newGrid.querySelectorAll('.vc'));
-            newCards.forEach(function(nc){
-              var oldRect = before[nc.id];
-              var newRect = nc.getBoundingClientRect();
-              if (oldRect) {
-                /* Card was on the previous page — FLIP slide to its new spot */
-                var dx = oldRect.left - newRect.left;
-                var dy = oldRect.top  - newRect.top;
-                if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
-                nc.style.transition = 'none';
-                nc.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
-                nc.getBoundingClientRect();
-                nc.style.transition = 'transform .55s cubic-bezier(.45,.05,.25,1)';
-                nc.style.transform = '';
-                setTimeout(function(){ nc.style.transition=''; nc.style.transform=''; }, 600);
-              } else {
-                /* Brand new card that just entered — fade + slide up in */
-                nc.style.transition = 'none';
-                nc.style.opacity = '0';
-                nc.style.transform = 'translateY(24px) scale(.96)';
-                nc.getBoundingClientRect();
-                nc.style.transition = 'opacity .45s ease, transform .55s cubic-bezier(.3,1.2,.3,1)';
-                nc.style.opacity = '';
-                nc.style.transform = '';
-                setTimeout(function(){ nc.style.transition=''; }, 600);
-              }
-            });
-          }, 20);
-        }, 280);
+        var nowOn = window.bm.toggle('learn', id, item.phrase, item.meaning_cn || item.meaning, 'learn');
+        btn.classList.toggle('on', nowOn);
+        btn.innerHTML = nowOn ? '★' : '☆';
       };
-
       head.appendChild(btn);
     });
   }
@@ -42739,36 +41866,10 @@ function renderClassics() {
   .dly-start { width: 100%; margin-top: 8px; padding: 14px; background: linear-gradient(135deg, #d97757, #c05a3c); color: white; border: 0; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; }
   .dly-start:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,119,87,.4); }
 
-  /* Mastery-toggle star on learn cards.
-     ☆ (dim) = not yet mastered. ⭐ (gold) = mastered. */
-  .vc-bm { background: transparent; border: 0; cursor: pointer; font-size: 20px; color: #c8b8a3; padding: 2px 6px; line-height: 1; transition: color .18s, transform .18s, text-shadow .18s; border-radius: 6px; }
-  .vc-bm:hover { color: #f59e0b; transform: scale(1.25); }
-  .vc-bm.on { color: #f59e0b; text-shadow: 0 0 12px rgba(245,158,11,.45), 0 2px 3px rgba(0,0,0,.1); }
-  .vc-bm.on:hover { color: #d97706; transform: scale(1.15) rotate(-8deg); }
-  .vc-master.vc-busy { pointer-events: none; }
-  /* Mastered card styling — subtle gold tint, slightly dimmed so unmastered cards stand out */
-  .vc.vc-mastered { background: linear-gradient(135deg, #fffef5, #fef9e7); opacity: .82; }
-  .vc.vc-mastered::before { border-color: rgba(245,158,11,.25); }
-  .vc.vc-mastered::after {
-    content: '⭐';
-    position: absolute; top: 10px; right: 36px;
-    font-size: 11px; opacity: .7;
-    pointer-events: none;
-  }
-  [data-theme="dark"] .vc.vc-mastered { background: linear-gradient(135deg, rgba(245,158,11,.08), rgba(251,191,36,.04)); }
-  /* Brief pulse when a card is marked mastered, before it flies to the bottom */
-  .vc-mastered-pulse { animation: vcMasteredPulse .45s ease-out; }
-  @keyframes vcMasteredPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(245,158,11,.55); }
-    40%  { box-shadow: 0 0 0 10px rgba(245,158,11,.18); background: #fffbeb; }
-    100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
-  }
-  [data-theme="dark"] .vc-mastered-pulse { animation-name: vcMasteredPulseDark; }
-  @keyframes vcMasteredPulseDark {
-    0%   { box-shadow: 0 0 0 0 rgba(251,191,36,.55); }
-    40%  { box-shadow: 0 0 0 10px rgba(251,191,36,.2); background: rgba(245,158,11,.1); }
-    100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
-  }
+  /* Bookmark star on learn cards */
+  .vc-bm { background: transparent; border: 0; cursor: pointer; font-size: 18px; color: #c8b8a3; padding: 0 4px; line-height: 1; transition: all .15s; }
+  .vc-bm:hover { color: #d97757; transform: scale(1.15); }
+  .vc-bm.on { color: #d97757; }
 </style>
 
 <script>
@@ -43968,42 +43069,6 @@ window.LEARN_EXTRAS = {
 .plmb-acc-coming-ico{font-size:48px;margin-bottom:10px;opacity:.5}
 .plmb-acc-progbar{height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:8px;overflow:hidden}
 .plmb-acc-progfill{height:100%;background:#fff;border-radius:2px;transition:width .5s}
-/* ── Continue-where-you-left-off banner ── */
-.plmb-continue{display:flex;align-items:center;gap:18px;padding:18px 24px;margin:0 0 18px;background:linear-gradient(135deg,#0f766e 0%,#14b8a6 60%,#5eead4 100%);border-radius:14px;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(15,118,110,.3);position:relative;overflow:hidden;border:1.5px solid rgba(255,255,255,.2)}
-.plmb-continue:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(15,118,110,.42)}
-.plmb-continue::before{content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-18deg);animation:plmbContinueShine 3.8s ease-in-out infinite;pointer-events:none}
-@keyframes plmbContinueShine{0%{left:-60%}55%{left:130%}100%{left:130%}}
-.plmb-continue-left{flex:1;min-width:0;position:relative;z-index:1}
-.plmb-continue-label{font-size:11px;font-weight:700;letter-spacing:.1em;opacity:.9;margin-bottom:4px;text-transform:uppercase}
-.plmb-continue-title{font-size:18px;font-weight:800;margin-bottom:3px;text-shadow:0 1px 3px rgba(0,0,0,.2);line-height:1.3}
-.plmb-continue-sub{font-size:12px;opacity:.9}
-.plmb-continue-cta{font-size:13px;font-weight:700;color:#0f766e;background:#fff;padding:10px 18px;border-radius:999px;white-space:nowrap;position:relative;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s}
-.plmb-continue:hover .plmb-continue-cta{transform:scale(1.05)}
-@media(max-width:640px){.plmb-continue{flex-direction:column;align-items:stretch;text-align:center}.plmb-continue-cta{margin-top:4px}}
-
-/* ── Legend (dot-color key) ── */
-.plmb-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center;margin:0 4px 14px;padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:11px;color:var(--text2);font-weight:600}
-.plmb-legend-item{display:flex;align-items:center;gap:5px}
-
-/* ── Dots (lesson-by-lesson status strip) ── */
-.plmb-acc-stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.plmb-acc-chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px)}
-.plmb-acc-chip.pass{background:rgba(30,158,92,.85);border-color:rgba(255,255,255,.35)}
-.plmb-acc-chip.learn{background:rgba(68,118,214,.85);border-color:rgba(255,255,255,.35)}
-.plmb-acc-chip.retry{background:rgba(201,125,16,.9);border-color:rgba(255,255,255,.35)}
-.plmb-acc-chip.new{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3)}
-.plmb-dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:10px;padding:6px 8px;background:rgba(0,0,0,.18);border-radius:8px;max-width:fit-content}
-.plmb-dot{display:inline-block;width:11px;height:11px;border-radius:3px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.35);transition:transform .15s}
-.plmb-dot:hover{transform:scale(1.5)}
-.plmb-dot.pass{background:#22c55e;border-color:#16a34a;box-shadow:0 0 4px rgba(34,197,94,.5)}
-.plmb-dot.learn{background:#60a5fa;border-color:#3b82f6;box-shadow:0 0 4px rgba(96,165,250,.5)}
-.plmb-dot.retry{background:#fb923c;border-color:#ea580c;box-shadow:0 0 4px rgba(251,146,60,.5)}
-.plmb-dot-exam{border-radius:50%;width:11px;height:11px}
-/* Legend dot variant (neutral bg so it's visible against cream page) */
-.plmb-legend .plmb-dot{background:#d6d0c0;border-color:#b8b0a0}
-.plmb-legend .plmb-dot.pass{background:#22c55e;border-color:#16a34a}
-.plmb-legend .plmb-dot.learn{background:#60a5fa;border-color:#3b82f6}
-.plmb-legend .plmb-dot.retry{background:#fb923c;border-color:#ea580c}
 @media(max-width:720px){.plmb-hero h1{font-size:24px}.plmb-hero::before{font-size:80px;right:10px}.plmb-tab{min-width:auto;padding:10px 8px;font-size:12px}.plmb-home-hero h1{font-size:24px}.plmb-levels{grid-template-columns:1fr}}
 </style>
 
@@ -47388,8 +46453,7 @@ quiz:[
    PLUMBER ENGLISH LOGIC · rendering, TTS, quiz
    ═══════════════════════════════════════════ */
 (function(){
-  var state = { view:'home', level:null, lessonId:null, examId:null, tab:'passage', quiz:{}, examAns:{} };
-  var _plmbFirstRender = true;
+  var state = { view:'home', level:'beginner', lessonId:null, examId:null, tab:'passage', quiz:{}, examAns:{} };
   var EXAM_PASS_PCT = 70;
 
   // ── 3-Level Course System ──
@@ -47748,10 +46812,11 @@ quiz:[
       var qs = quizStats(L.id);
       var scoreChip = qs.done ? '<span class="plmb-card-chip" style="background:'+st.color+';color:#fff;font-weight:700">🎯 '+qs.score+' / '+qs.total+' ('+qs.pct+'%)</span>' : '';
       var statusBadge = '<div class="plmb-card-status" style="background:'+st.color+'">'+st.label+'</div>';
+      var listenBadge = _plmbHasListenMastery(L.id) ? '<span class="dlg-mastery-badge" style="position:absolute;top:8px;right:8px">✅ 听力已掌握</span>' : '';
       // Display number: strip level prefix for display
       var displayNum = L.id > 200 ? L.id - 200 : (L.id > 100 ? L.id - 100 : L.id);
-      cards += '<div class="plmb-card" onclick="_plmbOpen('+L.id+',\''+levelKey+'\')">' +
-        statusBadge +
+      cards += '<div class="plmb-card" style="position:relative" onclick="_plmbOpen('+L.id+',\''+levelKey+'\')">' +
+        statusBadge + listenBadge +
         '<span class="plmb-card-num">Lesson ' + displayNum + '</span>' +
         '<div class="plmb-card-title">' + L.emoji + ' ' + L.title + '</div>' +
         '<div class="plmb-card-cn">' + L.titleCn + '</div>' +
@@ -47794,56 +46859,6 @@ quiz:[
   }
 
   /* ---- Unified accordion home view ---- */
-  /* ════════ Progress helpers for home view ════════ */
-  function _plmbGetLastLesson(){
-    try {
-      var raw = localStorage.getItem('plmb_last_lesson');
-      if (!raw) return null;
-      var obj = JSON.parse(raw);
-      if (!obj || !obj.id) return null;
-      /* Find the lesson data */
-      var all = (window.PLMB_DATA||[]).concat(window.PLMB_ELEM_DATA||[]).concat(window.PLMB_INTER_DATA||[]);
-      var L = all.find(function(x){ return x.id === obj.id; });
-      if (!L) return null;
-      /* Figure out which level it belongs to */
-      var levelKey = obj.level;
-      if (!levelKey) {
-        if ((window.PLMB_DATA||[]).find(function(x){return x.id===obj.id;})) levelKey = 'beginner';
-        else if ((window.PLMB_ELEM_DATA||[]).find(function(x){return x.id===obj.id;})) levelKey = 'elementary';
-        else levelKey = 'intermediate';
-      }
-      var lvCfg = (window.PLMB_LEVELS||[]).find(function(x){return x.key===levelKey;}) || {};
-      var displayNum = L.id > 200 ? L.id - 200 : (L.id > 100 ? L.id - 100 : L.id);
-      var st = lessonStatus(L.id);
-      return { id:L.id, level:levelKey, title:L.title, titleCn:L.titleCn, emoji:L.emoji,
-               displayNum:displayNum, levelTitle:lvCfg.title||'', status:st };
-    } catch(e){ return null; }
-  }
-
-  function _plmbBuildDots(levelKey){
-    var data = _getLevelData(levelKey) || [];
-    var exams = _getLevelExams(levelKey) || [];
-    var dots = '';
-    data.forEach(function(L){
-      var s = lessonStatus(L.id);
-      var cls = 'plmb-dot';
-      if (s.key === 'pass') cls += ' pass';
-      else if (s.key === 'retry') cls += ' retry';
-      else if (s.key === 'learn') cls += ' learn';
-      var num = L.id > 200 ? L.id - 200 : (L.id > 100 ? L.id - 100 : L.id);
-      dots += '<span class="' + cls + '" title="Lesson ' + num + ': ' + L.title + ' — ' + s.label + '"></span>';
-    });
-    exams.forEach(function(E){
-      var s = examStatus(E.id);
-      var cls = 'plmb-dot plmb-dot-exam';
-      if (s.key === 'pass') cls += ' pass';
-      else if (s.key === 'retry') cls += ' retry';
-      else if (s.key === 'learn') cls += ' learn';
-      dots += '<span class="' + cls + '" title="Exam ' + E.id + ': ' + E.title + ' — ' + s.label + '"></span>';
-    });
-    return dots;
-  }
-
   function renderHome() {
     var c = document.getElementById('plmb-main');
     if (!c) return;
@@ -47861,48 +46876,13 @@ quiz:[
         '</div>' +
       '</div>';
 
-    /* Continue where you left off banner */
-    var continueHtml = '';
-    var last = _plmbGetLastLesson();
-    if (last) {
-      var ctaLabel = last.status.key === 'pass' ? '🔁 复习本课' :
-                     last.status.key === 'retry' ? '📖 继续复习' :
-                     last.status.key === 'learn' ? '▶️ 继续学习' :
-                     '▶️ 开始学习';
-      continueHtml =
-        '<div class="plmb-continue" onclick="_plmbOpen(' + last.id + ',\'' + last.level + '\')">' +
-          '<div class="plmb-continue-left">' +
-            '<div class="plmb-continue-label">👋 欢迎回来 · 上次学到</div>' +
-            '<div class="plmb-continue-title">' + last.emoji + ' Lesson ' + last.displayNum + ' · ' + last.title + '</div>' +
-            '<div class="plmb-continue-sub">' + last.titleCn + ' · ' + last.levelTitle + ' · ' + last.status.label + '</div>' +
-          '</div>' +
-          '<div class="plmb-continue-cta">' + ctaLabel + ' →</div>' +
-        '</div>';
-    }
-
     /* Build accordion panels */
     var accHtml = '';
     PLMB_LEVELS.forEach(function(lv, idx) {
       var isActive = lv.status === 'active';
-      var lvOverall = isActive ? courseOverall(lv.key) : {pct:0, passed:0, total:0, learning:0, retry:0};
+      var lvOverall = isActive ? courseOverall(lv.key) : {pct:0, passed:0, total:0};
       var pct = lvOverall.pct;
-      var openClass = (!_plmbFirstRender && isActive && state.level === lv.key) ? ' open' : '';
-      var total = lvOverall.total || 0;
-      var notStarted = total - (lvOverall.passed||0) - (lvOverall.learning||0) - (lvOverall.retry||0);
-      if (notStarted < 0) notStarted = 0;
-
-      /* Stats chip row + dot grid (collapsed-state glanceable info) */
-      var statsHtml = '';
-      if (isActive) {
-        statsHtml =
-          '<div class="plmb-acc-stats">' +
-            '<span class="plmb-acc-chip pass">✅ ' + (lvOverall.passed||0) + ' 完成</span>' +
-            (lvOverall.learning ? '<span class="plmb-acc-chip learn">📖 ' + lvOverall.learning + ' 学习中</span>' : '') +
-            (lvOverall.retry ? '<span class="plmb-acc-chip retry">⚠️ ' + lvOverall.retry + ' 需复习</span>' : '') +
-            '<span class="plmb-acc-chip new">⬜ ' + notStarted + ' 未开始</span>' +
-          '</div>' +
-          '<div class="plmb-dots">' + _plmbBuildDots(lv.key) + '</div>';
-      }
+      var openClass = (isActive && state.level === lv.key) ? ' open' : '';
 
       /* Accordion header */
       var headHtml =
@@ -47911,7 +46891,6 @@ quiz:[
           '<div class="plmb-acc-info">' +
             '<div class="plmb-acc-title">' + lv.title + '</div>' +
             '<div class="plmb-acc-sub">' + lv.titleEn + ' · ' + lv.desc + '</div>' +
-            statsHtml +
             (isActive ? '<div class="plmb-acc-progbar"><div class="plmb-acc-progfill" style="width:' + pct + '%"></div></div>' : '') +
           '</div>' +
           '<div class="plmb-acc-right">' +
@@ -47925,9 +46904,20 @@ quiz:[
       if (isActive) {
         var cards = _buildLessonCards(lv.key);
         var dash = _buildDashboard(lvOverall);
+        var caEntry = '';
+        if (lv.key === 'beginner') {
+          caEntry = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库">' +
+            '<div class="caprep-entry-ico">🎓</div>' +
+            '<div class="caprep-entry-body">' +
+              '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
+              '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
+            '</div>' +
+            '<div class="caprep-entry-cta">进入题库 →</div>' +
+          '</div>';
+        }
         bodyHtml =
           '<div class="plmb-acc-body"><div class="plmb-acc-inner">' +
-            dash +
+            dash + caEntry +
             '<div class="plmb-grid">' + cards + '</div>' +
           '</div></div>';
       }
@@ -47935,28 +46925,7 @@ quiz:[
       accHtml += '<div class="plmb-acc' + openClass + '" data-level="' + lv.key + '">' + headHtml + bodyHtml + '</div>';
     });
 
-    /* Standalone CA License Prep card — always visible below all 3 levels */
-    var caStandalone = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库" style="margin-top:16px">' +
-      '<div class="caprep-entry-ico">🎓</div>' +
-      '<div class="caprep-entry-body">' +
-        '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
-        '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
-      '</div>' +
-      '<div class="caprep-entry-cta">进入题库 →</div>' +
-    '</div>';
-
-    /* Dot-legend (tiny key so users know what the colors mean) */
-    var legendHtml =
-      '<div class="plmb-legend">' +
-        '<span class="plmb-legend-item"><span class="plmb-dot pass"></span>已通过</span>' +
-        '<span class="plmb-legend-item"><span class="plmb-dot learn"></span>学习中</span>' +
-        '<span class="plmb-legend-item"><span class="plmb-dot retry"></span>需复习</span>' +
-        '<span class="plmb-legend-item"><span class="plmb-dot"></span>未开始</span>' +
-        '<span class="plmb-legend-item"><span class="plmb-dot plmb-dot-exam"></span>综合测试</span>' +
-      '</div>';
-
-    c.innerHTML = heroHtml + continueHtml + legendHtml + '<div style="padding:0 4px">' + accHtml + caStandalone + '</div>';
-    _plmbFirstRender = false;
+    c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + '</div>';
   }
 
   /* Toggle accordion open/close */
@@ -47974,15 +46943,13 @@ quiz:[
 
   /* renderGrid now just delegates to renderHome (unified view) */
   function renderGrid(){
-    /* Start with all cards collapsed — user picks which to expand */
+    state.level = state.level || 'beginner';
     renderHome();
   }
 
   window._plmbOpen = function(id, levelKey){
     if (levelKey) state.level = levelKey;
     state.view = 'lesson'; state.lessonId = id; state.tab = 'passage';
-    /* Remember last-visited for "Continue" banner */
-    try { localStorage.setItem('plmb_last_lesson', JSON.stringify({id:id, level:levelKey||state.level, ts:Date.now()})); } catch(e){}
     renderLesson();
     window.scrollTo({top:0, behavior:'smooth'});
   };
@@ -48364,6 +47331,15 @@ quiz:[
         '</div>';
       }
     }
+    // Initialize listening quiz
+    _plmbListenInit(ls);
+    var listenH = '<div class="plmb-section" style="margin-top:24px">' +
+      '<div class="plmb-sec-title">🎧 听力填空 · Listening Test' +
+        (_plmbHasListenMastery(ls.id) ? ' <span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+      '</div>' +
+      '<div id="plmb-listen-box">' + _plmbListenHTML(ls) + '</div>' +
+    '</div>';
+
     return '<div class="plmb-quiz-score">' +
       '<div><div class="plmb-quiz-score-lbl">Progress 进度</div><div class="plmb-quiz-score-val">'+answered+' / '+total+'</div></div>' +
       '<div><div class="plmb-quiz-score-lbl">Score 得分</div><div class="plmb-quiz-score-val">'+q.score+' / '+total+'</div></div>' +
@@ -48371,7 +47347,8 @@ quiz:[
     '</div>' +
     (done ? result : '') +
     '<div class="plmb-quiz">'+items+'</div>' +
-    (done ? result : '');
+    (done ? result : '') +
+    listenH;
   }
 
   window._plmbAnsMCQ = function(lid, qi, oi){
@@ -48414,6 +47391,177 @@ quiz:[
     renderLesson();
   };
 
+  // ══════════════════════════════════════════
+  // ── Plumber Listening Fill-in-Blank Quiz ──
+  // ══════════════════════════════════════════
+  var plmbListenSt = { qs:[], cur:0, score:0, answered:false };
+
+  function _plmbListenInit(ls) {
+    // Build candidates: sentences that contain vocab words
+    var vocWords = ls.vocab.map(function(v){ return v.w.toLowerCase(); });
+    var candidates = [];
+    // From passage
+    if (ls.passage) {
+      ls.passage.forEach(function(s, i) {
+        vocWords.forEach(function(vw) {
+          var re = new RegExp('\\b' + vw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
+          if (re.test(s.en) && s.en.split(/\s+/).length >= 3) {
+            candidates.push({ sentence: s.en, key: vw, src: 'p', idx: i });
+          }
+        });
+      });
+    }
+    // From dialogue
+    if (ls.dialogue) {
+      ls.dialogue.forEach(function(d, i) {
+        vocWords.forEach(function(vw) {
+          var re = new RegExp('\\b' + vw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
+          if (re.test(d.en) && d.en.split(/\s+/).length >= 3) {
+            candidates.push({ sentence: d.en, key: vw, src: 'd', idx: i });
+          }
+        });
+      });
+    }
+    // Shuffle
+    for (var i = candidates.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = candidates[i]; candidates[i] = candidates[j]; candidates[j] = t;
+    }
+    // Deduplicate by sentence (at most one blank per sentence)
+    var usedSent = {};
+    var picked = [];
+    for (var k = 0; k < candidates.length && picked.length < 5; k++) {
+      var sentKey = candidates[k].src + candidates[k].idx;
+      if (!usedSent[sentKey]) {
+        usedSent[sentKey] = true;
+        picked.push(candidates[k]);
+      }
+    }
+    plmbListenSt.qs = picked;
+    plmbListenSt.cur = 0;
+    plmbListenSt.score = 0;
+    plmbListenSt.answered = false;
+  }
+
+  function _plmbListenHTML(ls) {
+    var qs = plmbListenSt.qs;
+    if (!qs || !qs.length) return '<div class="dlg-listen-wrap"><p style="color:var(--text3);text-align:center;font-size:13px">本课句子太短，暂无听力题</p></div>';
+    var q = qs[plmbListenSt.cur];
+    if (!q) return '';
+
+    var progH = qs.map(function(_, i) {
+      return '<div class="dlg-listen-dot' + (i < plmbListenSt.cur ? ' done' : i === plmbListenSt.cur ? ' active' : '') + '"></div>';
+    }).join('');
+
+    var keyEsc = q.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var blanked = q.sentence.replace(new RegExp('\\b(' + keyEsc + ')\\b', 'i'), '<span class="dlg-listen-blank">______</span>');
+
+    return '<div class="dlg-listen-wrap">' +
+      '<div class="dlg-listen-hd"><span>🎧 听力填空 · Listening Test</span><div class="dlg-listen-prog">' + progH + '</div></div>' +
+      '<div class="dlg-listen-num">第 ' + (plmbListenSt.cur + 1) + ' 题 / 共 ' + qs.length + ' 题</div>' +
+      '<div class="dlg-listen-play">' +
+        '<button class="dlg-listen-play-btn" onclick="_plmbListenPlay(false)">🔊 播放句子</button>' +
+        '<button class="dlg-listen-play-btn slow" onclick="_plmbListenPlay(true)">🐢 慢速</button>' +
+      '</div>' +
+      '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+      '<div class="dlg-listen-input-row">' +
+        '<input class="dlg-listen-input" id="plmb-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" onkeydown="if(event.key===\'Enter\')_plmbListenCheck()">' +
+        '<button class="dlg-listen-submit" id="plmb-listen-sub" onclick="_plmbListenCheck()">确认</button>' +
+      '</div>' +
+      '<div class="dlg-listen-fb" id="plmb-listen-fb"></div>' +
+      '<button class="dlg-listen-next" id="plmb-listen-nxt" onclick="_plmbListenNext()">' +
+        (plmbListenSt.cur + 1 >= qs.length ? '查看成绩 →' : '下一题 →') +
+      '</button>' +
+    '</div>';
+  }
+
+  window._plmbListenPlay = function(slow) {
+    var q = plmbListenSt.qs[plmbListenSt.cur];
+    if (!q) return;
+    stopSpeak();
+    speak(q.sentence, { rate: slow ? 0.6 : 0.85 });
+  };
+
+  window._plmbListenCheck = function() {
+    if (plmbListenSt.answered) return;
+    var inp = document.getElementById('plmb-listen-inp');
+    var fb = document.getElementById('plmb-listen-fb');
+    var nxt = document.getElementById('plmb-listen-nxt');
+    var sub = document.getElementById('plmb-listen-sub');
+    if (!inp || !fb) return;
+    var answer = inp.value.trim().toLowerCase();
+    var q = plmbListenSt.qs[plmbListenSt.cur];
+    var correct = q.key.toLowerCase();
+    plmbListenSt.answered = true;
+
+    var isOk = (answer === correct);
+    // Allow some flexibility
+    if (!isOk) {
+      var stripped = answer.replace(/^(a|an|the|to)\s+/i, '');
+      var correctStripped = correct.replace(/^(a|an|the|to)\s+/i, '');
+      isOk = (stripped === correctStripped);
+    }
+
+    if (isOk) {
+      plmbListenSt.score++;
+      inp.classList.add('correct');
+      inp.value = q.key;
+      fb.className = 'dlg-listen-fb show ok';
+      fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+    } else {
+      inp.classList.add('wrong');
+      fb.className = 'dlg-listen-fb show no';
+      fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+    }
+    if (sub) sub.disabled = true;
+    if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
+  };
+
+  window._plmbListenNext = function() {
+    var qs = plmbListenSt.qs;
+    plmbListenSt.cur++;
+    plmbListenSt.answered = false;
+    var ls = L();
+    if (plmbListenSt.cur >= qs.length) {
+      var box = document.getElementById('plmb-listen-box');
+      if (!box) return;
+      var sc = plmbListenSt.score, tot = qs.length;
+      var pass = sc === tot;
+      if (pass && ls) _plmbSaveListenMastery(ls.id);
+      var msg = pass ? '🏆 满分！听力测试全部通过！已获得掌握徽章！' :
+        sc >= 3 ? '🎉 不错！再试一次争取满分通过！' : '💪 多听几遍，再来挑战！';
+      box.innerHTML = '<div class="dlg-listen-wrap"><div class="dlg-listen-result">' +
+        '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-listen-score-sub">' + msg + '</div>' +
+        (pass ? '<div style="font-size:15px;margin-bottom:12px">🏅 <b>已掌握</b> — 本课听力测试已通过！</div>' : '') +
+        '<button class="btn-p" onclick="_plmbListenRetry()" style="margin-top:4px">🔄 重新测试</button>' +
+      '</div></div>';
+    } else {
+      var box2 = document.getElementById('plmb-listen-box');
+      if (box2) box2.innerHTML = _plmbListenHTML(ls);
+    }
+  };
+
+  window._plmbListenRetry = function() {
+    var ls = L();
+    if (ls) _plmbListenInit(ls);
+    var box = document.getElementById('plmb-listen-box');
+    if (box && ls) box.innerHTML = _plmbListenHTML(ls);
+  };
+
+  // Plumber mastery persistence
+  function _plmbGetListenMastery() {
+    try { return JSON.parse(localStorage.getItem('plmb_listen_mastery') || '{}'); } catch(e) { return {}; }
+  }
+  function _plmbSaveListenMastery(lessonId) {
+    var m = _plmbGetListenMastery();
+    m[lessonId] = Date.now();
+    try { localStorage.setItem('plmb_listen_mastery', JSON.stringify(m)); } catch(e) {}
+  }
+  function _plmbHasListenMastery(lessonId) {
+    return !!_plmbGetListenMastery()[lessonId];
+  }
+
   // Hook into show()
   var _origShow = window.show;
   window.show = function(p){
@@ -48433,14 +47581,6 @@ quiz:[
   };
 
   // Initial render on DOM ready (so it's there when first viewed)
-  /* ── Expose key functions globally so the Profile page can read plumber progress ── */
-  window.PLMB_LEVELS = PLMB_LEVELS;
-  window._plmbLessonStatus = lessonStatus;
-  window._plmbCourseOverall = courseOverall;
-  window._plmbExamStatus = examStatus;
-  window._plmbGetLevelData = _getLevelData;
-  window._plmbGetLevelExams = _getLevelExams;
-
   function _plmbInitRender() {
     if (state.view === 'lesson') renderLesson();
     else if (state.view === 'exam') renderExam();
@@ -50118,6 +49258,199 @@ window.CA_PREP_S1 = [
       if (ov && ov.classList.contains('on')) closeRing();
     }
   });
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     Global Listening Quiz for card-based modules
+     (Learn, Monthly, CN-EN)
+     ═══════════════════════════════════════════ -->
+<div id="global-listen-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9998;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)" onclick="closeGlobalListen()"></div>
+<div id="global-listen-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;width:min(480px,92vw);max-height:85vh;overflow-y:auto;background:var(--bg);border-radius:20px;box-shadow:0 12px 50px rgba(0,0,0,.3);padding:24px"></div>
+
+<script>
+(function(){
+  var gLst = { qs:[], cur:0, score:0, answered:false, module:'' };
+
+  function _gatherLearnData() {
+    if (!window.DATA) return [];
+    return DATA.map(function(d){
+      var ex = (d.example||'').replace(/<[^>]*>/g,'');
+      if (!ex || ex.split(/\s+/).length < 4) return null;
+      return { sentence: ex, key: d.phrase };
+    }).filter(Boolean);
+  }
+
+  function _gatherMonthlyData() {
+    if (!window.MONTHLY_DATA) return [];
+    var items = [];
+    var yr = parseInt((document.getElementById('monthly-year')||{}).value||2026);
+    var mo = parseInt((document.getElementById('monthly-month')||{}).value||3);
+    var words = (MONTHLY_DATA[yr] && MONTHLY_DATA[yr][mo]) || [];
+    words.forEach(function(w){
+      if (w.ex && w.ex.split(/\s+/).length >= 4) {
+        items.push({ sentence: w.ex, key: w.term });
+      }
+    });
+    return items;
+  }
+
+  function _gatherCnenData() {
+    if (!window.CN_MONTHLY_DATA) return [];
+    var items = [];
+    var yr = parseInt((document.getElementById('cnen-year')||{}).value||2026);
+    var mo = parseInt((document.getElementById('cnen-month')||{}).value||3);
+    var words = (CN_MONTHLY_DATA[yr] && CN_MONTHLY_DATA[yr][mo]) || [];
+    words.forEach(function(w){
+      if (w.ex_en && w.ex_en.split(/\s+/).length >= 4) {
+        items.push({ sentence: w.ex_en, key: w.en });
+      }
+    });
+    return items;
+  }
+
+  window.openGlobalListen = function(module) {
+    var candidates = [];
+    if (module === 'learn') candidates = _gatherLearnData();
+    else if (module === 'monthly') candidates = _gatherMonthlyData();
+    else if (module === 'cnen') candidates = _gatherCnenData();
+
+    // Shuffle
+    for (var i = candidates.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = candidates[i]; candidates[i] = candidates[j]; candidates[j] = t;
+    }
+    // Pick 5 unique sentences
+    var usedKey = {};
+    var picked = [];
+    for (var k = 0; k < candidates.length && picked.length < 5; k++) {
+      var ckey = candidates[k].sentence;
+      if (!usedKey[ckey]) {
+        usedKey[ckey] = true;
+        picked.push(candidates[k]);
+      }
+    }
+    gLst.qs = picked;
+    gLst.cur = 0;
+    gLst.score = 0;
+    gLst.answered = false;
+    gLst.module = module;
+
+    document.getElementById('global-listen-overlay').style.display = 'block';
+    var modal = document.getElementById('global-listen-modal');
+    modal.style.display = 'block';
+    modal.innerHTML = _gListenHTML();
+  };
+
+  window.closeGlobalListen = function() {
+    document.getElementById('global-listen-overlay').style.display = 'none';
+    document.getElementById('global-listen-modal').style.display = 'none';
+  };
+
+  function _gListenHTML() {
+    var qs = gLst.qs;
+    if (!qs || !qs.length) return '<div style="text-align:center;padding:40px"><p style="font-size:16px;color:var(--text3)">暂无足够数据生成听力题</p><button class="btn-p" onclick="closeGlobalListen()" style="margin-top:16px">关闭</button></div>';
+    var q = qs[gLst.cur];
+    if (!q) return '';
+
+    var progH = qs.map(function(_, i) {
+      return '<div class="dlg-listen-dot' + (i < gLst.cur ? ' done' : i === gLst.cur ? ' active' : '') + '"></div>';
+    }).join('');
+
+    // Blank out the key phrase in the sentence
+    var keyEsc = q.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var blanked = q.sentence.replace(new RegExp('(' + keyEsc + ')', 'i'), '<span class="dlg-listen-blank">______</span>');
+
+    return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
+      '<div style="font-size:16px;font-weight:800;color:var(--text1)">🎧 听力填空 · Listening Test</div>' +
+      '<button onclick="closeGlobalListen()" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--text3)">✕</button>' +
+    '</div>' +
+    '<div class="dlg-listen-prog" style="margin-bottom:12px">' + progH + '</div>' +
+    '<div class="dlg-listen-num">第 ' + (gLst.cur + 1) + ' 题 / 共 ' + qs.length + ' 题</div>' +
+    '<div class="dlg-listen-play">' +
+      '<button class="dlg-listen-play-btn" onclick="_gListenPlay(false)">🔊 播放句子</button>' +
+      '<button class="dlg-listen-play-btn slow" onclick="_gListenPlay(true)">🐢 慢速</button>' +
+    '</div>' +
+    '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+    '<div class="dlg-listen-input-row">' +
+      '<input class="dlg-listen-input" id="g-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" onkeydown="if(event.key===\'Enter\')_gListenCheck()">' +
+      '<button class="dlg-listen-submit" id="g-listen-sub" onclick="_gListenCheck()">确认</button>' +
+    '</div>' +
+    '<div class="dlg-listen-fb" id="g-listen-fb"></div>' +
+    '<button class="dlg-listen-next" id="g-listen-nxt" onclick="_gListenNext()">' +
+      (gLst.cur + 1 >= qs.length ? '查看成绩 →' : '下一题 →') +
+    '</button>';
+  }
+
+  window._gListenPlay = function(slow) {
+    var q = gLst.qs[gLst.cur];
+    if (!q) return;
+    if (typeof _speak === 'function') _speak(q.sentence, null, slow ? 0.55 : 0.82);
+    else if (typeof _stopAll === 'function' && typeof _googleSpeak === 'function') {
+      _stopAll();
+      if (window.speechSynthesis) {
+        var utt = new SpeechSynthesisUtterance(q.sentence);
+        utt.lang = 'en-US'; utt.rate = slow ? 0.6 : 0.85;
+        speechSynthesis.speak(utt);
+      }
+    }
+  };
+
+  window._gListenCheck = function() {
+    if (gLst.answered) return;
+    var inp = document.getElementById('g-listen-inp');
+    var fb = document.getElementById('g-listen-fb');
+    var nxt = document.getElementById('g-listen-nxt');
+    var sub = document.getElementById('g-listen-sub');
+    if (!inp || !fb) return;
+    var answer = inp.value.trim().toLowerCase().replace(/['']/g, "'");
+    var q = gLst.qs[gLst.cur];
+    var correct = q.key.toLowerCase().replace(/['']/g, "'");
+    gLst.answered = true;
+
+    var isOk = (answer === correct);
+    if (!isOk) {
+      // Lenient: strip articles, check containment
+      var a2 = answer.replace(/^(a|an|the|to)\s+/i, '');
+      var c2 = correct.replace(/^(a|an|the|to)\s+/i, '');
+      isOk = (a2 === c2) || (a2.length > 2 && correct.indexOf(a2) === 0);
+    }
+    if (isOk) {
+      gLst.score++;
+      inp.classList.add('correct'); inp.value = q.key;
+      fb.className = 'dlg-listen-fb show ok';
+      fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+      if (typeof awardPts === 'function') awardPts(5);
+    } else {
+      inp.classList.add('wrong');
+      fb.className = 'dlg-listen-fb show no';
+      fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+    }
+    if (sub) sub.disabled = true;
+    if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
+  };
+
+  window._gListenNext = function() {
+    gLst.cur++;
+    gLst.answered = false;
+    if (gLst.cur >= gLst.qs.length) {
+      var modal = document.getElementById('global-listen-modal');
+      if (!modal) return;
+      var sc = gLst.score, tot = gLst.qs.length, pass = sc === tot;
+      var msg = pass ? '🏆 满分！全部通过！' : sc >= 3 ? '🎉 不错！再来争取满分！' : '💪 多练习，再来挑战！';
+      modal.innerHTML = '<div style="text-align:center;padding:20px">' +
+        '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-listen-score-sub">' + msg + '</div>' +
+        '<div style="display:flex;gap:8px;justify-content:center;margin-top:16px">' +
+          '<button class="btn-p" onclick="openGlobalListen(\'' + gLst.module + '\')">🔄 再来一轮</button>' +
+          '<button class="btn-p" onclick="closeGlobalListen()" style="background:var(--card2);color:var(--text1)">关闭</button>' +
+        '</div>' +
+      '</div>';
+    } else {
+      var modal2 = document.getElementById('global-listen-modal');
+      if (modal2) modal2.innerHTML = _gListenHTML();
+    }
+  };
 })();
 </script>
 

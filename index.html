@@ -2139,6 +2139,25 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .rp-dot.active{background:#a855f7;transform:scale(1.2)}
 .rp-dot.done{background:#16a34a}
 .rp-dot.wrong-dot{background:#dc2626}
+
+/* ════ SIGN-UP NUDGE TOAST ════ */
+#signup-nudge{position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:12px;pointer-events:none;transform:translateY(100%);opacity:0;transition:all .5s cubic-bezier(.2,.9,.3,1.1)}
+#signup-nudge.show{transform:translateY(0);opacity:1;pointer-events:auto}
+.nudge-inner{max-width:520px;margin:0 auto;background:var(--card);border:1.5px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 -8px 40px rgba(0,0,0,.12);display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px;position:relative}
+.nudge-icon{font-size:32px;flex-shrink:0;margin-top:2px}
+.nudge-body{flex:1;min-width:200px}
+.nudge-title{font-size:16px;font-weight:800;color:var(--text1);margin-bottom:4px}
+.nudge-stats{font-size:13px;color:#7c3aed;margin-bottom:6px;font-weight:600}
+[data-theme="dark"] .nudge-stats{color:#c084fc}
+.nudge-text{font-size:13px;color:var(--text2);line-height:1.55}
+.nudge-actions{display:flex;gap:8px;width:100%;margin-top:2px;justify-content:flex-end}
+.nudge-btn-go{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;padding:9px 22px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.nudge-btn-go:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.3)}
+.nudge-btn-later{background:transparent;color:var(--text3);border:1.5px solid var(--border);padding:9px 18px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s}
+.nudge-btn-later:hover{border-color:var(--text3)}
+.nudge-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:20px;color:var(--text3);cursor:pointer;padding:4px 8px;line-height:1}
+.nudge-close:hover{color:var(--text1)}
+@media(max-width:480px){.nudge-inner{flex-direction:column;padding:16px}.nudge-icon{font-size:28px}.nudge-actions{justify-content:stretch}.nudge-btn-go,.nudge-btn-later{flex:1;text-align:center}}
 </style>
 </head>
 <body>
@@ -6375,6 +6394,79 @@ function formatActiveTime(secs) {
   if (s < 3600) return Math.floor(s/60) + ' 分 ' + (s%60) + ' 秒';
   return Math.floor(s/3600) + ' 小时 ' + Math.floor((s%3600)/60) + ' 分';
 }
+
+// ── GENTLE SIGN-UP NUDGE (non-intrusive) ────────────
+// Shows a bottom toast ONCE after ~10 min of active study,
+// only for non-logged-in users. Dismissal = 3-day cooldown.
+(function(){
+  var _nudgeShown = false;
+  var _NUDGE_COOLDOWN_KEY = '__sys_nudge_dismiss';
+  var _NUDGE_COOLDOWN_DAYS = 3;
+  var _NUDGE_MIN_SECS = 600; // 10 minutes
+
+  function _nudgeDismissed(){
+    try {
+      var raw = localStorage.getItem(_NUDGE_COOLDOWN_KEY);
+      if (!raw) return false;
+      return (Date.now() - parseInt(raw,10)) < _NUDGE_COOLDOWN_DAYS * 86400000;
+    } catch(e){ return false; }
+  }
+
+  function _buildNudgeStats(){
+    var time = formatActiveTime(_activeTimeSecs);
+    var quizzes = localQuizzes || 0;
+    var pts = localPts || 0;
+    var parts = [];
+    parts.push('已学习 <b>' + time + '</b>');
+    if (quizzes > 0) parts.push('完成 <b>' + quizzes + '</b> 次测试');
+    if (pts > 0) parts.push('获得 <b>' + pts + '</b> 积分');
+    return parts.join(' · ');
+  }
+
+  function _showNudge(){
+    if (_nudgeShown || _nudgeDismissed()) return;
+    if (typeof user !== 'undefined' && user) return; // logged in
+    if (_activeTimeSecs < _NUDGE_MIN_SECS) return;
+    _nudgeShown = true;
+
+    var el = document.createElement('div');
+    el.id = 'signup-nudge';
+    el.innerHTML =
+      '<div class="nudge-inner">' +
+        '<div class="nudge-icon">💾</div>' +
+        '<div class="nudge-body">' +
+          '<div class="nudge-title">你的学习进度很棒！</div>' +
+          '<div class="nudge-stats">' + _buildNudgeStats() + '</div>' +
+          '<div class="nudge-text">目前这些数据只保存在当前浏览器中。创建一个账号就能同步到云端，换设备也不会丢失。</div>' +
+        '</div>' +
+        '<div class="nudge-actions">' +
+          '<button class="nudge-btn-go" onclick="_nudgeSignup()">免费注册</button>' +
+          '<button class="nudge-btn-later" onclick="_nudgeDismiss()">下次再说</button>' +
+        '</div>' +
+        '<button class="nudge-close" onclick="_nudgeDismiss()" title="关闭">&times;</button>' +
+      '</div>';
+    document.body.appendChild(el);
+    // Animate in
+    requestAnimationFrame(function(){ el.classList.add('show'); });
+  }
+
+  window._nudgeSignup = function(){
+    var el = document.getElementById('signup-nudge');
+    if (el) el.remove();
+    _nudgeShown = true;
+    openModal('login');
+  };
+  window._nudgeDismiss = function(){
+    var el = document.getElementById('signup-nudge');
+    if (el) { el.classList.remove('show'); setTimeout(function(){ el.remove(); }, 400); }
+    try { localStorage.setItem(_NUDGE_COOLDOWN_KEY, String(Date.now())); } catch(e){}
+  };
+
+  // Check every 30 seconds
+  setInterval(function(){
+    if (!_nudgeShown && _activeTimeSecs >= _NUDGE_MIN_SECS) _showNudge();
+  }, 30000);
+})();
 
 // ═══════════════════════════════════════
 // INIT — no login required
@@ -12036,10 +12128,16 @@ function dlgQRetry(){
 function _dlgListenInit(d) {
   // Gather all lines with key phrases
   var candidates = [];
+  // Build a lookup for vocab Chinese meanings
+  var vocabMap = {};
+  if (d.vocab) d.vocab.forEach(function(v){
+    vocabMap[v.ph.toLowerCase()] = v.cn;
+  });
   d.lines.forEach(function(line, i) {
     if (line.key && line.key.length) {
       line.key.forEach(function(kp) {
-        candidates.push({ lineIdx: i, key: kp, sentence: _dlgPlain(line.en) });
+        var phraseCn = vocabMap[kp.toLowerCase()] || '';
+        candidates.push({ lineIdx: i, key: kp, sentence: _dlgPlain(line.en), sentenceCn: line.cn || '', phraseCn: phraseCn });
       });
     }
   });
@@ -12087,6 +12185,7 @@ function _dlgListenHTML(d) {
       '<button class="dlg-listen-play-btn slow" onclick="dlgListenPlay(true)">🐢 慢速</button>' +
     '</div>' +
     '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+    '<div class="dlg-listen-sentcn" id="dlg-listen-sentcn" style="display:none;text-align:center;font-size:13px;color:var(--text3);margin:-4px 0 8px;line-height:1.5">' + (q.sentenceCn||'') + '</div>' +
     '<div class="dlg-listen-input-row">' +
       '<input type="search" class="dlg-listen-input" id="dlg-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-dlg" onkeydown="if(event.key===\'Enter\')dlgListenCheck()">' +
       '<button class="dlg-listen-submit" id="dlg-listen-sub" onclick="dlgListenCheck()">确认</button>' +
@@ -12138,18 +12237,22 @@ function dlgListenCheck() {
     isOk = (stripped === correctStripped);
   }
 
+  var phraseCnHtml = q.phraseCn ? '<div style="font-size:12px;margin-top:4px;opacity:.85">💡 <b>' + q.key + '</b>：' + q.phraseCn + '</div>' : '';
   if (isOk) {
     _dlgSt.listenScore++;
     inp.classList.add('correct');
     inp.value = q.key;
     fb.className = 'dlg-listen-fb show ok';
-    fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+    fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>' + phraseCnHtml;
     awardPts(5);
   } else {
     inp.classList.add('wrong');
     fb.className = 'dlg-listen-fb show no';
-    fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+    fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>' + phraseCnHtml;
   }
+  // Show Chinese translation of the sentence
+  var sentCnEl = document.getElementById('dlg-listen-sentcn');
+  if (sentCnEl) sentCnEl.style.display = 'block';
   if (sub) sub.disabled = true;
   if (nxt) { nxt.classList.add('show'); setTimeout(function(){ var col=nxt.closest('.dlg-col-right'); if(col){col.scrollTop=col.scrollHeight;}else{nxt.scrollIntoView({behavior:'smooth',block:'center'});} },150); }
 }
@@ -38737,12 +38840,15 @@ var _crsListenSt = { qs:[], cur:0, score:0, answered:false };
 
 function _crsListenInit(L) {
   var vocWords = L.vocab.map(function(v){ return v.word.toLowerCase(); });
+  // Build vocab Chinese meaning lookup
+  var vocCnMap = {};
+  L.vocab.forEach(function(v){ vocCnMap[v.word.toLowerCase()] = v.cn || v.meaning || ''; });
   var candidates = [];
   L.passage.forEach(function(p, i) {
     vocWords.forEach(function(vw) {
       var re = new RegExp('\\b' + vw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
       if (re.test(p.en) && p.en.split(/\s+/).length >= 3) {
-        candidates.push({ sentence: p.en, key: vw, idx: i });
+        candidates.push({ sentence: p.en, sentenceCn: p.cn || '', key: vw, phraseCn: vocCnMap[vw] || '', idx: i });
       }
     });
   });
@@ -38785,6 +38891,7 @@ function _crsListenHTML(L) {
       '<button class="dlg-listen-play-btn slow" onclick="_crsListenPlay(true)">🐢 慢速</button>' +
     '</div>' +
     '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+    '<div class="dlg-listen-sentcn" id="crs-listen-sentcn" style="display:none;text-align:center;font-size:13px;color:var(--text3);margin:-4px 0 8px;line-height:1.5">' + (q.sentenceCn||'') + '</div>' +
     '<div class="dlg-listen-input-row">' +
       '<input type="search" class="dlg-listen-input" id="crs-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-crs" onkeydown="if(event.key===\'Enter\')_crsListenCheck()">' +
       '<button class="dlg-listen-submit" id="crs-listen-sub" onclick="_crsListenCheck()">确认</button>' +
@@ -38819,17 +38926,20 @@ function _crsListenCheck() {
     var correctStripped = correct.replace(/^(a|an|the|to)\s+/i, '');
     isOk = (stripped === correctStripped);
   }
+  var phraseCnHtml2 = q.phraseCn ? '<div style="font-size:12px;margin-top:4px;opacity:.85">💡 <b>' + q.key + '</b>：' + q.phraseCn + '</div>' : '';
   if (isOk) {
     _crsListenSt.score++;
     inp.classList.add('correct'); inp.value = q.key;
     fb.className = 'dlg-listen-fb show ok';
-    fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+    fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>' + phraseCnHtml2;
     awardPts(5);
   } else {
     inp.classList.add('wrong');
     fb.className = 'dlg-listen-fb show no';
-    fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+    fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>' + phraseCnHtml2;
   }
+  var sentCnEl2 = document.getElementById('crs-listen-sentcn');
+  if (sentCnEl2) sentCnEl2.style.display = 'block';
   if (sub) sub.disabled = true;
   if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
 }
@@ -47853,6 +47963,8 @@ quiz:[
   function _plmbListenInit(ls) {
     // Build candidates: sentences that contain vocab words
     var vocWords = ls.vocab.map(function(v){ return v.w.toLowerCase(); });
+    var vocCnMap3 = {};
+    ls.vocab.forEach(function(v){ vocCnMap3[v.w.toLowerCase()] = v.cn || ''; });
     var candidates = [];
     // From passage
     if (ls.passage) {
@@ -47860,7 +47972,7 @@ quiz:[
         vocWords.forEach(function(vw) {
           var re = new RegExp('\\b' + vw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
           if (re.test(s.en) && s.en.split(/\s+/).length >= 3) {
-            candidates.push({ sentence: s.en, key: vw, src: 'p', idx: i });
+            candidates.push({ sentence: s.en, sentenceCn: s.cn || '', key: vw, phraseCn: vocCnMap3[vw] || '', src: 'p', idx: i });
           }
         });
       });
@@ -47871,7 +47983,7 @@ quiz:[
         vocWords.forEach(function(vw) {
           var re = new RegExp('\\b' + vw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b', 'i');
           if (re.test(d.en) && d.en.split(/\s+/).length >= 3) {
-            candidates.push({ sentence: d.en, key: vw, src: 'd', idx: i });
+            candidates.push({ sentence: d.en, sentenceCn: d.cn || '', key: vw, phraseCn: vocCnMap3[vw] || '', src: 'd', idx: i });
           }
         });
       });
@@ -47918,6 +48030,7 @@ quiz:[
         '<button class="dlg-listen-play-btn slow" onclick="_plmbListenPlay(true)">🐢 慢速</button>' +
       '</div>' +
       '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+      '<div class="dlg-listen-sentcn" id="plmb-listen-sentcn" style="display:none;text-align:center;font-size:13px;color:var(--text3);margin:-4px 0 8px;line-height:1.5">' + (q.sentenceCn||'') + '</div>' +
       '<div class="dlg-listen-input-row">' +
         '<input type="search" class="dlg-listen-input" id="plmb-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-plmb" onkeydown="if(event.key===\'Enter\')_plmbListenCheck()">' +
         '<button class="dlg-listen-submit" id="plmb-listen-sub" onclick="_plmbListenCheck()">确认</button>' +
@@ -47956,17 +48069,20 @@ quiz:[
       isOk = (stripped === correctStripped);
     }
 
+    var phraseCnHtml3 = q.phraseCn ? '<div style="font-size:12px;margin-top:4px;opacity:.85">💡 <b>' + q.key + '</b>：' + q.phraseCn + '</div>' : '';
     if (isOk) {
       plmbListenSt.score++;
       inp.classList.add('correct');
       inp.value = q.key;
       fb.className = 'dlg-listen-fb show ok';
-      fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+      fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>' + phraseCnHtml3;
     } else {
       inp.classList.add('wrong');
       fb.className = 'dlg-listen-fb show no';
-      fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+      fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>' + phraseCnHtml3;
     }
+    var sentCnEl3 = document.getElementById('plmb-listen-sentcn');
+    if (sentCnEl3) sentCnEl3.style.display = 'block';
     if (sub) sub.disabled = true;
     if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
   };
@@ -49729,7 +49845,7 @@ window.CA_PREP_S1 = [
     return DATA.map(function(d){
       var ex = (d.example||'').replace(/<[^>]*>/g,'');
       if (!ex || ex.split(/\s+/).length < 4) return null;
-      return { sentence: ex, key: d.phrase };
+      return { sentence: ex, sentenceCn: (d.example_cn||''), key: d.phrase, phraseCn: (d.meaning_cn||'') };
     }).filter(Boolean);
   }
 
@@ -49741,7 +49857,7 @@ window.CA_PREP_S1 = [
     var words = (MONTHLY_DATA[yr] && MONTHLY_DATA[yr][mo]) || [];
     words.forEach(function(w){
       if (w.ex && w.ex.split(/\s+/).length >= 4) {
-        items.push({ sentence: w.ex, key: w.term });
+        items.push({ sentence: w.ex, sentenceCn: (w.ex_cn||''), key: w.term, phraseCn: (w.cn||w.meaning||'') });
       }
     });
     return items;
@@ -49755,7 +49871,7 @@ window.CA_PREP_S1 = [
     var words = (CN_MONTHLY_DATA[yr] && CN_MONTHLY_DATA[yr][mo]) || [];
     words.forEach(function(w){
       if (w.ex_en && w.ex_en.split(/\s+/).length >= 4) {
-        items.push({ sentence: w.ex_en, key: w.en });
+        items.push({ sentence: w.ex_en, sentenceCn: (w.ex_cn||w.cn||''), key: w.en, phraseCn: (w.cn||'') });
       }
     });
     return items;
@@ -49824,6 +49940,7 @@ window.CA_PREP_S1 = [
       '<button class="dlg-listen-play-btn slow" onclick="_gListenPlay(true)">🐢 慢速</button>' +
     '</div>' +
     '<div class="dlg-listen-sentence">' + blanked + '</div>' +
+    '<div class="dlg-listen-sentcn" id="g-listen-sentcn" style="display:none;text-align:center;font-size:13px;color:var(--text3);margin:-4px 0 8px;line-height:1.5">' + (q.sentenceCn||'') + '</div>' +
     '<div class="dlg-listen-input-row">' +
       '<input type="search" class="dlg-listen-input" id="g-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-global" onkeydown="if(event.key===\'Enter\')_gListenCheck()">' +
       '<button class="dlg-listen-submit" id="g-listen-sub" onclick="_gListenCheck()">确认</button>' +
@@ -49867,17 +49984,20 @@ window.CA_PREP_S1 = [
       var c2 = correct.replace(/^(a|an|the|to)\s+/i, '');
       isOk = (a2 === c2) || (a2.length > 2 && correct.indexOf(a2) === 0);
     }
+    var phraseCnHtml4 = q.phraseCn ? '<div style="font-size:12px;margin-top:4px;opacity:.85">💡 <b>' + q.key + '</b>：' + q.phraseCn + '</div>' : '';
     if (isOk) {
       gLst.score++;
       inp.classList.add('correct'); inp.value = q.key;
       fb.className = 'dlg-listen-fb show ok';
-      fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>';
+      fb.innerHTML = '✅ 正确！ — <b>' + q.key + '</b>' + phraseCnHtml4;
       if (typeof awardPts === 'function') awardPts(5);
     } else {
       inp.classList.add('wrong');
       fb.className = 'dlg-listen-fb show no';
-      fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>';
+      fb.innerHTML = '❌ 正确答案是：<b>' + q.key + '</b>' + phraseCnHtml4;
     }
+    var sentCnEl4 = document.getElementById('g-listen-sentcn');
+    if (sentCnEl4) sentCnEl4.style.display = 'block';
     if (sub) sub.disabled = true;
     if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
   };

@@ -2027,10 +2027,58 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dlg-qnum{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text3);letter-spacing:.08em;margin-bottom:5px}
 .dlg-qtxt{font-size:16px;font-weight:700;color:var(--text1);margin-bottom:14px;line-height:1.5}
 .dlg-qopts{display:grid;gap:8px}
-.dlg-qopt{padding:11px 14px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.dlg-qopt{padding:11px 14px;border-radius:10px;background:var(--card2);border:1.5px solid var(--border);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:all .15s;-webkit-tap-highlight-color:transparent;position:relative}
 .dlg-qopt:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+/* Correct answer when the user picked it — green, subtle */
 .dlg-qopt.correct{background:#d1fae5;border-color:#10b981;color:#065f46;pointer-events:none}
-.dlg-qopt.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d;pointer-events:none}
+.dlg-qopt.correct::before{content:'✅';margin-right:6px;font-size:15px;vertical-align:-1px}
+/* Wrong answer — user's pick, turns red + gentle shake */
+.dlg-qopt.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d;pointer-events:none;animation:dlgWrongShake .42s cubic-bezier(.36,.07,.19,.97) both}
+.dlg-qopt.wrong::before{content:'❌';margin-right:6px;font-size:15px;vertical-align:-1px}
+@keyframes dlgWrongShake{
+  10%,90%{transform:translateX(-2px)}
+  20%,80%{transform:translateX(3px)}
+  30%,50%,70%{transform:translateX(-5px)}
+  40%,60%{transform:translateX(5px)}
+}
+/* Correct-reveal = extra-obvious highlight when user picked wrong.
+   Thicker border, stronger green, animated glow arrow nudges toward it. */
+.dlg-qopt.correct.correct-reveal{
+  background:linear-gradient(135deg,#a7f3d0,#6ee7b7);
+  border:2.5px solid #059669;
+  color:#064e3b;font-weight:800;font-size:13.5px;
+  box-shadow:0 0 0 4px rgba(16,185,129,.2),0 6px 20px rgba(16,185,129,.35);
+  transform:scale(1.015);
+  animation:dlgCorrectReveal 1.4s cubic-bezier(.25,.8,.25,1) both,dlgCorrectPulse 1.8s ease-in-out 1.4s infinite;
+  padding:11px 90px 11px 52px;
+}
+.dlg-qopt.correct.correct-reveal::before{
+  content:'👉✅';
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  font-size:16px;margin-right:0;letter-spacing:-2px;
+  animation:dlgCorrectPoint 1s ease-in-out infinite;
+}
+.dlg-qopt.correct.correct-reveal::after{
+  content:'正确答案';
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:#059669;color:#fff;padding:3px 8px;border-radius:6px;
+  font-size:10.5px;font-weight:800;letter-spacing:.05em;
+  box-shadow:0 2px 6px rgba(5,150,105,.35);
+}
+@keyframes dlgCorrectReveal{
+  0%{opacity:.4;transform:scale(.95)}
+  40%{opacity:1;transform:scale(1.035)}
+  70%{transform:scale(1.01)}
+  100%{transform:scale(1.015)}
+}
+@keyframes dlgCorrectPulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(16,185,129,.2),0 6px 20px rgba(16,185,129,.35)}
+  50%{box-shadow:0 0 0 7px rgba(16,185,129,.12),0 8px 28px rgba(16,185,129,.5)}
+}
+@keyframes dlgCorrectPoint{
+  0%,100%{transform:translateY(-50%) translateX(0)}
+  50%{transform:translateY(-50%) translateX(3px)}
+}
 .dlg-qopt:disabled{pointer-events:none;opacity:.75}
 .dlg-qexp{margin-top:10px;padding:10px 12px;background:rgba(59,130,246,.07);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6;display:none;border-left:3px solid var(--blue)}
 .dlg-qexp.show{display:block}
@@ -12062,6 +12110,42 @@ function dlgMatchRight(si) {
 
 function dlgMatchDone() {
   var d = DLG_DATA[_dlgSt.wi];
+  /* Mark matching as "aced" for smart retry — user successfully matched all pairs */
+  _dlgSt.matchAced = true;
+
+  /* Smart retry shortcut: if user previously aced MCQ and was retrying ONLY the matching,
+     skip straight to completion (no need to re-do MCQ). */
+  if (_dlgSt.retrySkipMcq) {
+    _dlgSt.retrySkipMcq = false;
+    /* Show a small completion message; they already got 100% on MCQ previously.
+       The lesson's mastery record is already saved, so we just confirm. */
+    var box = document.getElementById('dlg-qbox');
+    if (box) {
+      var fromRec = null;
+      try { fromRec = (JSON.parse(localStorage.getItem('bayarea_done')||'{}'))[d.id] || null; } catch(e){}
+      var intervalText = (fromRec && fromRec.intervalDays) ? fromRec.intervalDays : 7;
+      box.innerHTML =
+        '<div class="dlg-qwrap">' +
+          '<div class="dlg-qresult dlg-qresult-mastered">' +
+            '<div class="dlg-master-confetti">' +
+              '<span class="dlg-conf c1">🎉</span><span class="dlg-conf c2">⭐</span><span class="dlg-conf c3">✨</span>' +
+              '<span class="dlg-conf c4">🎊</span><span class="dlg-conf c5">💫</span>' +
+            '</div>' +
+            '<div class="dlg-master-badge">🏆</div>' +
+            '<div class="dlg-master-title">连线题通过 · Matching Complete!</div>' +
+            '<div class="dlg-master-score">词汇测试无需重做</div>' +
+            '<div class="dlg-master-sub">词汇测试已满分，<b>本课完全掌握</b>。' + intervalText + ' 天后再复习即可。</div>' +
+            '<div class="dlg-master-actions">' +
+              '<button class="btn-p dlg-master-next" onclick="_dlgGoNextLesson()">下一课 →</button>' +
+              '<button class="dlg-master-redo" onclick="_dlgSt.matchAced=false;_dlgSt.mcqAced=false;dlgQRetry()">🔄 完整重做</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    try { toast && toast('🎊 连线题通过 · 本课掌握！','ok'); } catch(e){}
+    return;
+  }
+
   _dlgSt.matchPhase = 'mcq';
   _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
   var box = document.getElementById('dlg-qbox');
@@ -12201,7 +12285,14 @@ function dlgQAnswer(btn, chosen, correct){
       b.classList.add('correct');
     }
   });
-  if(!isOk)btn.classList.add('wrong');
+  if(!isOk){
+    btn.classList.add('wrong');
+    /* Add extra-obvious highlight to the correct answer when user got it wrong */
+    document.querySelectorAll('#dlg-qbox .dlg-qopt.correct').forEach(function(cb){
+      cb.classList.add('correct-reveal');
+    });
+    try { toast && toast('❌ 再看一眼正确答案','err'); } catch(e){}
+  }
   var exp=document.getElementById('dlg-qexp');if(exp)exp.classList.add('show');
   var nxt=document.getElementById('dlg-qnext');
   if(nxt){
@@ -12230,6 +12321,8 @@ function dlgQNext(){
     var box=document.getElementById('dlg-qbox');
     if(!box)return;
     var sc=_dlgSt.qScore,tot=d.quiz.length,pct=Math.round(sc/tot*100);
+    /* Track whether this MCQ run was aced — enables smart retry */
+    _dlgSt.mcqAced = (pct === 100);
     /* Save completion status + spaced-repetition interval for profile */
     var justMasteredFirstTime = false;
     var wasAlreadyMastered = false;
@@ -12378,10 +12471,45 @@ function _dlgGoNextLesson(){
 
 function dlgQRetry(){
   var d=DLG_DATA[_dlgSt.wi];
+  /* Smart retry: skip phases the user already aced.
+     - _dlgSt.matchAced: user completed matching (no mistakes, or OK to skip)
+     - _dlgSt.mcqAced:   user got 100% on MCQ last attempt
+     Logic:
+      * Both aced (100% overall)  → redo everything (user explicitly wants review)
+      * Only matching aced, MCQ failed → skip to MCQ
+      * Only MCQ aced, matching failed → redo matching only, then finish (don't re-quiz)
+      * Nothing aced → redo everything
+  */
+  var matchAced = !!_dlgSt.matchAced;
+  var mcqAced = !!_dlgSt.mcqAced;
+  var box = document.getElementById('dlg-qbox');
+  if (!box) return;
+
+  /* Case: user perfected MCQ last time but got matching wrong */
+  if (mcqAced && !matchAced) {
+    _dlgSt.matchPhase = 'match';
+    _dlgMatchInit(d);
+    _dlgSt.retrySkipMcq = true; // tells dlgMatchDone to skip MCQ and go straight to results
+    try { toast && toast('💡 只需重做连线题 · 词汇测试已满分','ok'); } catch(e){}
+    box.innerHTML = _dlgMatchHTML(d);
+    return;
+  }
+  /* Case: matching already aced, only MCQ failed */
+  if (matchAced && !mcqAced) {
+    _dlgSt.matchPhase = 'mcq';
+    _dlgSt.qCur = 0; _dlgSt.qScore = 0; _dlgSt.qAnswered = false;
+    try { toast && toast('💡 只需重做词汇测试 · 连线题已通过','ok'); } catch(e){}
+    box.innerHTML = _dlgMcqHTML(d);
+    return;
+  }
+  /* Default: redo everything */
   _dlgSt.qCur=0;_dlgSt.qScore=0;_dlgSt.qAnswered=false;
-  _dlgSt.matchPhase='match'; _dlgMatchInit(d);
-  var box=document.getElementById('dlg-qbox');
-  if(box)box.innerHTML=_dlgMatchHTML(d);
+  _dlgSt.matchPhase='match';
+  _dlgSt.retrySkipMcq = false;
+  _dlgSt.matchAced = false;
+  _dlgSt.mcqAced = false;
+  _dlgMatchInit(d);
+  box.innerHTML=_dlgMatchHTML(d);
 }
 
 function dlgVcToggle(vi) {
@@ -13176,8 +13304,16 @@ window.onload = async function() {
   // Detect if returning user BEFORE _obInit sets the flag
   // Disable old onboarding overlay (Hero page replaces it)
   _obInit();
-  // Always land on Hero home page — users pick a track from there
-  showHome();
+  /* Restore the last page the user was on — preserves context across refreshes.
+     If no saved page, land on the Hero home. */
+  var _lastPage = null;
+  try { _lastPage = localStorage.getItem('__sys_last_page'); } catch(e){}
+  var _validPages = {learn:1,quiz:1,wrongbook:1,lb:1,bayarea:1,monthly:1,cnen:1,course:1,profile:1,pk:1,daily:1,plumber:1,caprep:1};
+  if (_lastPage && _validPages[_lastPage] && document.getElementById('page-' + _lastPage)) {
+    show(_lastPage);
+  } else {
+    showHome();
+  }
   renderLearn();
 
   // Initialize daily missions + badges
@@ -13574,6 +13710,8 @@ function showHome() {
   if (hero) hero.classList.add('show');
   // Update dropdown active state
   document.querySelectorAll('.dd-item').forEach(function(i){ i.classList.remove('on'); });
+  /* Clear saved page so next refresh also shows home (user intentionally went home) */
+  try { localStorage.removeItem('__sys_last_page'); } catch(e){}
   // Scroll to top
   window.scrollTo(0, 0);
 }
@@ -13680,6 +13818,9 @@ function show(p) {
     document.getElementById('qactive-v').style.display = 'none';
     document.getElementById('qresult-v').style.display = 'none';
   }
+  /* Remember current page so a refresh returns the user here (not home).
+     Uses __sys_ prefix so it's shared across profiles and not namespaced. */
+  try { localStorage.setItem('__sys_last_page', p); } catch(e){}
   // Scroll to top
   window.scrollTo(0, 0);
 }

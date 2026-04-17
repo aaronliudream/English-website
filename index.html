@@ -42131,6 +42131,16 @@ function renderClassics() {
         btn.classList.add('on');
         btn.title = '已掌握 · 点击取消';
 
+        /* Close any currently-expanded card so the grid layout resets cleanly.
+           Otherwise the expanded card stays full-width and the layout looks broken. */
+        try {
+          document.querySelectorAll('#llist .vc.open').forEach(function(oc){
+            oc.classList.remove('open');
+            var arr = oc.querySelector('.vc-arr');
+            if (arr) arr.textContent = '▼';
+          });
+        } catch(e){}
+
         /* Fire confetti-like micro feedback */
         try { toast && toast('⭐ 已掌握 · Mastered!', 'ok'); } catch(e){}
 

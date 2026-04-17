@@ -329,6 +329,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .feat-card .fc-t{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:500;color:var(--text);margin-bottom:6px}
 .feat-card .fc-d{font-size:12.5px;color:var(--text3);line-height:1.6}
 .hero-footer{text-align:center;padding:30px 20px 40px;font-size:11px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;border-top:1px solid var(--border);margin-top:20px}
+
+/* Hero-landing: module progress section */
+.hero-mod-progress-wrap{padding-top:30px !important}
+.hero-mod-progress{background:#fdfaf4;border:1px solid #eee5dc;border-radius:20px;padding:28px 26px;box-shadow:0 1px 3px rgba(0,0,0,.03),0 10px 30px -12px rgba(30,20,10,.08)}
+[data-theme="dark"] .hero-mod-progress{background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.06);box-shadow:0 10px 30px -12px rgba(0,0,0,.4)}
+.hero-mod-progress .modp-row{background:#ffffff;border-color:#eee5dc}
+[data-theme="dark"] .hero-mod-progress .modp-row{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.06)}
+.hero-mod-progress .modp-overall{background:linear-gradient(135deg,#fff8f3 0%,#fef3e7 50%,#fce5d2 100%);border-color:#f0d9c3}
+@media(max-width:600px){.hero-mod-progress{padding:18px 14px}}
+
 @media(max-width:600px){.hero-top{padding:28px 20px 32px}.hero-stats{gap:28px}.grade-grid{grid-template-columns:1fr}.hero-cards{margin-top:-50px}}
 
 /* PAGES */
@@ -357,6 +367,29 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 /* VOCAB CARDS */
 .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:32px;border-top:none;transform-origin:left center;perspective:1600px;background:#d6eaf7;position:relative;padding:48px 40px;border-radius:8px}
+
+/* Mastered-hidden hint banner (shown above Learn grid) */
+.learn-mastered-hint{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;margin:0 0 16px;background:linear-gradient(135deg,#fef9e7,#fef3c7);border:1.5px solid #f59e0b;border-radius:12px;flex-wrap:wrap}
+.learn-mastered-hint.showing{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border-color:#6366f1}
+.lmh-body{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.lmh-ico{font-size:22px;line-height:1;flex-shrink:0}
+.lmh-txt{font-size:13px;color:#78350f;line-height:1.5}
+.learn-mastered-hint.showing .lmh-txt{color:#3730a3}
+.lmh-txt b{font-weight:800;color:#b45309}
+.learn-mastered-hint.showing .lmh-txt b{color:#4f46e5}
+.lmh-btn{padding:7px 14px;background:#fff;border:1.5px solid #f59e0b;color:#b45309;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit;transition:all .15s}
+.lmh-btn:hover{background:#fef3c7;transform:translateY(-1px)}
+.learn-mastered-hint.showing .lmh-btn{border-color:#6366f1;color:#4f46e5}
+.learn-mastered-hint.showing .lmh-btn:hover{background:#eef2ff}
+[data-theme="dark"] .learn-mastered-hint{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(251,191,36,.08));border-color:rgba(245,158,11,.4)}
+[data-theme="dark"] .learn-mastered-hint .lmh-txt{color:#fde68a}
+[data-theme="dark"] .learn-mastered-hint .lmh-txt b{color:#fcd34d}
+[data-theme="dark"] .learn-mastered-hint .lmh-btn{background:rgba(0,0,0,.25);color:#fde68a;border-color:rgba(251,191,36,.4)}
+[data-theme="dark"] .learn-mastered-hint.showing{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.08));border-color:rgba(99,102,241,.4)}
+[data-theme="dark"] .learn-mastered-hint.showing .lmh-txt{color:#c7d2fe}
+[data-theme="dark"] .learn-mastered-hint.showing .lmh-txt b{color:#a5b4fc}
+[data-theme="dark"] .learn-mastered-hint.showing .lmh-btn{background:rgba(0,0,0,.25);color:#c7d2fe;border-color:rgba(99,102,241,.4)}
+
 .vgrid-flip-next{animation:vgridFlipNext .65s cubic-bezier(.45,.05,.25,1) both;transform-origin:left center}
 .vgrid-flip-prev{animation:vgridFlipPrev .65s cubic-bezier(.45,.05,.25,1) both;transform-origin:right center}
 @keyframes vgridFlipNext{
@@ -757,6 +790,19 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .p2-bay-cat-nums{font-size:10.5px;color:var(--text3);font-weight:700;text-align:right}
 .p2-bay-cat.done .p2-bay-cat-nums{color:#b45309}
 [data-theme="dark"] .p2-bay-cat.done .p2-bay-cat-nums{color:#fde68a}
+
+/* Real Life lesson cards on profile */
+.p2-rl-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.p2-rl-card{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;--rl-color:#e63946;position:relative;overflow:hidden}
+.p2-rl-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--rl-color)}
+.p2-rl-card:hover{transform:translateX(3px);border-color:var(--rl-color);box-shadow:0 4px 12px -4px rgba(0,0,0,.1)}
+.p2-rl-ico{font-size:28px;line-height:1;flex-shrink:0;margin-left:4px}
+.p2-rl-info{flex:1;min-width:0}
+.p2-rl-title{font-size:13px;font-weight:800;color:var(--text1);line-height:1.2}
+.p2-rl-title-cn{font-size:11px;color:var(--text3);margin-top:2px}
+.p2-rl-status{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;padding-left:6px;border-left:1px solid var(--border)}
+.p2-rl-status-ico{font-size:16px;line-height:1}
+.p2-rl-status-lbl{font-size:10px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
 
 /* Welcome / onboarding card for new users */
 .p2-welcome{display:flex;gap:22px;align-items:center;background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);border:1.5px solid #7dd3fc}
@@ -2330,6 +2376,271 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cnq-ri-user{margin-bottom:4px}
 .cnq-ri-correct{color:var(--green);font-weight:600;margin-bottom:4px}
 .cnq-ri-note{margin-top:6px;font-style:italic}
+
+/* ═══════════════════════════════════════════════════════════════
+   REAL LIFE · COMIC STORYBOARD AESTHETIC
+   Bold, playful, graphic-novel feel. Kalam + Patrick Hand + Bangers.
+   =============================================================== */
+#page-reallife{font-family:'Kalam','Patrick Hand','Nunito',system-ui,sans-serif;color:#0a0a0a;padding:0}
+#page-reallife .rl-home,
+#page-reallife .rl-lesson,
+#page-reallife .rl-quiz,
+#page-reallife .rl-result{
+  max-width:820px;margin:0 auto;padding:20px 16px 80px;
+}
+#page-reallife{background:#fffbef;background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,.06) 1px,transparent 0);background-size:14px 14px}
+[data-theme="dark"] #page-reallife{background:#1a1814;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0)}
+
+/* ─── HERO on home ─── */
+.rl-hero{position:relative;background:#fff;border:4px solid #0a0a0a;padding:30px 28px 28px;box-shadow:8px 8px 0 #0a0a0a;border-radius:6px;margin-bottom:28px;overflow:hidden}
+[data-theme="dark"] .rl-hero{background:#2a2620;border-color:#fff;box-shadow:8px 8px 0 rgba(255,255,255,.7)}
+.rl-hero-decorate{position:absolute;font-family:'Bangers',Impact,sans-serif;font-size:44px;letter-spacing:.05em;color:#ffc933;-webkit-text-stroke:2px #0a0a0a;text-shadow:3px 3px 0 #0a0a0a;pointer-events:none;opacity:.85}
+[data-theme="dark"] .rl-hero-decorate{color:#ffd84d;-webkit-text-stroke:2px #0a0a0a}
+.rl-deco-left{top:14px;right:20px;transform:rotate(-14deg)}
+.rl-deco-right{bottom:18px;right:-8px;transform:rotate(8deg);color:#e63946;-webkit-text-stroke:2px #0a0a0a}
+.rl-hero-kicker{font-family:'Bangers',Impact,sans-serif;font-size:13px;letter-spacing:.15em;color:#e63946;margin-bottom:12px;display:inline-block;background:#ffc933;padding:4px 12px;border:2.5px solid #0a0a0a;transform:rotate(-1deg)}
+.rl-hero-title{font-family:'Bangers',Impact,sans-serif;font-size:64px;line-height:1;letter-spacing:.04em;color:#0a0a0a;margin-bottom:16px;text-shadow:4px 4px 0 #ffc933,6px 6px 0 #0a0a0a;transform:rotate(-2deg);display:inline-block}
+.rl-hero-title em{color:#e63946;font-style:italic;display:inline-block;transform:rotate(4deg)}
+[data-theme="dark"] .rl-hero-title{color:#fff;text-shadow:4px 4px 0 #e63946,6px 6px 0 #0a0a0a}
+.rl-hero-sub{font-family:'Kalam','Patrick Hand',cursive;font-size:17px;line-height:1.5;color:#2a2620;max-width:560px;margin-bottom:22px;font-weight:400}
+[data-theme="dark"] .rl-hero-sub{color:#e8e0d0}
+.rl-hero-stats{display:flex;gap:16px;flex-wrap:wrap}
+.rl-hero-stat{background:#fffdf4;border:2.5px solid #0a0a0a;padding:10px 18px;box-shadow:3px 3px 0 #0a0a0a;display:flex;flex-direction:column;align-items:center;min-width:88px}
+[data-theme="dark"] .rl-hero-stat{background:#3a352b;border-color:#fff;box-shadow:3px 3px 0 rgba(255,255,255,.7);color:#fff}
+.rl-stat-num{font-family:'Bangers',cursive;font-size:30px;line-height:1;color:#e63946;letter-spacing:.02em}
+[data-theme="dark"] .rl-stat-num{color:#ffb3a0}
+.rl-stat-lbl{font-family:'Bangers',cursive;font-size:11px;letter-spacing:.12em;color:#0a0a0a;margin-top:3px}
+[data-theme="dark"] .rl-stat-lbl{color:#fff}
+
+/* ─── Tier section headers ─── */
+.rl-tier-header{font-family:'Bangers',Impact,sans-serif;font-size:24px;letter-spacing:.06em;color:#0a0a0a;margin:28px 0 4px;display:flex;align-items:center;gap:10px}
+[data-theme="dark"] .rl-tier-header{color:#fff}
+.rl-tier-header.locked{color:#8a857a;opacity:.65}
+.rl-coming{background:#0a0a0a;color:#fffbef;font-size:11px;padding:3px 8px;letter-spacing:.1em;border:2px solid #0a0a0a;transform:rotate(-2deg);display:inline-block}
+.rl-tier-sub{font-family:'Patrick Hand',cursive;font-size:15px;color:#5c564c;margin-bottom:16px;font-style:italic}
+[data-theme="dark"] .rl-tier-sub{color:#bdb5a5}
+
+/* ─── Comic-cover lesson cards ─── */
+.rl-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-bottom:20px}
+.rl-card{position:relative;background:#fff;border:3.5px solid #0a0a0a;padding:20px 18px 16px;box-shadow:6px 6px 0 #0a0a0a;cursor:pointer;transition:transform .15s,box-shadow .15s;overflow:hidden;border-radius:4px;--card-color:#e63946}
+[data-theme="dark"] .rl-card{background:#2a2620;border-color:#fff;box-shadow:6px 6px 0 rgba(255,255,255,.7);color:#fff}
+.rl-card:hover{transform:translate(-2px,-2px) rotate(-.6deg);box-shadow:8px 8px 0 #0a0a0a}
+[data-theme="dark"] .rl-card:hover{box-shadow:8px 8px 0 rgba(255,255,255,.7)}
+.rl-card:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #0a0a0a}
+.rl-card::before{content:'';position:absolute;inset:0;background:var(--card-color);opacity:.04;pointer-events:none}
+.rl-card-tier{position:absolute;top:12px;left:-3px;font-family:'Bangers',cursive;font-size:11px;letter-spacing:.1em;color:#fff;padding:3px 10px 3px 8px;border:2px solid #0a0a0a;z-index:2}
+.rl-card-num{position:absolute;top:14px;right:14px;font-family:'Bangers',cursive;font-size:22px;color:#8a857a;opacity:.5;letter-spacing:.02em}
+.rl-card-ico{font-size:58px;line-height:1;margin:28px 0 12px;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.1))}
+.rl-card-title{font-family:'Bangers',Impact,sans-serif;font-size:30px;letter-spacing:.03em;color:#0a0a0a;line-height:1;margin-bottom:4px;text-shadow:2px 2px 0 var(--card-color)}
+[data-theme="dark"] .rl-card-title{color:#fff}
+.rl-card-title-cn{font-family:'Kalam',cursive;font-size:14px;font-weight:700;color:#5c564c;margin-bottom:8px}
+[data-theme="dark"] .rl-card-title-cn{color:#bdb5a5}
+.rl-card-tag{font-family:'Patrick Hand',cursive;font-size:15px;color:#2a2620;font-style:italic;margin-bottom:14px;line-height:1.3;min-height:20px}
+[data-theme="dark"] .rl-card-tag{color:#e8e0d0}
+.rl-card-meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-family:'Patrick Hand',cursive;font-size:12px;color:#5c564c;margin-bottom:12px}
+[data-theme="dark"] .rl-card-meta{color:#a8a090}
+.rl-card-cta{font-family:'Bangers',cursive;font-size:15px;letter-spacing:.1em;color:var(--card-color);padding-top:10px;border-top:2.5px dashed #0a0a0a;display:flex;justify-content:space-between;align-items:center}
+[data-theme="dark"] .rl-card-cta{border-top-color:#888}
+.rl-card-cta::after{content:'→';font-family:'Bangers',cursive;font-size:22px;color:#0a0a0a}
+[data-theme="dark"] .rl-card-cta::after{color:#fff}
+.rl-card-stamp{position:absolute;top:14px;right:14px;background:#2d8659;color:#fff;padding:4px 8px 6px;font-family:'Bangers',cursive;font-size:12px;letter-spacing:.1em;line-height:1.1;text-align:center;border:2.5px solid #0a0a0a;transform:rotate(10deg);box-shadow:2px 2px 0 #0a0a0a;z-index:3}
+.rl-card-stamp.mastered{background:#2d8659}
+.rl-card-stamp.due{background:#e63946}
+.rl-card-stamp.inprogress{background:#3d6fc7}
+.rl-card-stamp span{font-size:9px;opacity:.9;font-weight:400}
+.rl-card.mastered{background:linear-gradient(135deg,#fff,#fef9e0)}
+[data-theme="dark"] .rl-card.mastered{background:linear-gradient(135deg,#2a2620,#3d3528)}
+
+/* ─── Lesson view ─── */
+.rl-back{background:transparent;border:2px solid #0a0a0a;padding:6px 14px;font-family:'Bangers',cursive;font-size:14px;letter-spacing:.08em;cursor:pointer;margin-bottom:14px;box-shadow:3px 3px 0 #0a0a0a;transition:all .12s;color:#0a0a0a;font-family:inherit;font-weight:700}
+[data-theme="dark"] .rl-back{color:#fff;border-color:#fff;box-shadow:3px 3px 0 rgba(255,255,255,.6);background:transparent}
+.rl-back:hover{background:#0a0a0a;color:#fff;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #0a0a0a}
+
+.rl-mastery-banner{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:20px;border:3px solid #0a0a0a;box-shadow:4px 4px 0 #0a0a0a;border-radius:4px}
+.rl-mastery-banner.mastered{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.rl-mastery-banner.due{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+.rl-mb-ico{font-size:34px;line-height:1}
+.rl-mb-title{font-family:'Bangers',cursive;font-size:20px;color:#0a0a0a;letter-spacing:.04em}
+.rl-mb-sub{font-family:'Patrick Hand',cursive;font-size:14px;color:#5c564c;margin-top:2px}
+
+.rl-lesson-head{text-align:center;padding:28px 20px;background:#fff;border:4px solid #0a0a0a;box-shadow:6px 6px 0 #0a0a0a;margin-bottom:22px;position:relative;overflow:hidden;--card-color:#e63946}
+[data-theme="dark"] .rl-lesson-head{background:#2a2620;border-color:#fff;box-shadow:6px 6px 0 rgba(255,255,255,.7);color:#fff}
+.rl-lesson-head::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(0,0,0,.025) 12px,rgba(0,0,0,.025) 14px);pointer-events:none}
+.rl-lesson-title{font-family:'Bangers',Impact,sans-serif;font-size:54px;letter-spacing:.04em;color:#0a0a0a;line-height:1;margin:0 0 8px;text-shadow:3px 3px 0 var(--card-color),5px 5px 0 #0a0a0a;-webkit-text-stroke:1px #0a0a0a;transform:rotate(-1.5deg);display:inline-block}
+[data-theme="dark"] .rl-lesson-title{color:#fff;text-shadow:3px 3px 0 var(--card-color),5px 5px 0 #0a0a0a}
+.rl-lesson-sub{font-family:'Patrick Hand',cursive;font-size:18px;color:#2a2620;font-style:italic;margin-bottom:14px}
+[data-theme="dark"] .rl-lesson-sub{color:#e8e0d0}
+.rl-lesson-meta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.rl-meta-chip{font-family:'Bangers',cursive;font-size:12px;letter-spacing:.1em;background:#fff;color:#0a0a0a;border:2px solid #0a0a0a;padding:3px 10px;box-shadow:2px 2px 0 #0a0a0a}
+.rl-meta-chip.tier1{background:#ffc933}
+
+.rl-situation{background:#fff8e1;border:3px solid #0a0a0a;padding:16px 20px;margin-bottom:22px;position:relative;box-shadow:4px 4px 0 #0a0a0a}
+[data-theme="dark"] .rl-situation{background:#3a352b;border-color:#fff;color:#fff;box-shadow:4px 4px 0 rgba(255,255,255,.7)}
+.rl-situation-label{font-family:'Bangers',cursive;font-size:14px;letter-spacing:.14em;color:#e63946;margin-bottom:4px;background:#ffc933;display:inline-block;padding:2px 10px;border:2px solid #0a0a0a;transform:rotate(-1deg)}
+.rl-situation-en{font-family:'Kalam',cursive;font-size:16px;font-weight:700;color:#0a0a0a;margin-bottom:4px;margin-top:8px}
+[data-theme="dark"] .rl-situation-en{color:#fff}
+.rl-situation-cn{font-family:'Patrick Hand',cursive;font-size:14px;color:#5c564c}
+[data-theme="dark"] .rl-situation-cn{color:#bdb5a5}
+
+/* ─── Comic panels ─── */
+.rl-panels{display:flex;flex-direction:column;gap:18px;margin-bottom:26px}
+.rl-panel{background:#fff;border:3px solid #0a0a0a;padding:22px 24px 20px;position:relative;box-shadow:6px 6px 0 #0a0a0a;border-radius:4px}
+[data-theme="dark"] .rl-panel{background:#2a2620;border-color:#fff;color:#fff;box-shadow:6px 6px 0 rgba(255,255,255,.7)}
+.rl-panel-num{position:absolute;top:-14px;left:16px;background:#ffc933;border:3px solid #0a0a0a;padding:2px 14px;font-family:'Bangers',cursive;font-size:18px;letter-spacing:.08em;color:#0a0a0a}
+.rl-panel-scene{font-family:'Kalam',cursive;font-size:16px;font-weight:700;color:#0a0a0a;line-height:1.45;margin:6px 0 4px}
+[data-theme="dark"] .rl-panel-scene{color:#fff}
+.rl-panel-scene-cn{font-family:'Patrick Hand',cursive;font-size:14px;color:#5c564c;margin-bottom:14px;line-height:1.4}
+[data-theme="dark"] .rl-panel-scene-cn{color:#bdb5a5}
+.rl-tape{position:absolute;width:80px;height:18px;background:rgba(255,201,51,.55);border:1px dashed rgba(0,0,0,.15);top:-14px;z-index:1}
+.rl-tape-l{left:38%;transform:rotate(-4deg)}
+.rl-tape-r{right:38%;transform:rotate(3deg)}
+
+.rl-sfx{position:absolute;padding:6px 14px;border:3px solid #0a0a0a;box-shadow:3px 3px 0 #0a0a0a;font-family:'Bangers',cursive;font-size:22px;letter-spacing:.06em;transform:rotate(-5deg);top:-8px;right:-10px;z-index:2}
+.rl-sfx.sfx-yellow{background:#ffc933;color:#0a0a0a}
+.rl-sfx.sfx-red{background:#e63946;color:#fff}
+.rl-sfx.sfx-green{background:#2d8659;color:#fff}
+
+/* ─── Speech bubbles ─── */
+.rl-bubbles{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.rl-bubble{position:relative;padding:14px 16px 12px;max-width:88%;border:3px solid #0a0a0a;background:#fff;border-radius:18px;box-shadow:3px 3px 0 #0a0a0a;font-family:'Kalam',cursive}
+.rl-bubble.from-them{margin-left:0;margin-right:auto;background:#fff}
+.rl-bubble.from-you{margin-left:auto;margin-right:0;background:#ffc933}
+.rl-bubble::after{content:'';position:absolute;bottom:-3px;width:18px;height:18px;background:inherit;border-right:3px solid #0a0a0a;border-bottom:3px solid #0a0a0a}
+.rl-bubble.from-them::after{left:32px;transform:translateY(50%) rotate(135deg);background:#fff}
+.rl-bubble.from-you::after{right:32px;transform:translateY(50%) rotate(45deg)}
+.rl-bubble-tag{font-family:'Bangers',cursive;font-size:11px;letter-spacing:.1em;position:absolute;top:-11px;padding:2px 8px;border:2px solid #0a0a0a;background:#fff}
+.rl-bubble.from-them .rl-bubble-tag{left:14px;color:#e63946}
+.rl-bubble.from-you .rl-bubble-tag{right:14px;color:#3d6fc7;background:#fff}
+.rl-bubble-en{font-size:16px;font-weight:700;color:#0a0a0a;line-height:1.35;padding-right:26px}
+.rl-bubble-cn{font-family:'Patrick Hand',cursive;font-size:13px;color:#5c564c;font-weight:400;margin-top:6px;line-height:1.4;padding-right:26px}
+.rl-bubble-play{position:absolute;top:8px;right:8px;background:transparent;border:2px solid #0a0a0a;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:12px;padding:0;display:flex;align-items:center;justify-content:center;transition:all .12s}
+.rl-bubble-play:hover{background:#0a0a0a;color:#fff}
+.rl-key{background:linear-gradient(180deg,transparent 50%,#ffc933 50%);padding:0 3px;font-weight:700}
+.rl-bubble.from-you .rl-key{background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.15) 50%)}
+
+/* ─── Scrapbook sections (Curveballs + Cheat Sheet) ─── */
+.rl-scrapbook{background:#fff;border:3px solid #0a0a0a;padding:20px 22px;margin-bottom:18px;box-shadow:6px 6px 0 #0a0a0a;position:relative;border-radius:4px}
+[data-theme="dark"] .rl-scrapbook{background:#2a2620;border-color:#fff;color:#fff;box-shadow:6px 6px 0 rgba(255,255,255,.7)}
+.rl-scrapbook-hd{font-family:'Bangers',cursive;font-size:24px;letter-spacing:.06em;margin-bottom:4px;display:inline-block;padding:4px 14px;background:#e63946;color:#fff;transform:rotate(-1deg);border:2.5px solid #0a0a0a;box-shadow:3px 3px 0 #0a0a0a}
+.rl-scrapbook-hd.blue{background:#3d6fc7}
+.rl-scrapbook-sub{font-family:'Patrick Hand',cursive;font-size:15px;color:#5c564c;margin-bottom:14px;font-style:italic}
+[data-theme="dark"] .rl-scrapbook-sub{color:#bdb5a5}
+.rl-whatif-stack{display:flex;flex-direction:column;gap:10px}
+.rl-whatif{padding:14px 16px;border:2.5px solid #0a0a0a;background:#fffdf4;border-radius:4px}
+[data-theme="dark"] .rl-whatif{background:#3a352b;border-color:#888}
+.rl-whatif-q{font-family:'Kalam',cursive;font-size:15px;font-weight:700;color:#0a0a0a;margin-bottom:6px}
+[data-theme="dark"] .rl-whatif-q{color:#fff}
+.rl-whatif-q::before{content:'❓ ';color:#e63946}
+.rl-whatif-a{font-family:'Kalam',cursive;font-size:14.5px;font-weight:700;color:#3d6fc7;line-height:1.4}
+[data-theme="dark"] .rl-whatif-a{color:#8dc2ff}
+.rl-whatif-cn{font-family:'Patrick Hand',cursive;font-size:13px;color:#5c564c;margin-top:3px}
+[data-theme="dark"] .rl-whatif-cn{color:#a8a090}
+
+.rl-cheat{background:repeating-linear-gradient(0deg,#f7f2de 0,#f7f2de 22px,#fffbef 22px,#fffbef 24px)}
+[data-theme="dark"] .rl-cheat{background:repeating-linear-gradient(0deg,#2a2620 0,#2a2620 22px,#322e26 22px,#322e26 24px)}
+.rl-cheat-list{display:flex;flex-direction:column}
+.rl-cheat-row{display:flex;gap:14px;align-items:baseline;padding:8px 0;border-bottom:1.5px dashed rgba(0,0,0,.2)}
+[data-theme="dark"] .rl-cheat-row{border-bottom-color:rgba(255,255,255,.2)}
+.rl-cheat-row:last-child{border-bottom:0}
+.rl-cheat-sit{font-family:'Bangers',cursive;font-size:13px;letter-spacing:.08em;color:#e63946;min-width:120px;flex-shrink:0}
+.rl-cheat-phr{font-family:'Kalam',cursive;font-size:16px;font-weight:700;color:#0a0a0a;line-height:1.3}
+[data-theme="dark"] .rl-cheat-phr{color:#fff}
+
+/* ─── Big CTA button ─── */
+.rl-cta-big{display:block;width:100%;background:#e63946;color:#fff;border:3px solid #0a0a0a;padding:14px 28px;font-family:'Bangers',cursive;font-size:26px;letter-spacing:.08em;cursor:pointer;box-shadow:5px 5px 0 #0a0a0a;margin-top:16px;transition:all .12s}
+.rl-cta-big:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 #0a0a0a}
+.rl-cta-big:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #0a0a0a}
+
+/* ─── Quiz view ─── */
+.rl-quiz-head{text-align:center;margin-bottom:20px}
+.rl-quiz-title{font-family:'Bangers',cursive;font-size:38px;letter-spacing:.04em;color:#0a0a0a;margin-bottom:4px;text-shadow:2px 2px 0 #ffc933,4px 4px 0 #0a0a0a;transform:rotate(-1deg);display:inline-block}
+[data-theme="dark"] .rl-quiz-title{color:#fff}
+.rl-quiz-sub{font-family:'Patrick Hand',cursive;font-size:16px;color:#5c564c;margin-bottom:10px;font-style:italic}
+[data-theme="dark"] .rl-quiz-sub{color:#bdb5a5}
+.rl-qprog{display:flex;gap:6px;justify-content:center;margin-top:4px}
+.rl-qpd{width:28px;height:8px;background:#fff;border:2px solid #0a0a0a;border-radius:2px}
+.rl-qpd.active{background:#ffc933}
+.rl-qpd.done{background:#2d8659}
+[data-theme="dark"] .rl-qpd{background:#2a2620}
+.rl-quiz-card{background:#fff;border:3px solid #0a0a0a;padding:24px;box-shadow:6px 6px 0 #0a0a0a;border-radius:4px}
+[data-theme="dark"] .rl-quiz-card{background:#2a2620;border-color:#fff;color:#fff;box-shadow:6px 6px 0 rgba(255,255,255,.7)}
+.rl-quiz-q{font-family:'Kalam',cursive;font-size:20px;font-weight:700;color:#0a0a0a;line-height:1.4;margin-bottom:18px;padding:14px 16px;background:#fff8e1;border:2.5px solid #0a0a0a;border-radius:14px;position:relative}
+[data-theme="dark"] .rl-quiz-q{background:#3a352b;color:#fff}
+.rl-quiz-q::before{content:'';position:absolute;bottom:-3px;left:32px;width:16px;height:16px;background:inherit;border-right:2.5px solid #0a0a0a;border-bottom:2.5px solid #0a0a0a;transform:translateY(50%) rotate(135deg)}
+.rl-quiz-opts{display:grid;gap:8px}
+.rl-qopt{padding:14px 18px;background:#fff;border:2.5px solid #0a0a0a;font-family:'Kalam',cursive;font-size:15px;font-weight:700;color:#0a0a0a;text-align:left;cursor:pointer;transition:all .14s;box-shadow:3px 3px 0 #0a0a0a;border-radius:4px;position:relative}
+[data-theme="dark"] .rl-qopt{background:#322e26;color:#fff;border-color:#aaa}
+.rl-qopt:hover:not(:disabled){background:#ffc933;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #0a0a0a}
+.rl-qopt:disabled{cursor:default}
+.rl-qopt.correct{background:#d1fae5;border-color:#059669;color:#064e3b}
+.rl-qopt.correct::before{content:'✅ ';margin-right:6px;font-size:17px}
+.rl-qopt.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d;animation:rlWrongShake .42s cubic-bezier(.36,.07,.19,.97) both}
+.rl-qopt.wrong::before{content:'❌ ';margin-right:6px;font-size:17px}
+@keyframes rlWrongShake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(3px)}30%,50%,70%{transform:translateX(-5px)}40%,60%{transform:translateX(5px)}}
+.rl-qopt.correct.correct-reveal{background:linear-gradient(135deg,#a7f3d0,#6ee7b7);border:3px solid #059669;color:#064e3b;font-weight:800;padding:14px 100px 14px 52px;box-shadow:4px 4px 0 #059669;animation:rlCorrectPulse 1.8s ease-in-out infinite}
+@keyframes rlCorrectPulse{0%,100%{box-shadow:4px 4px 0 #059669,0 0 0 4px rgba(16,185,129,.2)}50%{box-shadow:4px 4px 0 #059669,0 0 0 7px rgba(16,185,129,.12)}}
+.rl-qopt.correct.correct-reveal::before{content:'👉✅';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;letter-spacing:-2px;margin-right:0}
+.rl-qopt.correct.correct-reveal::after{content:'正确答案';position:absolute;right:12px;top:50%;transform:translateY(-50%);background:#059669;color:#fff;padding:3px 10px;border-radius:4px;font-family:'Bangers',cursive;font-size:11px;letter-spacing:.08em;border:2px solid #0a0a0a}
+.rl-quiz-exp{margin-top:14px;padding:12px 16px;background:rgba(61,111,199,.08);border:2.5px dashed #3d6fc7;border-radius:4px;font-family:'Patrick Hand',cursive;font-size:15px;color:#0a0a0a;line-height:1.55;display:none}
+[data-theme="dark"] .rl-quiz-exp{color:#fff;background:rgba(61,111,199,.12)}
+.rl-quiz-exp.show{display:block;animation:rlExpFade .3s ease-out}
+@keyframes rlExpFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.rl-quiz-next{margin-top:14px;width:100%;background:#3d6fc7;color:#fff;border:3px solid #0a0a0a;padding:12px 24px;font-family:'Bangers',cursive;font-size:22px;letter-spacing:.08em;cursor:pointer;box-shadow:4px 4px 0 #0a0a0a;display:none;transition:all .12s}
+.rl-quiz-next.show{display:block;animation:rlNextIn .3s ease-out}
+@keyframes rlNextIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.rl-quiz-next:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #0a0a0a}
+.rl-quiz-next:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #0a0a0a}
+.rl-qnext-attn{animation:rlQNextAttn .85s cubic-bezier(.4,0,.2,1)}
+@keyframes rlQNextAttn{0%{box-shadow:4px 4px 0 #0a0a0a,0 0 0 0 rgba(61,111,199,.55)}50%{box-shadow:4px 4px 0 #0a0a0a,0 0 0 10px rgba(61,111,199,.18);transform:translate(-2px,-2px)}100%{box-shadow:4px 4px 0 #0a0a0a,0 0 0 0 rgba(61,111,199,0)}}
+
+/* ─── Result view ─── */
+.rl-result{max-width:640px}
+.rl-result-card{background:#fff;border:4px solid #0a0a0a;padding:40px 28px 30px;text-align:center;box-shadow:8px 8px 0 #0a0a0a;position:relative;overflow:hidden;border-radius:4px}
+[data-theme="dark"] .rl-result-card{background:#2a2620;border-color:#fff;color:#fff;box-shadow:8px 8px 0 rgba(255,255,255,.7)}
+.rl-result-card.mastered{background:linear-gradient(135deg,#fef3c7,#fde68a 50%,#fbbf24);border-color:#0a0a0a}
+.rl-result-card.great{background:linear-gradient(135deg,#dbeafe,#bfdbfe)}
+.rl-result-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.rl-conf{position:absolute;font-size:24px;animation:rlConf 1.8s ease-out both;opacity:0}
+.rl-conf.c1{top:10%;left:12%;animation-delay:.05s}
+.rl-conf.c2{top:18%;right:14%;animation-delay:.18s}
+.rl-conf.c3{bottom:30%;left:14%;animation-delay:.3s}
+.rl-conf.c4{bottom:20%;right:12%;animation-delay:.42s}
+.rl-conf.c5{top:40%;left:44%;animation-delay:.54s}
+.rl-conf.c6{top:55%;right:44%;animation-delay:.66s}
+@keyframes rlConf{0%{opacity:0;transform:translateY(-12px) scale(.6) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(60px) scale(1.2) rotate(200deg)}}
+.rl-result-sfx{position:absolute;top:20px;right:-10px;background:#2d8659;color:#fff;padding:8px 18px;font-family:'Bangers',cursive;font-size:24px;letter-spacing:.08em;border:3px solid #0a0a0a;box-shadow:3px 3px 0 #0a0a0a;transform:rotate(10deg);z-index:2}
+.rl-result-badge{font-size:84px;line-height:1;margin-bottom:12px;filter:drop-shadow(4px 4px 0 rgba(245,158,11,.3));animation:rlBadgePulse 1.6s ease-in-out infinite;position:relative}
+@keyframes rlBadgePulse{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.1) rotate(-4deg)}}
+.rl-result-title{font-family:'Bangers',Impact,sans-serif;font-size:46px;letter-spacing:.06em;color:#0a0a0a;line-height:1;margin-bottom:10px;text-shadow:3px 3px 0 #ffc933,5px 5px 0 #0a0a0a;transform:rotate(-2deg);display:inline-block;position:relative}
+.rl-result-card.great .rl-result-title{text-shadow:3px 3px 0 #3d6fc7,5px 5px 0 #0a0a0a}
+[data-theme="dark"] .rl-result-title{color:#fff}
+.rl-result-score{font-family:'Bangers',cursive;font-size:28px;letter-spacing:.05em;color:#e63946;margin-bottom:14px;position:relative}
+.rl-result-sub{font-family:'Kalam',cursive;font-size:16px;font-weight:400;line-height:1.6;color:#0a0a0a;margin-bottom:20px;max-width:440px;margin-left:auto;margin-right:auto;position:relative}
+.rl-result-sub b{font-weight:700;background:linear-gradient(180deg,transparent 55%,rgba(245,158,11,.4) 55%);padding:0 3px}
+[data-theme="dark"] .rl-result-sub{color:#fff}
+.rl-result-rewards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;position:relative}
+.rl-reward{background:#fff;border:3px solid #0a0a0a;padding:12px 6px;box-shadow:3px 3px 0 #0a0a0a;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:4px}
+[data-theme="dark"] .rl-reward{background:#322e26;border-color:#fff;box-shadow:3px 3px 0 rgba(255,255,255,.7)}
+.rl-reward-ico{font-size:24px;line-height:1}
+.rl-reward-val{font-family:'Bangers',cursive;font-size:22px;color:#e63946;letter-spacing:.02em;line-height:1}
+.rl-reward-lbl{font-family:'Bangers',cursive;font-size:10px;letter-spacing:.1em;color:#5c564c;margin-top:3px}
+[data-theme="dark"] .rl-reward-lbl{color:#bdb5a5}
+.rl-result-actions{display:flex;flex-direction:column;gap:10px;position:relative}
+.rl-cta-ghost{background:transparent;border:2.5px solid #0a0a0a;padding:10px 20px;font-family:'Bangers',cursive;font-size:14px;letter-spacing:.08em;cursor:pointer;color:#0a0a0a;transition:all .12s;font-weight:700}
+[data-theme="dark"] .rl-cta-ghost{color:#fff;border-color:#fff}
+.rl-cta-ghost:hover{background:#0a0a0a;color:#fff}
+
+@media(max-width:640px){
+  .rl-hero-title{font-size:44px}
+  .rl-lesson-title{font-size:40px}
+  .rl-result-title{font-size:34px}
+  .rl-card-ico{font-size:48px}
+  .rl-cards{grid-template-columns:1fr}
+  .rl-hero-stats{gap:8px}
+  .rl-hero-stat{min-width:70px;padding:8px 12px}
+  .rl-stat-num{font-size:24px}
+}
+
 </style>
 </head>
 <body>
@@ -2539,6 +2850,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- HERO LANDING PAGE -->
 <div class="hero-landing" id="hero-landing">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap">
   <div class="hero-top">
     <div class="hero-inner">
       <div class="hero-left">
@@ -2563,6 +2875,10 @@ document.addEventListener('DOMContentLoaded', function(){
         <div class="hero-nav-item" onclick="ddGo('bayarea')">
           <div class="hni-ico">💼</div>
           <div><div class="hni-txt">Workplace 职场英语</div><div class="hni-sub">硅谷·商务沟通</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('reallife')">
+          <div class="hni-ico">☕</div>
+          <div><div class="hni-txt">Real Life 生活对话</div><div class="hni-sub">咖啡店·加油站·日常场景</div></div>
         </div>
         <div class="hero-nav-item" onclick="ddGo('plumber')">
           <div class="hni-ico">🔧</div>
@@ -2664,6 +2980,16 @@ document.addEventListener('DOMContentLoaded', function(){
         <span class="gc-tag">Academic</span>
       </div>
     </div>
+  </div>
+
+  <!-- 各模块学习进度 · Module Progress on Home Page -->
+  <div class="hero-cards hero-mod-progress-wrap">
+    <div class="hero-section-label">
+      <span class="lbl-num">02 —</span>
+      <span class="lbl-txt">Your Progress</span>
+      <span class="lbl-line"></span>
+    </div>
+    <div class="hero-mod-progress" id="hero-mod-progress"><!-- injected by JS --></div>
   </div>
 
   <!-- Ocean Scene -->
@@ -2995,6 +3321,24 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 
 
+<!-- REAL LIFE 真实生活对话 (Bay Area-style layout) -->
+<div class="page" id="page-reallife">
+  <div class="bay-hero rl-hero-banner">
+    <h2>☕ Real Life English · 真实生活对话</h2>
+    <p>真实美式日常对话 · 咖啡店 · 快餐店 · 超市 · 5 个场景从零教起<br>Daily American scenarios · Coffee · Fast food · Shopping · 5 lessons to start</p>
+    <div class="bay-chips">
+      <span class="bay-chip">⏰ Daily Errands 日常</span>
+      <span class="bay-chip">🍽️ Food & Drink 吃喝</span>
+      <span class="bay-chip">🛍️ Shopping 购物</span>
+      <span class="bay-chip">🎬 Dialogue 情景对话</span>
+    </div>
+  </div>
+  <div id="rl-cat-row"></div>
+  <div class="dlg-week-row" id="rl-week-row"></div>
+  <div id="rl-main"><!-- Injected by JS --></div>
+</div>
+
+
 <!-- MONTHLY VOCABULARY -->
 <div class="page" id="page-monthly">
   <div class="monthly-hero">
@@ -3200,7 +3544,7 @@ if (sb) {
 // `caprep_s1`) and profile-namespaced keys (e.g. `p_default_caprep_s1`).
 var SYNC_KEYWORDS = [
   'caprep','plmb','plmbq','plmbexam',
-  'vocab','srs','idiom','cnen','monthly','bayarea','learn',
+  'vocab','srs','idiom','cnen','monthly','bayarea','learn','reallife',
   'streak','daily_missions','day_stats','study_daily','active_time',
   'pts','points','quiz','answer','score','lesson','passage','dialogue','grammar',
   'completed','achievement','earned_badges','badges_seen','join_date',
@@ -7057,6 +7401,320 @@ function closeSplashGoTo(section) {
 }
 
 // ═══════════════════════════════════════════════════════
+// REAL LIFE 真实生活对话 — Everyday situations, Bay Area-style
+// Uses identical shape to DLG_DATA so we can reuse the Bay Area renderer.
+// ═══════════════════════════════════════════════════════
+var RL_DATA = [
+// ────────────────────────────────
+// R1: Coffee Shop · 咖啡店点单
+// ────────────────────────────────
+{id:'r1',cat:'FOOD',cc:'#d97757',
+ title:'Coffee Shop',titleCN:'咖啡店点单',
+ scene:"Friday morning · Downtown Starbucks · 3 people in line ahead of you",
+ sceneCN:'周五早上，市中心星巴克，前面排了3个人',
+ tip:'💡 Ordering coffee is the #1 confidence booster. These exact phrases work at ANY US coffee shop — Starbucks, Peet\'s, Philz, your local café.',
+ chars:{Barista:['👩🏻','#d97757'],You:['🙂','#3b82f6']},
+ lines:[
+  {who:'Barista',en:"Hi, what can I get started for you?",cn:'你好，需要点什么？',key:['what can I get started for you']},
+  {who:'You',en:"Hi! Can I get a medium latte, please?",cn:'你好！一杯中杯拿铁，谢谢。',key:['Can I get','medium']},
+  {who:'Barista',en:"For here or to go?",cn:'堂食还是带走？',key:['For here or to go']},
+  {who:'You',en:"To go, please.",cn:'带走，谢谢。',key:['To go']},
+  {who:'Barista',en:"Any room for cream?",cn:'留空间加奶油吗？',key:['room for cream']},
+  {who:'You',en:"Yeah, a little bit please.",cn:'留一点点空间，谢谢。',key:['a little bit']},
+  {who:'Barista',en:"What name should I put on the cup?",cn:'杯子上写什么名字？',key:['What name']},
+  {who:'You',en:"Aaron. A-A-R-O-N.",cn:'Aaron，A-A-R-O-N。（拼给她听最保险）',key:['A-A-R-O-N']},
+  {who:'Barista',en:"Perfect. That\'ll be $5.65. Tap or insert your card when ready.",cn:'好的，5.65美元，刷卡或插卡付款。',key:['Tap or insert']},
+  {who:'You',en:"Thanks so much — have a good one!",cn:'非常感谢，祝你愉快！',key:['have a good one']}
+ ],
+ vocab:[
+  {ph:'what can I get started for you',cn:'你要点什么（地道的点单用语）',lvl:'Food Service',ex:"The barista said 'what can I get started for you?' and I froze.",exCN:'店员问"要点什么"，我当时愣住了。'},
+  {ph:'For here or to go',cn:'堂食还是带走',lvl:'Food Service',ex:"She asked 'for here or to go?' so I said 'to go, please'.",exCN:'她问"堂食还是带走"，我说"带走，谢谢"。'},
+  {ph:'room for cream',cn:'留空间加奶油',lvl:'Coffee Shop',ex:"If you take cream, say 'leave room for cream'.",exCN:'如果你加奶油，就说"留空间加奶油"。'},
+  {ph:'tap or insert',cn:'刷卡或插卡',lvl:'Payment',ex:"You can tap or insert your card at the reader.",exCN:'读卡器上可以刷卡或插卡。'},
+  {ph:'have a good one',cn:'祝你愉快（最地道的告别语）',lvl:'Casual',ex:"'Thanks, have a good one!' is warmer than just 'goodbye'.",exCN:'"Thanks, have a good one!" 比 "goodbye" 更温暖自然。'},
+  {ph:"I'll take",cn:'我要（点餐时用）',lvl:'Food Service',ex:"I'll take a medium iced americano.",exCN:'我要一杯中杯冰美式。'},
+  {ph:'medium / large / small',cn:'中杯 / 大杯 / 小杯',lvl:'Coffee Shop',ex:"Starbucks sizes are tall (small), grande (medium), venti (large).",exCN:'星巴克尺寸：tall（小）、grande（中）、venti（大）。'},
+  {ph:'whipped cream',cn:'奶油',lvl:'Coffee Shop',ex:"'Would you like whipped cream on top?' 'No thanks.'",exCN:'"要加奶油吗？" "不用，谢谢。"'}
+ ],
+ match:[
+  {en:'For here or to go',cn:'堂食还是带走'},
+  {en:'room for cream',cn:'留空间加奶油'},
+  {en:'what can I get started for you',cn:'你要点什么'},
+  {en:'tap or insert',cn:'刷卡或插卡'},
+  {en:'have a good one',cn:'祝你愉快'},
+  {en:"I'll take",cn:'我要（点餐）'},
+  {en:'whipped cream',cn:'奶油（打发的）'},
+  {en:'medium',cn:'中杯'}
+ ],
+ quiz:[
+  {q:'Barista says "For here or to go?" — what\'s she asking?',
+   opts:['Are you eating in or taking out','Do you want hot or cold','What size do you want','Do you want sugar'],ci:0,
+   exp:'"For here" = eat/drink in the shop. "To go" = take away. 堂食还是带走。'},
+  {q:'You want to add just a little space for cream. Best phrase:',
+   opts:['"Give me less coffee."','"Make it half."','"Yeah, a little bit please — room for cream."','"Not so full."'],ci:2,
+   exp:'"Room for cream" is the exact US phrase. "A little bit" = 一点点。'},
+  {q:'Best way to respond to "What name should I put on the cup?"',
+   opts:['"I don\'t have name."','"Why do you need it?"','"Aaron. A-A-R-O-N."','"My full name is Mr. Liu."'],ci:2,
+   exp:'拼出字母最保险。First name only is standard; spelling it avoids mistakes.'},
+  {q:'Natural ending phrase after paying:',
+   opts:['"Bye-bye sir."','"Thanks so much — have a good one!"','"Thank you very much for your service."','"See you next time."'],ci:1,
+   exp:'"Have a good one" = classic warm American casual. 最地道的告别用法。'},
+  {q:'The reader shows "$5.65". What does "Tap or insert your card" mean?',
+   opts:['Only cash accepted','You can tap your card or insert it','You must swipe','Card only works through app'],ci:1,
+   exp:'"Tap" = contactless. "Insert" = chip reader. Both work at any US terminal. 刷卡或插卡都行。'}
+ ]
+},
+// ────────────────────────────────
+// R2: Drive-Thru · 快餐得来速
+// ────────────────────────────────
+{id:'r2',cat:'FOOD',cc:'#ef4444',
+ title:'Drive-Thru',titleCN:'快餐得来速',
+ scene:"Saturday lunch · McDonald\'s drive-thru · scratchy speaker",
+ sceneCN:'周六午餐，麦当劳得来速，喇叭音质不好',
+ tip:'💡 Drive-thru speakers are notoriously scratchy. Speak clearly and confidently — everyone, including native speakers, says "can you repeat that?" all the time.',
+ chars:{Speaker:['📢','#ef4444'],You:['🙂','#3b82f6']},
+ lines:[
+  {who:'Speaker',en:"Welcome to McDonald\'s, what can I get for you?",cn:'欢迎光临麦当劳，需要点什么？',key:['what can I get for you']},
+  {who:'You',en:"Hi! Can I get a Big Mac meal, please?",cn:'你好，一份巨无霸套餐，谢谢！',key:['Big Mac meal']},
+  {who:'Speaker',en:"What drink would you like with that?",cn:'配什么饮料？',key:['What drink']},
+  {who:'You',en:"Coke, please. Medium.",cn:'可乐，中杯。',key:['Coke','Medium']},
+  {who:'Speaker',en:"Would you like to make it a large for a dollar more?",cn:'加一美元升级大杯吗？',key:['make it a large']},
+  {who:'You',en:"No thanks, medium is fine.",cn:'不用了，中杯就好。',key:['No thanks']},
+  {who:'Speaker',en:"Anything else for you today?",cn:'还要别的吗？',key:['Anything else']},
+  {who:'You',en:"No, that\'ll be all. Thanks!",cn:'就这些，谢谢！',key:["that'll be all"]},
+  {who:'Speaker',en:"Your total is $9.47. Please pull up to window 1.",cn:'一共9.47美元，请到第一个窗口。',key:['pull up to']},
+  {who:'You',en:"Perfect, thanks!",cn:'好的，谢谢！',key:['Perfect']}
+ ],
+ vocab:[
+  {ph:'meal / combo',cn:'套餐（汉堡+薯条+饮料）',lvl:'Fast Food',ex:"I\'ll get the #3 meal, please.",exCN:'我要3号套餐。'},
+  {ph:'make it a large',cn:'升级大杯',lvl:'Upsell',ex:"'Want to make it a large for a dollar?' 'No thanks.'",exCN:'"加一美元升级大杯？" "不用了。"'},
+  {ph:"that'll be all",cn:'就这些（结束点餐）',lvl:'Food Service',ex:"'Anything else?' 'No, that\'ll be all.'",exCN:'"还要别的吗？" "就这些。"'},
+  {ph:'pull up to',cn:'开到...前面',lvl:'Drive-Thru',ex:"Pull up to window 2 for your food.",exCN:'开到2号窗口取餐。'},
+  {ph:'no thanks',cn:'不用了，谢谢',lvl:'Casual',ex:"'Fries with that?' 'No thanks.'",exCN:'"要薯条吗？" "不用了。"'},
+  {ph:'fries',cn:'薯条（美式）',lvl:'Fast Food',ex:"Can I get fries with that?",exCN:'能加份薯条吗？'},
+  {ph:'to go',cn:'带走（drive-thru默认就是to go）',lvl:'Food Service',ex:"All drive-thru orders are to go.",exCN:'所有得来速订单都是带走的。'},
+  {ph:'receipt',cn:'收据',lvl:'Payment',ex:"Would you like your receipt? No thanks.",exCN:'要小票吗？不用了，谢谢。'}
+ ],
+ match:[
+  {en:'meal / combo',cn:'套餐'},
+  {en:'make it a large',cn:'升级大杯'},
+  {en:"that'll be all",cn:'就这些'},
+  {en:'pull up to',cn:'开到...前面'},
+  {en:'no thanks',cn:'不用了'},
+  {en:'fries',cn:'薯条'},
+  {en:'receipt',cn:'收据'},
+  {en:'to go',cn:'带走'}
+ ],
+ quiz:[
+  {q:'You want a Big Mac + fries + drink together. How to order?',
+   opts:['"One Big Mac plus fries plus drink."','"Can I get a Big Mac meal?"','"I want Big Mac menu."','"Burger with extras."'],ci:1,
+   exp:'"Meal" = combo (burger + fries + drink). "Menu" means the list of food, not a combo. 套餐 = meal，不是 menu。'},
+  {q:'"Anything else for you today?" — you\'re done. Best response:',
+   opts:['"No, no more."','"No, that\'ll be all. Thanks!"','"Just these."','"Nothing else I want."'],ci:1,
+   exp:'"That\'ll be all" is the standard way to close an order. 地道的结束用法。'},
+  {q:'Speaker offered to upsize your drink for $1. You don\'t want it. Best reply:',
+   opts:['"Too expensive!"','"No thanks, medium is fine."','"I can\'t afford it."','"Give me small instead."'],ci:1,
+   exp:'Polite refusal. "No thanks" + what you want keeps it friendly. 礼貌拒绝。'},
+  {q:'You didn\'t catch what the speaker said. Best polite move:',
+   opts:['Yell louder','Drive away','"Sorry, can you repeat that?"','Honk the horn'],ci:2,
+   exp:'Speakers are genuinely noisy — everyone asks. It\'s completely normal. 喇叭不清楚是常事，问一下很正常。'},
+  {q:'"Pull up to window 1" means what?',
+   opts:['Park your car','Drive forward to window 1','Stop the car','Back up'],ci:1,
+   exp:'"Pull up to" = drive forward to. Window 1 is usually payment, window 2 is pickup. 开到X号窗口。'}
+ ]
+},
+// ────────────────────────────────
+// R3: Self-Checkout · 超市自助结账
+// ────────────────────────────────
+{id:'r3',cat:'SHOPPING',cc:'#0891b2',
+ title:'Self-Checkout',titleCN:'超市自助结账',
+ scene:"Tuesday evening · Target self-checkout · machine error flashing red",
+ sceneCN:'周二傍晚，Target 超市自助结账，机器报错闪红灯',
+ tip:'💡 Self-checkout errors happen constantly — it\'s NEVER your fault. Employees deal with this all day. Stay calm, ask for help naturally.',
+ chars:{Machine:['🤖','#888'],Employee:['🧑🏽‍💼','#0891b2'],You:['🙂','#3b82f6']},
+ lines:[
+  {who:'Machine',en:"Unexpected item in bagging area. Please wait for assistance.",cn:'扫描区有异常物品，请等待工作人员。',key:['Unexpected item','wait for assistance']},
+  {who:'Employee',en:"Hey, what seems to be the problem?",cn:'你好，怎么回事？',key:['What seems to be the problem']},
+  {who:'You',en:"Hi — the machine won\'t let me scan this one. I don\'t know what\'s wrong.",cn:'你好，这个机器不让我扫，我不知道哪里出问题了。',key:["won't let me scan"]},
+  {who:'Employee',en:"No worries, let me take a look.",cn:'没事，我看看。',key:['No worries','take a look']},
+  {who:'Employee',en:"Oh, it looks like you scanned this twice. Let me fix that real quick.",cn:'哦，你扫重了，我马上修好。',key:['scanned this twice','real quick']},
+  {who:'You',en:"Oh gosh, sorry about that! Thank you!",cn:'哎呀不好意思，谢谢！',key:['Oh gosh','sorry about that']},
+  {who:'Employee',en:"No problem at all. You\'re all set — go ahead and finish up.",cn:'没事，你现在可以继续结账了。',key:['No problem','all set']},
+  {who:'You',en:"Thanks so much — I appreciate it!",cn:'非常感谢，谢谢你的帮助！',key:['appreciate it']}
+ ],
+ vocab:[
+  {ph:'unexpected item in bagging area',cn:'扫描区有异常物品（自助结账机经典报错）',lvl:'Retail',ex:"The dreaded 'unexpected item in bagging area' beep.",exCN:'让人头大的"扫描区有异常物品"报错声。'},
+  {ph:'what seems to be the problem',cn:'怎么回事（服务行业礼貌问法）',lvl:'Service',ex:"The employee said 'what seems to be the problem?'",exCN:'店员问"怎么回事？"'},
+  {ph:"won't let me",cn:'不让我（做某事）',lvl:'Casual',ex:"My laptop won\'t let me log in.",exCN:'我的电脑不让我登录。'},
+  {ph:'no worries',cn:'没关系',lvl:'Casual',ex:"'Sorry I\'m late!' 'No worries, have a seat.'",exCN:'"抱歉我迟到了！" "没关系，坐吧。"'},
+  {ph:'take a look',cn:'看一看/检查一下',lvl:'Casual',ex:"Let me take a look at that error for you.",exCN:'我帮你看看那个错误。'},
+  {ph:'real quick',cn:'很快/一会儿就好',lvl:'Casual',ex:"I\'ll fix this real quick.",exCN:'我很快就修好。'},
+  {ph:'oh gosh',cn:'哎呀（温和的惊讶）',lvl:'Casual',ex:"'Oh gosh, I forgot the milk!'",exCN:'"哎呀，我忘了买牛奶！"'},
+  {ph:'all set',cn:'好了/搞定了',lvl:'Casual',ex:"'Your order is all set.' 'Great, thanks!'",exCN:'"你的订单好了。" "太好了，谢谢！"'},
+  {ph:'appreciate it',cn:'感谢你的帮助',lvl:'Casual',ex:"'I\'ll hold the door.' 'Thanks, appreciate it!'",exCN:'"我帮你开门。" "谢谢，真感谢！"'}
+ ],
+ match:[
+  {en:'no worries',cn:'没关系'},
+  {en:'all set',cn:'好了/搞定了'},
+  {en:'real quick',cn:'很快'},
+  {en:"won't let me",cn:'不让我'},
+  {en:'appreciate it',cn:'感谢'},
+  {en:'take a look',cn:'看一下'},
+  {en:'oh gosh',cn:'哎呀'},
+  {en:'unexpected item',cn:'异常物品'}
+ ],
+ quiz:[
+  {q:'Machine says "Unexpected item in bagging area." You should:',
+   opts:['Kick the machine','Leave the store','Wait for the employee','Scan everything again'],ci:2,
+   exp:'Super common error, not your fault. Wait, an employee will come. 常见报错，不是你的错。'},
+  {q:'Employee asks "What seems to be the problem?" — best answer:',
+   opts:['"The machine won\'t let me scan this one."','"No problem."','"I don\'t know anything."','"Problem is everything."'],ci:0,
+   exp:'Describe the exact issue briefly. They appreciate clarity. 清楚描述问题。'},
+  {q:'You accidentally scanned something twice. Natural apology:',
+   opts:['"I made big mistake."','"Not my fault."','"Oh gosh, sorry about that!"','"Please forgive me."'],ci:2,
+   exp:'"Oh gosh" + "sorry about that" is natural and friendly without being over-dramatic. 地道的轻度道歉。'},
+  {q:'"You\'re all set — go ahead and finish up." means:',
+   opts:['You have to start over','You can\'t continue','You\'re ready, keep going','The store is closing'],ci:2,
+   exp:'"All set" = ready/good to go. "Finish up" = wrap up. 好了，可以继续结账。'},
+  {q:'Best way to thank an employee who helped you:',
+   opts:['"You are very kind sir."','"Thanks so much — I appreciate it!"','"Good job!"','"You should be nicer."'],ci:1,
+   exp:'Warm + natural + specific. "Appreciate it" adds genuine gratitude. 温暖自然的感谢。'}
+ ]
+},
+// ────────────────────────────────
+// R4: Movie Theater · 电影院
+// ────────────────────────────────
+{id:'r4',cat:'ERRANDS',cc:'#7c3aed',
+ title:'Movie Theater',titleCN:'电影院',
+ scene:"Friday night · AMC theater · Friday night crowd, buying tickets and popcorn",
+ sceneCN:'周五晚上，AMC 电影院，人很多，买票和小吃',
+ tip:'💡 AMC / Regal / Cinemark — same flow everywhere. Know how to ask for tickets + pick seats + order popcorn, and you\'re set for any US theater.',
+ chars:{Cashier:['👩🏽','#7c3aed'],Concession:['🧑🏻‍🍳','#f59e0b'],You:['🙂','#3b82f6']},
+ lines:[
+  {who:'Cashier',en:"Hi there, how can I help you?",cn:'你好，需要什么？',key:['how can I help you']},
+  {who:'You',en:"Two for Dune, please. The 7 o\'clock showing.",cn:'两张《沙丘》的票，7点那场。',key:['Two for','showing']},
+  {who:'Cashier',en:"Sure. Where would you like to sit?",cn:'好的，想坐哪里？',key:['Where would you like to sit']},
+  {who:'You',en:"Somewhere in the middle, please.",cn:'中间位置就好，谢谢。',key:['Somewhere in the middle']},
+  {who:'Cashier',en:"Perfect. That\'ll be $32.50. Here are your tickets — theater 7.",cn:'好，一共32.50美元。这是您的票，7号厅。',key:["That'll be"]},
+  {who:'You',en:"Thanks! Oh, is concessions just over there?",cn:'谢谢！哦，小吃部是在那边吗？',key:['concessions']},
+  {who:'Concession',en:"What can I get you folks?",cn:'你们要点什么？',key:['What can I get you','folks']},
+  {who:'You',en:"Can we get a large popcorn and two Cokes?",cn:'一份大爆米花和两杯可乐。',key:['Can we get','large popcorn']},
+  {who:'Concession',en:"Would you like butter on the popcorn?",cn:'爆米花加黄油吗？',key:['butter on the popcorn']},
+  {who:'You',en:"Yes, please. Light butter.",cn:'要，少加一点。',key:['Light butter']}
+ ],
+ vocab:[
+  {ph:'how can I help you',cn:'您需要什么（最地道的服务用语）',lvl:'Service ⭐',ex:"'Hi there, how can I help you?' — cashiers say this at 99% of US stores.",exCN:'"你好，需要什么？" 美国99%的服务场景都这么开场。'},
+  {ph:'showing',cn:'放映场次',lvl:'Cinema',ex:"I\'ll take the 7 o\'clock showing.",exCN:'我要7点那场。'},
+  {ph:'somewhere in the middle',cn:'中间位置',lvl:'Casual',ex:"'Where would you like to sit?' 'Somewhere in the middle.'",exCN:'"想坐哪里？" "中间位置。"'},
+  {ph:'concessions',cn:'电影院小吃部',lvl:'Cinema',ex:"The concessions are past the ticket counter.",exCN:'小吃部在售票处后面。'},
+  {ph:'folks',cn:'各位（服务业亲切称呼）',lvl:'Casual',ex:"'What can I get you folks?' = 'you all'.",exCN:'"要点什么？" folks = 大家。'},
+  {ph:'Can we get',cn:'我们要（两人以上点餐）',lvl:'Food Service',ex:"Can we get two waters and some bread, please?",exCN:'能给我们两杯水和一些面包吗？'},
+  {ph:'light butter',cn:'少加黄油',lvl:'Cinema',ex:"Light butter = a little. Extra butter = a lot.",exCN:'少加黄油 vs. 多加黄油。'},
+  {ph:'aisle / center seats',cn:'过道位 / 中间位',lvl:'Cinema',ex:"'Aisle or center?' 'Center, please.'",exCN:'"过道还是中间？" "中间。"'}
+ ],
+ match:[
+  {en:'how can I help you',cn:'您需要什么'},
+  {en:'showing',cn:'放映场次'},
+  {en:'concessions',cn:'小吃部'},
+  {en:'folks',cn:'各位'},
+  {en:'light butter',cn:'少黄油'},
+  {en:'Can we get',cn:'我们要'},
+  {en:'somewhere in the middle',cn:'中间位置'},
+  {en:'aisle',cn:'过道位'}
+ ],
+ quiz:[
+  {q:'How to buy 2 tickets for Dune at 7 PM?',
+   opts:['"I want 2 ticket Dune 7pm."','"Two for Dune, please. The 7 o\'clock showing."','"Give me 2 Dune tickets."','"2 people Dune movie."'],ci:1,
+   exp:'"Two for [movie], please" is the classic phrasing. "Showing" = screening. 地道的买票用语。'},
+  {q:'"Where would you like to sit?" — natural response:',
+   opts:['"Anywhere."','"Somewhere in the middle, please."','"I don\'t know."','"Best seats."'],ci:1,
+   exp:'"Middle" / "aisle" / "back row" are common preferences. 中间 / 过道 / 后排。'},
+  {q:'"What can I get you folks?" — "folks" means:',
+   opts:['A food item','People (friendly plural)','A coupon','Seats'],ci:1,
+   exp:'"Folks" = friendly casual word for "people" or "you all". 亲切的"你们"。'},
+  {q:'You want just a little butter on your popcorn. Best phrase:',
+   opts:['"Small butter."','"Not too much butter."','"Light butter, please."','"Little bit butter."'],ci:2,
+   exp:'"Light butter" is the exact trained phrase. "Extra butter" = a lot. 地道点法。'},
+  {q:'After paying, the cashier says "have a great movie!" — your response:',
+   opts:['"You too!" (or "Thanks, you too!")','"Goodbye sir."','"I hope so."','"Movie is good."'],ci:0,
+   exp:'"You too!" is the natural reflex — even though the cashier isn\'t watching the movie. Everyone says it! 惯用回应。'}
+ ]
+},
+// ────────────────────────────────
+// R5: Gas Station · 加油站
+// ────────────────────────────────
+{id:'r5',cat:'ERRANDS',cc:'#059669',
+ title:'Gas Station',titleCN:'加油站',
+ scene:"Sunday afternoon · Shell gas station · pump rejecting your card, need help inside",
+ sceneCN:'周日下午，Shell 加油站，油泵不接受刷卡，需要进店求助',
+ tip:'💡 US gas stations: you can pump yourself (mostly), pay at pump OR inside, and always tip if someone helps (rare). Oregon and NJ are full-service states.',
+ chars:{Clerk:['🧑🏼','#059669'],You:['🙂','#3b82f6']},
+ lines:[
+  {who:'Clerk',en:"Hey, how can I help?",cn:'你好，需要什么？',key:['how can I help']},
+  {who:'You',en:"Hi — pump 4 isn\'t reading my card. Can you help?",cn:'你好，4号泵读不了我的卡，能帮我看看吗？',key:["isn't reading"]},
+  {who:'Clerk',en:"Sure thing. How much do you want to put in?",cn:'好的，加多少钱？',key:['Sure thing','How much']},
+  {who:'You',en:"Let\'s do forty bucks on pump 4, please.",cn:'4号泵加40块，谢谢。',key:["Let's do",'forty bucks','pump 4']},
+  {who:'Clerk',en:"Regular, plus, or premium?",cn:'普通、中级还是高级汽油？',key:['Regular','plus','premium']},
+  {who:'You',en:"Regular is fine, thanks.",cn:'普通就行，谢谢。',key:['Regular is fine']},
+  {who:'Clerk',en:"Okay, you\'re all set on 4. Just grab the pump.",cn:'好的，4号泵好了，去加吧。',key:['all set']},
+  {who:'You',en:"Perfect, thank you! Oh — do you have a restroom?",cn:'好的谢谢！对了，有洗手间吗？',key:['restroom']},
+  {who:'Clerk',en:"Yeah, around the corner, on your left.",cn:'有，拐角处左手边。',key:['around the corner']},
+  {who:'You',en:"Great, thanks a lot!",cn:'太好了，非常感谢！',key:['thanks a lot']}
+ ],
+ vocab:[
+  {ph:"isn't reading",cn:'读不了（卡/芯片）',lvl:'Tech/Service',ex:"The pump isn\'t reading my card.",exCN:'油泵读不了我的卡。'},
+  {ph:'sure thing',cn:'没问题（友好）',lvl:'Casual',ex:"'Can you help?' 'Sure thing!'",exCN:'"能帮忙吗？" "没问题！"'},
+  {ph:"let's do",cn:'我要...（点餐/点单的友好说法）',lvl:'Casual',ex:"'Let\'s do a medium coffee.' = I\'ll have a medium coffee.",exCN:'"我要一杯中杯咖啡" 的友好说法。'},
+  {ph:'bucks',cn:'块/美元（口语）',lvl:'Casual',ex:"It cost me forty bucks.",exCN:'花了我40块。'},
+  {ph:'regular / plus / premium',cn:'普通 / 中级 / 高级（汽油）',lvl:'Gas Station',ex:"Most cars take regular. Some need premium.",exCN:'大部分车加普通汽油，有些需要高级。'},
+  {ph:'all set',cn:'好了/搞定了',lvl:'Casual',ex:"Your car is all set — you can go now.",exCN:'你的车搞定了，可以走了。'},
+  {ph:'restroom',cn:'洗手间（最礼貌的说法）',lvl:'Polite',ex:"Do you have a restroom I could use?",exCN:'有洗手间可以用吗？'},
+  {ph:'around the corner',cn:'拐角处',lvl:'Directions',ex:"The restroom is around the corner on your left.",exCN:'洗手间在拐角处左手边。'},
+  {ph:'top it off',cn:'加满/加到整数',lvl:'Gas Station',ex:"Can I top it off to $50?",exCN:'能加到50块整吗？'}
+ ],
+ match:[
+  {en:'sure thing',cn:'没问题'},
+  {en:"let's do",cn:'我要...'},
+  {en:'bucks',cn:'块/美元'},
+  {en:'all set',cn:'好了'},
+  {en:'restroom',cn:'洗手间'},
+  {en:'around the corner',cn:'拐角处'},
+  {en:'top it off',cn:'加满'},
+  {en:'regular',cn:'普通汽油'}
+ ],
+ quiz:[
+  {q:'Pump screen says "SEE CASHIER." What does this mean?',
+   opts:['Pump is broken forever','Go inside and talk to the clerk','The cashier sees you','Use a different pump'],ci:1,
+   exp:'Common — sometimes pay inside first. No big deal. 读不了卡时，进店付款就行。'},
+  {q:'Clerk asks "How much do you want to put in?" — natural response:',
+   opts:['"Put forty dollars."','"Let\'s do forty bucks on pump 4."','"Maximum."','"Lots of gas please."'],ci:1,
+   exp:'"Let\'s do" + "bucks" = friendly American casual. 友好的美式说法。'},
+  {q:'Best polite way to ask for the bathroom:',
+   opts:['"Where is toilet?"','"I need bathroom."','"Do you have a restroom?"','"Toilet please!"'],ci:2,
+   exp:'"Restroom" is most polite in the US. "Toilet" sounds blunt/foreign. 美国最礼貌的说法。'},
+  {q:'"You\'re all set on 4." means:',
+   opts:['Pay more money','You can start pumping','You made an error','Change pumps'],ci:1,
+   exp:'"All set" = ready/good to go. You can pump now. 可以加油了。'},
+  {q:'You want to round up the gas to $40 exactly. Natural phrase:',
+   opts:['"Add more gas!"','"Can I top it off?"','"More more!"','"Fill till 40."'],ci:1,
+   exp:'"Top it off" = add just a bit more, usually to round. Very natural US phrase. 加到整数。'}
+ ]
+}
+];
+
+/* Real Life uses Bay Area renderer with this metadata */
+var _RL_CAT_META = {
+  'ALL':       {icon:'🌟', label:'全部',   en:'All'},
+  'FOOD':      {icon:'🍽️', label:'吃喝',   en:'Food & Drink'},
+  'SHOPPING':  {icon:'🛍️', label:'购物',   en:'Shopping'},
+  'ERRANDS':   {icon:'⏰', label:'日常',   en:'Daily Errands'}
+};
+var _RL_CAT_GROUPS = [
+  {id:'daily',  cls:'g-daily',  hd:'🌟', title:'真实生活场景 · Daily Life', cats:['FOOD','SHOPPING','ERRANDS']}
+];
+
+
+// ═══════════════════════════════════════════════════════
 // WORKPLACE DIALOGUE 职场情景对话
 // ═══════════════════════════════════════════════════════
 var DLG_DATA = [
@@ -9737,6 +10395,161 @@ var DLG_DATA = [
     {q:'How much budget was allocated for custom development work?',
      opts:['$10K','$30K','$100K','Unlimited'],ci:1,
      exp:'Kevin says "We allocated $30K for custom work" and notes that the customer might ask for more beyond that.'}
+   ]
+  },
+{id:'s6',cat:'SALES',cc:'#dc2626',
+   title:'Setting Boundaries with a Quote-Dumping Customer',titleCN:'给滥发询价的客户设立界限',
+   scene:"Sales rep Maya vents to her mentor Daniel about a customer flooding her with RFQs but never placing real orders — then has the hard conversation to reset expectations",
+   sceneCN:'销售代表 Maya 向导师 Daniel 抱怨客户滥发询价单却从不下真正的订单 — 然后她主动沟通重设合作规则',
+   tip:'💡 Some customers treat sales reps like free research. These phrases help you vent professionally, set limits, and redirect the relationship — without burning the account.',
+   chars:{'Maya':['👩🏻‍💼','#dc2626'],'Daniel':['👨🏻‍💼','#1f4788'],'Client':['🧑🏼','#64748b']},
+   lines:[
+    {who:'Maya',en:"Dan, I need to <b>vent for a minute</b>. This client is driving me up the wall.",cn:'Dan，我得发泄一下，这个客户快把我逼疯了。',key:['vent for a minute','driving me up the wall']},
+    {who:'Daniel',en:"Go ahead. <b>What\'s eating you?</b>",cn:'说吧，什么事让你烦？',key:["What's eating you"]},
+    {who:'Maya',en:"Bennett Industries. They\'ve sent me <b>over a hundred RFQs</b> this quarter — <b>over a hundred</b> — and do you know what they\'ve actually bought? Three tiny orders. Total revenue under four grand.",cn:'Bennett Industries。这个季度他们给我发了一百多份询价单——一百多份——你知道他们实际买了多少吗？三个小订单，总共不到四千块。',key:['over a hundred RFQs']},
+    {who:'Daniel',en:"Yeah, that\'s a classic <b>quote dumper</b>. They\'re using you as <b>free market research</b>.",cn:'嗯，典型的"滥发询价者"。他们把你当免费的市场调研用。',key:['quote dumper','free market research']},
+    {who:'Maya',en:"Exactly! Every RFQ takes me 30-40 minutes to <b>price out</b> properly. I\'ve probably burned 60 hours on them this quarter. For <b>peanuts</b>.",cn:'就是啊！每份询价我都要花30-40分钟认真报价。这季度我在他们身上花了大概60个小时。就为了这点小钱。',key:['price out','peanuts']},
+    {who:'Daniel',en:"And meanwhile you\'re <b>ignoring the accounts that actually pay</b>. That\'s an <b>opportunity cost</b> problem.",cn:'与此同时你忽视了真正付钱的客户。这就是机会成本的问题。',key:['ignoring the accounts that actually pay','opportunity cost']},
+    {who:'Maya',en:"That\'s what kills me. Meridian Group asked for a proposal last week and I\'m <b>three days behind</b> because Bennett keeps pinging me.",cn:'就是这点让我崩溃。Meridian Group 上周让我出方案，我因为 Bennett 不停发消息已经拖了三天了。',key:['three days behind']},
+    {who:'Daniel',en:"Okay, you need to <b>have the conversation</b>. Set some <b>ground rules</b> before this kills your whole quarter.",cn:'好吧，你需要直接跟他们谈。在这件事毁掉你整个季度之前立一些规矩。',key:['have the conversation','ground rules']},
+    {who:'Maya',en:"I know, but I\'m worried I\'ll <b>come across as rude</b>. What if they <b>walk away</b> entirely?",cn:'我知道，但我担心听起来太冲。万一他们彻底走人了怎么办？',key:['come across as rude','walk away']},
+    {who:'Daniel',en:"Honestly? A client buying four grand a quarter walking away isn\'t a loss — it\'s a <b>win</b>. But frame it right and you can <b>keep the door open</b> while protecting your time.",cn:'说实话？一个一季度只买四千块的客户走了，不是损失，是赢。但表达得好，你可以既保护时间又不把门关死。',key:['keep the door open']},
+    {who:'Maya',en:"How would you <b>phrase it</b>?",cn:'你会怎么说？',key:['phrase it']},
+    {who:'Daniel',en:"Something like: \'We value your business, but our quoting process requires <b>meaningful order volume</b>. Going forward, we\'ll prioritize quotes above a minimum threshold.\' Firm but professional.",cn:'大概这样："我们重视您的业务，但我们的报价流程需要有实际的订单量支撑。今后我们会优先处理超过最低门槛的询价。" 坚定但专业。',key:['meaningful order volume','minimum threshold']},
+    {who:'Maya',en:"Okay. That actually sounds <b>doable</b>. Let me <b>bite the bullet</b> and call them now.",cn:'好。这听起来确实可行。我咬咬牙，现在就给他们打电话。',key:['doable','bite the bullet']},
+    {who:'Daniel',en:"Go get \'em. And remember — your time has value. Act like it.",cn:'加油。记住——你的时间是有价值的。要拿出那个态度。',key:[]},
+    {who:'Client',en:"Hi Maya, got your call. What\'s up?",cn:'Maya 你好，收到你电话了。什么事？',key:[]},
+    {who:'Maya',en:"Hi — thanks for picking up. I wanted to talk about <b>how we\'re working together</b>. We\'ve received a high volume of RFQs from your team, and I want to make sure we\'re <b>set up for success</b> on both sides.",cn:'你好，谢谢你接电话。我想聊一下我们的合作方式。我们收到了你们团队大量的询价，我想确保双方的合作都能走得通。',key:["how we're working together",'set up for success']},
+    {who:'Client',en:"Sure, what do you mean?",cn:'好的，什么意思？',key:[]},
+    {who:'Maya',en:"<b>To be direct</b> — we\'ve quoted over a hundred items this quarter, and the conversion to actual orders has been low. <b>Going forward</b>, we\'ll need to focus our quoting resources on opportunities with a <b>minimum order value of $500</b>. For smaller one-off items, I\'d suggest our self-serve catalog.",cn:'直说吧——这季度我们报了一百多个价，但实际成交的很少。今后我们需要把报价资源集中在最低500美元的订单上。小额零散的东西，建议使用我们的自助下单目录。',key:['To be direct','Going forward','minimum order value of']},
+    {who:'Client',en:"Ah, I see. I didn\'t realize it was <b>adding up like that</b>. We\'ve been testing suppliers for a big project next quarter — the small orders were sample buys.",cn:'啊，明白了。我没意识到积累了这么多。我们其实在为下季度一个大项目测试供应商——那些小订单是样品购买。',key:['adding up like that']},
+    {who:'Maya',en:"That\'s helpful context — thank you. Can you <b>loop me in</b> on the big project? I\'d rather give you <b>white-glove service</b> on something real than keep trading small quotes.",cn:'这个背景信息很有帮助，谢谢。那个大项目能把我拉进来吗？我宁愿在真正的项目上给你顶级服务，也不想一直处理零散报价。',key:['loop me in','white-glove service']}
+   ],
+   vocab:[
+    {ph:'vent for a minute',cn:'吐槽一下；发泄一下',lvl:'Casual',ex:"Can I vent for a minute about this customer?",exCN:'能让我吐槽一下这个客户吗？'},
+    {ph:'driving me up the wall',cn:'把我逼疯',lvl:'Idiomatic',ex:"These constant interruptions are driving me up the wall.",exCN:'不停被打断快把我逼疯了。'},
+    {ph:"What's eating you",cn:'你什么事不开心/烦心',lvl:'Casual',ex:"You seem off today — what's eating you?",exCN:'你今天看起来不对劲——什么事让你不高兴？'},
+    {ph:'quote dumper',cn:'滥发询价的客户（行话）',lvl:'Sales',ex:"Bennett is a classic quote dumper — tons of RFQs, no orders.",exCN:'Bennett 是典型的询价垃圾客户——一堆询价，没有订单。'},
+    {ph:'free market research',cn:'免费市场调研（贬义）',lvl:'Business',ex:"They\'re using our team as free market research.",exCN:'他们把我们团队当免费的市场调研用。'},
+    {ph:'price out',cn:'报价；定价',lvl:'Sales',ex:"It takes 30 minutes to price out each RFQ properly.",exCN:'每份询价认真报价需要30分钟。'},
+    {ph:'peanuts',cn:'小钱；微不足道的金额',lvl:'Idiomatic',ex:"They pay peanuts but demand premium service.",exCN:'他们付的钱很少却要求顶级服务。'},
+    {ph:'opportunity cost',cn:'机会成本',lvl:'Business',ex:"Every hour on low-value accounts has an opportunity cost.",exCN:'花在低价值客户上的每个小时都有机会成本。'},
+    {ph:'have the conversation',cn:'进行那次（困难的）对话',lvl:'Professional',ex:"You need to have the conversation with your manager.",exCN:'你需要和经理进行那次对话。'},
+    {ph:'ground rules',cn:'基本规则；合作界限',lvl:'Professional',ex:"Let\'s set ground rules for this partnership.",exCN:'我们来为这次合作定些基本规则。'},
+    {ph:'come across as rude',cn:'听起来很冲/不礼貌',lvl:'Professional',ex:"I don\'t want to come across as rude, but I have to be clear.",exCN:'我不想显得没礼貌，但我得说清楚。'},
+    {ph:'keep the door open',cn:'不把门关死；保留余地',lvl:'Professional',ex:"Be firm but keep the door open for future business.",exCN:'态度坚定但为未来合作留余地。'},
+    {ph:'bite the bullet',cn:'咬牙坚持/硬着头皮做',lvl:'Idiomatic',ex:"I just need to bite the bullet and make the call.",exCN:'我得硬着头皮把电话打了。'},
+    {ph:'set up for success',cn:'为成功打好基础',lvl:'Business',ex:"Let\'s set up both teams for success on this project.",exCN:'让我们为两边团队在这个项目上打好基础。'},
+    {ph:'To be direct',cn:'直说吧；开门见山',lvl:'Professional',ex:"To be direct — this process isn\'t working.",exCN:'直说吧——这个流程行不通。'},
+    {ph:'Going forward',cn:'今后；从现在开始',lvl:'Professional',ex:"Going forward, we\'ll need PO numbers for all orders.",exCN:'今后所有订单都需要采购单号。'},
+    {ph:'minimum order value',cn:'最低订单金额',lvl:'Sales',ex:"Our minimum order value is $500.",exCN:'我们的最低订单金额是500美元。'},
+    {ph:'loop me in',cn:'把我加进来；让我参与',lvl:'Business',ex:"Please loop me in on the planning emails.",exCN:'请把我加到规划邮件里。'},
+    {ph:'white-glove service',cn:'顶级服务；贵宾式服务',lvl:'Sales',ex:"Our enterprise clients get white-glove service.",exCN:'我们的企业客户享受顶级服务。'}
+   ],
+   match:[
+    {en:'quote dumper',cn:'滥发询价的客户'},
+    {en:'driving me up the wall',cn:'把我逼疯'},
+    {en:'peanuts',cn:'小钱；微不足道'},
+    {en:'opportunity cost',cn:'机会成本'},
+    {en:'ground rules',cn:'基本规则'},
+    {en:'bite the bullet',cn:'咬牙硬做'},
+    {en:'minimum order value',cn:'最低订单金额'},
+    {en:'white-glove service',cn:'顶级服务'}
+   ],
+   quiz:[
+    {q:'What is a "quote dumper" in sales slang?',
+     opts:['A client who negotiates aggressively','A client who requests many quotes but rarely orders','A salesperson who gives bad quotes','A client who pays late'],ci:1,
+     exp:'A "quote dumper" floods the sales team with RFQs (requests for quotes) but places few or no orders — essentially using sales as free research.'},
+    {q:'Why does Daniel say the client "walking away" might actually be a win?',
+     opts:['They\'re a competitor in disguise','A client who only spends $4K per quarter isn\'t worth the time','Maya doesn\'t like them personally','They always pay late'],ci:1,
+     exp:'Daniel points out that the opportunity cost — time spent on Bennett instead of high-value clients like Meridian — exceeds Bennett\'s actual revenue. Losing a low-value client frees capacity for real ones.'},
+    {q:'How does Maya open her boundary-setting call professionally?',
+     opts:['"We\'re dropping you as a customer."','"You\'re wasting our time."','"I want to make sure we\'re set up for success on both sides."','"Our boss said we can\'t work with you."'],ci:2,
+     exp:'"Set up for success on both sides" frames the conversation as mutual improvement, not a complaint or ultimatum — keeping the door open while addressing the issue.'},
+    {q:'What specific limit does Maya propose?',
+     opts:['Only 10 RFQs per month','Minimum order value of $500','Quote response time of 48 hours','No more small orders at all'],ci:1,
+     exp:'Maya sets a $500 minimum order value for custom quoting, and redirects smaller one-off purchases to the self-serve catalog — protecting her time without cutting off the relationship.'},
+    {q:'What does the client reveal that re-frames the whole situation?',
+     opts:['They were going bankrupt','The small orders were samples for a big upcoming project','They were testing a competitor','They didn\'t like the prices'],ci:1,
+     exp:'The client was doing supplier qualification for a larger project. Maya\'s willingness to have the direct conversation uncovered a bigger opportunity — showing that professional boundaries can actually strengthen relationships.'}
+   ]
+  },
+{id:'s7',cat:'SALES',cc:'#dc2626',
+   title:'The Endless Server Reconfiguration Customer',titleCN:'无穷无尽改配置的客户',
+   scene:"Michelle, a sales engineer, vents to her teammate Priya about Smith — a customer who has asked her to re-spec the same server quote eleven times over three weeks. She finally decides to lock the scope.",
+   sceneCN:'销售工程师 Michelle 向同事 Priya 吐槽客户 Smith — 他让她三周内把同一套服务器报价改了11次。她最终决定锁定需求范围。',
+   tip:'💡 Tech sales and pre-sales engineers deal with "scope creep" on hardware quotes constantly. These phrases help you express frustration professionally AND set clean technical boundaries.',
+   chars:{'Michelle':['👩🏻‍💻','#dc2626'],'Priya':['👩🏽‍💼','#8b5cf6'],'Smith':['🧑🏼','#64748b']},
+   lines:[
+    {who:'Michelle',en:"Priya, if Smith sends me one more <b>revised spec sheet</b>, I swear I\'m going to <b>lose it</b>.",cn:'Priya，如果 Smith 再给我发一份修改后的配置单，我发誓我要崩溃了。',key:['revised spec sheet','lose it']},
+    {who:'Priya',en:"Uh oh. What did he do this time?",cn:'哦不。这次他又干什么了？',key:[]},
+    {who:'Michelle',en:"Version <b>eleven</b>. <b>Eleven!</b> Three weeks, same quote, eleven revisions. Yesterday he wanted dual Xeon CPUs, 256 gigs of RAM, four NVMe drives. Today? \'Actually, can we <b>swap in</b> AMD EPYC and drop the RAM to 128?\'",cn:'第11版。整整11版！三周时间，同一个报价，改了11次。昨天他要双 Xeon CPU、256G 内存、4块 NVMe 硬盘。今天呢？"其实能换成 AMD EPYC，内存降到128吗？"',key:['swap in']},
+    {who:'Priya',en:"<b>You\'ve got to be kidding me.</b> That\'s a completely different build.",cn:'你开玩笑吧。那完全是另一套配置了。',key:["You've got to be kidding me"]},
+    {who:'Michelle',en:"Right?! And every change <b>ripples through</b> everything — different <b>rack units</b>, different power draw, different <b>cooling requirements</b>, different licensing. I have to <b>re-run the numbers</b> from scratch each time.",cn:'就是啊！每改一次就牵一发动全身——机架单位变、耗电量变、散热要求变、授权费也变。我每次都得从头重算。',key:['ripples through','rack units','cooling requirements','re-run the numbers']},
+    {who:'Priya',en:"Is he <b>price-shopping</b>? Comparing your quote against competitors?",cn:'他是不是在比价？拿你的报价去跟竞争对手比？',key:['price-shopping']},
+    {who:'Michelle',en:"Honestly? I think he doesn\'t know what he wants. He keeps saying things like \'<b>just ballpark it</b>\' and then <b>picks apart</b> every line item.",cn:'说实话？我觉得他自己都不知道自己要什么。他总说"大概估个数就行"，然后又逐项挑毛病。',key:['just ballpark it','picks apart']},
+    {who:'Priya',en:"That\'s <b>scope creep</b> in its purest form. <b>Death by a thousand tweaks</b>.",cn:'这就是最纯粹的范围蔓延。被一千个小改动拖死。',key:['scope creep','Death by a thousand tweaks']},
+    {who:'Michelle',en:"The worst part? Last email he asked about <b>IOPS benchmarks</b> for a SKU I already told him was <b>end-of-life</b>. He\'s not even reading what I send.",cn:'最糟的是？上封邮件他还在问一个我明确告诉他已经停产的型号的IOPS性能数据。他根本没读我发的东西。',key:['IOPS benchmarks','end-of-life']},
+    {who:'Priya',en:"Oh that\'s <b>a red flag</b>. He\'s wasting your time <b>on autopilot</b>.",cn:'这是个危险信号。他是惯性地在浪费你的时间。',key:['a red flag','on autopilot']},
+    {who:'Michelle',en:"I\'ve already sunk probably 20 hours into this deal. And it\'s still a maybe.",cn:'我在这单上已经投入了大概20个小时了。到现在还是个"也许"。',key:[]},
+    {who:'Priya',en:"Michelle, you need to <b>lock down the requirements</b>. Send him a <b>final spec document</b> and tell him any changes after sign-off mean a <b>new quote cycle</b>.",cn:'Michelle，你必须把需求定下来。给他发一份最终配置文档，告诉他签字确认后任何改动都算新的报价周期。',key:['lock down the requirements','final spec document','new quote cycle']},
+    {who:'Michelle',en:"He\'s going to <b>push back</b>. He likes keeping things <b>loose</b>.",cn:'他肯定会反对。他喜欢把事情留着不定。',key:['push back','loose']},
+    {who:'Priya',en:"That\'s exactly why you need to do it. \'Loose\' for him means \'expensive\' for you. Put it in writing — <b>\'any revisions beyond version twelve will require a 48-hour turnaround and restart the pricing review\'</b>. Firm deadline, firm process.",cn:'正因如此你才得做。他的"留着不定"就是你的"烧钱"。写进邮件里——"第12版之后任何改动需要48小时响应时间并重启报价审核流程。" 硬截止日期、硬流程。',key:['any revisions beyond','turnaround','restart the pricing review']},
+    {who:'Michelle',en:"Okay, I\'m going to send him a <b>locked quote</b> with a sign-off deadline. If he needs more iterations, he pays for engineering hours.",cn:'好，我要给他发一份锁定的报价，带签字截止日期。他要再改，就得付工程工时费。',key:['locked quote']},
+    {who:'Priya',en:"Exactly. Frame it as \'<b>for your benefit</b>\' — protects him from scope drift too.",cn:'对。就说成是"为他着想"——也能保护他不被范围漂移坑。',key:['for your benefit']},
+    {who:'Michelle',en:"Perfect. Let me draft the email now.",cn:'完美。我现在就起草邮件。',key:[]},
+    {who:'Michelle',en:"\'Hi Smith — attached is <b>Version 12, which we\'re treating as final</b>. Please review and sign off by Friday 5 PM Pacific. Any changes requested after sign-off will be scoped as a <b>change order</b> and priced separately. Happy to <b>walk through</b> it on a 30-minute call if helpful.\'",cn:'"Smith 你好——附件是第12版，我们将其作为最终版本。请在本周五下午5点太平洋时间前审阅并签字确认。签字后的任何改动将按变更单处理并单独计费。如有需要，可安排30分钟电话沟通。"',key:["which we're treating as final",'change order','walk through']},
+    {who:'Priya',en:"<b>Crisp. Professional. No emotion.</b> That\'s exactly right.",cn:'简洁、专业、不带情绪。这就对了。',key:['Crisp. Professional. No emotion']},
+    {who:'Michelle',en:"And if he <b>ghosts me</b> after this? Fine. I\'ll reclaim 20 hours of my life.",cn:'如果他就此消失？没关系，我反而能拿回20小时的人生。',key:['ghosts me']}
+   ],
+   vocab:[
+    {ph:'revised spec sheet',cn:'修改后的配置单',lvl:'Tech Sales',ex:"I got another revised spec sheet this morning.",exCN:'今早我又收到一份修改后的配置单。'},
+    {ph:'lose it',cn:'崩溃；发飙',lvl:'Casual',ex:"One more revision and I\'m going to lose it.",exCN:'再改一次我就要崩溃了。'},
+    {ph:'swap in',cn:'换成；替换为',lvl:'Tech',ex:"Can we swap in AMD chips instead of Intel?",exCN:'能把 Intel 芯片换成 AMD 吗？'},
+    {ph:"You've got to be kidding me",cn:'你开玩笑吧（难以置信）',lvl:'Idiomatic',ex:"Eleven revisions? You\'ve got to be kidding me.",exCN:'改了11版？你开玩笑吧。'},
+    {ph:'ripples through',cn:'牵一发而动全身；连锁反应',lvl:'Business',ex:"A single spec change ripples through the whole design.",exCN:'一个配置的改动会影响到整个设计。'},
+    {ph:'rack units',cn:'机架单位（1U/2U等）',lvl:'Infrastructure',ex:"This server takes 2 rack units.",exCN:'这台服务器占用2个机架单位。'},
+    {ph:'cooling requirements',cn:'散热需求',lvl:'Infrastructure',ex:"Higher-end GPUs have serious cooling requirements.",exCN:'高端 GPU 散热需求很高。'},
+    {ph:'re-run the numbers',cn:'重新计算；重新核算',lvl:'Business',ex:"Every change means I have to re-run the numbers.",exCN:'每次改动我都得重新算一遍。'},
+    {ph:'price-shopping',cn:'比价；货比三家',lvl:'Sales',ex:"Are they serious or just price-shopping?",exCN:'他们是认真的还是只是在比价？'},
+    {ph:'just ballpark it',cn:'大致估算一下',lvl:'Casual',ex:"Don\'t worry about precision — just ballpark it.",exCN:'不用太精确——大致估一下就行。'},
+    {ph:'picks apart',cn:'挑剔；逐一挑毛病',lvl:'Idiomatic',ex:"He picks apart every line item on the quote.",exCN:'他对报价里每一项都挑刺。'},
+    {ph:'scope creep',cn:'范围蔓延（项目/需求）',lvl:'Business',ex:"This is textbook scope creep.",exCN:'这是教科书式的范围蔓延。'},
+    {ph:'Death by a thousand tweaks',cn:'被无数小改动拖死',lvl:'Idiomatic',ex:"Small changes add up — death by a thousand tweaks.",exCN:'小改动积累起来——被无数小改动拖死。'},
+    {ph:'IOPS benchmarks',cn:'IOPS 性能基准（存储速度指标）',lvl:'Infrastructure',ex:"Can you share IOPS benchmarks for this SSD?",exCN:'能分享这款 SSD 的 IOPS 性能基准吗？'},
+    {ph:'end-of-life',cn:'停产；生命周期结束',lvl:'Tech',ex:"That model is end-of-life — we can\'t quote it anymore.",exCN:'那个型号已停产——不能再报价了。'},
+    {ph:'a red flag',cn:'警示信号；危险信号',lvl:'Business',ex:"His vague requirements are a red flag.",exCN:'他含糊的需求是危险信号。'},
+    {ph:'on autopilot',cn:'惯性地；不走心地',lvl:'Idiomatic',ex:"He\'s sending requests on autopilot, not really reading replies.",exCN:'他是惯性地在发消息，根本没认真读回复。'},
+    {ph:'lock down the requirements',cn:'锁定需求',lvl:'Business',ex:"Let\'s lock down the requirements before engineering starts.",exCN:'工程开始前我们先把需求锁定。'},
+    {ph:'change order',cn:'变更单；变更请求（合同术语）',lvl:'Business',ex:"Any new features need to go through a change order.",exCN:'任何新功能都得走变更单流程。'},
+    {ph:'ghosts me',cn:'消失不回复（口语）',lvl:'Casual',ex:"If he ghosts me after this, that\'s fine.",exCN:'如果他之后消失不回，也没关系。'}
+   ],
+   match:[
+    {en:'scope creep',cn:'范围蔓延'},
+    {en:'lose it',cn:'崩溃；发飙'},
+    {en:'price-shopping',cn:'比价'},
+    {en:'a red flag',cn:'危险信号'},
+    {en:'end-of-life',cn:'停产'},
+    {en:'lock down the requirements',cn:'锁定需求'},
+    {en:'change order',cn:'变更单'},
+    {en:'ghosts me',cn:'消失不回'}
+   ],
+   quiz:[
+    {q:'What does Michelle mean by "I\'m going to lose it"?',
+     opts:['I\'m going to misplace my keys','I\'m going to lose the deal','I\'m going to emotionally explode / snap','I\'m going to miss the deadline'],ci:2,
+     exp:'"Lose it" = break down emotionally, lose composure. She means one more revision will make her snap.'},
+    {q:'What is "scope creep" in a sales / project context?',
+     opts:['A slow-moving bug','Requirements gradually expanding beyond the original plan','A new competitor entering the market','Missing a deadline'],ci:1,
+     exp:'"Scope creep" = when project requirements keep growing or changing, usually without corresponding budget/timeline adjustments. Extremely common in pre-sales engineering.'},
+    {q:'Why is Priya concerned that Smith asked about an "end-of-life" SKU?',
+     opts:['It means he is bankrupt','It shows he isn\'t actually reading what Michelle sends','It means he wants a different vendor','It\'s illegal to sell end-of-life products'],ci:1,
+     exp:'Michelle had already told Smith that model was discontinued. Asking about it again means he isn\'t paying attention — a "red flag" that he\'s wasting her time "on autopilot."'},
+    {q:'What professional solution does Priya recommend?',
+     opts:['Fire the client','Send a final spec document with a sign-off deadline, and price any further changes as change orders','Offer a bigger discount','Escalate to his boss'],ci:1,
+     exp:'Lock the requirements, give a firm sign-off deadline, and protect engineering time by requiring a formal "change order" for any post-signoff revisions. Standard professional practice.'},
+    {q:'Michelle\'s final email frames the boundary as "for your benefit" — why is this phrasing smart?',
+     opts:['It\'s passive-aggressive','It\'s a lie','It positions the boundary as protecting the CLIENT too (from scope drift and overspending), not just Michelle','It\'s the legal requirement'],ci:2,
+     exp:'Framing boundaries as mutual protection ("this protects both of us from surprises") is more collaborative than "you\'re wasting my time." Same outcome, better relationship.'}
    ]
   },
 {id:'pt1', cat:'PRODUCT', cc:'#0891b2',
@@ -12512,6 +13325,712 @@ function dlgQRetry(){
   box.innerHTML=_dlgMatchHTML(d);
 }
 
+// ═══════════════════════════════════════════════════════
+// REAL LIFE 真实生活对话 — Reuses Bay Area rendering pipeline.
+// Switches data source via _dlgMode = 'rl' | 'dlg' flag
+// ═══════════════════════════════════════════════════════
+
+/* Module state — mirrors _dlgSt but tracks RL */
+var _rlSt = {
+  view: 'lesson',
+  catFilter: 'ALL',
+  wi: 0,
+  trans: {},
+  qCur: 0, qScore: 0, qAnswered: false,
+  matchPhase: 'match', matched: [], matchSel: null, matchMistakes: 0, shuffledRight: [],
+  theater: false, matchAced: false, mcqAced: false, retrySkipMcq: false
+};
+
+/* Entry point — called by show('reallife') */
+function renderRealLife() {
+  /* Restore last position from localStorage if any */
+  try {
+    var saved = JSON.parse(localStorage.getItem('reallife_last') || '{}');
+    if (typeof saved.wi === 'number' && saved.wi >= 0 && saved.wi < RL_DATA.length) {
+      _rlSt.wi = saved.wi;
+    }
+    if (saved.catFilter) _rlSt.catFilter = saved.catFilter;
+  } catch(e){}
+  _renderRL();
+}
+
+/* Main render — mirrors _renderDlgInBay but operates on RL_DATA */
+function _renderRL() {
+  var main = document.getElementById('rl-main');
+  var catRow = document.getElementById('rl-cat-row');
+  if (!main || !catRow) return;
+
+  var d = RL_DATA[_rlSt.wi];
+  if (!d) { _rlSt.wi = 0; d = RL_DATA[0]; }
+  var filtered = (_rlSt.catFilter === 'ALL') ? RL_DATA : RL_DATA.filter(function(dd){return dd.cat === _rlSt.catFilter;});
+  if (filtered.length && filtered.indexOf(d) < 0) {
+    _rlSt.wi = RL_DATA.indexOf(filtered[0]); d = filtered[0];
+  }
+  _rlSt.qCur = 0; _rlSt.qScore = 0; _rlSt.qAnswered = false;
+  _rlSt.matchPhase = 'match'; _rlSt.matchMistakes = 0;
+  _rlSt.matchAced = false; _rlSt.mcqAced = false; _rlSt.retrySkipMcq = false;
+  _dlgMatchInit_RL(d);
+
+  /* Save position */
+  try { localStorage.setItem('reallife_last', JSON.stringify({wi:_rlSt.wi, catFilter:_rlSt.catFilter})); } catch(e){}
+
+  /* ── Category navigation ── */
+  var catH = '<div class="dlg-cat-nav">';
+  catH += '<div class="dlg-jn-row">';
+  catH += '<div class="dlg-jn-label">情景对话 · Dialogue</div>';
+  catH += '</div>';
+
+  /* "ALL" pill centered */
+  catH += '<div class="dlg-cat-row" style="justify-content:center;margin-bottom:10px">';
+  var allCls = 'dlg-cat-pill cat-all' + (_rlSt.catFilter === 'ALL' ? ' on' : '');
+  catH += '<button class="' + allCls + '" onclick="_rlSetCat(\'ALL\')">' +
+    '<span class="dc-icon">🌟</span>全部</button>';
+  catH += '</div>';
+
+  /* Groups */
+  _RL_CAT_GROUPS.forEach(function(g){
+    var visCats = g.cats.filter(function(c){ return _RL_CAT_META[c]; });
+    if (!visCats.length) return;
+    catH += '<div class="dlg-cat-group ' + g.cls + '">';
+    catH += '<div class="dlg-cat-group-hd">';
+    catH += '<span class="dlg-cat-group-ico">' + g.hd + '</span>';
+    catH += '<span class="dlg-cat-group-title">' + g.title.split(' · ')[0] + '</span>';
+    catH += '</div>';
+    catH += '<div class="dlg-cat-row">';
+    visCats.forEach(function(catKey){
+      var meta = _RL_CAT_META[catKey];
+      var count = RL_DATA.filter(function(dd){return dd.cat === catKey;}).length;
+      var cls = 'dlg-cat-pill cat-' + catKey.toLowerCase() + (_rlSt.catFilter === catKey ? ' on' : '');
+      catH += '<button class="' + cls + '" onclick="_rlSetCat(\'' + catKey + '\')">' +
+        '<span class="dc-icon">' + meta.icon + '</span>' + meta.label +
+        '<span class="dc-count">' + count + '</span></button>';
+    });
+    catH += '</div>';
+
+    /* Sub-titles: lessons in active category of this group */
+    var activeCatInGroup = visCats.filter(function(c){ return _rlSt.catFilter === c && c !== 'ALL'; });
+    if (activeCatInGroup.length) {
+      var ac = activeCatInGroup[0];
+      var catDlgs = RL_DATA.filter(function(dd){ return dd.cat === ac; });
+      var curD = RL_DATA[_rlSt.wi];
+      var rlDoneSub = {};
+      try { rlDoneSub = JSON.parse(localStorage.getItem('reallife_done') || '{}'); } catch(e){}
+      catH += '<div class="dlg-sub-titles open"><div class="dlg-sub-list">';
+      catDlgs.forEach(function(dd, si){
+        var isActive = (curD && curD.id === dd.id) ? ' active' : '';
+        var globalIdx = RL_DATA.indexOf(dd);
+        var rec = rlDoneSub[dd.id];
+        var masteryIcon = '', masteryCls = '';
+        if (rec) {
+          if (rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue) {
+            masteryIcon = '<span class="dlg-sub-mastery" title="已掌握">🏆</span>';
+            masteryCls = ' mastered';
+          } else if (rec.pct === 100) {
+            masteryIcon = '<span class="dlg-sub-mastery due" title="建议复习">⏰</span>';
+            masteryCls = ' mastery-due';
+          } else if (rec.pct > 0) {
+            masteryIcon = '<span class="dlg-sub-mastery attempted" title="已尝试 · ' + rec.pct + '%">📖</span>';
+            masteryCls = ' attempted';
+          }
+        }
+        catH += '<button class="dlg-sub-item' + isActive + masteryCls + '" onclick="_rlSetWeek(' + globalIdx + ')">' +
+          '<span class="sub-num">' + (si+1) + '</span>' + dd.titleCN + masteryIcon +
+          '</button>';
+      });
+      catH += '</div></div>';
+    }
+    catH += '</div>';
+  });
+  catH += '</div>';
+  catRow.innerHTML = catH;
+
+  /* ── Prev/Next navigation ── */
+  var row = document.getElementById('rl-week-row');
+  if (row) {
+    var fIdx = filtered.indexOf(d);
+    var prevIdx = fIdx > 0 ? RL_DATA.indexOf(filtered[fIdx-1]) : -1;
+    var nextIdx = fIdx < filtered.length-1 ? RL_DATA.indexOf(filtered[fIdx+1]) : -1;
+    var navH = '<div class="dlg-pn">';
+    navH += '<button class="dlg-pn-btn" ' + (prevIdx===-1?'disabled':'onclick="_rlSetWeek('+prevIdx+')"') + '>← 上一课</button>';
+    navH += '<span class="dlg-pn-info">' + (fIdx+1) + ' / ' + filtered.length + '</span>';
+    navH += '<button class="dlg-pn-btn" ' + (nextIdx===-1?'disabled':'onclick="_rlSetWeek('+nextIdx+')"') + '>下一课 →</button>';
+    navH += '</div>';
+    row.innerHTML = navH;
+  }
+  main.innerHTML = _rlHTML(d);
+}
+
+function _rlSetCat(cat) {
+  _rlSt.catFilter = cat;
+  /* If current lesson not in new filter, jump to first lesson of that category */
+  if (cat !== 'ALL') {
+    var filtered = RL_DATA.filter(function(dd){return dd.cat === cat;});
+    if (filtered.length && filtered.indexOf(RL_DATA[_rlSt.wi]) < 0) {
+      _rlSt.wi = RL_DATA.indexOf(filtered[0]);
+    }
+  }
+  _renderRL();
+}
+
+function _rlSetWeek(i) {
+  _rlSt.wi = i;
+  _renderRL();
+  window.scrollTo(0, 0);
+}
+
+/* ── Dialogue HTML — mirrors _dlgHTML but for RL ── */
+function _rlHTML(d) {
+  /* Cast */
+  var castH = Object.keys(d.chars).map(function(n){
+    var c = d.chars[n];
+    var youTag = (n==='You') ? '<span style="font-size:9px;background:#3b82f6;color:#fff;padding:1px 5px;border-radius:6px">You</span>' : '';
+    return '<div class="dlg-cast-item"><span>' + c[0] + '</span><span style="color:' + c[1] + ';font-weight:700">' + n + '</span>' + youTag + '</div>';
+  }).join('');
+
+  /* Dialogue lines */
+  var linesH = d.lines.map(function(line, i) {
+    var isYou = line.who === 'You';
+    var ch = d.chars[line.who] || {0:'👤',1:'#888'};
+    var en = line.en;
+    if (line.key) line.key.forEach(function(kp){
+      try { en = en.replace(new RegExp('('+_dlgEsc(kp)+')','i'),'<span class="dlg-kp" title="key phrase: '+kp+'">$1</span>'); }
+      catch(e){}
+    });
+    return '<div class="dlg-line' + (isYou?' right':'') + '" id="rl-ln-'+i+'">' +
+      '<div class="dlg-av" style="background:'+ch[1]+'20">' + ch[0] + '</div>' +
+      '<div class="dlg-bubble-wrap">' +
+        '<div class="dlg-who"><span style="color:'+ch[1]+'">' + line.who + '</span></div>' +
+        '<div class="dlg-bubble" onclick="rlSpeak('+i+')" style="cursor:pointer">' + en + '</div>' +
+        '<div class="dlg-line-btns">' +
+          '<button class="dlg-spk-btn" id="rl-spk-'+i+'" onclick="rlSpeak('+i+')">🔊</button>' +
+          '<button class="dlg-tr-btn" onclick="rlToggleTrans('+i+')">🇨🇳</button>' +
+        '</div>' +
+        '<div class="dlg-trans" id="rl-tr-'+i+'">' + line.cn + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  /* Vocab */
+  var vocabH = d.vocab.map(function(v,vi){
+    var exEsc = v.ex.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="dlg-vc" id="rl-vc-'+vi+'" onclick="rlVcToggle('+vi+')">' +
+      '<div class="dlg-vc-top">' +
+        '<div class="dlg-vc-ph">' + v.ph + '</div>' +
+        '<button class="dlg-vc-spk" data-ex="' + exEsc.replace(/"/g,'&quot;') + '" onclick="rlVocabSpeak(event,\'' + exEsc + '\')">🔊</button>' +
+      '</div>' +
+      '<div class="dlg-vc-cn">' + v.cn + '</div>' +
+      '<span class="dlg-vc-lvl">' + v.lvl + '</span>' +
+      '<div class="dlg-vc-ex">' +
+        '<div class="dlg-vc-ex-en">💬 ' + v.ex + '</div>' +
+        '<div class="dlg-vc-ex-cn">🇨🇳 ' + (v.exCN || v.cn) + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  /* Mastery banner */
+  var rec = null;
+  try { rec = (JSON.parse(localStorage.getItem('reallife_done')||'{}'))[d.id] || null; } catch(e){}
+  var masteryBanner = '';
+  if (rec && rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue) {
+    var daysLeft = Math.max(1, Math.ceil((rec.reviewDue - Date.now()) / 86400000));
+    masteryBanner = '<div id="rl-mastery-badge" class="dlg-mastery-banner mastered">' +
+      '<span class="dlg-mb-ico">🏆</span>' +
+      '<div class="dlg-mb-body">' +
+        '<div class="dlg-mb-title">已掌握 · Mastered</div>' +
+        '<div class="dlg-mb-sub">' + daysLeft + ' 天后再复习即可 · 无需重做</div>' +
+      '</div>' +
+      '<button class="dlg-mb-review" onclick="document.querySelector(\'#rl-qbox\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">💡 仍想复习</button>' +
+    '</div>';
+  } else if (rec && rec.pct === 100) {
+    masteryBanner = '<div id="rl-mastery-badge" class="dlg-mastery-banner due">' +
+      '<span class="dlg-mb-ico">⏰</span>' +
+      '<div class="dlg-mb-body">' +
+        '<div class="dlg-mb-title">建议复习 · Review Due</div>' +
+        '<div class="dlg-mb-sub">距上次掌握已有一段时间，复习一下巩固记忆</div>' +
+      '</div>' +
+    '</div>';
+  } else if (rec && rec.pct > 0) {
+    masteryBanner = '<div id="rl-mastery-badge" class="dlg-mastery-banner attempted">' +
+      '<span class="dlg-mb-ico">📖</span>' +
+      '<div class="dlg-mb-body">' +
+        '<div class="dlg-mb-title">已尝试 · In Progress (' + rec.pct + '%)</div>' +
+        '<div class="dlg-mb-sub">挑战满分 100% 解锁 🏆 Mastered 徽章</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  /* Scene card */
+  var topH = masteryBanner +
+    '<div class="dlg-scene-card">' +
+      '<div class="dlg-scene-en">📍 ' + d.scene + '</div>' +
+      '<div class="dlg-scene-cn">' + d.sceneCN + '</div>' +
+    '</div>' +
+    '<div class="dlg-tip">' + d.tip + '</div>' +
+    '<div class="dlg-cast-row">' + castH + '</div>';
+
+  /* Left column: dialogue */
+  var leftH = '<div class="dlg-col dlg-col-left">' +
+    '<div class="dlg-col-hd"><span class="dlg-col-icon">🎭</span>场景对话 · Dialogue</div>' +
+    '<button class="dlg-theater-btn" id="rl-theater-btn" onclick="rlToggleTheater()">🎬 剧场模式 — 自动逐句朗读全对话</button>' +
+    '<div class="dlg-lines" id="rl-lines">' + linesH + '</div>' +
+  '</div>';
+
+  /* Right column: vocab + quiz */
+  var rightH = '<div class="dlg-col dlg-col-right">' +
+    '<div class="dlg-col-hd"><span class="dlg-col-icon">📖</span>词汇学习 · Vocabulary</div>' +
+    '<div class="dlg-vocab-list">' + vocabH + '</div>' +
+    '<div class="dlg-col-hd" style="margin-top:20px"><span class="dlg-col-icon">✏️</span>词汇测试 · Quick Check</div>' +
+    '<div id="rl-qbox">' + _rlQuizHTML(d) + '</div>' +
+  '</div>';
+
+  return topH + '<div class="dlg-two-col">' + leftH + rightH + '</div>';
+}
+
+/* Quiz router: matching → MCQ */
+function _rlQuizHTML(d) {
+  if (_rlSt.matchPhase === 'match') return _rlMatchHTML(d);
+  return _rlMcqHTML(d);
+}
+
+/* Initialize match state */
+function _dlgMatchInit_RL(d) {
+  if (!d || !d.match) return;
+  var n = d.match.length;
+  _rlSt.matched = [];
+  for (var k=0;k<n;k++) _rlSt.matched.push(false);
+  _rlSt.matchSel = null;
+  _rlSt.matchMistakes = 0;
+  _rlSt.shuffledRight = [];
+  for (var k=0;k<n;k++) _rlSt.shuffledRight.push(k);
+  for (var i=n-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=_rlSt.shuffledRight[i];_rlSt.shuffledRight[i]=_rlSt.shuffledRight[j];_rlSt.shuffledRight[j]=t;
+  }
+}
+
+/* Matching quiz HTML */
+function _rlMatchHTML(d) {
+  if (!d.match || !d.match.length) { _rlSt.matchPhase='mcq'; return _rlMcqHTML(d); }
+  var n = d.match.length;
+  var matchedCount = 0;
+  for (var k=0;k<n;k++) if (_rlSt.matched[k]) matchedCount++;
+  var allDone = matchedCount === n;
+
+  var leftH = d.match.map(function(pair,i){
+    var cls = 'dlg-mitem left';
+    if (_rlSt.matched[i]) cls += ' matched';
+    if (_rlSt.matchSel === i) cls += ' selected';
+    return '<button class="' + cls + '" data-rl-left="' + i + '">' + pair.en + '</button>';
+  }).join('');
+
+  var rightH = _rlSt.shuffledRight.map(function(origIdx){
+    var pair = d.match[origIdx];
+    var cls = 'dlg-mitem right';
+    if (_rlSt.matched[origIdx]) cls += ' matched';
+    return '<button class="' + cls + '" data-rl-right="' + origIdx + '">' + pair.cn + '</button>';
+  }).join('');
+
+  var progress = matchedCount + ' / ' + n;
+  var headerHtml = '<div class="dlg-match-hd">' +
+    '<span class="dlg-match-kicker">🔗 连线题 — 英汉匹配</span>' +
+    '<span class="dlg-match-prog">' + progress + ' 已连线</span>' +
+  '</div>' +
+  '<div class="dlg-match-tip">点击左侧英文短语 → 再点右侧对应中文意思</div>';
+
+  var html = '<div class="dlg-qwrap">' + headerHtml +
+    '<div class="dlg-match-grid">' +
+      '<div class="dlg-match-col">' + leftH + '</div>' +
+      '<div class="dlg-match-col">' + rightH + '</div>' +
+    '</div>';
+  if (allDone) {
+    html += '<button class="dlg-qnext show" onclick="rlMatchDone()" style="margin-top:14px">进入词汇选择题 →</button>';
+  }
+  html += '</div>';
+  /* Bind clicks after render */
+  setTimeout(_rlBindMatch, 0);
+  return html;
+}
+
+function _rlBindMatch() {
+  document.querySelectorAll('#rl-qbox [data-rl-left]').forEach(function(el){
+    el.onclick = function(){ rlMatchClickLeft(parseInt(el.dataset.rlLeft, 10)); };
+  });
+  document.querySelectorAll('#rl-qbox [data-rl-right]').forEach(function(el){
+    el.onclick = function(){ rlMatchClickRight(parseInt(el.dataset.rlRight, 10)); };
+  });
+}
+
+function rlMatchClickLeft(i) {
+  if (_rlSt.matched[i]) return;
+  _rlSt.matchSel = i;
+  var d = RL_DATA[_rlSt.wi];
+  var box = document.getElementById('rl-qbox');
+  if (box) box.innerHTML = _rlMatchHTML(d);
+}
+
+function rlMatchClickRight(i) {
+  var d = RL_DATA[_rlSt.wi];
+  if (_rlSt.matchSel === null) return;
+  var leftIdx = _rlSt.matchSel;
+  var lel = document.querySelector('[data-rl-left="' + leftIdx + '"]');
+  var rel = document.querySelector('[data-rl-right="' + i + '"]');
+  if (leftIdx === i) {
+    _rlSt.matched[leftIdx] = true;
+    _rlSt.matchSel = null;
+    if (lel) { lel.classList.remove('selected','wrong'); lel.classList.add('matched'); }
+    if (rel) { rel.classList.add('matched'); }
+    try { awardPts(2); } catch(e){}
+    var n = d.match.length, mc=0;
+    for(var k=0;k<n;k++) if(_rlSt.matched[k]) mc++;
+    if (mc===n) {
+      try { toast('🔗 连线全对！+'+n*2+'分','ok'); } catch(e){}
+      setTimeout(function(){ var box=document.getElementById('rl-qbox'); if(box) box.innerHTML=_rlMatchHTML(d); },300);
+    }
+  } else {
+    _rlSt.matchMistakes++;
+    if (lel) lel.classList.add('wrong');
+    if (rel) rel.classList.add('wrong');
+    setTimeout(function(){
+      if(lel){lel.classList.remove('wrong','selected');}
+      if(rel){rel.classList.remove('wrong');}
+      _rlSt.matchSel=null;
+    }, 700);
+  }
+}
+
+function rlMatchDone() {
+  var d = RL_DATA[_rlSt.wi];
+  _rlSt.matchAced = true;
+  if (_rlSt.retrySkipMcq) {
+    _rlSt.retrySkipMcq = false;
+    var box = document.getElementById('rl-qbox');
+    if (box) {
+      var fromRec = null;
+      try { fromRec = (JSON.parse(localStorage.getItem('reallife_done')||'{}'))[d.id] || null; } catch(e){}
+      var intervalText = (fromRec && fromRec.intervalDays) ? fromRec.intervalDays : 7;
+      box.innerHTML =
+        '<div class="dlg-qwrap"><div class="dlg-qresult dlg-qresult-mastered">' +
+          '<div class="dlg-master-badge">🏆</div>' +
+          '<div class="dlg-master-title">连线题通过 · Matching Complete!</div>' +
+          '<div class="dlg-master-score">词汇测试无需重做</div>' +
+          '<div class="dlg-master-sub">词汇测试已满分，<b>本课完全掌握</b>。' + intervalText + ' 天后再复习即可。</div>' +
+          '<div class="dlg-master-actions">' +
+            '<button class="btn-p dlg-master-next" onclick="_rlGoNextLesson()">下一课 →</button>' +
+            '<button class="dlg-master-redo" onclick="_rlSt.matchAced=false;_rlSt.mcqAced=false;rlQRetry()">🔄 完整重做</button>' +
+          '</div>' +
+        '</div></div>';
+    }
+    try { toast && toast('🎊 连线题通过 · 本课掌握！','ok'); } catch(e){}
+    return;
+  }
+  _rlSt.matchPhase = 'mcq';
+  _rlSt.qCur = 0; _rlSt.qScore = 0; _rlSt.qAnswered = false;
+  var box = document.getElementById('rl-qbox');
+  if (box) box.innerHTML = _rlMcqHTML(d);
+}
+
+/* MCQ HTML */
+function _rlMcqHTML(d) {
+  var q = d.quiz[_rlSt.qCur];
+  if (!q) return '';
+  /* Shuffle options */
+  var opts = q.opts.slice();
+  var correct = opts[q.ci];
+  var key = 'rl_' + d.id + '_' + _rlSt.qCur + '_' + (_rlSt.qAnswered ? 'A' : 'Q');
+  if (!_rlSt['shuf_' + key]) {
+    var indices = opts.map(function(_,i){return i;});
+    for (var i=indices.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=indices[i];indices[i]=indices[j];indices[j]=t;
+    }
+    var shuffled = indices.map(function(oi){return opts[oi];});
+    _rlSt['shuf_' + key] = {shuffled:shuffled, correctIdx:shuffled.indexOf(correct)};
+  }
+  var sh = _rlSt['shuf_' + key];
+  var optsH = sh.shuffled.map(function(o, idx){
+    return '<button class="dlg-qopt" data-dlg-idx="' + idx + '" data-dlg-correct="' + sh.correctIdx + '" data-correct-text="' + correct.replace(/"/g,'&quot;') + '" onclick="rlQAnswer(this)">' + o + '</button>';
+  }).join('');
+
+  return '<div class="dlg-qwrap">' +
+    '<div class="dlg-qhead">第 ' + (_rlSt.qCur+1) + ' 题 / 共 ' + d.quiz.length + ' 题</div>' +
+    '<div class="dlg-qprog">' +
+      d.quiz.map(function(_,i){return '<div class="dlg-qpd' + (i < _rlSt.qCur ? ' done' : i === _rlSt.qCur ? ' active' : '') + '"></div>';}).join('') +
+    '</div>' +
+    '<div class="dlg-q">' + q.q + '</div>' +
+    '<div class="dlg-qopts">' + optsH + '</div>' +
+    '<div class="dlg-qexp" id="rl-qexp">💡 ' + q.exp + '</div>' +
+    '<button class="dlg-qnext" id="rl-qnext" onclick="rlQNext()">' + (_rlSt.qCur+1 >= d.quiz.length ? '查看结果 →' : '下一题 →') + '</button>' +
+  '</div>';
+}
+
+function rlQAnswer(btn) {
+  if (_rlSt.qAnswered) return;
+  _rlSt.qAnswered = true;
+  var d = RL_DATA[_rlSt.wi];
+  var idx = parseInt(btn.dataset.dlgIdx, 10);
+  var correctIdx = parseInt(btn.dataset.dlgCorrect, 10);
+  var isOk = (idx === correctIdx);
+  if (isOk) {
+    _rlSt.qScore++;
+    try { awardPts(5); localCorrect--; completeMission('correct'); toast('+5分 ✅ 答对！','ok'); } catch(e){}
+  } else {
+    try { toast('❌ 再看一眼正确答案','err'); } catch(e){}
+  }
+  document.querySelectorAll('#rl-qbox .dlg-qopt').forEach(function(b){
+    b.disabled = true;
+    var bIdx = parseInt(b.dataset.dlgIdx, 10);
+    if (bIdx === correctIdx) {
+      b.classList.add('correct');
+      if (!isOk) b.classList.add('correct-reveal');
+    }
+  });
+  if (!isOk) btn.classList.add('wrong');
+  var exp = document.getElementById('rl-qexp');
+  if (exp) exp.classList.add('show');
+  var nxt = document.getElementById('rl-qnext');
+  if (nxt) {
+    nxt.classList.add('show');
+    setTimeout(function(){
+      try { nxt.scrollIntoView({behavior:'smooth', block:'center'}); } catch(e){}
+      nxt.classList.add('dlg-qnext-attn');
+      setTimeout(function(){ if (nxt) nxt.classList.remove('dlg-qnext-attn'); }, 900);
+    }, 120);
+  }
+}
+
+function rlQNext() {
+  var d = RL_DATA[_rlSt.wi];
+  _rlSt.qCur++;
+  _rlSt.qAnswered = false;
+  if (_rlSt.qCur >= d.quiz.length) {
+    var box = document.getElementById('rl-qbox');
+    if (!box) return;
+    var sc = _rlSt.qScore, tot = d.quiz.length, pct = Math.round(sc/tot*100);
+    _rlSt.mcqAced = (pct === 100);
+
+    /* Save with SRS */
+    var justMasteredFirstTime = false, wasAlreadyMastered = false;
+    try {
+      var rlDone = JSON.parse(localStorage.getItem('reallife_done')||'{}');
+      var prev = rlDone[d.id] || {};
+      var prevBest = prev.pct || 0;
+      wasAlreadyMastered = prevBest === 100;
+      var newRec = prev.pct ? Object.assign({}, prev) : {cat: d.cat};
+      if (pct >= prevBest) {
+        newRec.pct = pct; newRec.score = sc; newRec.total = tot; newRec.ts = Date.now();
+      }
+      if (pct === 100) {
+        var reviews = (prev.masteryReviews || 0) + 1;
+        var intervalDays;
+        if      (reviews === 1) intervalDays = 7;
+        else if (reviews === 2) intervalDays = 14;
+        else if (reviews === 3) intervalDays = 30;
+        else if (reviews === 4) intervalDays = 60;
+        else                    intervalDays = 90;
+        newRec.masteryReviews = reviews;
+        newRec.masteredAt = Date.now();
+        newRec.reviewDue = Date.now() + intervalDays * 86400000;
+        newRec.intervalDays = intervalDays;
+        if (!wasAlreadyMastered) justMasteredFirstTime = true;
+      }
+      rlDone[d.id] = newRec;
+      localStorage.setItem('reallife_done', JSON.stringify(rlDone));
+    } catch(e){}
+
+    /* Result HTML — reuse dlg-qresult styles */
+    var resultHtml = '';
+    if (pct === 100) {
+      var intervalText = '';
+      try {
+        var rd2 = JSON.parse(localStorage.getItem('reallife_done')||'{}')[d.id];
+        if (rd2 && rd2.intervalDays) intervalText = rd2.intervalDays;
+      } catch(e){}
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult dlg-qresult-mastered">' +
+        '<div class="dlg-master-confetti">' +
+          '<span class="dlg-conf c1">🎉</span><span class="dlg-conf c2">⭐</span><span class="dlg-conf c3">✨</span>' +
+          '<span class="dlg-conf c4">🎊</span><span class="dlg-conf c5">💫</span>' +
+        '</div>' +
+        '<div class="dlg-master-badge">🏆</div>' +
+        '<div class="dlg-master-title">' + (justMasteredFirstTime ? '课程掌握！Lesson Mastered!' : 'Perfect Again! 再次满分！') + '</div>' +
+        '<div class="dlg-master-score">' + sc + ' / ' + tot + ' · 100%</div>' +
+        '<div class="dlg-master-sub">' +
+          (justMasteredFirstTime
+            ? '你已完全掌握 <b>' + d.titleCN + '</b>。根据遗忘曲线，<b>' + intervalText + ' 天后</b>再来复习即可。'
+            : '本课下次复习时间已更新为 <b>' + intervalText + ' 天后</b>。'
+          ) +
+        '</div>' +
+        '<div class="dlg-master-rewards">' +
+          '<div class="dlg-master-reward"><span class="dmr-ico">💰</span><span class="dmr-val">+' + (sc*5) + '</span><span class="dmr-lbl">积分</span></div>' +
+          '<div class="dlg-master-reward"><span class="dmr-ico">🎯</span><span class="dmr-val">' + pct + '%</span><span class="dmr-lbl">正确率</span></div>' +
+          '<div class="dlg-master-reward"><span class="dmr-ico">⏰</span><span class="dmr-val">' + intervalText + 'd</span><span class="dmr-lbl">下次复习</span></div>' +
+        '</div>' +
+        '<div class="dlg-master-actions">' +
+          '<button class="btn-p dlg-master-next" onclick="_rlGoNextLesson()">下一课 →</button>' +
+          '<button class="dlg-master-redo" onclick="rlQRetry()">🔄 再做一次</button>' +
+        '</div>' +
+      '</div></div>';
+      try { toast && toast('🏆 满分！本课已掌握 · '+intervalText+'天后复习','ok'); } catch(e){}
+    } else if (pct >= 80) {
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult dlg-qresult-great">' +
+        '<div class="dlg-result-emoji">🎉</div>' +
+        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-qscore-sub">非常棒！离完全掌握就差一点了</div>' +
+        '<div class="dlg-result-hint">💡 挑战满分解锁 <b>🏆 Mastered</b> 徽章</div>' +
+        '<div class="dlg-master-actions"><button class="btn-p" onclick="rlQRetry()">🔄 冲击满分</button></div>' +
+      '</div></div>';
+      try { toast && toast('🎉 ' + sc + '/' + tot + '！继续冲击满分','ok'); } catch(e){}
+    } else if (pct >= 60) {
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult">' +
+        '<div class="dlg-result-emoji">👍</div>' +
+        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-qscore-sub">不错 — 建议重读对话后再试</div>' +
+        '<div class="dlg-master-actions"><button class="btn-p" onclick="rlQRetry()">🔄 再来一次</button></div>' +
+      '</div></div>';
+    } else {
+      resultHtml = '<div class="dlg-qwrap"><div class="dlg-qresult">' +
+        '<div class="dlg-result-emoji">💪</div>' +
+        '<div class="dlg-qscore-big">' + sc + '/' + tot + '</div>' +
+        '<div class="dlg-qscore-sub">别灰心！仔细看一遍对话再来挑战</div>' +
+        '<div class="dlg-master-actions"><button class="btn-p" onclick="rlQRetry()">🔄 重读后再试</button></div>' +
+      '</div></div>';
+    }
+    box.innerHTML = resultHtml;
+    /* Refresh lesson list so 🏆 appears on mastered lesson */
+    try { _renderRL(); } catch(e){}
+  } else {
+    var box2 = document.getElementById('rl-qbox');
+    if (box2) box2.innerHTML = _rlMcqHTML(d);
+  }
+}
+
+function rlQRetry() {
+  var d = RL_DATA[_rlSt.wi];
+  var matchAced = !!_rlSt.matchAced;
+  var mcqAced = !!_rlSt.mcqAced;
+  var box = document.getElementById('rl-qbox');
+  if (!box) return;
+
+  if (mcqAced && !matchAced) {
+    _rlSt.matchPhase = 'match';
+    _dlgMatchInit_RL(d);
+    _rlSt.retrySkipMcq = true;
+    try { toast && toast('💡 只需重做连线题 · 词汇测试已满分','ok'); } catch(e){}
+    box.innerHTML = _rlMatchHTML(d);
+    return;
+  }
+  if (matchAced && !mcqAced) {
+    _rlSt.matchPhase = 'mcq';
+    _rlSt.qCur = 0; _rlSt.qScore = 0; _rlSt.qAnswered = false;
+    try { toast && toast('💡 只需重做词汇测试 · 连线题已通过','ok'); } catch(e){}
+    box.innerHTML = _rlMcqHTML(d);
+    return;
+  }
+  _rlSt.qCur=0; _rlSt.qScore=0; _rlSt.qAnswered=false;
+  _rlSt.matchPhase='match';
+  _rlSt.retrySkipMcq=false;
+  _rlSt.matchAced=false;
+  _rlSt.mcqAced=false;
+  _dlgMatchInit_RL(d);
+  box.innerHTML = _rlMatchHTML(d);
+}
+
+function _rlGoNextLesson() {
+  try {
+    var filtered = (_rlSt.catFilter === 'ALL') ? RL_DATA : RL_DATA.filter(function(dd){return dd.cat === _rlSt.catFilter;});
+    var curIdx = filtered.indexOf(RL_DATA[_rlSt.wi]);
+    var rlDone = {};
+    try { rlDone = JSON.parse(localStorage.getItem('reallife_done')||'{}'); } catch(e){}
+    for (var i = curIdx + 1; i < filtered.length; i++) {
+      var rec = rlDone[filtered[i].id];
+      var isMastered = rec && rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue;
+      if (!isMastered) { _rlSetWeek(RL_DATA.indexOf(filtered[i])); return; }
+    }
+    for (var j = 0; j < curIdx; j++) {
+      var rec2 = rlDone[filtered[j].id];
+      var isMastered2 = rec2 && rec2.pct === 100 && rec2.reviewDue && Date.now() < rec2.reviewDue;
+      if (!isMastered2) { _rlSetWeek(RL_DATA.indexOf(filtered[j])); return; }
+    }
+    if (curIdx + 1 < filtered.length) {
+      _rlSetWeek(RL_DATA.indexOf(filtered[curIdx + 1]));
+    } else {
+      try { toast && toast('🎊 本分类全部掌握！','ok'); } catch(e){}
+    }
+  } catch(e){}
+}
+
+/* ── Audio + translation toggles ── */
+function rlSpeak(i) {
+  var d = RL_DATA[_rlSt.wi];
+  if (!d || !d.lines[i]) return;
+  try {
+    if (typeof _googleSpeak === 'function') {
+      _googleSpeak(d.lines[i].en, null, 0.95);
+    } else {
+      var utt = new SpeechSynthesisUtterance(d.lines[i].en);
+      utt.lang = 'en-US'; utt.rate = 0.9;
+      window.speechSynthesis.speak(utt);
+    }
+  } catch(e){}
+}
+
+function rlToggleTrans(i) {
+  var el = document.getElementById('rl-tr-' + i);
+  if (el) el.classList.toggle('show');
+}
+
+function rlVcToggle(vi) {
+  var el = document.getElementById('rl-vc-' + vi);
+  if (!el) return;
+  var isOpening = !el.classList.contains('open');
+  el.classList.toggle('open');
+  if (isOpening) {
+    var btn = el.querySelector('.dlg-vc-spk');
+    var sentence = btn ? btn.dataset.ex : null;
+    if (sentence) {
+      try { _dlgVcPlay(sentence, btn); } catch(e){}
+    }
+  }
+}
+
+function rlVocabSpeak(ev, sentence) {
+  if (ev) ev.stopPropagation();
+  try { _dlgVcPlay(sentence); } catch(e){
+    try {
+      var utt = new SpeechSynthesisUtterance(sentence);
+      utt.lang = 'en-US'; utt.rate = 0.9;
+      window.speechSynthesis.speak(utt);
+    } catch(e2){}
+  }
+}
+
+function rlToggleTheater() {
+  /* Simple: speak lines one by one */
+  var d = RL_DATA[_rlSt.wi];
+  if (!d || !d.lines) return;
+  var btn = document.getElementById('rl-theater-btn');
+  if (_rlSt.theater) {
+    _rlSt.theater = false;
+    try { window.speechSynthesis.cancel(); } catch(e){}
+    if (btn) btn.textContent = '🎬 剧场模式 — 自动逐句朗读全对话';
+    return;
+  }
+  _rlSt.theater = true;
+  if (btn) btn.textContent = '⏹ 停止剧场模式';
+  var i = 0;
+  function next() {
+    if (!_rlSt.theater || i >= d.lines.length) {
+      _rlSt.theater = false;
+      if (btn) btn.textContent = '🎬 剧场模式 — 自动逐句朗读全对话';
+      return;
+    }
+    rlSpeak(i);
+    i++;
+    setTimeout(next, 2500);
+  }
+  next();
+}
+
+
 function dlgVcToggle(vi) {
   var el = document.getElementById('dlg-vc-'+vi);
   if (!el) return;
@@ -13308,7 +14827,7 @@ window.onload = async function() {
      If no saved page, land on the Hero home. */
   var _lastPage = null;
   try { _lastPage = localStorage.getItem('__sys_last_page'); } catch(e){}
-  var _validPages = {learn:1,quiz:1,wrongbook:1,lb:1,bayarea:1,monthly:1,cnen:1,course:1,profile:1,pk:1,daily:1,plumber:1,caprep:1};
+  var _validPages = {learn:1,quiz:1,wrongbook:1,lb:1,bayarea:1,monthly:1,cnen:1,course:1,profile:1,pk:1,daily:1,plumber:1,caprep:1,reallife:1};
   if (_lastPage && _validPages[_lastPage] && document.getElementById('page-' + _lastPage)) {
     show(_lastPage);
   } else {
@@ -13809,6 +15328,7 @@ function show(p) {
   if (p === 'lb')        renderLB();
   if (p === 'profile')   renderProfile();
   if (p === 'bayarea')   { _renderDlgInBay(); setBadgeStat('bay_visited', true); }
+  if (p === 'reallife')  renderRealLife();
   if (p === 'monthly')   renderMonthly();
   if (p === 'pk')        renderPK();
   if (p === 'cnen')      renderCNEN();
@@ -14243,6 +15763,10 @@ function setCat(c, el) {
 
 function renderLearn() {
   refreshDueBadge();
+  /* Clean any previous mastered-hidden hint banners */
+  try {
+    document.querySelectorAll('.learn-mastered-hint').forEach(function(el){ el.remove(); });
+  } catch(e){}
   var q = (document.getElementById('lsearch').value || '').toLowerCase();
   var _lTotalMastered = 0;
   var list = DATA.filter(function(v) {
@@ -14276,7 +15800,16 @@ function renderLearn() {
   var mastered = list.filter(function(v){
     return progressData['learn_' + v.id] === 'pass';
   }).sort(_newFirst);
-  list = unmastered.concat(mastered);
+
+  /* By default, HIDE mastered items from the Learn list — they stop
+     appearing in daily review until user explicitly opts in.
+     Search, the 'due' tab, and the explicit toggle all bypass this. */
+  var showMastered = (cat === 'due') || !!q || window._learnShowMastered;
+  if (!showMastered) {
+    list = unmastered;
+  } else {
+    list = unmastered.concat(mastered);
+  }
   var _firstMasteredIdx = unmastered.length; // anything >= this is a mastered card
   document.getElementById('lcount').textContent = list.length + ' shown';
   var c = document.getElementById('llist');
@@ -14292,6 +15825,44 @@ function renderLearn() {
         : '<p style="font-size:15px;font-weight:600;color:var(--green)">今日复习全部完成！🔥</p><p style="font-size:13px;margin-top:8px">太棒了，明天再来继续学习。</p>') +
       '</div>';
     return;
+  }
+
+  /* ── Everything in this view is already mastered — encourage with empty state ── */
+  if (!showMastered && list.length === 0 && _lTotalMastered > 0) {
+    c.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text3)">' +
+      '<div style="font-size:48px;margin-bottom:12px">🎉</div>' +
+      '<p style="font-size:16px;font-weight:700;color:#16a34a;margin-bottom:6px">太棒了！本类别全部已掌握</p>' +
+      '<p style="font-size:13px;color:#5a4528;max-width:340px;margin:0 auto 16px">根据遗忘曲线，已掌握的词汇暂时不再出现。专注于还没掌握的地方，学习效率最高。</p>' +
+      '<button onclick="window._learnShowMastered=true;renderLearn()" style="padding:9px 20px;background:#fff;border:1.5px solid #d97757;color:#d97757;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">🔁 仍想复习已掌握的 (' + _lTotalMastered + ')</button>' +
+      '</div>';
+    var pagerHost0 = document.getElementById('learn-pager');
+    if (pagerHost0) pagerHost0.innerHTML = '';
+    return;
+  }
+
+  /* ── Hint banner when mastered items are hidden ── */
+  if (!showMastered && _lTotalMastered > 0 && list.length > 0) {
+    var hint = document.createElement('div');
+    hint.className = 'learn-mastered-hint';
+    hint.innerHTML =
+      '<div class="lmh-body">' +
+        '<span class="lmh-ico">🎯</span>' +
+        '<span class="lmh-txt">已掌握的 <b>' + _lTotalMastered + '</b> 条暂时隐藏，专注未掌握的内容</span>' +
+      '</div>' +
+      '<button class="lmh-btn" onclick="window._learnShowMastered=true;renderLearn()">🔁 查看已掌握</button>';
+    c.parentNode.insertBefore(hint, c);
+  }
+  /* ── "Hide again" toggle when user is viewing mastered ── */
+  if (showMastered && _lTotalMastered > 0 && !q && cat !== 'due' && window._learnShowMastered) {
+    var hint2 = document.createElement('div');
+    hint2.className = 'learn-mastered-hint showing';
+    hint2.innerHTML =
+      '<div class="lmh-body">' +
+        '<span class="lmh-ico">👀</span>' +
+        '<span class="lmh-txt">正在显示已掌握的 <b>' + _lTotalMastered + '</b> 条</span>' +
+      '</div>' +
+      '<button class="lmh-btn" onclick="window._learnShowMastered=false;renderLearn()">🔽 隐藏已掌握</button>';
+    c.parentNode.insertBefore(hint2, c);
   }
 
   // ── Pagination: 4 per page ──
@@ -15780,8 +17351,62 @@ function renderProfile() {
    * WELCOME CARD — shown only to users with no
    * progress in any learning section yet.
    * ───────────────────────────────────────────── */
+
+  /* ── Real Life (comic series) progress ── */
+  var rlSectionHtml = '';
+  if (typeof RL_DATA !== 'undefined') {
+    var rlDone = {};
+    try { rlDone = JSON.parse(localStorage.getItem('reallife_done') || '{}'); } catch(e){}
+    var rlMastered = 0, rlAttempted = 0, rlDue = 0;
+    var touchedLessons = [];
+    RL_DATA.forEach(function(l){
+      var rec = rlDone[l.id];
+      if (rec && rec.pct > 0) {
+        rlAttempted++;
+        touchedLessons.push({lesson:l, rec:rec});
+        if (rec.pct === 100) {
+          if (rec.reviewDue && Date.now() < rec.reviewDue) rlMastered++;
+          else rlDue++;
+        }
+      }
+    });
+    if (touchedLessons.length > 0) {
+      var rlCardsH = touchedLessons.map(function(entry){
+        var l = entry.lesson, rec = entry.rec;
+        var statusIcon, statusLabel, statusColor;
+        if (rec.pct === 100 && rec.reviewDue && Date.now() < rec.reviewDue) {
+          var daysLeft = Math.max(1, Math.ceil((rec.reviewDue - Date.now()) / 86400000));
+          statusIcon = '🏆'; statusLabel = '已掌握 · ' + daysLeft + 'd'; statusColor = '#f59e0b';
+        } else if (rec.pct === 100) {
+          statusIcon = '⏰'; statusLabel = '建议复习'; statusColor = '#ef4444';
+        } else {
+          statusIcon = '📖'; statusLabel = rec.pct + '% 进行中'; statusColor = '#3b82f6';
+        }
+        return '<div class="p2-rl-card" onclick="show(\'reallife\')" style="--rl-color:' + l.color + '">' +
+          '<div class="p2-rl-ico">' + l.icon + '</div>' +
+          '<div class="p2-rl-info">' +
+            '<div class="p2-rl-title">' + l.title + '</div>' +
+            '<div class="p2-rl-title-cn">' + l.titleCN + '</div>' +
+          '</div>' +
+          '<div class="p2-rl-status" style="color:' + statusColor + '">' +
+            '<span class="p2-rl-status-ico">' + statusIcon + '</span>' +
+            '<span class="p2-rl-status-lbl">' + statusLabel + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      rlSectionHtml =
+        '<div class="p2-section">' +
+          '<div class="p2-section-head">' +
+            '<h3 class="p2-section-title">☕ Real Life · 生活对话</h3>' +
+            '<div class="p2-section-sum">🏆 ' + rlMastered + ' 掌握 · 📖 ' + rlAttempted + ' 尝试</div>' +
+          '</div>' +
+          '<div class="p2-rl-cards">' + rlCardsH + '</div>' +
+        '</div>';
+    }
+  }
+
   var welcomeHtml = '';
-  var hasAnyProgress = !!(plmbSectionHtml || idiomSectionHtml || baySectionHtml);
+  var hasAnyProgress = !!(plmbSectionHtml || idiomSectionHtml || baySectionHtml || rlSectionHtml);
   if (!hasAnyProgress) {
     welcomeHtml =
       '<div class="p2-section p2-welcome">' +
@@ -15793,6 +17418,7 @@ function renderProfile() {
             '<button class="p2-welcome-cta" onclick="show(\'plumber\')"><span class="p2-welcome-cta-ico">🔧</span><div><div class="p2-welcome-cta-title">水管工程英语</div><div class="p2-welcome-cta-sub">60 节课程 · 零基础到独立接单</div></div></button>' +
             '<button class="p2-welcome-cta" onclick="show(\'learn\')"><span class="p2-welcome-cta-ico">📚</span><div><div class="p2-welcome-cta-title">Idiomatic Fluency</div><div class="p2-welcome-cta-sub">300+ 地道表达 · 习语精修</div></div></button>' +
             '<button class="p2-welcome-cta" onclick="show(\'bayarea\')"><span class="p2-welcome-cta-ico">💼</span><div><div class="p2-welcome-cta-title">Bay Area Workplace</div><div class="p2-welcome-cta-sub">硅谷职场真实对话</div></div></button>' +
+            '<button class="p2-welcome-cta" onclick="show(\'reallife\')"><span class="p2-welcome-cta-ico">☕</span><div><div class="p2-welcome-cta-title">Real Life 生活对话</div><div class="p2-welcome-cta-sub">漫画式日常场景</div></div></button>' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -15902,13 +17528,29 @@ function renderProfile() {
   /* ─────────────────────────────────────────────
    * ASSEMBLE
    * ───────────────────────────────────────────── */
+  /* All-modules progress section (shared with Daily page) */
+  var modProgressHtml = '';
+  try {
+    if (typeof window._modProgressHTML === 'function') {
+      modProgressHtml =
+        '<div class="p2-section">' +
+          '<div class="p2-section-head">' +
+            '<h3 class="p2-section-title">📊 各模块学习进度 · Module Mastery</h3>' +
+          '</div>' +
+          window._modProgressHTML() +
+        '</div>';
+    }
+  } catch(e){}
+
   c.innerHTML =
     '<div class="p2-wrap">' +
       heroHtml +
       statsHtml +
+      modProgressHtml +
       plmbSectionHtml +
       idiomSectionHtml +
       baySectionHtml +
+      rlSectionHtml +
       welcomeHtml +
       achievementsHtml +
       heatmapHtml +
@@ -42694,6 +44336,56 @@ function renderClassics() {
   .dly-sec-h { margin: 0 0 16px; font-size: 16px; font-weight: 700; color: #1a1308; display: flex; align-items: center; gap: 8px; }
   .dly-cnt { display: inline-block; padding: 2px 9px; background: #f4e1d0; color: #a0633a; border-radius: 999px; font-size: 12px; font-weight: 600; }
 
+  /* ─── Module Progress component (shared between Daily and Profile) ─── */
+  .modp-wrap { display: flex; flex-direction: column; gap: 14px; }
+  .modp-overall { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; background: linear-gradient(135deg, #fff8f3 0%, #fef3e7 100%); border: 1px solid #f0d9c3; border-radius: 12px; }
+  [data-theme="dark"] .modp-overall { background: linear-gradient(135deg, rgba(217,119,87,.15), rgba(217,119,87,.08)); border-color: rgba(217,119,87,.3); }
+  .modp-overall-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #a0633a; margin-bottom: 4px; }
+  [data-theme="dark"] .modp-overall-label { color: #f0b896; }
+  .modp-overall-nums { font-size: 16px; color: #1a1308; }
+  [data-theme="dark"] .modp-overall-nums { color: #f0ebe2; }
+  .modp-overall-nums b { font-size: 22px; color: #d97757; font-weight: 800; }
+  .modp-overall-pct { font-size: 34px; font-weight: 800; color: #d97757; letter-spacing: -.02em; }
+
+  .modp-rows { display: flex; flex-direction: column; gap: 10px; }
+  .modp-row { padding: 14px 18px; background: #fafaf7; border: 1px solid #f0ebe2; border-radius: 12px; cursor: pointer; transition: all .2s; --mod-color: #d97757; position: relative; overflow: hidden; }
+  [data-theme="dark"] .modp-row { background: rgba(255,255,255,.03); border-color: rgba(255,255,255,.08); }
+  .modp-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--mod-color); }
+  .modp-row:hover { transform: translateX(3px); border-color: var(--mod-color); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  [data-theme="dark"] .modp-row:hover { box-shadow: 0 4px 14px rgba(0,0,0,.3); }
+  .modp-row-top { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; margin-bottom: 8px; }
+  .modp-row-ico { font-size: 26px; line-height: 1; }
+  .modp-row-info { min-width: 0; }
+  .modp-row-name { font-size: 14px; font-weight: 700; color: #1a1308; letter-spacing: -.01em; line-height: 1.2; }
+  [data-theme="dark"] .modp-row-name { color: #f0ebe2; }
+  .modp-row-sub { font-size: 11.5px; color: #8a7560; margin-top: 2px; font-weight: 500; }
+  [data-theme="dark"] .modp-row-sub { color: #a89678; }
+  .modp-row-nums { text-align: right; flex-shrink: 0; }
+  .modp-row-frac { font-size: 11.5px; color: #6b5640; font-weight: 600; }
+  [data-theme="dark"] .modp-row-frac { color: #a89678; }
+  .modp-row-pct { font-size: 18px; font-weight: 800; letter-spacing: -.01em; line-height: 1; margin-top: 2px; }
+  .modp-row-bar { height: 6px; background: #f0ebe2; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+  [data-theme="dark"] .modp-row-bar { background: rgba(255,255,255,.06); }
+  .modp-row-fill { height: 100%; border-radius: 3px; transition: width .6s cubic-bezier(.25,.8,.25,1); box-shadow: 0 0 4px rgba(0,0,0,.05) inset; }
+  .modp-row-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .modp-chip { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: rgba(255,255,255,.7); border: 1px solid #f0ebe2; color: #6b5640; }
+  [data-theme="dark"] .modp-chip { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.08); color: #a89678; }
+  .modp-chip.done { background: #e6f7ec; color: #2d8659; border-color: #bde5cc; }
+  [data-theme="dark"] .modp-chip.done { background: rgba(45,134,89,.15); color: #86e0a8; border-color: rgba(45,134,89,.35); }
+  .modp-chip.learning { background: #fef3e7; color: #a0633a; border-color: #f0d9c3; }
+  [data-theme="dark"] .modp-chip.learning { background: rgba(217,119,87,.15); color: #f0b896; border-color: rgba(217,119,87,.3); }
+  .modp-chip.new { background: #f4f1ec; color: #8a7560; border-color: #e5ddd0; }
+  [data-theme="dark"] .modp-chip.new { background: rgba(255,255,255,.04); color: #a89678; border-color: rgba(255,255,255,.08); }
+  @media (max-width: 640px) {
+    .modp-row { padding: 12px 14px; }
+    .modp-row-ico { font-size: 22px; }
+    .modp-row-name { font-size: 13px; }
+    .modp-row-sub { font-size: 11px; }
+    .modp-row-pct { font-size: 16px; }
+    .modp-overall-pct { font-size: 28px; }
+    .modp-overall { padding: 13px 16px; }
+  }
+
   .dly-tasks { display: flex; flex-direction: column; gap: 12px; }
   .dly-task { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; padding: 14px 18px; background: #fafaf7; border: 1px solid #f0ebe2; border-radius: 12px; transition: all .15s ease; }
   .dly-task:hover { border-color: #d97757; background: #fff8f3; }
@@ -42830,32 +44522,127 @@ function renderClassics() {
     var srsMaster = _learnMaster();
     var passLearn = _countPass('learn');
     var learnMastered = Math.max(srsMaster, passLearn); // best of either signal
+
+    // Plumber — sum across all tracks
+    var plmbDone = 0, plmbLearning = 0, plmbTotal = 0;
+    try {
+      if (window.PLMB_LEVELS && window._plmbCourseOverall) {
+        window.PLMB_LEVELS.forEach(function(lv){
+          if (lv.status !== 'active') return;
+          var ov = window._plmbCourseOverall(lv.key) || {};
+          plmbDone     += (ov.passed   || 0);
+          plmbLearning += (ov.learning || 0);
+          plmbTotal    += (ov.total    || 0);
+        });
+      }
+    } catch(e){}
+
+    // Course (系统课程) — count passed lessons from crs_progress
+    var crsDone = 0, crsTotal = 0;
+    try {
+      var crsP = JSON.parse(localStorage.getItem('crs_progress') || '{}');
+      if (typeof CRS_LEVELS !== 'undefined' && typeof CRS_LESSONS !== 'undefined') {
+        CRS_LEVELS.forEach(function(lv){
+          var lessons = CRS_LESSONS[lv.id] || [];
+          crsTotal += lessons.length;
+          lessons.forEach(function(les){
+            var key = 'lv' + lv.id + '_' + les.id;
+            if (crsP[key] && crsP[key].done) crsDone++;
+          });
+        });
+      }
+    } catch(e){}
+
+    // Real Life — count mastered lessons (100% within SRS window)
+    var rlDone = 0, rlLearning = 0, rlTotal = 0;
+    try {
+      if (typeof RL_DATA !== 'undefined') {
+        rlTotal = RL_DATA.length;
+        var rlDoneData = JSON.parse(localStorage.getItem('reallife_done') || '{}');
+        RL_DATA.forEach(function(l){
+          var rec = rlDoneData[l.id];
+          if (rec && rec.pct === 100) rlDone++;
+          else if (rec && rec.pct > 0) rlLearning++;
+        });
+      }
+    } catch(e){}
+
     var stats = [
-      { key:'learn',   icon:'📚', name:'Idioms · 地道表达',     view:'learn',   total:T.learn,   done:learnMastered,             learning:_countLearning('learn'),   color:'#d97757' },
-      { key:'bay',     icon:'💼', name:'Workplace · 职场英语',  view:'bayarea', total:T.bay,     done:_countPass('bay'),         learning:_countLearning('bay'),     color:'#2563eb' },
-      { key:'monthly', icon:'🔥', name:'Trending · 热词',        view:'monthly', total:T.monthly, done:_countPass('monthly'),     learning:_countLearning('monthly'), color:'#a855f7' },
-      { key:'cnen',    icon:'🀄', name:'CN → EN · 汉译英',       view:'cnen',    total:T.cnen,    done:_countPass('cnen'),        learning:_countLearning('cnen'),    color:'#10b981' }
+      { key:'learn',    icon:'📚', name:'习语词汇 Vocabulary',     sub:'Idioms · Phrases · Vocabulary', view:'learn',    total:T.learn,   done:learnMastered,           learning:_countLearning('learn'),   color:'#d97757' },
+      { key:'bay',      icon:'💼', name:'职场对话 Bay Area',        sub:'硅谷职场真实对话',              view:'bayarea',  total:T.bay,     done:_countPass('bay'),       learning:_countLearning('bay'),     color:'#2563eb' },
+      { key:'reallife', icon:'☕', name:'生活对话 Real Life',        sub:'咖啡店·加油站·日常场景',          view:'reallife', total:rlTotal,   done:rlDone,                  learning:rlLearning,                color:'#d97757' },
+      { key:'plumber',  icon:'🔧', name:'水管工程英语 Plumber',     sub:'入门·初级·中级',                 view:'plumber',  total:plmbTotal, done:plmbDone,                learning:plmbLearning,              color:'#0891b2' },
+      { key:'course',   icon:'📖', name:'系统课程 Course',           sub:'分级体系学习',                   view:'course',   total:crsTotal,  done:crsDone,                 learning:0,                         color:'#f59e0b' },
+      { key:'monthly',  icon:'🔥', name:'US 月度热词 Monthly',       sub:'美国当下最火词汇',                view:'monthly',  total:T.monthly, done:_countPass('monthly'),   learning:_countLearning('monthly'), color:'#a855f7' },
+      { key:'cnen',     icon:'🀄', name:'汉译英 CN→EN',              sub:'中文热词地道英译',                view:'cnen',     total:T.cnen,    done:_countPass('cnen'),      learning:_countLearning('cnen'),    color:'#10b981' }
     ];
     return stats;
   };
 
   function _modProgressHTML(){
     var stats = window._modStats();
-    return '<div class="dly-mods">' + stats.map(function(s){
+    /* Header summary */
+    var tot = 0, done = 0;
+    stats.forEach(function(s){ tot += s.total; done += s.done; });
+    var overallPct = tot > 0 ? Math.round(done/tot*100) : 0;
+
+    /* Sort stats for display: highest completion % first.
+       Tiebreakers: more items-learning next, then canonical order.
+       Modules with total=0 (no data yet) sink to the bottom. */
+    var displayStats = stats.map(function(s, canonicalIdx){
+      var pct = s.total > 0 ? (s.done / s.total) : -1; // -1 for empty modules
+      return {s:s, pct:pct, canonicalIdx:canonicalIdx};
+    }).sort(function(a, b){
+      /* Modules with no data ever sink to bottom */
+      if (a.pct === -1 && b.pct !== -1) return 1;
+      if (b.pct === -1 && a.pct !== -1) return -1;
+      /* Higher pct first */
+      if (b.pct !== a.pct) return b.pct - a.pct;
+      /* Same pct: prefer module with more learning-in-progress */
+      var aLearn = a.s.learning || 0, bLearn = b.s.learning || 0;
+      if (bLearn !== aLearn) return bLearn - aLearn;
+      /* Final tiebreaker: canonical order */
+      return a.canonicalIdx - b.canonicalIdx;
+    }).map(function(w){ return w.s; });
+
+    var rowsH = displayStats.map(function(s){
       var pct = s.total > 0 ? Math.round((s.done / s.total) * 100) : 0;
-      var pctText = s.total > 0 ? (s.done + ' / ' + s.total) : '—';
-      return '<div class="dly-mod" onclick="show(\''+s.view+'\')">' +
-        '<div class="dly-mod-top">' +
-          '<span class="dly-mod-ico">'+s.icon+'</span>' +
-          '<span class="dly-mod-name">'+s.name+'</span>' +
-          '<span class="dly-mod-pct" style="color:'+s.color+'">'+pct+'%</span>' +
+      var notStarted = Math.max(0, s.total - s.done - (s.learning || 0));
+      var subChips = '';
+      if (s.total > 0) {
+        if (s.done > 0)     subChips += '<span class="modp-chip done">✅ ' + s.done + ' 已掌握</span>';
+        if (s.learning > 0) subChips += '<span class="modp-chip learning">📖 ' + s.learning + ' 学习中</span>';
+        if (notStarted > 0) subChips += '<span class="modp-chip new">🆕 ' + notStarted + ' 未学习</span>';
+      } else {
+        subChips = '<span class="modp-chip new" style="opacity:.6">— 暂无数据</span>';
+      }
+      return '<div class="modp-row" onclick="show(\''+s.view+'\')" style="--mod-color:'+s.color+'">' +
+        '<div class="modp-row-top">' +
+          '<span class="modp-row-ico">'+s.icon+'</span>' +
+          '<div class="modp-row-info">' +
+            '<div class="modp-row-name">'+s.name+'</div>' +
+            '<div class="modp-row-sub">'+s.sub+'</div>' +
+          '</div>' +
+          '<div class="modp-row-nums">' +
+            '<div class="modp-row-frac">'+s.done+' / '+(s.total||'—')+'</div>' +
+            '<div class="modp-row-pct" style="color:'+s.color+'">'+pct+'%</div>' +
+          '</div>' +
         '</div>' +
-        '<div class="dly-mod-bar"><div class="dly-mod-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>' +
-        '<div class="dly-mod-meta"><span>掌握 <b>'+pctText+'</b></span>' +
-          (s.learning>0 ? '<span class="dly-mod-learn">学习中 '+s.learning+'</span>' : '') +
-        '</div>' +
+        '<div class="modp-row-bar"><div class="modp-row-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>' +
+        '<div class="modp-row-chips">' + subChips + '</div>' +
       '</div>';
-    }).join('') + '</div>';
+    }).join('');
+
+    return '<div class="modp-wrap">' +
+      '<div class="modp-overall">' +
+        '<div class="modp-overall-left">' +
+          '<div class="modp-overall-label">整体学习进度 · Overall</div>' +
+          '<div class="modp-overall-nums"><b>'+done+'</b> / '+tot+' 已掌握</div>' +
+        '</div>' +
+        '<div class="modp-overall-pct">'+overallPct+'%</div>' +
+      '</div>' +
+      '<div class="modp-rows">' + rowsH + '</div>' +
+    '</div>';
   }
   window._modProgressHTML = _modProgressHTML;
 
@@ -42874,7 +44661,7 @@ function renderClassics() {
       var afterEl = sections[0]; // tasks section
       var modSec = document.createElement('div');
       modSec.className = 'dly-section dly-mod-section';
-      modSec.innerHTML = '<h3 class="dly-sec-h">📊 各模块进度 · Module Mastery</h3>' + _modProgressHTML();
+      modSec.innerHTML = '<h3 class="dly-sec-h">📊 各模块学习进度 · Module Mastery</h3>' + _modProgressHTML();
       if (afterEl && afterEl.nextSibling) {
         wrap.insertBefore(modSec, afterEl.nextSibling);
       } else {
@@ -42909,6 +44696,11 @@ function renderClassics() {
         else card.insertAdjacentHTML('beforeend', html);
       }
     });
+    /* Also inject full module-progress table into the home page */
+    var modBox = document.getElementById('hero-mod-progress');
+    if (modBox && typeof _modProgressHTML === 'function') {
+      modBox.innerHTML = _modProgressHTML();
+    }
   }
   window._injectHeroChips = _injectHeroChips;
 

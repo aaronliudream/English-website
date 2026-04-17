@@ -12255,6 +12255,8 @@ function dlgListenCheck() {
   if (sentCnEl) sentCnEl.style.display = 'block';
   if (sub) sub.disabled = true;
   if (nxt) { nxt.classList.add('show'); setTimeout(function(){ var col=nxt.closest('.dlg-col-right'); if(col){col.scrollTop=col.scrollHeight;}else{nxt.scrollIntoView({behavior:'smooth',block:'center'});} },150); }
+  // Auto-advance after 2s
+  setTimeout(function(){ if (_dlgSt.listenAnswered) dlgListenNext(); }, 2000);
 }
 
 function dlgListenNext() {
@@ -38942,6 +38944,7 @@ function _crsListenCheck() {
   if (sentCnEl2) sentCnEl2.style.display = 'block';
   if (sub) sub.disabled = true;
   if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
+  setTimeout(function(){ if (_crsListenSt.answered) _crsListenNext(); }, 2000);
 }
 
 function _crsListenNext() {
@@ -48085,6 +48088,7 @@ quiz:[
     if (sentCnEl3) sentCnEl3.style.display = 'block';
     if (sub) sub.disabled = true;
     if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
+    setTimeout(function(){ if (plmbListenSt.answered) _plmbListenNext(); }, 2000);
   };
 
   window._plmbListenNext = function() {
@@ -50000,6 +50004,7 @@ window.CA_PREP_S1 = [
     if (sentCnEl4) sentCnEl4.style.display = 'block';
     if (sub) sub.disabled = true;
     if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
+    setTimeout(function(){ if (gLst.answered) _gListenNext(); }, 2000);
   };
 
   window._gListenRetryWrap = function() { openGlobalListen(gLst.module); };

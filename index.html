@@ -2957,10 +2957,6 @@ document.addEventListener('DOMContentLoaded', function(){
           <div class="hni-ico">🀄</div>
           <div><div class="hni-txt">CN→EN 汉译英</div><div class="hni-sub">思维训练</div></div>
         </div>
-        <div class="hero-nav-item" onclick="ddGo('classics')">
-          <div class="hni-ico">📕</div>
-          <div><div class="hni-txt">经典小说选读</div><div class="hni-sub">美国文学精选</div></div>
-        </div>
         <div class="hero-nav-item" onclick="ddGo('wrongbook')">
           <div class="hni-ico">📝</div>
           <div><div class="hni-txt">Wrong Book 错题本</div><div class="hni-sub">错题回顾</div></div>
@@ -5021,8 +5017,7 @@ function renderHomeProgBar() {
     {key:'learn',   label:'📚 Learn',    color:'#1d4ed8', ids: learnIds},
     {key:'bay',     label:'💼 Workplace 职场', color:'#c0392b', ids: bayIds},
     {key:'monthly', label:'美国月度流行热词', color:'#0d7a55', ids: monthlyIds},
-    {key:'cnen',    label:'🀄 汉译英',   color:'#991b1b', ids: cnenIds},
-    {key:'cult',    label:'🇺🇸 文化',    color:'#7c3aed', ids: cultIds}
+    {key:'cnen',    label:'🀄 汉译英',   color:'#991b1b', ids: cnenIds}
   ];
   var html = '';
   secs.forEach(function(s, i) {

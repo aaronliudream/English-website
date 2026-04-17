@@ -218,11 +218,167 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;display:flex;align-items:center;gap:48px}
 .hero-left{flex:1;min-width:0}
 .hero-nav-grid{flex:0 0 420px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.hero-nav-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:rgba(245,241,234,.06);border:1px solid rgba(245,241,234,.1);cursor:pointer;transition:all .25s;text-decoration:none;color:#f5f1ea}
-.hero-nav-item:hover{background:rgba(217,119,87,.12);border-color:rgba(217,119,87,.35);transform:translateY(-2px)}
-.hero-nav-item .hni-ico{font-size:18px;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:rgba(245,241,234,.08);border-radius:8px}
-.hero-nav-item .hni-txt{font-size:12.5px;font-weight:600;line-height:1.3;letter-spacing:.01em}
-.hero-nav-item .hni-sub{font-size:10px;color:rgba(245,241,234,.45);font-weight:400;margin-top:2px}
+/* ═══ HERO NAVIGATION TILES — Premium magazine-card style ═══ */
+.hero-nav-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hero-nav-item{
+  position:relative;
+  display:flex;align-items:center;gap:12px;
+  padding:12px 32px 12px 16px;
+  border-radius:14px;
+  background:linear-gradient(145deg,rgba(245,241,234,.045),rgba(245,241,234,.02));
+  border:1px solid rgba(245,241,234,.08);
+  cursor:pointer;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),background .35s,box-shadow .35s;
+  text-decoration:none;
+  color:#f5f1ea;
+  isolation:isolate;
+}
+/* Golden tracing border — spins a conic gradient around the tile on hover.
+   The ::before element sits BEHIND the tile content and uses a rotating conic
+   gradient as its background. The tile's own background masks the center,
+   leaving only a 3px ring of golden light that appears to travel around
+   the perimeter. */
+.hero-nav-item::before{
+  content:'';
+  position:absolute;
+  inset:-3px;
+  border-radius:17px;
+  padding:3px;
+  background:conic-gradient(from var(--gb-angle,0deg),
+    transparent 0deg,
+    transparent 60deg,
+    #d97757 110deg,
+    #fbbf24 160deg,
+    #fde68a 180deg,
+    #fbbf24 200deg,
+    #d97757 250deg,
+    transparent 300deg,
+    transparent 360deg);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+          mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+          mask-composite:exclude;
+  opacity:0;
+  transition:opacity .3s ease;
+  pointer-events:none;
+  z-index:0;
+}
+/* The CSS variable `--gb-angle` is animated via @property + animation.
+   Register the property so it can be transitioned smoothly. */
+@property --gb-angle{
+  syntax:'<angle>';
+  inherits:false;
+  initial-value:0deg;
+}
+@keyframes gbSpin{
+  to{--gb-angle:360deg}
+}
+.hero-nav-item:hover::before{
+  opacity:1;
+  animation:gbSpin 1.6s linear infinite;
+}
+/* Subtle glow overlay — emerges from bottom-right on hover */
+.hero-nav-item::after{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:14px;
+  background:radial-gradient(120% 140% at 100% 100%,rgba(217,119,87,.18),transparent 55%);
+  opacity:0;
+  transition:opacity .4s ease;
+  pointer-events:none;z-index:-1;
+}
+.hero-nav-item:hover{
+  background:linear-gradient(145deg,rgba(245,241,234,.09),rgba(217,119,87,.06));
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px -10px rgba(217,119,87,.35),0 0 40px -8px rgba(251,191,36,.25),0 1px 0 rgba(245,241,234,.08) inset;
+}
+.hero-nav-item:hover::after{opacity:1}
+.hero-nav-item:active{transform:translateY(-1px);transition-duration:.12s}
+/* Fallback for browsers that don't support @property (Safari <16.4, old Firefox):
+   animate the conic gradient by rotating the pseudo-element itself. */
+@supports not (background: conic-gradient(from var(--x) at 0 0, #000, #fff)){
+  .hero-nav-item::before{animation:gbSpinFallback 1.6s linear infinite paused}
+  .hero-nav-item:hover::before{animation-play-state:running}
+}
+@keyframes gbSpinFallback{
+  0%{filter:hue-rotate(0deg)}
+  100%{filter:hue-rotate(360deg)}
+}
+
+/* Icon — square pill on left, grows and brightens on hover */
+.hero-nav-item .hni-ico{
+  position:relative;z-index:1;
+  font-size:19px;flex-shrink:0;
+  width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,rgba(245,241,234,.1),rgba(245,241,234,.03));
+  border:1px solid rgba(245,241,234,.08);
+  border-radius:10px;
+  transition:all .4s cubic-bezier(.2,.8,.2,1);
+  filter:grayscale(.3);
+}
+.hero-nav-item:hover .hni-ico{
+  transform:scale(1.08) rotate(-3deg);
+  background:linear-gradient(145deg,rgba(217,119,87,.25),rgba(245,158,11,.08));
+  border-color:rgba(217,119,87,.55);
+  filter:grayscale(0) drop-shadow(0 2px 6px rgba(217,119,87,.4));
+}
+
+/* Text — title + subtitle, with typography upgrade on hover */
+.hero-nav-item .hni-txt-wrap{position:relative;z-index:1;flex:1;min-width:0}
+.hero-nav-item .hni-txt{
+  font-size:12.5px;font-weight:600;line-height:1.3;
+  letter-spacing:.005em;
+  transition:font-size .35s cubic-bezier(.2,.8,.2,1),color .25s,letter-spacing .35s,font-weight .25s;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.hero-nav-item:hover .hni-txt{
+  font-size:13.5px;font-weight:700;letter-spacing:.015em;
+  color:#fff;
+}
+.hero-nav-item .hni-sub{
+  font-size:10px;color:rgba(245,241,234,.42);font-weight:400;margin-top:3px;
+  letter-spacing:.01em;
+  transition:color .3s,font-size .35s cubic-bezier(.2,.8,.2,1),opacity .3s;
+  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.hero-nav-item:hover .hni-sub{
+  font-size:10.5px;color:rgba(217,119,87,.85);
+}
+
+/* Arrow glyph — appears from right on hover */
+.hero-nav-item .hni-arrow{
+  position:absolute;right:14px;top:50%;z-index:2;
+  transform:translateY(-50%) translateX(6px);
+  opacity:0;
+  font-size:14px;color:#d97757;font-weight:300;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none;
+  letter-spacing:-.05em;
+}
+.hero-nav-item:hover .hni-arrow{
+  transform:translateY(-50%) translateX(0);
+  opacity:1;
+}
+
+/* Number badge in top-right — gives it magazine-card feel */
+.hero-nav-item .hni-num{
+  position:absolute;top:8px;right:12px;z-index:2;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:10px;font-weight:500;font-style:italic;
+  color:rgba(245,241,234,.25);
+  letter-spacing:.04em;
+  transition:color .3s,opacity .35s;
+}
+.hero-nav-item:hover .hni-num{color:rgba(217,119,87,.75)}
+.hero-nav-item:hover .hni-arrow ~ .hni-num{opacity:0} /* arrow replaces num on hover */
+.hero-nav-item:hover .hni-num{opacity:0}
 @media(max-width:900px){.hero-inner{flex-direction:column;gap:28px}.hero-nav-grid{flex:none;width:100%}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#d97757;margin-bottom:24px}
 .hero-eyebrow::before{content:'';width:32px;height:1px;background:#d97757}
@@ -2905,7 +3061,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <button class="nb" onclick="show('lb')">🏆 Rankings 排行榜</button>
   <button class="nb" onclick="show('bayarea')">💼 Workplace 职场英语</button>
   <button class="nb" onclick="show('plumber')">🔧 水管工程英语 Plumbing English</button>
-  <button class="nb" onclick="show('monthly')">美国月度流行热词</button>
+  <button class="nb" onclick="show('monthly')">🔥 Monthly 美国月度热词</button>
 
   <button class="nb" onclick="show('cnen')">🀄 CN→EN 汉译英</button>
   <button class="nb" onclick="show('course')">📖 Course 系统课程</button>
@@ -2927,43 +3083,53 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="hero-nav-grid">
         <div class="hero-nav-item" onclick="ddGo('learn')">
           <div class="hni-ico">📚</div>
-          <div><div class="hni-txt">Learn 习语学习</div><div class="hni-sub">300+ 地道表达</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Learn · 习语学习</div><div class="hni-sub">700+ Idioms · 地道表达</div></div>
+          <span class="hni-num">01</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('quiz')">
           <div class="hni-ico">✏️</div>
-          <div><div class="hni-txt">Quiz 测验</div><div class="hni-sub">自适应测试</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Quiz · 测验</div><div class="hni-sub">Adaptive Tests · 自适应测试</div></div>
+          <span class="hni-num">02</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('course')">
           <div class="hni-ico">📖</div>
-          <div><div class="hni-txt">Course 系统课程</div><div class="hni-sub">分级体系学习</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Course · 系统课程</div><div class="hni-sub">Leveled Curriculum · 分级体系</div></div>
+          <span class="hni-num">03</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('bayarea')">
           <div class="hni-ico">💼</div>
-          <div><div class="hni-txt">Workplace 职场英语</div><div class="hni-sub">硅谷·商务沟通</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Workplace · 职场英语</div><div class="hni-sub">Silicon Valley · 硅谷商务沟通</div></div>
+          <span class="hni-num">04</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('reallife')">
           <div class="hni-ico">☕</div>
-          <div><div class="hni-txt">Real Life 生活对话</div><div class="hni-sub">咖啡店·加油站·日常场景</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Real Life · 生活对话</div><div class="hni-sub">Cafes · Gas Stations · 日常场景</div></div>
+          <span class="hni-num">05</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('plumber')">
           <div class="hni-ico">🔧</div>
-          <div><div class="hni-txt">水管工程英语</div><div class="hni-sub">入门·初级·中级 60课</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Plumbing English · 水管工程英语</div><div class="hni-sub">60 Lessons · 入门到中级</div></div>
+          <span class="hni-num">06</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('monthly')">
           <div class="hni-ico">🔥</div>
-          <div><div class="hni-txt">月度流行热词</div><div class="hni-sub">每月更新</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Monthly Trending · 月度热词</div><div class="hni-sub">Updated Monthly · 每月更新</div></div>
+          <span class="hni-num">07</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('cnen')">
           <div class="hni-ico">🀄</div>
-          <div><div class="hni-txt">CN→EN 汉译英</div><div class="hni-sub">思维训练</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">CN → EN · 汉译英</div><div class="hni-sub">Translation Practice · 思维训练</div></div>
+          <span class="hni-num">08</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('wrongbook')">
           <div class="hni-ico">📝</div>
-          <div><div class="hni-txt">Wrong Book 错题本</div><div class="hni-sub">错题回顾</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Wrong Book · 错题本</div><div class="hni-sub">Review Mistakes · 错题回顾</div></div>
+          <span class="hni-num">09</span><span class="hni-arrow">→</span>
         </div>
         <div class="hero-nav-item" onclick="ddGo('lb')">
           <div class="hni-ico">🏆</div>
-          <div><div class="hni-txt">Rankings 排行榜</div><div class="hni-sub">积分排名</div></div>
+          <div class="hni-txt-wrap"><div class="hni-txt">Rankings · 排行榜</div><div class="hni-sub">Points Leaderboard · 积分排名</div></div>
+          <span class="hni-num">10</span><span class="hni-arrow">→</span>
         </div>
       </div>
     </div>
@@ -3235,11 +3401,11 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- MOBILE BOTTOM NAV -->
 <div id="mobile-nav">
   <div class="mbn-row">
-    <button class="mbn-btn" onclick="show('daily');mbnActive(this)"><span class="mbn-ico">📅</span>Daily</button>
-    <button class="mbn-btn on" onclick="show('learn');mbnActive(this)"><span class="mbn-ico">📚</span>Learn</button>
-    <button class="mbn-btn" onclick="show('quiz');mbnActive(this)"><span class="mbn-ico">✏️</span>Quiz</button>
-    <button class="mbn-btn" onclick="show('bayarea');mbnActive(this)"><span class="mbn-ico">💼</span>Work</button>
-    <button class="mbn-btn" onclick="show('profile');mbnActive(this)"><span class="mbn-ico">👤</span>Me</button>
+    <button class="mbn-btn" onclick="show('daily');mbnActive(this)"><span class="mbn-ico">📅</span>Daily · 每日</button>
+    <button class="mbn-btn on" onclick="show('learn');mbnActive(this)"><span class="mbn-ico">📚</span>Learn · 学习</button>
+    <button class="mbn-btn" onclick="show('quiz');mbnActive(this)"><span class="mbn-ico">✏️</span>Quiz · 测验</button>
+    <button class="mbn-btn" onclick="show('bayarea');mbnActive(this)"><span class="mbn-ico">💼</span>Work · 职场</button>
+    <button class="mbn-btn" onclick="show('profile');mbnActive(this)"><span class="mbn-ico">👤</span>Me · 我</button>
   </div>
 </div>
 

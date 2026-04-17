@@ -13837,29 +13837,34 @@ function renderLearn() {
     return true; // Keep ALL items — mastered ones sink to the bottom via sort below
   });
   // Sort: 学习中 → 待学习 → 已通过; 同组内新词(idn_*)优先
-  list.sort(function(a, b){
-    var po = _progOrder('learn', a.id) - _progOrder('learn', b.id);
-    if (po !== 0) return po;
+  // Split into unmastered-first, mastered-last — each internally sorted.
+  // This creates a "conveyor belt": unmastered items fill the page until
+  // exhausted, then mastered items appear at the end. When the user masters
+  // all 4 visible on a page, the next unmastered items from later pages
+  // naturally flow up into view.
+  var _newFirst = function(a, b){
     var aNew = typeof a.id === 'string' && a.id.indexOf('idn_') === 0;
     var bNew = typeof b.id === 'string' && b.id.indexOf('idn_') === 0;
     if (aNew && !bNew) return -1;
     if (!aNew && bNew) return 1;
     return 0;
+  };
+  var unmastered = list.filter(function(v){
+    return progressData['learn_' + v.id] !== 'pass';
+  }).sort(function(a, b){
+    var po = _progOrder('learn', a.id) - _progOrder('learn', b.id);
+    if (po !== 0) return po;
+    return _newFirst(a, b);
   });
+  var mastered = list.filter(function(v){
+    return progressData['learn_' + v.id] === 'pass';
+  }).sort(_newFirst);
+  list = unmastered.concat(mastered);
+  var _firstMasteredIdx = unmastered.length; // anything >= this is a mastered card
   document.getElementById('lcount').textContent = list.length + ' shown';
   var c = document.getElementById('llist');
   c.innerHTML = '';
 
-  // Empty state when all are mastered (forgetting-curve filter hid everything)
-  if (cat !== 'due' && list.length === 0 && _lTotalMastered > 0) {
-    c.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text3)">' +
-      '<div style="font-size:48px;margin-bottom:12px">🎉</div>' +
-      '<p style="font-size:16px;font-weight:700;color:var(--green)">太棒了！全部已掌握</p>' +
-      '<p style="font-size:13px;margin-top:8px">根据遗忘曲线，已掌握的词汇暂时不再出现。</p>' +
-      '<button onclick="window._learnShowMastered=true;renderLearn()" style="margin-top:16px;padding:8px 18px;background:var(--card);border:1.5px solid var(--blue);color:var(--blue);border-radius:20px;font-weight:700;cursor:pointer">🔁 仍想复习已掌握的 (' + _lTotalMastered + ')</button>' +
-      '</div>';
-    return;
-  }
   // Empty state for due tab
   if (cat === 'due' && list.length === 0) {
     var studied = getStudiedCount();
@@ -13872,7 +13877,7 @@ function renderLearn() {
     return;
   }
 
-  // ── Pagination: 4 per page, with book-flip animation ──
+  // ── Pagination: 4 per page ──
   var PER_PAGE = 4;
   var totalPages = Math.max(1, Math.ceil(list.length / PER_PAGE));
   var stateKey = cat + '|' + q;
@@ -13881,6 +13886,7 @@ function renderLearn() {
   if (window._learnPage >= totalPages) window._learnPage = totalPages - 1;
   if (window._learnPage < 0) window._learnPage = 0;
   var page = window._learnPage;
+
   var pageList = list.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
   // Apply flip animation class
   var flipDir = window._learnFlipDir || '';
@@ -42183,18 +42189,29 @@ function renderClassics() {
             var newCards = Array.prototype.slice.call(newGrid.querySelectorAll('.vc'));
             newCards.forEach(function(nc){
               var oldRect = before[nc.id];
-              if (!oldRect) return;
               var newRect = nc.getBoundingClientRect();
-              var dx = oldRect.left - newRect.left;
-              var dy = oldRect.top  - newRect.top;
-              if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
-              nc.style.transition = 'none';
-              nc.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
-              /* Force reflow, then slide to 0 */
-              nc.getBoundingClientRect();
-              nc.style.transition = 'transform .55s cubic-bezier(.45,.05,.25,1)';
-              nc.style.transform = '';
-              setTimeout(function(){ nc.style.transition=''; nc.style.transform=''; }, 600);
+              if (oldRect) {
+                /* Card was on the previous page — FLIP slide to its new spot */
+                var dx = oldRect.left - newRect.left;
+                var dy = oldRect.top  - newRect.top;
+                if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+                nc.style.transition = 'none';
+                nc.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+                nc.getBoundingClientRect();
+                nc.style.transition = 'transform .55s cubic-bezier(.45,.05,.25,1)';
+                nc.style.transform = '';
+                setTimeout(function(){ nc.style.transition=''; nc.style.transform=''; }, 600);
+              } else {
+                /* Brand new card that just entered — fade + slide up in */
+                nc.style.transition = 'none';
+                nc.style.opacity = '0';
+                nc.style.transform = 'translateY(24px) scale(.96)';
+                nc.getBoundingClientRect();
+                nc.style.transition = 'opacity .45s ease, transform .55s cubic-bezier(.3,1.2,.3,1)';
+                nc.style.opacity = '';
+                nc.style.transform = '';
+                setTimeout(function(){ nc.style.transition=''; }, 600);
+              }
             });
           }, 20);
         }, 280);

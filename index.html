@@ -4318,6 +4318,8 @@ function _bindMarkPass(key) {
 
       /* ── Learn (Idioms) — preferred path with re-render so the hidden-mastered
          filter takes effect and the list shrinks cleanly. ── */
+      /* ── Learn (Idioms) — preferred path with re-render so the hidden-mastered
+         filter takes effect and the list shrinks cleanly. ── */
       if (pk.indexOf('learn_') === 0 && typeof renderLearn === 'function') {
         var curId = pk.slice(6);
         var curCard = document.getElementById('vc' + curId);
@@ -4325,44 +4327,63 @@ function _bindMarkPass(key) {
         if (curCard && curCard.classList.contains('open')) {
           curCard.classList.remove('open');
         }
+
+        /* Track batch progress: every 4 mastered → celebrate */
+        if (typeof window._learnBatchCount !== 'number') window._learnBatchCount = 0;
+        window._learnBatchCount++;
+        var shouldCelebrate = (window._learnBatchCount >= 4);
+
         /* Short delay: let the collapse animation play, then re-render */
         setTimeout(function(){
           renderLearn();
-          /* After re-render, decide: open next unmastered card OR celebrate + advance page. */
+          /* After re-render, decide: celebrate OR open next unmastered card. */
           setTimeout(function(){
-            var firstCard = document.querySelector('.vgrid .vc:not(.vc-mastered)');
-            if (firstCard) {
-              /* Still have unmastered items on this page — open + scroll */
-              var fid = firstCard.id.replace(/^vc/, '');
-              if (typeof tog === 'function') tog(fid);
-              firstCard.scrollIntoView({behavior:'smooth', block:'center'});
-            } else {
-              /* No more unmastered on this page — show celebration then auto-advance */
-              var hasNextPage = false;
-              try {
-                var curPage = (typeof window._learnPage === 'number') ? window._learnPage : 0;
-                hasNextPage = typeof learnNextPage === 'function';
-                /* Check if there IS a next page by looking at the pager */
-                var nextBtn = document.querySelector('#learn-pager .lp-btn:last-child');
-                if (nextBtn && nextBtn.disabled) hasNextPage = false;
-              } catch(e){}
-
-              if (hasNextPage) {
-                /* Celebration overlay with 3-second countdown */
-                _showPageCompleteCelebration(function(){
-                  /* Callback after countdown — flip to next page */
+            if (shouldCelebrate) {
+              window._learnBatchCount = 0; // reset for next batch
+              /* Show celebration with 3-second countdown, then open next card (or next page) */
+              _showPageCompleteCelebration(function(){
+                /* After celebration, open next unmastered card */
+                var nextCard = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+                if (nextCard) {
+                  if (typeof tog === 'function') tog(nextCard.id.replace(/^vc/, ''));
+                  nextCard.scrollIntoView({behavior:'smooth', block:'center'});
+                } else if (typeof learnNextPage === 'function') {
                   learnNextPage();
                   setTimeout(function(){
-                    var f2 = document.querySelector('.vgrid .vc:not(.vc-mastered)');
-                    if (f2) {
-                      if (typeof tog === 'function') tog(f2.id.replace(/^vc/, ''));
-                      f2.scrollIntoView({behavior:'smooth', block:'center'});
+                    var f = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+                    if (f) {
+                      if (typeof tog === 'function') tog(f.id.replace(/^vc/, ''));
+                      f.scrollIntoView({behavior:'smooth', block:'center'});
                     }
-                  }, 400);
-                });
+                  }, 350);
+                } else {
+                  try { toast && toast('🏆 太棒了！这一类全部掌握！', 'ok'); } catch(e){}
+                }
+              });
+            } else {
+              /* Still in batch — open next unmastered card immediately */
+              var firstCard = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+              if (firstCard) {
+                var fid = firstCard.id.replace(/^vc/, '');
+                if (typeof tog === 'function') tog(fid);
+                firstCard.scrollIntoView({behavior:'smooth', block:'center'});
               } else {
-                /* No more pages — show completion toast */
-                try { toast && toast('🏆 太棒了！这一类全部掌握！', 'ok'); } catch(e){}
+                /* No more unmastered left — all done */
+                if (typeof learnNextPage === 'function') {
+                  var nextBtn = document.querySelector('#learn-pager .lp-btn:last-child');
+                  if (nextBtn && !nextBtn.disabled) {
+                    learnNextPage();
+                    setTimeout(function(){
+                      var f = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+                      if (f) {
+                        if (typeof tog === 'function') tog(f.id.replace(/^vc/, ''));
+                        f.scrollIntoView({behavior:'smooth', block:'center'});
+                      }
+                    }, 350);
+                  } else {
+                    try { toast && toast('🏆 太棒了！这一类全部掌握！', 'ok'); } catch(e){}
+                  }
+                }
               }
             }
           }, 120);
@@ -4434,12 +4455,12 @@ function _showPageCompleteCelebration(onDone) {
         '<span class="pdo-conf c5">💫</span><span class="pdo-conf c6">🌟</span>' +
       '</div>' +
       '<div class="pdo-badge">🏆</div>' +
-      '<div class="pdo-title">本页完成！Page Complete!</div>' +
-      '<div class="pdo-sub">4 个习语全部掌握 · 即将进入下一页</div>' +
+      '<div class="pdo-title">4 个搞定！Batch Complete!</div>' +
+      '<div class="pdo-sub">刚掌握了 4 个习语 · 准备继续？</div>' +
       '<div class="pdo-countdown" id="pdo-count">3</div>' +
       '<div class="pdo-actions">' +
-        '<button class="pdo-btn pdo-go" id="pdo-skip">立即进入 →</button>' +
-        '<button class="pdo-btn pdo-stay" id="pdo-stay">留在本页</button>' +
+        '<button class="pdo-btn pdo-go" id="pdo-skip">继续下一组 →</button>' +
+        '<button class="pdo-btn pdo-stay" id="pdo-stay">暂停一下</button>' +
       '</div>' +
     '</div>';
   document.body.appendChild(ov);

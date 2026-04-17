@@ -217,13 +217,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .hero-top::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(245,241,234,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(245,241,234,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(180deg,#000 30%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 100%);pointer-events:none}
 .hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;display:flex;align-items:center;gap:48px}
 .hero-left{flex:1;min-width:0}
-.hero-nav-grid{flex:0 0 500px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.hero-nav-grid{flex:0 0 600px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 /* ═══ HERO NAVIGATION TILES — Premium magazine-card style ═══ */
-.hero-nav-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hero-nav-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .hero-nav-item{
   position:relative;
-  display:flex;align-items:center;gap:12px;
-  padding:14px 28px 14px 16px;
+  display:flex;align-items:center;gap:14px;
+  padding:18px 32px 18px 18px;
   border-radius:14px;
   background:linear-gradient(145deg,rgba(245,241,234,.045),rgba(245,241,234,.02));
   border:1px solid rgba(245,241,234,.08);
@@ -312,8 +312,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* Icon — square pill on left, grows and brightens on hover */
 .hero-nav-item .hni-ico{
   position:relative;z-index:1;
-  font-size:19px;flex-shrink:0;
-  width:38px;height:38px;
+  font-size:22px;flex-shrink:0;
+  width:44px;height:44px;
   display:flex;align-items:center;justify-content:center;
   background:linear-gradient(145deg,rgba(245,241,234,.1),rgba(245,241,234,.03));
   border:1px solid rgba(245,241,234,.08);
@@ -331,25 +331,26 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* Text — title + subtitle, with typography upgrade on hover */
 .hero-nav-item .hni-txt-wrap{position:relative;z-index:1;flex:1;min-width:0}
 .hero-nav-item .hni-txt{
-  font-size:12.5px;font-weight:600;line-height:1.3;
+  font-size:14.5px;font-weight:600;line-height:1.35;
   letter-spacing:.005em;
   transition:font-size .35s cubic-bezier(.2,.8,.2,1),color .25s,letter-spacing .35s,font-weight .25s;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
   overflow:hidden;
 }
 .hero-nav-item:hover .hni-txt{
-  font-size:13.5px;font-weight:700;letter-spacing:.015em;
+  font-size:15.5px;font-weight:700;letter-spacing:.015em;
   color:#fff;
 }
 .hero-nav-item .hni-sub{
-  font-size:10px;color:rgba(245,241,234,.42);font-weight:400;margin-top:3px;
+  font-size:12px;color:rgba(245,241,234,.42);font-weight:400;margin-top:4px;
   letter-spacing:.01em;
+  line-height:1.35;
   transition:color .3s,font-size .35s cubic-bezier(.2,.8,.2,1),opacity .3s;
-  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
   overflow:hidden;
 }
 .hero-nav-item:hover .hni-sub{
-  font-size:10.5px;color:rgba(217,119,87,.85);
+  font-size:12.5px;color:rgba(217,119,87,.85);
 }
 
 /* Arrow glyph — appears from right on hover */
@@ -357,7 +358,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   position:absolute;right:14px;top:50%;z-index:2;
   transform:translateY(-50%) translateX(6px);
   opacity:0;
-  font-size:14px;color:#d97757;font-weight:300;
+  font-size:16px;color:#d97757;font-weight:300;
   transition:all .35s cubic-bezier(.2,.8,.2,1);
   pointer-events:none;
   letter-spacing:-.05em;
@@ -369,9 +370,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 /* Number badge in top-right — gives it magazine-card feel */
 .hero-nav-item .hni-num{
-  position:absolute;top:8px;right:12px;z-index:2;
+  position:absolute;top:10px;right:14px;z-index:2;
   font-family:'Playfair Display',Georgia,serif;
-  font-size:10px;font-weight:500;font-style:italic;
+  font-size:11px;font-weight:500;font-style:italic;
   color:rgba(245,241,234,.25);
   letter-spacing:.04em;
   transition:color .3s,opacity .35s;

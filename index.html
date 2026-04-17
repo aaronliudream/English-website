@@ -1632,6 +1632,24 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dm-go{display:inline-block;font-weight:800;color:#3b82f6;margin-left:4px;transition:transform .2s;opacity:.7}
 .dm-item:hover .dm-go{transform:translateX(3px);opacity:1}
 .dm-item.done .dm-go{color:#10b981}
+/* Click launch animation — pulse + slide-right + fade */
+.dm-item.dm-launching{animation:dmLaunch .28s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes dmLaunch{
+  0%{transform:translateX(0) scale(1);box-shadow:0 1px 2px rgba(30,77,123,.05)}
+  35%{transform:translateX(-4px) scale(.98);box-shadow:0 10px 24px -4px rgba(59,130,246,.45)}
+  100%{transform:translateX(30px) scale(1.02);opacity:.6;box-shadow:0 14px 28px -4px rgba(59,130,246,.3)}
+}
+.dm-item.dm-launching .dm-go{transform:translateX(10px);opacity:1;color:#6366f1}
+/* Hint toggle: "N 已完成 · 查看" / "正在显示 · 隐藏" */
+.dm-hint-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:2px 0 0;padding:9px 14px;border-radius:10px;background:rgba(16,185,129,.08);border:1px dashed rgba(16,185,129,.35);color:#0f766e;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;font-family:inherit}
+.dm-hint-toggle:hover{background:rgba(16,185,129,.14);border-style:solid;transform:translateY(-1px)}
+.dm-hint-toggle u{text-decoration:underline;text-underline-offset:2px}
+.dm-hint-toggle.showing{background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.35);color:#4338ca}
+.dm-hint-toggle.showing:hover{background:rgba(99,102,241,.14)}
+/* All-done celebratory state */
+#daily-missions.dm-all-done{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%) !important;border-color:#f59e0b !important;position:relative}
+#daily-missions.dm-all-done::before{content:'🏆';position:absolute;top:-14px;right:16px;font-size:28px;filter:drop-shadow(0 4px 8px rgba(245,158,11,.4));animation:dmTrophy 1.8s ease-in-out infinite}
+@keyframes dmTrophy{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-4px) rotate(3deg)}}
 .dm-check{width:22px;height:22px;border-radius:50%;border:2px solid rgba(30,77,123,.25);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all .25s;background:#fff}
 .dm-item.done .dm-check{background:#10b981;border-color:#10b981;color:#fff}
 .dm-text{flex:1;min-width:0}
@@ -7563,18 +7581,60 @@ function renderDM() {
   var bonus = document.getElementById('dm-bonus');
   if (!list) return;
   var doneCnt = Object.keys(dm.done).length;
+  var allDone = doneCnt >= _DM_DEFS.length;
+
   if (progTxt) progTxt.textContent = doneCnt + ' / 3 完成';
   if (bar) bar.style.width = Math.round(doneCnt / 3 * 100) + '%';
   if (bonus) bonus.classList.toggle('show', dm.bonus);
+
+  /* Auto-collapse the entire panel when all 3 are done — but preserve manual state.
+     Only auto-collapses ONCE per day (when the last task gets completed), so if
+     the user manually reopens it, we respect that choice. */
+  if (allDone && !dm._autoCollapsed) {
+    dm._autoCollapsed = true;
+    _saveDM();
+    setTimeout(function(){
+      var body = document.getElementById('dm-body');
+      var caret = document.getElementById('dm-caret');
+      var card = document.getElementById('daily-missions');
+      if (body && body.style.display !== 'none') {
+        body.style.display = 'none';
+        if (caret) caret.textContent = '▶';
+        if (card) card.classList.add('dm-all-done');
+      }
+    }, 1400); // give the user 1.4s to see the last ✓ land before auto-collapse
+  }
+
+  /* Sort: incomplete first, then done — within each group, keep declaration order */
+  var ordered = _DM_DEFS.slice().sort(function(a, b){
+    var aDone = !!dm.done[a.id];
+    var bDone = !!dm.done[b.id];
+    if (aDone !== bDone) return aDone ? 1 : -1; // incomplete first
+    return 0;
+  });
+
+  /* Hide mastered tasks by default — user can click the header to see them.
+     Default: if any incomplete tasks exist, hide done ones unless user toggled. */
+  var hideDone = (typeof window._dmHideDone === 'undefined')
+                   ? (doneCnt > 0 && doneCnt < _DM_DEFS.length)
+                   : !!window._dmHideDone;
+  /* If everything's done, still show all 3 (so user can see what was accomplished) */
+  if (allDone) hideDone = false;
+
   list.innerHTML = '';
-  _DM_DEFS.forEach(function(def) {
+
+  /* Render the tasks */
+  var visible = 0;
+  ordered.forEach(function(def) {
     var done = !!dm.done[def.id];
+    if (done && hideDone) return;
+    visible++;
     var extra = def.type === 'correct5' && !done
       ? '<span style="font-size:10px;color:rgba(255,255,255,.3)">(' + (dm.correct_today||0) + '/5)</span>' : '';
     var div = document.createElement('div');
     div.className = 'dm-item' + (done ? ' done' : '') + ' dm-clickable';
     div.dataset.type = def.type;
-    div.title = '点击去完成';
+    div.title = done ? '已完成 · 点击再次进入' : '点击去完成';
     div.innerHTML =
       '<div class="dm-check">' + (done ? '✓' : '') + '</div>' +
       '<div class="dm-text">' +
@@ -7582,31 +7642,82 @@ function renderDM() {
         '<div class="dm-sub">' + def.sub + ' <span class="dm-go">→</span></div>' +
       '</div>' +
       '<div class="dm-pts">+' + def.pts + ' pts</div>';
+    /* Click handler with "launch" animation */
     div.onclick = function(e){
       e.stopPropagation();
-      _dmNavigate(def.type);
+      /* Visual feedback: pulse + slide-right animation */
+      div.classList.add('dm-launching');
+      setTimeout(function(){
+        div.classList.remove('dm-launching');
+        _dmNavigate(def.type);
+      }, 280);
     };
     list.appendChild(div);
   });
+
+  /* Show "N 已完成" hint banner at bottom if tasks are hidden */
+  var hiddenCount = doneCnt - (hideDone ? 0 : doneCnt);
+  if (hideDone && doneCnt > 0) {
+    var hint = document.createElement('button');
+    hint.type = 'button';
+    hint.className = 'dm-hint-toggle';
+    hint.innerHTML = '✓ ' + doneCnt + ' 已完成 · <u>查看</u>';
+    hint.onclick = function(e){
+      e.stopPropagation();
+      window._dmHideDone = false;
+      renderDM();
+    };
+    list.appendChild(hint);
+  } else if (!hideDone && doneCnt > 0 && !allDone) {
+    var hide = document.createElement('button');
+    hide.type = 'button';
+    hide.className = 'dm-hint-toggle showing';
+    hide.innerHTML = '👀 正在显示已完成 · <u>隐藏</u>';
+    hide.onclick = function(e){
+      e.stopPropagation();
+      window._dmHideDone = true;
+      renderDM();
+    };
+    list.appendChild(hide);
+  }
+
+  /* Full completion victory state */
+  if (allDone) {
+    var card = document.getElementById('daily-missions');
+    if (card) card.classList.add('dm-all-done');
+  } else {
+    var card2 = document.getElementById('daily-missions');
+    if (card2) card2.classList.remove('dm-all-done');
+  }
 }
 
 // Route daily-task click → appropriate page/action
 function _dmNavigate(type){
   try {
     if (type === 'splash') {
-      // Idiom Challenge splash — open the fullscreen challenge overlay
+      // Idiom Challenge splash — open the fullscreen challenge overlay.
+      // Must explicitly set display:flex to override the base `display:none`.
       var el = document.getElementById('idiom-splash');
-      if (el) el.classList.remove('hidden');
+      if (el) {
+        el.classList.remove('hidden');
+        el.style.display = 'flex';
+        el.style.opacity = '0';
+        /* Force a repaint so the fade-in animation actually runs */
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetHeight;
+        el.style.transition = 'opacity .3s ease';
+        el.style.opacity = '1';
+      }
       if (typeof launchIdiomChallenge === 'function') launchIdiomChallenge();
     } else if (type === 'correct5') {
       // Quiz — open the quiz page so user can answer 5 correctly
       if (typeof show === 'function') show('quiz');
+      setTimeout(function(){ window.scrollTo({top:0, behavior:'smooth'}); }, 80);
     } else if (typeof wrongbook !== 'undefined' || type === 'wrongbook') {
       // Wrong Book — review mistakes
       if (typeof show === 'function') show('wrongbook');
+      setTimeout(function(){ window.scrollTo({top:0, behavior:'smooth'}); }, 80);
     }
-    // Scroll to top so target page is visible
-    setTimeout(function(){ window.scrollTo({top:0, behavior:'smooth'}); }, 80);
   } catch(e){ console.warn('dmNavigate failed:', e); }
 }
 
@@ -7988,7 +8099,12 @@ function closeSplash() {
   if (el) {
     el.style.opacity = '0';
     el.style.transition = 'opacity .4s';
-    setTimeout(function(){ el.classList.add('hidden'); }, 400);
+    setTimeout(function(){
+      el.classList.add('hidden');
+      el.style.display = '';
+      el.style.opacity = '';
+      el.style.transition = '';
+    }, 400);
   }
 }
 
@@ -52633,97 +52749,4 @@ window.CA_PREP_S1 = [
 .ring-close{position:absolute;top:-6px;right:-6px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s;z-index:3}
 .ring-close:hover{background:rgba(201,169,106,.35);transform:rotate(90deg)}
 .ring-hub{position:absolute;top:50%;left:50%;width:32%;aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#2a3558 0%,#3d4b7a 55%,#1e2640 100%);box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.1),0 0 0 1px rgba(201,169,106,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:18px;text-align:center;z-index:2}
-.ring-hub::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(201,169,106,.35)}
-.ring-hub-emoji{font-size:34px;margin-bottom:6px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
-.ring-hub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;letter-spacing:.04em;color:#f4e8d0;font-weight:500;line-height:1.2}
-.ring-hub-sub{font-size:11px;color:rgba(244,232,208,.7);margin-top:6px;letter-spacing:.15em;text-transform:uppercase}
-.ring-node{position:absolute;width:26%;aspect-ratio:1/1;border-radius:50%;background:linear-gradient(145deg,#f5ede0,#e8dcc1);border:2px solid rgba(201,169,106,.35);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;box-shadow:0 14px 32px rgba(26,30,56,.4),inset 0 1px 0 rgba(255,255,255,.8);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,background .3s;animation:ringNodePop .55s cubic-bezier(.34,1.56,.64,1) backwards}
-.ring-node:hover{transform:scale(1.09);background:linear-gradient(145deg,#fff7e8,#f0e0bc);box-shadow:0 22px 44px rgba(201,169,106,.4),0 0 0 3px rgba(201,169,106,.45)}
-.ring-node:nth-child(2){animation-delay:.08s}.ring-node:nth-child(3){animation-delay:.16s}.ring-node:nth-child(4){animation-delay:.24s}.ring-node:nth-child(5){animation-delay:.32s}.ring-node:nth-child(6){animation-delay:.40s}
-@keyframes ringNodePop{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-.ring-node.active{background:linear-gradient(145deg,#c9a96a,#a8884a);border-color:#fff;color:#fff}
-.ring-node-ico{font-size:26px;margin-bottom:4px}
-.ring-node-en{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;color:#2a3558;line-height:1.15;margin-bottom:3px}
-.ring-node.active .ring-node-en{color:#fff}
-.ring-node-cn{font-size:12px;color:#5b4a2a;font-weight:600;letter-spacing:.02em;line-height:1.2}
-.ring-node.active .ring-node-cn{color:rgba(255,255,255,.9)}
-.ring-connector{position:absolute;top:50%;left:50%;width:100%;height:100%;pointer-events:none;z-index:1;transform:translate(-50%,-50%)}
-.ring-hint{position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:12px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
-.ring-hint b{color:#c9a96a;font-weight:600}
-@media(max-width:600px){.ring-stage{width:92vw;height:92vw}.ring-node-en{font-size:11px}.ring-node-cn{font-size:10px}.ring-node-ico{font-size:20px}.ring-hub-title{font-size:14px}.ring-hub-emoji{font-size:26px}}
-</style>
-
-<div class="ring-overlay" id="ringOv" onclick="if(event.target===this)closeRing()">
-  <div class="ring-stage" id="ringStage">
-    <button class="ring-close" onclick="closeRing()" title="关闭 Esc">✕</button>
-    <svg class="ring-connector" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(201,169,106,.22)" stroke-width=".3" stroke-dasharray="1,1.5"/>
-    </svg>
-    <div class="ring-hub">
-      <div class="ring-hub-emoji">✦</div>
-      <div class="ring-hub-title">Aaron's<br>English Hub</div>
-      <div class="ring-hub-sub">Choose a Track</div>
-    </div>
-    <div id="ringNodes"></div>
-    <div class="ring-hint">点击任意节点进入 · <b>ESC</b> 关闭</div>
-  </div>
-</div>
-<script>
-(function(){
-  var TRACKS = [
-    {key:'bayarea', emoji:'💼', en:'Workplace', cn:'职场英语'},
-    {key:'plumber', emoji:'🔧', en:'Plumbing Eng.', cn:'水管工程英语'},
-    {key:'learn',   emoji:'📚', en:'Idiomatic',     cn:'地道表达'},
-    {key:'monthly', emoji:'🔥', en:'Trending',      cn:'月度热词'},
-    {key:'cnen',    emoji:'🀄', en:'CN → EN',       cn:'汉译英训练'}
-  ];
-  function layout(active){
-    var N = TRACKS.length, R = 36; // radius in %
-    var html = '';
-    for (var i=0; i<N; i++){
-      var t = TRACKS[i];
-      // Start from top (-90deg), distribute evenly
-      var ang = (-90 + i * (360/N)) * Math.PI / 180;
-      var x = 50 + R * Math.cos(ang);
-      var y = 50 + R * Math.sin(ang);
-      var cls = 'ring-node' + (t.key === active ? ' active' : '');
-      html += '<div class="'+cls+'" style="left:'+x+'%;top:'+y+'%;transform:translate(-50%,-50%)" onclick="pickRing(\''+t.key+'\')">' +
-        '<div class="ring-node-ico">'+t.emoji+'</div>' +
-        '<div class="ring-node-en">'+t.en+'</div>' +
-        '<div class="ring-node-cn">'+t.cn+'</div>' +
-      '</div>';
-    }
-    document.getElementById('ringNodes').innerHTML = html;
-  }
-  window.openRing = function(active){
-    // Ring overlay disabled per user request — navigate directly to track
-    if (active){
-      if (typeof ddGo === 'function') ddGo(active);
-      else if (typeof show === 'function') show(active);
-    }
-  };
-  window.closeRing = function(){
-    var ov = document.getElementById('ringOv');
-    var easter = document.getElementById('ringEaster');
-    ov.classList.remove('on');
-    if (easter) easter.classList.remove('on');
-    document.body.style.overflow = '';
-  };
-  window.pickRing = function(k){
-    closeRing();
-    setTimeout(function(){
-      if (typeof ddGo === 'function') ddGo(k);
-      else if (typeof show === 'function') show(k);
-    }, 120);
-  };
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') {
-      var ov = document.getElementById('ringOv');
-      if (ov && ov.classList.contains('on')) closeRing();
-    }
-  });
-})();
-</script>
-
-</body>
-</html>
+.ring-hub::before{content:'';position:absolute;inset:-14px;border-radius:50%;bor

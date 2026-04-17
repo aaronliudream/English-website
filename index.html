@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aaron's English Hub</title>
+<title>Aaron's English Hub [v4.16]</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ═══════════════════════════════════════════
@@ -1877,9 +1877,45 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dlg-listen-score-big.pass{color:#22c55e}
 .dlg-listen-score-big.fail{color:#ef4444}
 .dlg-listen-score-sub{font-size:13px;color:var(--text3);margin-bottom:14px}
-/* mastery badge */
-.dlg-mastery-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;color:#fff;background:linear-gradient(135deg,#22c55e,#16a34a);padding:2px 7px;border-radius:8px;margin-left:6px;vertical-align:middle}
+/* mastery badge — 4 states */
+.dlg-mastery-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;color:#fff;padding:2px 7px;border-radius:8px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.dlg-mastery-badge.mastered{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.dlg-mastery-badge.review{background:linear-gradient(135deg,#f59e0b,#d97706);animation:reviewPulse 2s infinite}
+.dlg-mastery-badge.new{background:linear-gradient(135deg,#94a3b8,#64748b)}
+@keyframes reviewPulse{0%,100%{opacity:1}50%{opacity:.7}}
 .dlg-sub-item .dlg-mastery-badge{margin-left:auto}
+/* mastery overview bar */
+.listen-overview{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:16px 20px;margin-bottom:16px}
+.listen-ov-title{font-size:14px;font-weight:800;color:var(--text1);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.listen-ov-bar{height:10px;border-radius:8px;background:var(--card2);overflow:hidden;display:flex;margin-bottom:10px}
+.listen-ov-seg{height:100%;transition:width .4s}
+.listen-ov-seg.mastered{background:#22c55e}
+.listen-ov-seg.review{background:#f59e0b}
+.listen-ov-seg.todo{background:var(--border)}
+.listen-ov-stats{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:600}
+.listen-ov-stat{display:flex;align-items:center;gap:5px;color:var(--text2)}
+.listen-ov-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.listen-ov-dot.mastered{background:#22c55e}
+.listen-ov-dot.review{background:#f59e0b}
+.listen-ov-dot.todo{background:var(--border)}
+/* ── Listening completion celebration modal ── */
+.listen-done-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;animation:ldoFadeIn .3s}
+@keyframes ldoFadeIn{from{opacity:0}to{opacity:1}}
+.listen-done-card{background:var(--bg);border-radius:24px;padding:36px 32px;width:min(400px,90vw);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:ldoSlideUp .4s cubic-bezier(.4,0,.2,1)}
+@keyframes ldoSlideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.listen-done-emoji{font-size:64px;margin-bottom:12px;animation:ldoBounce .6s .3s both}
+@keyframes ldoBounce{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.listen-done-title{font-size:22px;font-weight:900;color:var(--text1);margin-bottom:6px}
+.listen-done-score{font-size:48px;font-weight:900;margin:12px 0}
+.listen-done-score.pass{color:#22c55e}
+.listen-done-score.fail{color:#ef4444}
+.listen-done-msg{font-size:14px;color:var(--text3);margin-bottom:8px;line-height:1.6}
+.listen-done-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:14px;font-weight:700;padding:8px 20px;border-radius:30px;margin:12px 0}
+.listen-done-btns{display:flex;gap:10px;justify-content:center;margin-top:18px}
+.listen-done-btns button{padding:10px 24px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.listen-done-btns button:hover{transform:translateY(-1px)}
+.listen-done-btns .btn-retry{background:linear-gradient(135deg,#0ea5e9,#3b82f6);color:#fff}
+.listen-done-btns .btn-close{background:var(--card2);color:var(--text1);border:1.5px solid var(--border)}
 .dlg-mitem.matched{background:#d1fae5;border-color:#10b981;color:#065f46;cursor:default;pointer-events:none}
 .dlg-mitem.wrong{background:#fee2e2;border-color:#ef4444;color:#7f1d1d}
 @media(max-width:480px){.dlg-match-grid{grid-template-columns:1fr 1fr}.dlg-mitem{font-size:12px;padding:8px 9px}}
@@ -2035,6 +2071,74 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .cnq-ri-user{margin-bottom:4px}
 .cnq-ri-correct{color:var(--green);font-weight:600;margin-bottom:4px}
 .cnq-ri-note{margin-top:6px;font-style:italic}
+
+/* ════ ROLEPLAY MODULE ════ */
+.rp-hero{background:linear-gradient(135deg,#7c3aed 0%,#a855f7 50%,#c084fc 100%);border-radius:20px;padding:32px 28px;margin-bottom:24px;color:#fff;text-align:center}
+.rp-hero h2{font-size:24px;font-weight:800;margin:0 0 6px}
+.rp-hero p{font-size:14px;opacity:.85;margin:0}
+.rp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:0 4px}
+.rp-scene{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:22px 20px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.rp-scene:hover{transform:translateY(-4px);box-shadow:0 12px 28px -8px rgba(124,58,237,.3);border-color:#a855f7}
+.rp-scene::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#7c3aed,#c084fc);opacity:0;transition:opacity .3s}
+.rp-scene:hover::before{opacity:1}
+.rp-scene-emoji{font-size:36px;margin-bottom:10px}
+.rp-scene-title{font-size:17px;font-weight:700;color:var(--text1);margin-bottom:4px}
+.rp-scene-cn{font-size:13px;color:var(--text3);margin-bottom:8px}
+.rp-scene-desc{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:10px}
+.rp-scene-tags{display:flex;flex-wrap:wrap;gap:6px}
+.rp-scene-tag{font-size:11px;padding:3px 10px;border-radius:99px;background:rgba(124,58,237,.1);color:#7c3aed;font-weight:600}
+[data-theme="dark"] .rp-scene-tag{background:rgba(168,85,247,.2);color:#c084fc}
+.rp-scene-best{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;color:#fff}
+.rp-chat{max-width:640px;margin:0 auto;padding:0 12px}
+.rp-chat-header{background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:16px;padding:20px;color:#fff;text-align:center;margin-bottom:16px;position:relative}
+.rp-chat-header h3{font-size:18px;font-weight:800;margin:0 0 4px}
+.rp-chat-header p{font-size:13px;opacity:.8;margin:0}
+.rp-back{position:absolute;left:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.rp-back:hover{background:rgba(255,255,255,.35)}
+.rp-msgs{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.rp-msg{max-width:82%;padding:14px 18px;border-radius:18px;font-size:14px;line-height:1.6;animation:rpFadeIn .4s ease}
+@keyframes rpFadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.rp-msg-npc{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:4px}
+.rp-msg-user{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.rp-msg-sys{background:#fef3c7;color:#92400e;align-self:center;text-align:center;font-size:13px;border-radius:12px;max-width:90%;padding:10px 16px}
+[data-theme="dark"] .rp-msg-sys{background:#422006;color:#fbbf24}
+.rp-msg-npc-name{font-size:11px;font-weight:700;color:var(--text3);margin-bottom:4px}
+.rp-msg-cn{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
+.rp-msg-npc .rp-msg-cn{color:var(--text3)}
+.rp-choices{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.rp-choice{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .2s;text-align:left;font-size:14px;line-height:1.5}
+.rp-choice:hover{border-color:#a855f7;background:rgba(124,58,237,.05);transform:translateX(4px)}
+.rp-choice-label{font-weight:700;color:#7c3aed;margin-right:6px}
+[data-theme="dark"] .rp-choice-label{color:#c084fc}
+.rp-choice-cn{font-size:12px;color:var(--text3);margin-top:3px}
+.rp-choice.correct{border-color:#16a34a;background:rgba(22,163,74,.08)}
+.rp-choice.wrong{border-color:#dc2626;background:rgba(220,38,38,.06);opacity:.6}
+.rp-choice.disabled{pointer-events:none}
+.rp-feedback{padding:12px 16px;border-radius:12px;font-size:13px;line-height:1.5;margin-bottom:12px;animation:rpFadeIn .3s}
+.rp-feedback.good{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.rp-feedback.ok{background:#fef9c3;color:#854d0e;border:1px solid #fde047}
+.rp-feedback.bad{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+[data-theme="dark"] .rp-feedback.good{background:#052e16;color:#86efac;border-color:#166534}
+[data-theme="dark"] .rp-feedback.ok{background:#422006;color:#fde047;border-color:#854d0e}
+[data-theme="dark"] .rp-feedback.bad{background:#450a0a;color:#fca5a5;border-color:#991b1b}
+.rp-result{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center;animation:rpFadeIn .5s}
+.rp-result-emoji{font-size:48px;margin-bottom:12px}
+.rp-result-title{font-size:22px;font-weight:800;color:var(--text1);margin-bottom:6px}
+.rp-result-score{font-size:36px;font-weight:900;margin:12px 0}
+.rp-result-score.pass{color:#16a34a}
+.rp-result-score.fail{color:#dc2626}
+.rp-result-msg{font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.6}
+.rp-result-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.rp-result-btns button{padding:10px 24px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;border:none;transition:all .2s}
+.rp-btn-retry{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff}
+.rp-btn-retry:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(124,58,237,.3)}
+.rp-btn-back{background:var(--card2);color:var(--text1);border:1.5px solid var(--border) !important}
+.rp-btn-back:hover{border-color:#a855f7 !important}
+.rp-progress{display:flex;gap:4px;margin-bottom:16px;justify-content:center}
+.rp-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s}
+.rp-dot.active{background:#a855f7;transform:scale(1.2)}
+.rp-dot.done{background:#16a34a}
+.rp-dot.wrong-dot{background:#dc2626}
 </style>
 </head>
 <body>
@@ -2284,13 +2388,13 @@ document.addEventListener('DOMContentLoaded', function(){
           <div class="hni-ico">🀄</div>
           <div><div class="hni-txt">CN→EN 汉译英</div><div class="hni-sub">思维训练</div></div>
         </div>
-        <div class="hero-nav-item" onclick="ddGo('classics')">
-          <div class="hni-ico">📕</div>
-          <div><div class="hni-txt">经典小说选读</div><div class="hni-sub">美国文学精选</div></div>
-        </div>
         <div class="hero-nav-item" onclick="ddGo('wrongbook')">
           <div class="hni-ico">📝</div>
           <div><div class="hni-txt">Wrong Book 错题本</div><div class="hni-sub">错题回顾</div></div>
+        </div>
+        <div class="hero-nav-item" onclick="ddGo('roleplay')">
+          <div class="hni-ico">🎭</div>
+          <div><div class="hni-txt">Role Play 情景对话</div><div class="hni-sub">实战模拟练口语</div></div>
         </div>
         <div class="hero-nav-item" onclick="ddGo('lb')">
           <div class="hni-ico">🏆</div>
@@ -2660,8 +2764,28 @@ document.addEventListener('DOMContentLoaded', function(){
 
 <!-- PROFILE -->
 <div class="page" id="page-profile">
-  <div id="profdata"></div>
+  <div id="profdata"><div style="padding:40px;text-align:center;color:var(--text2)">正在加载个人资料...</div></div>
 </div>
+<script>
+// Auto-render profile when page becomes visible (backup trigger)
+(function(){
+  var _profObs = new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      if (m.target.id === 'page-profile' && m.target.classList.contains('show')) {
+        try {
+          if (typeof renderProfile === 'function') renderProfile();
+        } catch(e) {
+          console.error('[ProfileObs] error:', e);
+          var pd = document.getElementById('profdata');
+          if (pd) pd.innerHTML = '<div style="padding:30px;text-align:center;background:#fef3cd;border:2px solid #ffc107;border-radius:12px;margin:20px"><p style="color:#664d03;font-weight:700">Profile 加载失败</p><p style="color:#664d03;font-size:12px;margin-top:6px">' + e.message + '</p></div>';
+        }
+      }
+    });
+  });
+  var pp = document.getElementById('page-profile');
+  if (pp) _profObs.observe(pp, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
 
 <!-- DAILY DASHBOARD -->
 <div class="page" id="page-daily">
@@ -2837,6 +2961,11 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- PLUMBER ENGLISH MODULE -->
 <div class="page" id="page-plumber">
   <div id="plmb-main"><!-- Injected by JS --></div>
+</div>
+
+<!-- ROLEPLAY MODULE -->
+<div class="page" id="page-roleplay">
+  <div id="rp-main"><!-- Injected by JS --></div>
 </div>
 
 <!-- LOGIN MODAL -->
@@ -11534,16 +11663,20 @@ function _dlgRender() {
         catDlgs.forEach(function(dd, si){
           var isActive = (curD && curD.id === dd.id) ? ' active' : '';
           var globalIdx = DLG_DATA.indexOf(dd);
-          var hasBadge = _dlgHasMastery(dd.id);
           catH += '<button class="dlg-sub-item' + isActive + '" onclick="_dlgSetWeek(' + globalIdx + ')">' +
             '<span class="sub-num">' + (si+1) + '</span>' + dd.titleCN +
-            (hasBadge ? '<span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+            _dlgMasteryBadge(dd.id) +
             '</button>';
         });
         catH += '</div></div>';
       }
     });
     catH += '</div></div>';
+    // Add mastery overview dashboard
+    var ovIds = (_dlgSt.catFilter && _dlgSt.catFilter !== 'ALL') ?
+      DLG_DATA.filter(function(dd){ return dd.cat === _dlgSt.catFilter; }).map(function(dd){ return dd.id; }) :
+      DLG_DATA.map(function(dd){ return dd.id; });
+    catH += _masteryOverviewHTML(_DLG_MASTERY_KEY, ovIds, '听力掌握进度 Listening Progress');
     catRow.innerHTML = catH;
   }
 
@@ -11633,7 +11766,7 @@ function _dlgHTML(d) {
     '<div class="dlg-col-hd" style="margin-top:20px"><span class="dlg-col-icon">✏️</span>词汇测试 · Quick Check</div>' +
     '<div id="dlg-qbox">' + _dlgQuizHTML(d) + '</div>' +
     '<div class="dlg-col-hd" style="margin-top:20px"><span class="dlg-col-icon">🎧</span>听力填空 · Listening Test' +
-      (_dlgHasMastery(d.id) ? '<span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+      _dlgMasteryBadge(d.id) +
     '</div>' +
     '<div id="dlg-listen-box">' + _dlgListenHTML(d) + '</div>' +
   '</div>';
@@ -11955,7 +12088,7 @@ function _dlgListenHTML(d) {
     '</div>' +
     '<div class="dlg-listen-sentence">' + blanked + '</div>' +
     '<div class="dlg-listen-input-row">' +
-      '<input class="dlg-listen-input" id="dlg-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" onkeydown="if(event.key===\'Enter\')dlgListenCheck()">' +
+      '<input type="search" class="dlg-listen-input" id="dlg-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-dlg" onkeydown="if(event.key===\'Enter\')dlgListenCheck()">' +
       '<button class="dlg-listen-submit" id="dlg-listen-sub" onclick="dlgListenCheck()">确认</button>' +
     '</div>' +
     '<div class="dlg-listen-fb" id="dlg-listen-fb"></div>' +
@@ -12026,51 +12159,182 @@ function dlgListenNext() {
   _dlgSt.listenCur++;
   _dlgSt.listenAnswered = false;
   if (_dlgSt.listenCur >= qs.length) {
-    // Show results
-    var box = document.getElementById('dlg-listen-box');
-    if (!box) return;
     var sc = _dlgSt.listenScore, tot = qs.length;
     var pass = sc === tot;
     var d = DLG_DATA[_dlgSt.wi];
-    if (pass) {
-      // Save mastery
-      _dlgSaveMastery(d.id);
-    }
-    var msg = pass ? '🏆 满分！听力测试全部通过！已获得掌握徽章！' :
-      sc >= 3 ? '🎉 不错！再试一次争取满分通过！' : '💪 多听几遍对话，再来挑战听力测试！';
-    box.innerHTML = '<div class="dlg-listen-wrap"><div class="dlg-listen-result">' +
-      '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
-      '<div class="dlg-listen-score-sub">' + msg + '</div>' +
-      (pass ? '<div style="font-size:15px;margin-bottom:12px">🏅 <b>已掌握</b> — 本课程听力测试已通过！</div>' : '') +
-      '<button class="btn-p" onclick="dlgListenRetry()" style="margin-top:4px">🔄 重新测试</button>' +
-    '</div></div>';
+    if (pass) _dlgSaveMastery(d.id);
+    // Show celebration modal
+    _showListenDoneModal(sc, tot, 'dlgListenRetry', '_dlgListenCloseModal');
     // Refresh nav to show badge
     _dlgRender();
   } else {
     var box2 = document.getElementById('dlg-listen-box');
     if (box2) box2.innerHTML = _dlgListenHTML(DLG_DATA[_dlgSt.wi]);
+    // Auto-play the next question's sentence
+    setTimeout(function(){ dlgListenPlay(false); }, 500);
   }
 }
+function _dlgListenCloseModal() { /* nothing extra needed */ }
 
 function dlgListenRetry() {
   var d = DLG_DATA[_dlgSt.wi];
   _dlgListenInit(d);
   var box = document.getElementById('dlg-listen-box');
   if (box) box.innerHTML = _dlgListenHTML(d);
+  setTimeout(function(){ dlgListenPlay(false); }, 500);
 }
 
-// ── Mastery persistence ──
-function _dlgGetMastery() {
-  try { return JSON.parse(localStorage.getItem('dlg_mastery') || '{}'); } catch(e) { return {}; }
+// ══════════════════════════════════════════
+// ── Shared listening completion modal ──
+// ══════════════════════════════════════════
+function _showListenDoneModal(score, total, onRetry, onClose) {
+  // Remove any existing modal
+  var old = document.getElementById('listen-done-modal');
+  if (old) old.remove();
+
+  var pass = score === total;
+  var emoji = pass ? '🏆' : score >= 3 ? '🎉' : '💪';
+  var title = pass ? '听力测试全部通过！' : '听力测试完成';
+  var msg = pass ? '太棒了！你的听力非常出色！<br>已获得 <b>掌握徽章</b>，继续保持！' :
+    score >= 3 ? '不错的成绩！再试一次争取全部通过，<br>获得掌握徽章吧！' :
+    '多听几遍对话再来挑战，<br>相信你一定可以全部通过！';
+
+  var h = '<div class="listen-done-overlay" id="listen-done-modal" onclick="if(event.target===this)this.remove()">' +
+    '<div class="listen-done-card">' +
+      '<div class="listen-done-emoji">' + emoji + '</div>' +
+      '<div class="listen-done-title">' + title + '</div>' +
+      '<div class="listen-done-score ' + (pass ? 'pass' : 'fail') + '">' + score + ' / ' + total + '</div>' +
+      '<div class="listen-done-msg">' + msg + '</div>' +
+      (pass ? '<div class="listen-done-badge">✅ 已掌握 · Mastered</div>' : '') +
+      '<div class="listen-done-btns">' +
+        '<button class="btn-retry" onclick="document.getElementById(\'listen-done-modal\').remove();if(typeof ' + onRetry + '===\'function\')' + onRetry + '()">🔄 ' + (pass ? '再练一次' : '重新挑战') + '</button>' +
+        '<button class="btn-close" onclick="document.getElementById(\'listen-done-modal\').remove();' + (onClose ? 'if(typeof ' + onClose + '===\'function\')' + onClose + '()' : '') + '">✓ 关闭</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+  document.body.insertAdjacentHTML('beforeend', h);
 }
-function _dlgSaveMastery(sceneId) {
-  var m = _dlgGetMastery();
-  m[sceneId] = Date.now();
-  try { localStorage.setItem('dlg_mastery', JSON.stringify(m)); } catch(e) {}
+
+// ══════════════════════════════════════════════════════
+// ── Universal Spaced-Repetition Mastery System ──
+// 遗忘曲线: 通过→7天→14天→30天→永久掌握
+// ══════════════════════════════════════════════════════
+var _MASTERY_INTERVALS = [7, 14, 30, 90]; // days between reviews
+// Data: { id: { ts: timestamp, lv: 0-4 } }
+// lv=0: just passed (review in 7d), lv=1: review in 14d, ...
+// lv >= _MASTERY_INTERVALS.length → permanently mastered
+
+function _masteryLoad(storageKey) {
+  try { return JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch(e) { return {}; }
 }
-function _dlgHasMastery(sceneId) {
-  return !!_dlgGetMastery()[sceneId];
+function _masterySave(storageKey, data) {
+  try { localStorage.setItem(storageKey, JSON.stringify(data)); } catch(e) {}
 }
+
+// Returns: 'mastered' | 'review' | 'none'
+function _masteryStatus(storageKey, id) {
+  var all = _masteryLoad(storageKey);
+  var rec = all[id];
+  if (!rec) return 'none';
+  var lv = rec.lv || 0;
+  // Permanently mastered (passed all review cycles)
+  if (lv >= _MASTERY_INTERVALS.length) return 'mastered';
+  // Check if review is due
+  var daysSince = (Date.now() - rec.ts) / (1000 * 60 * 60 * 24);
+  var interval = _MASTERY_INTERVALS[lv];
+  if (daysSince >= interval) return 'review'; // needs review
+  return 'mastered'; // still within interval, badge stays green
+}
+
+// Returns detail for badge: {status, daysLeft, level, totalLevels}
+function _masteryDetail(storageKey, id) {
+  var all = _masteryLoad(storageKey);
+  var rec = all[id];
+  if (!rec) return { status:'none', daysLeft:0, level:0, totalLevels:_MASTERY_INTERVALS.length+1 };
+  var lv = rec.lv || 0;
+  var total = _MASTERY_INTERVALS.length + 1;
+  if (lv >= _MASTERY_INTERVALS.length) return { status:'mastered', daysLeft:0, level:total, totalLevels:total };
+  var daysSince = (Date.now() - rec.ts) / (1000 * 60 * 60 * 24);
+  var interval = _MASTERY_INTERVALS[lv];
+  var daysLeft = Math.max(0, Math.ceil(interval - daysSince));
+  if (daysSince >= interval) return { status:'review', daysLeft:0, level:lv+1, totalLevels:total };
+  return { status:'mastered', daysLeft:daysLeft, level:lv+1, totalLevels:total };
+}
+
+function _masteryPass(storageKey, id) {
+  var all = _masteryLoad(storageKey);
+  var rec = all[id];
+  if (!rec) {
+    // First time pass
+    all[id] = { ts: Date.now(), lv: 0 };
+  } else {
+    // Level up on review pass
+    all[id] = { ts: Date.now(), lv: (rec.lv || 0) + 1 };
+  }
+  _masterySave(storageKey, all);
+}
+
+// Build badge HTML
+function _masteryBadgeHTML(storageKey, id) {
+  var d = _masteryDetail(storageKey, id);
+  if (d.status === 'none') return '';
+  if (d.status === 'review') return '<span class="dlg-mastery-badge review">🔄 需复习</span>';
+  // mastered — show level progress
+  if (d.level >= d.totalLevels) return '<span class="dlg-mastery-badge mastered">✅ 永久掌握</span>';
+  return '<span class="dlg-mastery-badge mastered">✅ 已掌握 · ' + d.daysLeft + '天后复习</span>';
+}
+
+// Overview stats for a list of IDs
+function _masteryOverviewHTML(storageKey, ids, title) {
+  var mastered = 0, review = 0, todo = 0, permanent = 0;
+  ids.forEach(function(id) {
+    var s = _masteryStatus(storageKey, id);
+    if (s === 'mastered') {
+      mastered++;
+      var d = _masteryDetail(storageKey, id);
+      if (d.level >= d.totalLevels) permanent++;
+    }
+    else if (s === 'review') review++;
+    else todo++;
+  });
+  var total = ids.length;
+  var pctM = total ? Math.round(mastered / total * 100) : 0;
+  var pctR = total ? Math.round(review / total * 100) : 0;
+  var pctT = total ? 100 - pctM - pctR : 100;
+  return '<div class="listen-overview">' +
+    '<div class="listen-ov-title">📊 ' + title + ' <span style="font-size:12px;font-weight:400;color:var(--text3)">(' + mastered + '/' + total + ' 已掌握)</span></div>' +
+    '<div class="listen-ov-bar">' +
+      '<div class="listen-ov-seg mastered" style="width:' + pctM + '%"></div>' +
+      '<div class="listen-ov-seg review" style="width:' + pctR + '%"></div>' +
+      '<div class="listen-ov-seg todo" style="width:' + pctT + '%"></div>' +
+    '</div>' +
+    '<div class="listen-ov-stats">' +
+      '<div class="listen-ov-stat"><div class="listen-ov-dot mastered"></div>已掌握 ' + mastered + (permanent ? ' (永久 '+permanent+')' : '') + '</div>' +
+      (review ? '<div class="listen-ov-stat"><div class="listen-ov-dot review"></div>需复习 ' + review + '</div>' : '') +
+      '<div class="listen-ov-stat"><div class="listen-ov-dot todo"></div>未学习 ' + todo + '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// ── Bay Area backward-compatible wrappers ──
+var _DLG_MASTERY_KEY = 'dlg_mastery_v2';
+function _dlgSaveMastery(sceneId) { _masteryPass(_DLG_MASTERY_KEY, sceneId); }
+function _dlgHasMastery(sceneId) { return _masteryStatus(_DLG_MASTERY_KEY, sceneId) !== 'none'; }
+function _dlgMasteryBadge(sceneId) { return _masteryBadgeHTML(_DLG_MASTERY_KEY, sceneId); }
+function _dlgNeedsReview(sceneId) { return _masteryStatus(_DLG_MASTERY_KEY, sceneId) === 'review'; }
+
+// Migrate old v1 data (simple timestamp) to v2 (level-based)
+(function(){
+  try {
+    var old = JSON.parse(localStorage.getItem('dlg_mastery') || '{}');
+    var v2 = _masteryLoad(_DLG_MASTERY_KEY);
+    var changed = false;
+    for (var k in old) {
+      if (!v2[k] && old[k]) { v2[k] = { ts: old[k], lv: 0 }; changed = true; }
+    }
+    if (changed) _masterySave(_DLG_MASTERY_KEY, v2);
+  } catch(e) {}
+})();
 
 function dlgVcToggle(vi) {
   var el = document.getElementById('dlg-vc-'+vi);
@@ -13357,11 +13621,18 @@ function show(p) {
   // Module-specific init
   if (p === 'wrongbook') { renderWB(); completeMission('wrongbook'); }
   if (p === 'lb')        renderLB();
-  if (p === 'profile')   renderProfile();
+  if (p === 'profile') {
+    try { renderProfile(); } catch(e) {
+      console.error('[show→profile] error:', e);
+      var _pd = document.getElementById('profdata');
+      if (_pd) _pd.innerHTML = '<div style="padding:40px;text-align:center;background:#fff3cd;border:2px solid #ffc107;border-radius:12px;margin:20px"><h3 style="color:#856404">Profile 加载出错</h3><p style="color:#856404;margin:8px 0">'+e.message+'</p><button onclick="location.reload()" style="margin-top:10px;padding:8px 20px;background:#ffc107;border:none;border-radius:8px;cursor:pointer">刷新重试</button></div>';
+    }
+  }
   if (p === 'bayarea')   { _renderDlgInBay(); setBadgeStat('bay_visited', true); }
   if (p === 'monthly')   renderMonthly();
   if (p === 'pk')        renderPK();
   if (p === 'cnen')      renderCNEN();
+  if (p === 'roleplay')  renderRoleplay();
   if (p === 'course')    { _crsView = 'home'; renderCourse(); }
   if (p === 'quiz') {
     document.getElementById('qsetup-v').style.display  = 'block';
@@ -14946,77 +15217,226 @@ function classicsProgressHtml() {
 
 function renderProfile() {
   var c = document.getElementById('profdata');
-  // Build registration date / IP country chip
-  var joinDate   = localStorage.getItem('join_date')   || '';
-  var ipCountry  = localStorage.getItem('ip_country')  || '';
-  var metaChips = '';
-  if (joinDate || ipCountry) {
-    metaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';
-    if (joinDate)   metaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">📅 加入 ' + joinDate + '</span>';
-    if (ipCountry)  metaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">🌍 ' + ipCountry + '</span>';
-    metaChips += '</div>';
-  }
-  if (user && profile) {
-    // Logged-in profile
-    var p    = profile;
-    var init = (p.username || 'U')[0].toUpperCase();
-    var regDate = user.created_at
-      ? (function(){ var d = new Date(user.created_at); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); })()
-      : joinDate;
-    var loggedMetaChips = '';
-    if (regDate || ipCountry) {
-      loggedMetaChips = '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px">';
-      if (regDate)   loggedMetaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">📅 注册 ' + regDate + '</span>';
-      if (ipCountry) loggedMetaChips += '<span style="font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2)">🌍 ' + ipCountry + '</span>';
-      loggedMetaChips += '</div>';
-    }
-    c.innerHTML =
-      '<div class="prof-card">' +
-        '<div class="prof-av">' + init + '</div>' +
-        '<div><h2 style="font-size:20px;font-weight:700;margin-bottom:4px">' + p.username + '</h2>' +
-        '<p style="font-size:13px;color:var(--text2)">' + user.email + '</p></div>' +
+  if (!c) return;
+  try {
+  // ── Gather all data ──
+  var isLogged = !!(user && profile);
+  var pts = isLogged ? (profile.points || 0) : localPts;
+  var name = isLogged ? (profile.username || 'User') : localName;
+  var email = isLogged ? user.email : '';
+  var init = (name || 'U')[0].toUpperCase();
+  var quizzes = isLogged ? (profile.quizzes_taken || 0) : localQuizzes;
+  var correct = isLogged ? (profile.correct_total || 0) : localCorrect;
+  var accuracy = quizzes > 0 ? Math.round(correct / quizzes * 100) : 0;
+  var joinDate = localStorage.getItem('join_date') || '';
+  var ipCountry = localStorage.getItem('ip_country') || '';
+  var regDate = (isLogged && user.created_at) ? (function(){ var d=new Date(user.created_at); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })() : joinDate;
+  var lv = _getUserLevel(pts);
+  var nextLv = pts < 200 ? {name:'Active',pts:200} : pts < 800 ? {name:'Rising',pts:800} : pts < 2000 ? {name:'Pro',pts:2000} : pts < 5000 ? {name:'Master',pts:5000} : null;
+  var lvPct = nextLv ? Math.round(pts / nextLv.pts * 100) : 100;
+
+  // ── Header Card ──
+  var h = '<div style="background:linear-gradient(135deg,#0f766e,#0ea5e9);border-radius:20px;padding:28px 24px 20px;color:#fff;margin-bottom:18px">' +
+    '<div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">' +
+      '<div style="width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800">' + init + '</div>' +
+      '<div style="flex:1">' +
+        '<h2 style="font-size:20px;font-weight:700;margin-bottom:2px">' + name + '</h2>' +
+        (email ? '<p style="font-size:12px;opacity:.8">' + email + '</p>' : '<p style="font-size:12px;opacity:.7">本地模式 · Local Mode</p>') +
       '</div>' +
-      loggedMetaChips +
-      '<div class="sgrid">' +
-        '<div class="scard"><div class="n" style="color:var(--amber)">' + (p.points || 0) + '</div><div class="l">Total Points</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--blue)">' + (p.quizzes_taken || 0) + '</div><div class="l">Quizzes Taken</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--green)">' + (p.correct_total || 0) + '</div><div class="l">Correct Answers</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--purple)">' + wb.length + '</div><div class="l">In Wrong Book</div></div>' +
+      '<div style="text-align:center;background:rgba(255,255,255,.15);border-radius:12px;padding:8px 14px">' +
+        '<div style="font-size:10px;opacity:.7">LEVEL</div>' +
+        '<div style="font-size:18px;font-weight:800">' + lv.icon + '</div>' +
+        '<div style="font-size:11px;font-weight:700">' + lv.name + '</div>' +
       '</div>' +
-      classicsProgressHtml() +
-      srsProfileHtml() +
-      renderBadgesHtml() +
-      '<button class="logout-btn" onclick="doLogout()" style="margin-top:8px">Sign Out</button>';
+    '</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">';
+  if (regDate) h += '<span style="font-size:11px;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:20px">📅 ' + regDate + '</span>';
+  if (ipCountry) h += '<span style="font-size:11px;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:20px">🌍 ' + ipCountry + '</span>';
+  h += '<span style="font-size:11px;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:20px">☁️ 云端同步</span>';
+  h += '</div>';
+  if (nextLv) {
+    h += '<div style="font-size:11px;opacity:.8;margin-bottom:4px">距离 ' + nextLv.name + ' 还差 ' + (nextLv.pts - pts) + ' 分</div>' +
+      '<div style="height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden"><div style="height:100%;width:' + lvPct + '%;background:#fff;border-radius:3px;transition:width .3s"></div></div>';
   } else {
-    // Local (guest) profile
-    var init2 = localName[0].toUpperCase();
-    c.innerHTML =
-      '<div class="prof-card">' +
-        '<div class="prof-av">' + init2 + '</div>' +
-        '<div style="flex:1">' +
-          '<h2 style="font-size:20px;font-weight:700;margin-bottom:4px">' + localName + '</h2>' +
-          '<p style="font-size:12px;color:var(--text3)">Local mode · points saved on this device</p>' +
-        '</div>' +
-      '</div>' +
-      metaChips +
-      '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">' +
-        '<p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Your Display Name</p>' +
-        '<input class="name-edit" id="name-inp" value="' + localName + '" placeholder="Enter your name" maxlength="20">' +
-        '<button class="save-btn" onclick="saveName()">Save Name</button>' +
-      '</div>' +
-      '<div class="sgrid">' +
-        '<div class="scard"><div class="n" style="color:var(--amber)">' + localPts + '</div><div class="l">Total Points</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--blue)">' + localQuizzes + '</div><div class="l">Quizzes Taken</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--green)">' + localCorrect + '</div><div class="l">Correct Answers</div></div>' +
-        '<div class="scard"><div class="n" style="color:var(--purple)">' + wb.length + '</div><div class="l">In Wrong Book</div></div>' +
-      '</div>' +
-      classicsProgressHtml() +
-      srsProfileHtml() +
-      renderBadgesHtml() +
-      (sbEnabled
-        ? '<p style="text-align:center;margin-top:16px;font-size:12px;color:var(--text3)">想同步数据或加入排行榜？<a onclick="openModal(\'login\')" style="color:var(--blue);cursor:pointer;text-decoration:underline">登录 / 注册</a></p>'
-        : '');
+    h += '<div style="font-size:12px;font-weight:700">🏆 已达最高等级！</div>';
   }
+  h += '</div>';
+
+  // ── Quick Stats Grid ──
+  var streakCount = streakData.count || 0;
+  var streakLongest = streakData.longest || 0;
+  var timeStr = formatActiveTime(_activeTimeSecs);
+  var studied = getStudiedCount();
+  var mastered = getMasterCount();
+  var due = getDueCount();
+  h += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px">';
+  var stats = [
+    {icon:'💰',val:pts,label:'总积分',color:'var(--amber)'},
+    {icon:'🔥',val:streakCount + '<span style="font-size:10px;color:var(--text3)"> 天</span>',label:'连续打卡',sub:'最长 '+streakLongest+' 天',color:'#ef4444'},
+    {icon:'⏱️',val:timeStr,label:'累计学习',color:'var(--blue)'},
+    {icon:'✅',val:correct,label:'答对题数',sub:'正确率 '+accuracy+'%',color:'var(--green)'},
+    {icon:'📝',val:quizzes,label:'完成测验',color:'var(--purple)'},
+    {icon:'📕',val:wb.length,label:'错题本',color:'#d94a4a'}
+  ];
+  stats.forEach(function(s){
+    h += '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center">' +
+      '<div style="font-size:20px;margin-bottom:4px">' + s.icon + '</div>' +
+      '<div style="font-size:20px;font-weight:800;color:' + s.color + '">' + s.val + '</div>' +
+      '<div style="font-size:11px;color:var(--text3);margin-top:2px">' + s.label + '</div>' +
+      (s.sub ? '<div style="font-size:10px;color:var(--green);font-weight:600">' + s.sub + '</div>' : '') +
+    '</div>';
+  });
+  h += '</div>';
+
+  // ── Module Progress Section ──
+  h += '<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px">' +
+    '<h3 style="font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px"><span style="font-size:18px">📊</span> 各模块学习进度</h3>';
+
+  // 1. Vocabulary SRS
+  var vocabTotal = (typeof DATA !== 'undefined') ? DATA.length : 0;
+  var learning = 0;
+  try { learning = Object.keys(srsData).filter(function(id){ return srsStatus(parseInt(id)) === 'learn'; }).length; } catch(e){}
+  h += _profModuleBar('📚 习语词汇 Vocabulary', mastered, learning, due, vocabTotal - studied, vocabTotal, 'learn');
+
+  // 2. Bay Area Dialogues
+  if (typeof DLG_DATA !== 'undefined' && DLG_DATA.length) {
+    var dlgTotal = DLG_DATA.length;
+    var dlgMast = 0, dlgReview = 0;
+    DLG_DATA.forEach(function(d) {
+      var s = _masteryStatus('dlg_mastery_v2', d.id);
+      if (s === 'mastered') dlgMast++;
+      else if (s === 'review') dlgReview++;
+    });
+    h += _profModuleBar('💼 职场对话 Bay Area', dlgMast, dlgReview, 0, dlgTotal - dlgMast - dlgReview, dlgTotal, 'bayarea');
+  }
+
+  // 3. Plumber English
+  var plmbAllLessons = [].concat(window.PLMB_DATA || []).concat(window.PLMB_ELEM_DATA || []).concat(window.PLMB_INTER_DATA || []);
+  if (plmbAllLessons.length) {
+    var plmbPass = 0, plmbLearn = 0;
+    plmbAllLessons.forEach(function(L) {
+      var s = _masteryStatus('plmb_listen_mastery_v2', String(L.id));
+      if (s === 'mastered') plmbPass++;
+      else if (s === 'review') plmbLearn++;
+    });
+    h += _profModuleBar('🔧 水管工程英语 Plumber', plmbPass, plmbLearn, 0, plmbAllLessons.length - plmbPass - plmbLearn, plmbAllLessons.length, 'plumber');
+  }
+
+  // 4. Course Lessons
+  if (typeof CRS_LESSONS !== 'undefined') {
+    var crsTotal = 0, crsMast = 0, crsRev = 0;
+    var crsLevelKeys = typeof CRS_LEVELS !== 'undefined' ? CRS_LEVELS.map(function(l){return l.id}) : Object.keys(CRS_LESSONS);
+    crsLevelKeys.forEach(function(lk){
+      var lessons = CRS_LESSONS[lk] || [];
+      lessons.forEach(function(L){
+        crsTotal++;
+        var s = _masteryStatus('crs_listen_mastery_v2', lk + '_' + L.id);
+        if (s === 'mastered') crsMast++;
+        else if (s === 'review') crsRev++;
+      });
+    });
+    h += _profModuleBar('📖 系统课程 Course', crsMast, crsRev, 0, crsTotal - crsMast - crsRev, crsTotal, 'course');
+  }
+
+  // 5. Monthly Words
+  if (typeof MONTHLY_DATA !== 'undefined') {
+    var mTotal = 0, mStudied = 0;
+    Object.keys(MONTHLY_DATA).forEach(function(y){
+      Object.keys(MONTHLY_DATA[y]).forEach(function(m){
+        (MONTHLY_DATA[y][m] || []).forEach(function(item){
+          mTotal++;
+          try { if (localStorage.getItem('monthly_' + item.id)) mStudied++; } catch(e){}
+        });
+      });
+    });
+    h += _profModuleBar('🇺🇸 月度热词 Monthly', mStudied, 0, 0, mTotal - mStudied, mTotal, 'monthly');
+  }
+
+  // 6. CN-EN Words
+  if (typeof CN_MONTHLY_DATA !== 'undefined') {
+    var cnTotal = 0, cnStudied = 0;
+    Object.keys(CN_MONTHLY_DATA).forEach(function(y){
+      Object.keys(CN_MONTHLY_DATA[y]).forEach(function(m){
+        (CN_MONTHLY_DATA[y][m] || []).forEach(function(item){
+          cnTotal++;
+          try { if (localStorage.getItem('cnen_' + item.id)) cnStudied++; } catch(e){}
+        });
+      });
+    });
+    h += _profModuleBar('🀄 汉译英 CN→EN', cnStudied, 0, 0, cnTotal - cnStudied, cnTotal, 'cnen');
+  }
+
+  h += '</div>';
+
+  // ── SRS Review Status ──
+  h += '<div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px">' +
+    '<h3 style="font-size:15px;font-weight:700;margin-bottom:12px"><span style="font-size:18px">🧠</span> 记忆复习状态</h3>' +
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">' +
+      '<div style="text-align:center;padding:10px 4px;background:var(--bg);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--amber)">' + mastered + '</div><div style="font-size:10px;color:var(--text3)">⭐ 已掌握</div></div>' +
+      '<div style="text-align:center;padding:10px 4px;background:var(--bg);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--blue)">' + learning + '</div><div style="font-size:10px;color:var(--text3)">📖 学习中</div></div>' +
+      '<div style="text-align:center;padding:10px 4px;background:var(--bg);border-radius:10px"><div style="font-size:22px;font-weight:800;color:#ef4444">' + due + '</div><div style="font-size:10px;color:var(--text3)">📅 待复习</div></div>' +
+      '<div style="text-align:center;padding:10px 4px;background:var(--bg);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--border)">' + (vocabTotal - studied) + '</div><div style="font-size:10px;color:var(--text3)">🆕 未学习</div></div>' +
+    '</div>';
+  if (due > 0) {
+    h += '<div style="text-align:center"><button onclick="show(\'learn\')" style="background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;border:none;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer">📅 立即复习 ' + due + ' 个词汇</button></div>';
+  }
+  h += '</div>';
+
+  // ── Study Log & Streak ──
+  try { h += srsProfileHtml(); } catch(e){}
+
+  // ── Badges ──
+  try { h += renderBadgesHtml(); } catch(e){}
+
+  // ── Guest name edit / Logout ──
+  if (!isLogged) {
+    h += '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">' +
+      '<p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Your Display Name</p>' +
+      '<input class="name-edit" id="name-inp" value="' + localName + '" placeholder="Enter your name" maxlength="20">' +
+      '<button class="save-btn" onclick="saveName()">Save Name</button>' +
+    '</div>';
+    if (sbEnabled) {
+      h += '<p style="text-align:center;margin-top:16px;font-size:12px;color:var(--text3)">想同步数据或加入排行榜？<a onclick="openModal(\'login\')" style="color:var(--blue);cursor:pointer;text-decoration:underline">登录 / 注册</a></p>';
+    }
+  } else {
+    h += '<div style="text-align:center;margin-top:12px"><button class="logout-btn" onclick="doLogout()">Sign Out 退出登录</button></div>';
+  }
+
+  c.innerHTML = h;
+
+  } catch(err) {
+    console.error('renderProfile error:', err);
+    c.innerHTML = '<div style="padding:40px;text-align:center">' +
+      '<h3 style="color:var(--text);margin-bottom:12px">个人资料 Profile</h3>' +
+      '<p style="color:var(--text2);font-size:14px">加载出错，请刷新页面重试</p>' +
+      '<p style="color:var(--text3);font-size:11px;margin-top:8px">Error: ' + err.message + '</p>' +
+      '<button onclick="location.reload()" style="margin-top:16px;padding:10px 24px;border-radius:10px;background:var(--blue);color:#fff;border:none;cursor:pointer;font-size:14px">刷新页面</button>' +
+    '</div>';
+  }
+}
+
+// ── Helper: Module progress bar for profile ──
+function _profModuleBar(title, done, review, due, todo, total, pageKey) {
+  if (total <= 0) return '';
+  var pctDone = Math.round(done / total * 100);
+  var pctRev = Math.round(review / total * 100);
+  var pctTodo = 100 - pctDone - pctRev;
+  if (pctTodo < 0) pctTodo = 0;
+  return '<div style="margin-bottom:14px;cursor:pointer" onclick="show(\'' + pageKey + '\')">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">' +
+      '<span style="font-size:13px;font-weight:600;color:var(--text)">' + title + '</span>' +
+      '<span style="font-size:11px;color:var(--text3)">' + done + ' / ' + total + ' · ' + pctDone + '%</span>' +
+    '</div>' +
+    '<div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;display:flex">' +
+      '<div style="height:100%;width:' + pctDone + '%;background:#22c55e;transition:width .3s"></div>' +
+      '<div style="height:100%;width:' + pctRev + '%;background:#f59e0b;transition:width .3s"></div>' +
+    '</div>' +
+    '<div style="display:flex;gap:10px;margin-top:3px;font-size:10px;color:var(--text3)">' +
+      (done > 0 ? '<span>✅ 已掌握 ' + done + '</span>' : '') +
+      (review > 0 ? '<span>🔄 需复习 ' + review + '</span>' : '') +
+      (todo > 0 ? '<span>📋 未学习 ' + todo + '</span>' : '') +
+    '</div>' +
+  '</div>';
 }
 
 function srsProfileHtml() {
@@ -38266,7 +38686,7 @@ function _renderCrsLesson(wrap) {
   _crsListenInit(L);
   html += '<div class="crs-section">' +
     '<div class="crs-section-title"><span class="crs-ico">🎧</span> 听力填空 Listening Test' +
-      (_crsHasListenMastery(_crsLevelId, L.id) ? ' <span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+      _crsMasteryBadge(_crsLevelId, L.id) +
     '</div>' +
     '<div id="crs-listen-box">' + _crsListenHTML(L) + '</div>' +
   '</div>';
@@ -38366,7 +38786,7 @@ function _crsListenHTML(L) {
     '</div>' +
     '<div class="dlg-listen-sentence">' + blanked + '</div>' +
     '<div class="dlg-listen-input-row">' +
-      '<input class="dlg-listen-input" id="crs-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" onkeydown="if(event.key===\'Enter\')_crsListenCheck()">' +
+      '<input type="search" class="dlg-listen-input" id="crs-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-crs" onkeydown="if(event.key===\'Enter\')_crsListenCheck()">' +
       '<button class="dlg-listen-submit" id="crs-listen-sub" onclick="_crsListenCheck()">确认</button>' +
     '</div>' +
     '<div class="dlg-listen-fb" id="crs-listen-fb"></div>' +
@@ -38419,21 +38839,14 @@ function _crsListenNext() {
   _crsListenSt.cur++;
   _crsListenSt.answered = false;
   if (_crsListenSt.cur >= qs.length) {
-    var box = document.getElementById('crs-listen-box');
-    if (!box) return;
     var sc = _crsListenSt.score, tot = qs.length, pass = sc === tot;
     if (pass) _crsSaveListenMastery(_crsLevelId, (CRS_LESSONS[_crsLevelId]||[])[_crsLessonIdx].id);
-    var msg = pass ? '🏆 满分！听力测试全部通过！' : sc >= 3 ? '🎉 不错！再试一次争取满分！' : '💪 多听几遍，再来挑战！';
-    box.innerHTML = '<div class="dlg-listen-wrap"><div class="dlg-listen-result">' +
-      '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
-      '<div class="dlg-listen-score-sub">' + msg + '</div>' +
-      (pass ? '<div style="font-size:15px;margin-bottom:12px">🏅 <b>已掌握</b></div>' : '') +
-      '<button class="btn-p" onclick="_crsListenRetry()" style="margin-top:4px">🔄 重新测试</button>' +
-    '</div></div>';
+    _showListenDoneModal(sc, tot, '_crsListenRetry', '');
   } else {
     var box2 = document.getElementById('crs-listen-box');
     var L2 = (CRS_LESSONS[_crsLevelId]||[])[_crsLessonIdx];
     if (box2 && L2) box2.innerHTML = _crsListenHTML(L2);
+    setTimeout(function(){ _crsListenPlay(false); }, 500);
   }
 }
 
@@ -38442,19 +38855,25 @@ function _crsListenRetry() {
   if (L) _crsListenInit(L);
   var box = document.getElementById('crs-listen-box');
   if (box && L) box.innerHTML = _crsListenHTML(L);
+  setTimeout(function(){ _crsListenPlay(false); }, 500);
 }
 
-function _crsGetListenMastery() {
-  try { return JSON.parse(localStorage.getItem('crs_listen_mastery') || '{}'); } catch(e) { return {}; }
-}
-function _crsSaveListenMastery(lvl, lid) {
-  var m = _crsGetListenMastery();
-  m[lvl + '_' + lid] = Date.now();
-  try { localStorage.setItem('crs_listen_mastery', JSON.stringify(m)); } catch(e) {}
-}
-function _crsHasListenMastery(lvl, lid) {
-  return !!_crsGetListenMastery()[lvl + '_' + lid];
-}
+// ── Course mastery — universal spaced repetition ──
+var _CRS_MASTERY_KEY = 'crs_listen_mastery_v2';
+function _crsSaveListenMastery(lvl, lid) { _masteryPass(_CRS_MASTERY_KEY, lvl + '_' + lid); }
+function _crsHasListenMastery(lvl, lid) { return _masteryStatus(_CRS_MASTERY_KEY, lvl + '_' + lid) !== 'none'; }
+function _crsMasteryBadge(lvl, lid) { return _masteryBadgeHTML(_CRS_MASTERY_KEY, lvl + '_' + lid); }
+function _crsNeedsReview(lvl, lid) { return _masteryStatus(_CRS_MASTERY_KEY, lvl + '_' + lid) === 'review'; }
+// Migrate old v1 course mastery data
+(function(){
+  try {
+    var old = JSON.parse(localStorage.getItem('crs_listen_mastery') || '{}');
+    var v2 = _masteryLoad(_CRS_MASTERY_KEY);
+    var changed = false;
+    for (var k in old) { if (!v2[k] && old[k]) { v2[k] = { ts: old[k], lv: 0 }; changed = true; } }
+    if (changed) _masterySave(_CRS_MASTERY_KEY, v2);
+  } catch(e) {}
+})();
 
 // ── COMPLETION SCREEN ──
 function _renderCrsComplete(wrap) {
@@ -42898,6 +43317,7 @@ window.LEARN_EXTRAS = {
 .plmb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:32px}
 .plmb-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:22px 20px;cursor:pointer;transition:all .3s cubic-bezier(.2,.9,.3,1.2);position:relative;overflow:hidden}
 .plmb-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px -10px rgba(3,105,161,.35);border-color:#0ea5e9}
+.plmb-card-locked{cursor:default;opacity:.6;background:var(--card);border-color:var(--border)}.plmb-card-locked:hover{transform:none;box-shadow:none;border-color:var(--border)}.plmb-card-locked::before{display:none}
 .plmb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0369a1,#0ea5e9);opacity:0;transition:opacity .3s}
 .plmb-card:hover::before{opacity:1}
 .plmb-card-num{display:inline-block;background:linear-gradient(135deg,#0369a1,#0ea5e9);color:#fff;font-weight:800;font-size:13px;padding:4px 12px;border-radius:20px;margin-bottom:12px;letter-spacing:.5px}
@@ -46619,6 +47039,21 @@ quiz:[
     if (touched > 0) return { key:'learn', label:'📖 学习中', color:'#4476d6', pct:lessonPct(lid) };
     return { key:'new', label:'⬜ 未开始', color:'#a89880', pct:0 };
   }
+
+  /* ---- Progressive unlock: first 3 free, then sequential ---- */
+  function _plmbIsUnlocked(lid, levelKey) {
+    var data = _getLevelData(levelKey);
+    var idx = -1;
+    for (var i = 0; i < data.length; i++) { if (data[i].id === lid) { idx = i; break; } }
+    if (idx < 0) return true;          // not found → allow
+    if (idx < 3) return true;           // first 3 always free
+    // lesson at idx requires lesson at idx-1 to be passed
+    var prevId = data[idx - 1].id;
+    var prevSt = lessonStatus(prevId);
+    return prevSt.key === 'pass';
+  }
+  window._plmbIsUnlocked = _plmbIsUnlocked;
+
   function courseOverall(levelKey){
     var data = _getLevelData(levelKey);
     var EXAMS = _getLevelExams(levelKey);
@@ -46807,30 +47242,46 @@ quiz:[
     var data = _getLevelData(levelKey);
     var exams = _getLevelExams(levelKey);
     var cards = '';
-    data.forEach(function(L){
+    data.forEach(function(L, idx){
+      var unlocked = _plmbIsUnlocked(L.id, levelKey);
       var st = lessonStatus(L.id);
       var qs = quizStats(L.id);
-      var scoreChip = qs.done ? '<span class="plmb-card-chip" style="background:'+st.color+';color:#fff;font-weight:700">🎯 '+qs.score+' / '+qs.total+' ('+qs.pct+'%)</span>' : '';
-      var statusBadge = '<div class="plmb-card-status" style="background:'+st.color+'">'+st.label+'</div>';
-      var listenBadge = _plmbHasListenMastery(L.id) ? '<span class="dlg-mastery-badge" style="position:absolute;top:8px;right:8px">✅ 听力已掌握</span>' : '';
-      // Display number: strip level prefix for display
       var displayNum = L.id > 200 ? L.id - 200 : (L.id > 100 ? L.id - 100 : L.id);
-      cards += '<div class="plmb-card" style="position:relative" onclick="_plmbOpen('+L.id+',\''+levelKey+'\')">' +
-        statusBadge + listenBadge +
-        '<span class="plmb-card-num">Lesson ' + displayNum + '</span>' +
-        '<div class="plmb-card-title">' + L.emoji + ' ' + L.title + '</div>' +
-        '<div class="plmb-card-cn">' + L.titleCn + '</div>' +
-        '<div class="plmb-card-desc">' + (L.goal || L.desc || '') + '</div>' +
-        '<div class="plmb-card-meta">' +
-          '<span class="plmb-card-chip">📚 ' + L.vocab.length + ' 词</span>' +
-          '<span class="plmb-card-chip">📖 ' + L.passage.length + ' 句</span>' +
-          '<span class="plmb-card-chip">💬 ' + L.dialogue.length + ' 轮对话</span>' +
-          '<span class="plmb-card-chip">' + L.level + '</span>' +
-          scoreChip +
-        '</div>' +
-        '<div class="plmb-card-progress"><div class="plmb-card-progfill" style="width:'+st.pct+'%;background:'+st.color+'"></div></div>' +
-        '<div style="text-align:right;font-size:11px;color:var(--text3);margin-top:4px;font-weight:600">' + st.pct + '% ' + (st.key==='pass' ? '(测试得分)' : '完成') + '</div>' +
-      '</div>';
+
+      if (!unlocked) {
+        /* ---- Locked card ---- */
+        cards += '<div class="plmb-card plmb-card-locked" style="position:relative">' +
+          '<div class="plmb-card-status" style="background:#78716c">🔒 未解锁</div>' +
+          '<span class="plmb-card-num">Lesson ' + displayNum + '</span>' +
+          '<div class="plmb-card-title" style="opacity:.5">' + L.emoji + ' ' + L.title + '</div>' +
+          '<div class="plmb-card-cn" style="opacity:.5">' + L.titleCn + '</div>' +
+          '<div style="text-align:center;padding:8px 0;color:var(--text3);font-size:13px">' +
+            '🔒 请先通过第 ' + (idx) + ' 课测试（≥80%）来解锁' +
+          '</div>' +
+        '</div>';
+      } else {
+        /* ---- Normal unlocked card ---- */
+        var scoreChip = qs.done ? '<span class="plmb-card-chip" style="background:'+st.color+';color:#fff;font-weight:700">🎯 '+qs.score+' / '+qs.total+' ('+qs.pct+'%)</span>' : '';
+        var statusBadge = '<div class="plmb-card-status" style="background:'+st.color+'">'+st.label+'</div>';
+        var rawBadge = _plmbMasteryBadge(L.id);
+        var listenBadge = rawBadge ? rawBadge.replace('<span ', '<span style="position:absolute;top:8px;right:8px" ') : '';
+        cards += '<div class="plmb-card" style="position:relative" onclick="_plmbOpen('+L.id+',\''+levelKey+'\')">' +
+          statusBadge + listenBadge +
+          '<span class="plmb-card-num">Lesson ' + displayNum + '</span>' +
+          '<div class="plmb-card-title">' + L.emoji + ' ' + L.title + '</div>' +
+          '<div class="plmb-card-cn">' + L.titleCn + '</div>' +
+          '<div class="plmb-card-desc">' + (L.goal || L.desc || '') + '</div>' +
+          '<div class="plmb-card-meta">' +
+            '<span class="plmb-card-chip">📚 ' + L.vocab.length + ' 词</span>' +
+            '<span class="plmb-card-chip">📖 ' + L.passage.length + ' 句</span>' +
+            '<span class="plmb-card-chip">💬 ' + L.dialogue.length + ' 轮对话</span>' +
+            '<span class="plmb-card-chip">' + L.level + '</span>' +
+            scoreChip +
+          '</div>' +
+          '<div class="plmb-card-progress"><div class="plmb-card-progfill" style="width:'+st.pct+'%;background:'+st.color+'"></div></div>' +
+          '<div style="text-align:right;font-size:11px;color:var(--text3);margin-top:4px;font-weight:600">' + st.pct + '% ' + (st.key==='pass' ? '(测试得分)' : '完成') + '</div>' +
+        '</div>';
+      }
       var exam = exams.find(function(e){ return e.afterLesson === L.id; });
       if (exam) cards += examTile(exam);
     });
@@ -46876,13 +47327,12 @@ quiz:[
         '</div>' +
       '</div>';
 
-    /* Build accordion panels */
+    /* Build accordion panels — all collapsed by default */
     var accHtml = '';
     PLMB_LEVELS.forEach(function(lv, idx) {
       var isActive = lv.status === 'active';
       var lvOverall = isActive ? courseOverall(lv.key) : {pct:0, passed:0, total:0};
       var pct = lvOverall.pct;
-      var openClass = (isActive && state.level === lv.key) ? ' open' : '';
 
       /* Accordion header */
       var headHtml =
@@ -46904,28 +47354,27 @@ quiz:[
       if (isActive) {
         var cards = _buildLessonCards(lv.key);
         var dash = _buildDashboard(lvOverall);
-        var caEntry = '';
-        if (lv.key === 'beginner') {
-          caEntry = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库">' +
-            '<div class="caprep-entry-ico">🎓</div>' +
-            '<div class="caprep-entry-body">' +
-              '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
-              '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
-            '</div>' +
-            '<div class="caprep-entry-cta">进入题库 →</div>' +
-          '</div>';
-        }
         bodyHtml =
           '<div class="plmb-acc-body"><div class="plmb-acc-inner">' +
-            dash + caEntry +
+            dash +
             '<div class="plmb-grid">' + cards + '</div>' +
           '</div></div>';
       }
 
-      accHtml += '<div class="plmb-acc' + openClass + '" data-level="' + lv.key + '">' + headHtml + bodyHtml + '</div>';
+      accHtml += '<div class="plmb-acc" data-level="' + lv.key + '">' + headHtml + bodyHtml + '</div>';
     });
 
-    c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + '</div>';
+    /* CA License Prep — standalone card below the 3 levels */
+    var caHtml = '<div class="caprep-entry" onclick="openCAPrep()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openCAPrep();}" title="点击进入加州水管工执照备考题库" style="margin-top:12px">' +
+      '<div class="caprep-entry-ico">🎓</div>' +
+      '<div class="caprep-entry-body">' +
+        '<div class="caprep-entry-title">加州水管工执照备考题库 · CA License Prep</div>' +
+        '<div class="caprep-entry-sub">3 大板块 × 100 道中英对照 MCQ · 法规 / 法律与商业 / C-36 水管实务 · 70% 过关</div>' +
+      '</div>' +
+      '<div class="caprep-entry-cta">进入题库 →</div>' +
+    '</div>';
+
+    c.innerHTML = heroHtml + '<div style="padding:0 4px">' + accHtml + caHtml + '</div>';
   }
 
   /* Toggle accordion open/close */
@@ -46948,6 +47397,11 @@ quiz:[
   }
 
   window._plmbOpen = function(id, levelKey){
+    var lk = levelKey || state.level;
+    if (!_plmbIsUnlocked(id, lk)) {
+      alert('🔒 这一课还未解锁，请先通过前一课的测试（≥80%）！');
+      return;
+    }
     if (levelKey) state.level = levelKey;
     state.view = 'lesson'; state.lessonId = id; state.tab = 'passage';
     renderLesson();
@@ -47335,7 +47789,7 @@ quiz:[
     _plmbListenInit(ls);
     var listenH = '<div class="plmb-section" style="margin-top:24px">' +
       '<div class="plmb-sec-title">🎧 听力填空 · Listening Test' +
-        (_plmbHasListenMastery(ls.id) ? ' <span class="dlg-mastery-badge">✅ 已掌握</span>' : '') +
+        _plmbMasteryBadge(ls.id) +
       '</div>' +
       '<div id="plmb-listen-box">' + _plmbListenHTML(ls) + '</div>' +
     '</div>';
@@ -47465,7 +47919,7 @@ quiz:[
       '</div>' +
       '<div class="dlg-listen-sentence">' + blanked + '</div>' +
       '<div class="dlg-listen-input-row">' +
-        '<input class="dlg-listen-input" id="plmb-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" onkeydown="if(event.key===\'Enter\')_plmbListenCheck()">' +
+        '<input type="search" class="dlg-listen-input" id="plmb-listen-inp" placeholder="输入你听到的缺失单词..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-plmb" onkeydown="if(event.key===\'Enter\')_plmbListenCheck()">' +
         '<button class="dlg-listen-submit" id="plmb-listen-sub" onclick="_plmbListenCheck()">确认</button>' +
       '</div>' +
       '<div class="dlg-listen-fb" id="plmb-listen-fb"></div>' +
@@ -47523,22 +47977,14 @@ quiz:[
     plmbListenSt.answered = false;
     var ls = L();
     if (plmbListenSt.cur >= qs.length) {
-      var box = document.getElementById('plmb-listen-box');
-      if (!box) return;
       var sc = plmbListenSt.score, tot = qs.length;
       var pass = sc === tot;
       if (pass && ls) _plmbSaveListenMastery(ls.id);
-      var msg = pass ? '🏆 满分！听力测试全部通过！已获得掌握徽章！' :
-        sc >= 3 ? '🎉 不错！再试一次争取满分通过！' : '💪 多听几遍，再来挑战！';
-      box.innerHTML = '<div class="dlg-listen-wrap"><div class="dlg-listen-result">' +
-        '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
-        '<div class="dlg-listen-score-sub">' + msg + '</div>' +
-        (pass ? '<div style="font-size:15px;margin-bottom:12px">🏅 <b>已掌握</b> — 本课听力测试已通过！</div>' : '') +
-        '<button class="btn-p" onclick="_plmbListenRetry()" style="margin-top:4px">🔄 重新测试</button>' +
-      '</div></div>';
+      _showListenDoneModal(sc, tot, '_plmbListenRetry', '');
     } else {
       var box2 = document.getElementById('plmb-listen-box');
       if (box2) box2.innerHTML = _plmbListenHTML(ls);
+      setTimeout(function(){ _plmbListenPlay(false); }, 500);
     }
   };
 
@@ -47547,20 +47993,26 @@ quiz:[
     if (ls) _plmbListenInit(ls);
     var box = document.getElementById('plmb-listen-box');
     if (box && ls) box.innerHTML = _plmbListenHTML(ls);
+    setTimeout(function(){ _plmbListenPlay(false); }, 500);
   };
 
   // Plumber mastery persistence
-  function _plmbGetListenMastery() {
-    try { return JSON.parse(localStorage.getItem('plmb_listen_mastery') || '{}'); } catch(e) { return {}; }
-  }
-  function _plmbSaveListenMastery(lessonId) {
-    var m = _plmbGetListenMastery();
-    m[lessonId] = Date.now();
-    try { localStorage.setItem('plmb_listen_mastery', JSON.stringify(m)); } catch(e) {}
-  }
-  function _plmbHasListenMastery(lessonId) {
-    return !!_plmbGetListenMastery()[lessonId];
-  }
+  // ── Plumber mastery — universal spaced repetition ──
+  var _PLMB_MASTERY_KEY = 'plmb_listen_mastery_v2';
+  function _plmbSaveListenMastery(lessonId) { _masteryPass(_PLMB_MASTERY_KEY, String(lessonId)); }
+  function _plmbHasListenMastery(lessonId) { return _masteryStatus(_PLMB_MASTERY_KEY, String(lessonId)) !== 'none'; }
+  function _plmbMasteryBadge(lessonId) { return _masteryBadgeHTML(_PLMB_MASTERY_KEY, String(lessonId)); }
+  function _plmbNeedsReview(lessonId) { return _masteryStatus(_PLMB_MASTERY_KEY, String(lessonId)) === 'review'; }
+  // Migrate old v1 plumber mastery data
+  (function(){
+    try {
+      var old = JSON.parse(localStorage.getItem('plmb_listen_mastery') || '{}');
+      var v2 = _masteryLoad(_PLMB_MASTERY_KEY);
+      var changed = false;
+      for (var k in old) { if (!v2[k] && old[k]) { v2[k] = { ts: old[k], lv: 0 }; changed = true; } }
+      if (changed) _masterySave(_PLMB_MASTERY_KEY, v2);
+    } catch(e) {}
+  })();
 
   // Hook into show()
   var _origShow = window.show;
@@ -49373,7 +49825,7 @@ window.CA_PREP_S1 = [
     '</div>' +
     '<div class="dlg-listen-sentence">' + blanked + '</div>' +
     '<div class="dlg-listen-input-row">' +
-      '<input class="dlg-listen-input" id="g-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" onkeydown="if(event.key===\'Enter\')_gListenCheck()">' +
+      '<input type="search" class="dlg-listen-input" id="g-listen-inp" placeholder="输入你听到的缺失单词/短语..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="listen-answer-global" onkeydown="if(event.key===\'Enter\')_gListenCheck()">' +
       '<button class="dlg-listen-submit" id="g-listen-sub" onclick="_gListenCheck()">确认</button>' +
     '</div>' +
     '<div class="dlg-listen-fb" id="g-listen-fb"></div>' +
@@ -49430,27 +49882,467 @@ window.CA_PREP_S1 = [
     if (nxt) { nxt.classList.add('show'); setTimeout(function(){ nxt.scrollIntoView({behavior:'smooth',block:'center'}); },150); }
   };
 
+  window._gListenRetryWrap = function() { openGlobalListen(gLst.module); };
   window._gListenNext = function() {
     gLst.cur++;
     gLst.answered = false;
     if (gLst.cur >= gLst.qs.length) {
-      var modal = document.getElementById('global-listen-modal');
-      if (!modal) return;
-      var sc = gLst.score, tot = gLst.qs.length, pass = sc === tot;
-      var msg = pass ? '🏆 满分！全部通过！' : sc >= 3 ? '🎉 不错！再来争取满分！' : '💪 多练习，再来挑战！';
-      modal.innerHTML = '<div style="text-align:center;padding:20px">' +
-        '<div class="dlg-listen-score-big ' + (pass ? 'pass' : 'fail') + '">' + sc + '/' + tot + '</div>' +
-        '<div class="dlg-listen-score-sub">' + msg + '</div>' +
-        '<div style="display:flex;gap:8px;justify-content:center;margin-top:16px">' +
-          '<button class="btn-p" onclick="openGlobalListen(\'' + gLst.module + '\')">🔄 再来一轮</button>' +
-          '<button class="btn-p" onclick="closeGlobalListen()" style="background:var(--card2);color:var(--text1)">关闭</button>' +
-        '</div>' +
-      '</div>';
+      // Close the quiz modal first
+      closeGlobalListen();
+      // Show celebration modal
+      var sc = gLst.score, tot = gLst.qs.length;
+      _showListenDoneModal(sc, tot, '_gListenRetryWrap', '');
     } else {
       var modal2 = document.getElementById('global-listen-modal');
       if (modal2) modal2.innerHTML = _gListenHTML();
+      setTimeout(function(){ _gListenPlay(false); }, 500);
     }
   };
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════
+     ROLEPLAY 情景模拟对话 MODULE
+     ════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+'use strict';
+
+/* ══════ SCENARIO DATA ══════ */
+var RP_SCENES = [
+  {
+    id: 'coffee', emoji: '☕', title: 'Ordering Coffee', titleCn: '咖啡店点单',
+    desc: 'You walk into a busy Starbucks. Practice ordering your drink, customizing it, and paying.',
+    tags: ['Beginner','Food & Drink','Daily Life'], color: '#b45309',
+    npc: 'Barista',
+    steps: [
+      { npc: "Hi! Welcome to Starbucks. What can I get started for you?", npcCn: "嗨！欢迎来到星巴克。您想喝点什么？",
+        choices: [
+          { text: "Hi! Can I get a grande iced latte, please?", cn: "嗨！请给我一杯大杯冰拿铁。", score: 3, feedback: "Perfect! Polite and clear order with the correct size name.", fbCn: "完美！礼貌且清晰的点单，杯型名称也正确。" },
+          { text: "Give me coffee.", cn: "给我咖啡。", score: 1, feedback: "This works but sounds a bit blunt. Try adding 'please' and specifying what kind of coffee.", fbCn: "能听懂，但语气有点生硬。试试加上 please 并说明要哪种咖啡。" },
+          { text: "I'd like a grande iced latte with oat milk, please.", cn: "我想要一杯大杯冰拿铁，用燕麦奶，谢谢。", score: 3, feedback: "Excellent! You specified exactly what you wanted including the milk option.", fbCn: "太棒了！你精确指出了想要的饮品，包括奶的选择。" }
+        ]
+      },
+      { npc: "Sure thing! Would you like any flavor added to that? We have vanilla, caramel, and hazelnut.", npcCn: "没问题！需要加什么口味吗？我们有香草、焦糖和榛果味。",
+        choices: [
+          { text: "Could I add one pump of vanilla, please?", cn: "能加一泵香草糖浆吗？", score: 3, feedback: "Great! 'One pump' is exactly how coffee shops measure syrup. Very natural!", fbCn: "很棒！pump 是咖啡店计量糖浆的单位，非常地道！" },
+          { text: "No thanks, just plain is fine.", cn: "不用了，原味就好。", score: 2, feedback: "Good and polite! A perfectly natural response.", fbCn: "很好，礼貌自然的回答！" },
+          { text: "I want vanilla.", cn: "我要香草。", score: 1, feedback: "Understandable, but 'Could I get vanilla?' or 'I'll take vanilla' sounds more natural.", fbCn: "能听懂，但说 Could I get vanilla 会更自然。" }
+        ]
+      },
+      { npc: "Got it! Can I get a name for the order?", npcCn: "好的！请问名字是？",
+        choices: [
+          { text: "It's Aaron. A-A-R-O-N.", cn: "Aaron，A-A-R-O-N。", score: 3, feedback: "Smart to spell it out! Baristas often misspell names, so spelling helps.", fbCn: "聪明！拼出来很好，因为名字容易被写错。" },
+          { text: "Aaron.", cn: "Aaron。", score: 2, feedback: "That's fine! Short and simple works.", fbCn: "没问题！简短直接也可以。" },
+          { text: "My name? Why do you need that?", cn: "我的名字？为什么要问？", score: 0, feedback: "In the US, coffee shops always ask for your name to write on the cup. It's totally normal!", fbCn: "在美国，咖啡店都会问名字写在杯子上，这是完全正常的！" }
+        ]
+      },
+      { npc: "That'll be $6.25. How would you like to pay?", npcCn: "一共6.25美元。您想怎么付款？",
+        choices: [
+          { text: "I'll pay with my card, please.", cn: "我刷卡，谢谢。", score: 3, feedback: "Perfect! Clean and natural way to pay.", fbCn: "完美！自然的付款表达。" },
+          { text: "Can I tap to pay?", cn: "我可以用感应支付吗？", score: 3, feedback: "'Tap to pay' is very common now. Great modern vocabulary!", fbCn: "tap to pay 是现在很常用的说法，很现代！" },
+          { text: "Here, take money.", cn: "给，拿钱。", score: 1, feedback: "Try 'Here you go' when handing over cash — it sounds much more natural.", fbCn: "递钱时说 Here you go 会自然得多。" }
+        ]
+      },
+      { npc: "You're all set! Your drink will be ready at the end of the bar.", npcCn: "好了！您的饮料会在吧台那边做好。",
+        choices: [
+          { text: "Thanks! Have a great day!", cn: "谢谢！祝你今天愉快！", score: 3, feedback: "Wonderful! Friendly and natural goodbye.", fbCn: "很棒！友好自然的告别。" },
+          { text: "Thank you!", cn: "谢谢！", score: 2, feedback: "Simple and polite. Well done!", fbCn: "简单礼貌，做得好！" },
+          { text: "OK.", cn: "好。", score: 1, feedback: "A little cold. Adding 'thanks' makes a big difference in American culture!", fbCn: "有点冷淡。在美国文化里加一句 thanks 会好很多！" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'grocery', emoji: '🛒', title: 'At the Grocery Store', titleCn: '超市购物',
+    desc: 'Navigate a grocery store — ask where things are, check prices, and pay at checkout.',
+    tags: ['Beginner','Shopping','Daily Life'], color: '#059669',
+    npc: 'Store Employee / Cashier',
+    steps: [
+      { npc: "Hi there! Can I help you find something?", npcCn: "你好！需要帮你找什么吗？",
+        choices: [
+          { text: "Yes, could you tell me where the eggs are?", cn: "好的，请问鸡蛋在哪里？", score: 3, feedback: "Polite and direct! Perfect way to ask for help.", fbCn: "礼貌直接！完美的求助方式。" },
+          { text: "Where is eggs?", cn: "鸡蛋在哪？", score: 1, feedback: "Close, but it should be 'Where are the eggs?' — eggs is plural.", fbCn: "差一点，应该说 Where are the eggs? 因为 eggs 是复数。" },
+          { text: "I'm looking for eggs. Which aisle would they be in?", cn: "我在找鸡蛋。在哪个过道？", score: 3, feedback: "'Which aisle' is exactly what native speakers say in grocery stores!", fbCn: "which aisle 就是美国人在超市最常说的问法！" }
+        ]
+      },
+      { npc: "Eggs are in aisle 5, in the dairy section on your right.", npcCn: "鸡蛋在第5过道，右手边的乳制品区。",
+        choices: [
+          { text: "Great, thanks! Also, do you have any organic options?", cn: "太好了，谢谢！另外，有有机的吗？", score: 3, feedback: "Excellent follow-up! 'Organic' is a very common term in US grocery stores.", fbCn: "很好的追问！organic 在美国超市非常常用。" },
+          { text: "OK, thanks.", cn: "好的，谢谢。", score: 2, feedback: "Simple and effective!", fbCn: "简单有效！" },
+          { text: "Aisle 5, got it. Are they on sale by any chance?", cn: "第5过道，知道了。它们有在打折吗？", score: 3, feedback: "'On sale' and 'by any chance' — very natural American English!", fbCn: "on sale 和 by any chance 都是非常自然的美式英语！" }
+        ]
+      },
+      { npc: "That'll be $23.47. Paper or plastic?", npcCn: "一共23.47美元。要纸袋还是塑料袋？",
+        choices: [
+          { text: "Plastic is fine, thanks. Actually, I brought my own bag.", cn: "塑料袋就行——其实我自带了袋子。", score: 3, feedback: "Great! Bringing your own bag is very common and eco-friendly.", fbCn: "很好！自带环保袋在美国很常见。" },
+          { text: "Paper, please.", cn: "纸袋，谢谢。", score: 2, feedback: "Good! 'Paper or plastic' is a classic American checkout question.", fbCn: "不错！paper or plastic 是美国结账时的经典问题。" },
+          { text: "What? What do you mean?", cn: "什么？你什么意思？", score: 1, feedback: "'Paper or plastic' means paper bag or plastic bag. It's asked at almost every checkout in the US!", fbCn: "paper or plastic 就是问你要纸袋还是塑料袋，几乎每个美国超市都会问！" }
+        ]
+      },
+      { npc: "Would you like the receipt in the bag or with you?", npcCn: "收据放袋子里还是给您？",
+        choices: [
+          { text: "In the bag is fine. Thank you!", cn: "放袋子里就好，谢谢！", score: 3, feedback: "Natural and polite!", fbCn: "自然又礼貌！" },
+          { text: "No receipt, thanks. I don't need it.", cn: "不用收据了，谢谢。", score: 2, feedback: "That works! Many people skip receipts now.", fbCn: "可以！现在很多人都不要收据了。" },
+          { text: "I'll take it with me, please.", cn: "我拿着吧，谢谢。", score: 2, feedback: "Good! Clear and polite response.", fbCn: "好的！清晰礼貌的回答。" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'doctor', emoji: '🏥', title: 'Doctor\'s Appointment', titleCn: '看医生',
+    desc: 'Check in at the front desk, describe your symptoms to the doctor, and understand instructions.',
+    tags: ['Intermediate','Health','Essential'], color: '#dc2626',
+    npc: 'Receptionist / Doctor',
+    steps: [
+      { npc: "Good morning! Do you have an appointment?", npcCn: "早上好！请问您有预约吗？",
+        choices: [
+          { text: "Yes, I have a 10 o'clock appointment. My name is Aaron.", cn: "有的，我预约了10点。我叫 Aaron。", score: 3, feedback: "Perfect check-in! Clear and provides all needed information.", fbCn: "完美的报到方式！清晰地提供了所有需要的信息。" },
+          { text: "I'm here to see the doctor.", cn: "我来看医生的。", score: 2, feedback: "They'll still need your name and appointment time, but this is a fine start.", fbCn: "他们还会需要你的名字和预约时间，但这个开头没问题。" },
+          { text: "I'm not feeling well. I need to see a doctor right now.", cn: "我不舒服，我现在就要看医生。", score: 1, feedback: "Unless it's an emergency, clinics work by appointment. Try mentioning your scheduled time first.", fbCn: "除非是急诊，诊所都是按预约的。先说你的预约时间比较好。" }
+        ]
+      },
+      { npc: "Please fill out this form and take a seat. The doctor will be with you shortly.", npcCn: "请填一下这张表，坐下等一会儿，医生很快就来。",
+        choices: [
+          { text: "Sure. Should I bring the form back to you when I'm done?", cn: "好的。填好了交给您吗？", score: 3, feedback: "Great question! Shows good communication skills at a medical office.", fbCn: "好问题！说明你在诊所的沟通能力很好。" },
+          { text: "OK, no problem.", cn: "好的，没问题。", score: 2, feedback: "Simple and fine. Just fill it out and wait!", fbCn: "简单没问题，填好等着就行！" },
+          { text: "Do I need to show my insurance card too?", cn: "我需要出示保险卡吗？", score: 3, feedback: "Smart! In the US, you almost always need to show your insurance card at check-in.", fbCn: "聪明！在美国看医生几乎都需要在登记时出示保险卡。" }
+        ]
+      },
+      { npc: "Hi Aaron, I'm Dr. Williams. So, what brings you in today?", npcCn: "嗨 Aaron，我是 Williams 医生。今天怎么了？",
+        choices: [
+          { text: "I've had a sore throat and a cough for about three days now. I also have a slight fever.", cn: "我喉咙痛、咳嗽大概三天了，还有点低烧。", score: 3, feedback: "'Sore throat', 'cough', 'slight fever' — excellent medical vocabulary! Describing duration is also very helpful.", fbCn: "sore throat、cough、slight fever 都是标准的医学词汇！说明持续时间也很有帮助。" },
+          { text: "My throat hurts.", cn: "我喉咙疼。", score: 1, feedback: "Try to give more details: how long, any other symptoms? Doctors need specifics.", fbCn: "尽量多说细节：多久了、还有别的症状吗？医生需要具体信息。" },
+          { text: "I've been feeling under the weather. Mainly a sore throat and I've been running a low fever since Monday.", cn: "我最近身体不太舒服，主要是喉咙痛，从周一开始有点低烧。", score: 3, feedback: "'Under the weather' is a great idiom for feeling sick. 'Running a fever' is exactly how Americans say it!", fbCn: "under the weather 是表示生病的好用习语，running a fever 是美国人的标准说法！" }
+        ]
+      },
+      { npc: "I'm going to prescribe you some antibiotics. Take one pill twice a day with food for seven days. If symptoms don't improve in 3 days, come back.", npcCn: "我给你开一些抗生素。每天两次，随餐服用，吃七天。如果三天内没有好转，再来复诊。",
+        choices: [
+          { text: "Got it. One pill twice a day with food for a week. Should I avoid anything while on the medication?", cn: "明白了。每天两次，随餐吃一片，吃一周。吃药期间有什么需要避免的吗？", score: 3, feedback: "Excellent! Repeating instructions back shows you understood, and asking about restrictions is very smart.", fbCn: "太棒了！复述医嘱说明你听懂了，问禁忌也非常聪明。" },
+          { text: "OK, thanks doctor.", cn: "好的，谢谢医生。", score: 2, feedback: "Fine, but it's always good to confirm you understand the dosage.", fbCn: "可以，但最好确认一下你理解了用药方法。" },
+          { text: "Can I also get a doctor's note for work? I might need to take a day off.", cn: "能开个医生证明吗？我可能需要请一天假。", score: 3, feedback: "'Doctor's note' is the term Americans use. Very practical question!", fbCn: "doctor's note 就是美国人说的医生证明，非常实用的问题！" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'interview', emoji: '💼', title: 'Job Interview', titleCn: '工作面试',
+    desc: 'Practice a basic job interview — from greeting to answering common questions.',
+    tags: ['Intermediate','Career','Important'], color: '#1d4ed8',
+    npc: 'Hiring Manager',
+    steps: [
+      { npc: "Hi, you must be Aaron? I'm Sarah, the hiring manager. Thanks for coming in today.", npcCn: "嗨，你是 Aaron 吧？我是 Sarah，招聘经理。感谢你今天来面试。",
+        choices: [
+          { text: "Hi Sarah! Yes, I'm Aaron. Thank you so much for having me. I'm excited about this opportunity.", cn: "你好 Sarah！是的，我是 Aaron。非常感谢有这个面试机会，我对这个职位很感兴趣。", score: 3, feedback: "Perfect! Warm, professional, and shows enthusiasm.", fbCn: "完美！温暖、专业，并展现了热情。" },
+          { text: "Hello. Yes, I am Aaron.", cn: "你好，是的，我是 Aaron。", score: 1, feedback: "A bit too short. Showing enthusiasm helps make a strong first impression!", fbCn: "有点太简短了。表现热情能帮助你留下好的第一印象！" },
+          { text: "Nice to meet you, Sarah! I really appreciate the opportunity to interview today.", cn: "很高兴见到你，Sarah！很感谢今天的面试机会。", score: 3, feedback: "Great! 'Nice to meet you' plus gratitude — classic professional opening.", fbCn: "很好！Nice to meet you 加上感谢是经典的职业开场白。" }
+        ]
+      },
+      { npc: "So tell me, why are you interested in this position?", npcCn: "那请告诉我，你为什么对这个职位感兴趣？",
+        choices: [
+          { text: "I've been following your company's work in sustainable tech, and I believe my background in project management aligns well with what you're looking for.", cn: "我一直关注贵公司在可持续技术方面的工作，我相信我的项目管理经验与你们的需求很匹配。", score: 3, feedback: "Excellent! You showed you did your research AND connected it to your skills.", fbCn: "太棒了！你展示了你做过功课，还把它和你的技能联系起来了。" },
+          { text: "Because it pays well and I need a job.", cn: "因为工资高，我需要一份工作。", score: 0, feedback: "Too honest! In interviews, focus on what you can bring to the company, not just what you get from it.", fbCn: "太直接了！面试时要说你能为公司带来什么，而不只是你能得到什么。" },
+          { text: "The role is a great fit for my skills, and I'm passionate about the industry your company is in.", cn: "这个职位非常适合我的技能，而且我对贵公司所在的行业很有热情。", score: 2, feedback: "Good structure! Even better if you mention specific skills or the specific industry.", fbCn: "结构不错！如果能提到具体的技能或具体的行业会更好。" }
+        ]
+      },
+      { npc: "What would you say is your biggest strength?", npcCn: "你觉得你最大的优势是什么？",
+        choices: [
+          { text: "I'm a strong communicator. In my last role, I led weekly meetings with cross-functional teams and helped reduce miscommunication by creating clear documentation.", cn: "我的沟通能力很强。在上一份工作中，我主持跨部门周会，并通过创建清晰文档减少了沟通障碍。", score: 3, feedback: "Perfect STAR method: you stated the strength AND backed it with a specific example.", fbCn: "完美的 STAR 法则：你说了优势，还用具体例子来证明。" },
+          { text: "I work hard.", cn: "我工作很努力。", score: 1, feedback: "Too vague. Always give a specific strength with a real example from your experience.", fbCn: "太笼统了。一定要说具体的优势，并举出真实经历的例子。" },
+          { text: "I'd say problem-solving. I enjoy analyzing challenges and finding efficient solutions.", cn: "我觉得是解决问题的能力。我喜欢分析挑战并找到高效的解决方案。", score: 2, feedback: "Good! Would be even stronger with a brief real example.", fbCn: "不错！如果再加一个简短的真实案例会更有说服力。" }
+        ]
+      },
+      { npc: "Great. Do you have any questions for me?", npcCn: "好的。你有什么想问我的吗？",
+        choices: [
+          { text: "Yes! What does a typical day look like for this role? And what does success look like in the first 90 days?", cn: "有的！这个职位典型的一天是什么样的？入职头90天怎样算成功？", score: 3, feedback: "Asking about the day-to-day and success metrics shows you're serious and thinking ahead!", fbCn: "问日常工作和成功标准说明你很认真，有前瞻性！" },
+          { text: "No, I think I'm good.", cn: "没有，我没什么问题。", score: 0, feedback: "Always ask questions! Saying 'no questions' makes it seem like you're not interested in the role.", fbCn: "一定要问问题！说没问题会让人觉得你对这个职位不感兴趣。" },
+          { text: "What's the team culture like here? I want to make sure it's a good fit for both sides.", cn: "这里的团队文化怎么样？我想确保双方都合适。", score: 3, feedback: "'Good fit for both sides' shows confidence and maturity. Great question!", fbCn: "good fit for both sides 展现了自信和成熟，好问题！" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'neighbor', emoji: '🏠', title: 'Meeting Your Neighbor', titleCn: '认识新邻居',
+    desc: 'You just moved in. Practice greeting your neighbor, making small talk, and being friendly.',
+    tags: ['Beginner','Social','Daily Life'], color: '#ca8a04',
+    npc: 'Neighbor',
+    steps: [
+      { npc: "Hey there! Looks like you're moving in. I'm Mike, I live right next door. Welcome to the neighborhood!", npcCn: "嗨！看起来你在搬家。我是 Mike，就住在隔壁。欢迎来到这个社区！",
+        choices: [
+          { text: "Hi Mike! Nice to meet you! I'm Aaron. Thanks — it's been a long day of moving, but I'm happy to be here!", cn: "嗨 Mike！很高兴认识你！我是 Aaron。谢谢——搬了一天累坏了，但很高兴来到这里！", score: 3, feedback: "Warm, friendly, and shares a little about yourself. Perfect neighbor interaction!", fbCn: "温暖、友好，还分享了一点自己的情况。完美的邻居互动！" },
+          { text: "Hi.", cn: "嗨。", score: 1, feedback: "A bit too brief! Your new neighbor is being friendly — try to match their energy.", fbCn: "有点太简短了！新邻居在热情打招呼——试着回应同样的热情。" },
+          { text: "Hey! I'm Aaron, just moved from downtown. Really looking forward to the neighborhood. Is it pretty quiet around here?", cn: "嘿！我是 Aaron，刚从市中心搬来。很期待这个社区，这里安静吗？", score: 3, feedback: "Sharing where you're from and asking a question keeps the conversation going!", fbCn: "说你从哪来、再问个问题，让对话自然地继续下去！" }
+        ]
+      },
+      { npc: "So what do you do for work, Aaron?", npcCn: "Aaron，你做什么工作？",
+        choices: [
+          { text: "I'm a plumber, actually. Been doing it for about five years now. How about you?", cn: "我是水管工，干了大概五年了。你呢？", score: 3, feedback: "'How about you?' — always ask back! Americans love this in small talk.", fbCn: "How about you? 一定要反问回去！美国人在闲聊中非常喜欢这个。" },
+          { text: "I'm in the plumbing business.", cn: "我做水管行业的。", score: 2, feedback: "Good! Adding a question back would make the conversation flow better.", fbCn: "不错！如果再反问一个问题，对话会更流畅。" },
+          { text: "I don't want to talk about work.", cn: "我不想聊工作。", score: 0, feedback: "Asking about work is standard small talk in the US — it's not too personal. A brief answer is fine!", fbCn: "在美国问工作是标准的闲聊话题，不算太私人，简单回答就好！" }
+        ]
+      },
+      { npc: "Nice! By the way, we do a barbecue every other weekend. You and your family should come by sometime!", npcCn: "不错！对了，我们每隔一个周末会搞烧烤，你和家人有空来啊！",
+        choices: [
+          { text: "That sounds awesome! We'd love to come. Should I bring anything?", cn: "听起来太棒了！我们很想去。需要我带点什么吗？", score: 3, feedback: "'Should I bring anything?' is the perfect response to any party/BBQ invite in America!", fbCn: "Should I bring anything? 是美国人收到聚会邀请后最经典的回应！" },
+          { text: "Sure, that sounds fun. Thanks for the invite!", cn: "好啊，听起来很好玩。谢谢邀请！", score: 2, feedback: "Friendly and appreciative — good response!", fbCn: "友好又感激——好回答！" },
+          { text: "Maybe. I'll think about it.", cn: "也许吧，我考虑考虑。", score: 1, feedback: "This sounds a bit cold for a friendly invite. Even if you're unsure, a warmer 'I'll try to make it!' works better.", fbCn: "对友好的邀请来说有点冷淡。即使不确定，说 I'll try to make it! 会好很多。" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'phone', emoji: '📞', title: 'Phone Call: Making an Appointment', titleCn: '电话预约',
+    desc: 'Call to schedule a haircut appointment. Practice phone etiquette and scheduling vocabulary.',
+    tags: ['Beginner','Phone Skills','Practical'], color: '#0891b2',
+    npc: 'Receptionist',
+    steps: [
+      { npc: "Thank you for calling Styles Salon. How can I help you?", npcCn: "感谢致电 Styles 沙龙。有什么可以帮您的？",
+        choices: [
+          { text: "Hi! I'd like to make an appointment for a haircut, please.", cn: "你好！我想预约一个剪发，谢谢。", score: 3, feedback: "'Make an appointment' — exactly right! Clear and polite phone opening.", fbCn: "make an appointment 用得完全正确！清晰礼貌的电话开场。" },
+          { text: "I need haircut.", cn: "我需要剪头发。", score: 1, feedback: "Try 'I'd like to schedule a haircut' — it sounds more polished on the phone.", fbCn: "试试说 I'd like to schedule a haircut，在电话里听起来更专业。" },
+          { text: "Hi, I was wondering if I could book a haircut sometime this week?", cn: "你好，请问这周可以预约剪发吗？", score: 3, feedback: "'I was wondering if...' is very polite and natural for phone calls!", fbCn: "I was wondering if... 在电话中非常礼貌自然！" }
+        ]
+      },
+      { npc: "Sure! We have openings on Thursday at 2 PM or Friday at 10 AM. Which works better for you?", npcCn: "可以！周四下午2点或周五上午10点有空位。哪个时间更方便？",
+        choices: [
+          { text: "Thursday at 2 works perfectly for me.", cn: "周四下午2点非常合适。", score: 3, feedback: "Clear and decisive! 'Works for me' is a natural way to confirm a time.", fbCn: "清晰果断！works for me 是确认时间的自然说法。" },
+          { text: "Hmm, do you have anything on Saturday instead?", cn: "嗯，周六有空位吗？", score: 2, feedback: "Totally fine to ask for alternatives! Good communication.", fbCn: "问有没有别的时间完全没问题！好的沟通。" },
+          { text: "Either one is fine.", cn: "都行。", score: 1, feedback: "Try to pick one! Being decisive makes scheduling easier for both sides.", fbCn: "尽量选一个！果断一点对双方都更方便。" }
+        ]
+      },
+      { npc: "Great! And can I get your name and phone number?", npcCn: "好的！请问您的姓名和电话号码？",
+        choices: [
+          { text: "Sure! It's Aaron, A-A-R-O-N. And my number is 415-555-0123.", cn: "好的！我叫 Aaron，A-A-R-O-N。电话是 415-555-0123。", score: 3, feedback: "Spelling your name and giving digits clearly — perfect phone skills!", fbCn: "拼出名字、清晰报出号码——完美的电话技巧！" },
+          { text: "Aaron. 415-555-0123.", cn: "Aaron，415-555-0123。", score: 2, feedback: "Fine! Spelling the name would help avoid errors, but this works.", fbCn: "可以！拼出名字能避免出错，但这样也行。" },
+          { text: "Do you really need my phone number?", cn: "你真的需要我的电话号码吗？", score: 0, feedback: "It's standard practice for appointment scheduling — they'll call if anything changes!", fbCn: "这是预约的标准流程，有变化时他们会打电话通知你！" }
+        ]
+      },
+      { npc: "You're all set for Thursday at 2 PM. Is there anything else I can help you with?", npcCn: "好的，您预约了周四下午2点。还有别的需要帮忙的吗？",
+        choices: [
+          { text: "Actually, how much is a men's haircut? And do you take walk-ins too?", cn: "对了，男士剪发多少钱？你们接受无预约直接来吗？", score: 3, feedback: "'Walk-ins' is the term for coming without appointment. Great vocabulary!", fbCn: "walk-ins 就是不预约直接来的意思，很棒的词汇！" },
+          { text: "No, that's everything. Thank you so much!", cn: "没有了，非常感谢！", score: 3, feedback: "Polite and wraps up the call nicely!", fbCn: "礼貌地结束通话，做得好！" },
+          { text: "Bye.", cn: "再见。", score: 1, feedback: "Adding 'thanks' before 'bye' makes the call ending much more pleasant.", fbCn: "在 bye 前加一句 thanks 会让通话结束更令人愉快。" }
+        ]
+      }
+    ]
+  }
+];
+
+/* ══════ STATE ══════ */
+var rpState = { view: 'home', sceneId: null, step: 0, answers: [], score: 0 };
+
+/* ══════ PERSISTENCE ══════ */
+function _rpLoadBest(sceneId) {
+  try { var v = localStorage.getItem('rp_best_' + sceneId); return v ? parseInt(v,10) : -1; } catch(e){ return -1; }
+}
+function _rpSaveBest(sceneId, score) {
+  try {
+    var old = _rpLoadBest(sceneId);
+    if (score > old) localStorage.setItem('rp_best_' + sceneId, String(score));
+  } catch(e){}
+}
+
+/* ══════ RENDER: HOME ══════ */
+function renderRoleplay() {
+  var c = document.getElementById('rp-main');
+  if (!c) return;
+  if (rpState.view === 'play') { _rpRenderChat(c); return; }
+  if (rpState.view === 'result') { _rpRenderResult(c); return; }
+
+  var hero = '<div class="rp-hero">' +
+    '<h2>🎭 Role Play 情景模拟对话</h2>' +
+    '<p>选择一个场景，扮演角色进行真实对话练习</p>' +
+  '</div>';
+
+  var grid = '';
+  RP_SCENES.forEach(function(sc){
+    var best = _rpLoadBest(sc.id);
+    var maxScore = 0; sc.steps.forEach(function(s){ var mx=0; s.choices.forEach(function(ch){if(ch.score>mx)mx=ch.score}); maxScore+=mx; });
+    var bestHtml = best >= 0 ? '<div class="rp-scene-best" style="background:'+(best===maxScore?'#16a34a':best>=maxScore*0.6?'#ca8a04':'#dc2626')+'">🏆 '+best+'/'+maxScore+'</div>' : '';
+    var tags = ''; sc.tags.forEach(function(t){ tags += '<span class="rp-scene-tag">'+t+'</span>'; });
+    grid += '<div class="rp-scene" onclick="_rpStart(\''+sc.id+'\')">' +
+      bestHtml +
+      '<div class="rp-scene-emoji">'+sc.emoji+'</div>' +
+      '<div class="rp-scene-title">'+sc.title+'</div>' +
+      '<div class="rp-scene-cn">'+sc.titleCn+'</div>' +
+      '<div class="rp-scene-desc">'+sc.desc+'</div>' +
+      '<div class="rp-scene-tags">'+tags+'</div>' +
+    '</div>';
+  });
+
+  c.innerHTML = hero + '<div class="rp-grid">' + grid + '</div>';
+}
+
+/* ══════ START SCENE ══════ */
+window._rpStart = function(sceneId) {
+  rpState.view = 'play';
+  rpState.sceneId = sceneId;
+  rpState.step = 0;
+  rpState.answers = [];
+  rpState.score = 0;
+  renderRoleplay();
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+
+/* ══════ RENDER: CHAT ══════ */
+function _rpRenderChat(c) {
+  var sc = RP_SCENES.find(function(s){return s.id===rpState.sceneId;});
+  if (!sc) { rpState.view = 'home'; renderRoleplay(); return; }
+
+  var header = '<div class="rp-chat-header">' +
+    '<button class="rp-back" onclick="_rpGoHome()">←</button>' +
+    '<h3>'+sc.emoji+' '+sc.title+'</h3>' +
+    '<p>'+sc.titleCn+' · 对话对象: '+sc.npc+'</p>' +
+  '</div>';
+
+  // Progress dots
+  var dots = '<div class="rp-progress">';
+  for (var d = 0; d < sc.steps.length; d++) {
+    var cls = 'rp-dot';
+    if (d < rpState.step) {
+      var ans = rpState.answers[d];
+      cls += ans && ans.score >= 2 ? ' done' : ' wrong-dot';
+    } else if (d === rpState.step) {
+      cls += ' active';
+    }
+    dots += '<div class="'+cls+'"></div>';
+  }
+  dots += '</div>';
+
+  // Build message history
+  var msgs = '<div class="rp-msgs">';
+  for (var i = 0; i <= rpState.step && i < sc.steps.length; i++) {
+    var step = sc.steps[i];
+    // NPC message
+    msgs += '<div class="rp-msg rp-msg-npc">' +
+      '<div class="rp-msg-npc-name">'+sc.npc+'</div>' +
+      step.npc +
+      '<div class="rp-msg-cn">'+step.npcCn+'</div>' +
+    '</div>';
+
+    // If user already answered this step
+    if (rpState.answers[i]) {
+      var ans = rpState.answers[i];
+      msgs += '<div class="rp-msg rp-msg-user">' + ans.text + '<div class="rp-msg-cn">'+ans.cn+'</div></div>';
+      var fbClass = ans.score >= 3 ? 'good' : ans.score >= 2 ? 'ok' : 'bad';
+      var fbIcon = ans.score >= 3 ? '✅' : ans.score >= 2 ? '💡' : '❌';
+      msgs += '<div class="rp-feedback '+fbClass+'">' + fbIcon + ' ' + ans.feedback + '<br><span style="opacity:.8">'+ans.fbCn+'</span></div>';
+    }
+  }
+  msgs += '</div>';
+
+  // Choices for current step (if not yet answered)
+  var choicesHtml = '';
+  if (rpState.step < sc.steps.length && !rpState.answers[rpState.step]) {
+    var curStep = sc.steps[rpState.step];
+    choicesHtml = '<div class="rp-choices">';
+    curStep.choices.forEach(function(ch, idx){
+      choicesHtml += '<div class="rp-choice" onclick="_rpChoose('+idx+')">' +
+        '<span class="rp-choice-label">' + String.fromCharCode(65+idx) + '.</span> ' + ch.text +
+        '<div class="rp-choice-cn">'+ch.cn+'</div>' +
+      '</div>';
+    });
+    choicesHtml += '</div>';
+  }
+
+  // "Next" button if answered current step but more steps remain
+  var nextBtn = '';
+  if (rpState.answers[rpState.step] && rpState.step < sc.steps.length - 1) {
+    nextBtn = '<div style="text-align:center;margin:12px 0"><button class="rp-btn-retry" onclick="_rpNext()" style="padding:12px 32px;font-size:15px">继续对话 →</button></div>';
+  } else if (rpState.answers[rpState.step] && rpState.step === sc.steps.length - 1) {
+    nextBtn = '<div style="text-align:center;margin:12px 0"><button class="rp-btn-retry" onclick="_rpFinish()" style="padding:12px 32px;font-size:15px">查看结果 📊</button></div>';
+  }
+
+  c.innerHTML = '<div class="rp-chat">' + header + dots + msgs + choicesHtml + nextBtn + '</div>';
+
+  // Scroll to bottom of messages
+  setTimeout(function(){
+    var msgsEl = c.querySelector('.rp-msgs');
+    if (msgsEl) msgsEl.lastElementChild && msgsEl.lastElementChild.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 100);
+}
+
+/* ══════ CHOOSE ══════ */
+window._rpChoose = function(idx) {
+  var sc = RP_SCENES.find(function(s){return s.id===rpState.sceneId;});
+  if (!sc) return;
+  var step = sc.steps[rpState.step];
+  var choice = step.choices[idx];
+  rpState.answers[rpState.step] = choice;
+  rpState.score += choice.score;
+
+  // Award points
+  if (typeof addPoints === 'function' && choice.score >= 2) {
+    addPoints(choice.score >= 3 ? 5 : 2, 'roleplay');
+  }
+
+  _rpRenderChat(document.getElementById('rp-main'));
+};
+
+/* ══════ NEXT STEP ══════ */
+window._rpNext = function() {
+  rpState.step++;
+  _rpRenderChat(document.getElementById('rp-main'));
+};
+
+/* ══════ FINISH → RESULT ══════ */
+window._rpFinish = function() {
+  var sc = RP_SCENES.find(function(s){return s.id===rpState.sceneId;});
+  if (sc) _rpSaveBest(sc.id, rpState.score);
+  rpState.view = 'result';
+  renderRoleplay();
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+
+/* ══════ RENDER: RESULT ══════ */
+function _rpRenderResult(c) {
+  var sc = RP_SCENES.find(function(s){return s.id===rpState.sceneId;});
+  if (!sc) { rpState.view = 'home'; renderRoleplay(); return; }
+
+  var maxScore = 0;
+  sc.steps.forEach(function(s){ var mx=0; s.choices.forEach(function(ch){if(ch.score>mx)mx=ch.score}); maxScore+=mx; });
+  var pct = Math.round(rpState.score / maxScore * 100);
+  var pass = pct >= 70;
+  var emoji = pct === 100 ? '🏆' : pct >= 80 ? '🌟' : pct >= 60 ? '💪' : '📚';
+  var title = pct === 100 ? '满分通关！完美！' : pct >= 80 ? '表现优秀！' : pct >= 60 ? '还不错，继续加油！' : '多练几次就好了！';
+  var msg = pct === 100 ? '你的英语对话能力非常棒！每个回答都非常自然地道。' :
+    pct >= 80 ? '大部分回答都很好！再注意一些细节就能拿满分。' :
+    pct >= 60 ? '基本沟通没问题，多注意语气和礼貌用语会更加分。' :
+    '不用担心！重新试一次，注意看反馈里的建议，你会进步很快的。';
+
+  // Review each answer
+  var review = '';
+  sc.steps.forEach(function(step, i){
+    var ans = rpState.answers[i];
+    if (!ans) return;
+    var icon = ans.score >= 3 ? '✅' : ans.score >= 2 ? '💡' : '❌';
+    review += '<div style="text-align:left;background:var(--card2);border-radius:12px;padding:14px;margin-bottom:8px">' +
+      '<div style="font-size:12px;color:var(--text3);margin-bottom:4px">Round '+(i+1)+'</div>' +
+      '<div style="font-size:13px;color:var(--text1);margin-bottom:4px">'+icon+' "'+ans.text+'"</div>' +
+      '<div style="font-size:12px;color:var(--text3)">'+ans.feedback+'</div>' +
+    '</div>';
+  });
+
+  c.innerHTML = '<div class="rp-chat"><div class="rp-result">' +
+    '<div class="rp-result-emoji">'+emoji+'</div>' +
+    '<div class="rp-result-title">'+title+'</div>' +
+    '<div class="rp-result-score '+(pass?'pass':'fail')+'">'+rpState.score+' / '+maxScore+'</div>' +
+    '<div class="rp-result-msg">'+msg+'</div>' +
+    review +
+    '<div class="rp-result-btns" style="margin-top:16px">' +
+      '<button class="rp-btn-retry" onclick="_rpStart(\''+sc.id+'\')">🔄 再来一次</button>' +
+      '<button class="rp-btn-back" onclick="_rpGoHome()">← 返回场景列表</button>' +
+    '</div>' +
+  '</div></div>';
+}
+
+/* ══════ BACK ══════ */
+window._rpGoHome = function() {
+  rpState.view = 'home'; rpState.sceneId = null;
+  renderRoleplay();
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+
 })();
 </script>
 

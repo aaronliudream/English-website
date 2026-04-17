@@ -702,9 +702,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .p2-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:.8}
 .p2-stat:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
 .p2-stat-ico{font-size:22px;margin-bottom:6px}
-.p2-stat-num{font-size:24px;font-weight:800;color:var(--text1);line-height:1.1;margin-bottom:4px}
-.p2-stat-lbl{font-size:11px;color:var(--text3);font-weight:600;line-height:1.4}
-.p2-stat-sub{font-size:10px;opacity:.85;color:var(--accent);font-weight:700}
+.p2-stat-num{font-size:24px;font-weight:800;color:var(--text1);line-height:1.15;margin-bottom:6px;white-space:nowrap;letter-spacing:-.02em}
+/* Shrink the number if it contains Chinese characters (time format like "3 小时 27 分") — auto-fit */
+.p2-stat-num:has(:is()){font-size:20px}
+.p2-stat-lbl{font-size:13px;color:var(--text2);font-weight:700;line-height:1.4;letter-spacing:.01em}
+.p2-stat-sub{display:block;font-size:11px;opacity:.9;color:var(--accent);font-weight:700;margin-top:2px;letter-spacing:0}
+/* Narrower cards (6 per row): shrink long-text numbers */
+.p2-stat.p2-stat-time .p2-stat-num{font-size:18px;font-weight:800}
+@media(max-width:1100px){.p2-stat.p2-stat-time .p2-stat-num{font-size:16px}}
+@media(max-width:900px){.p2-stat-num{font-size:22px}.p2-stat.p2-stat-time .p2-stat-num{font-size:20px}.p2-stat-lbl{font-size:13px}}
 
 /* Section framework */
 .p2-section{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 26px;box-shadow:0 4px 16px -4px rgba(0,0,0,.05)}
@@ -4274,10 +4280,59 @@ function _bindMarkPass(key) {
       var pk = this.dataset.pk;
       setProgress(pk, 'pass');
       if (pk.indexOf('cnen_') === 0) { incBadgeStat('cnen_done'); checkBadges(); }
-      toast('✅ 已标记为已掌握！', 'ok');
-      // Auto-advance to next card — supports learn_ / bay_ / monthly_ / cnen_
+      toast('✅ 已标记为已掌握！下一个来了', 'ok');
+
+      /* ── Learn (Idioms) — preferred path with re-render so the hidden-mastered
+         filter takes effect and the list shrinks cleanly. ── */
+      if (pk.indexOf('learn_') === 0 && typeof renderLearn === 'function') {
+        var curId = pk.slice(6);
+        var curCard = document.getElementById('vc' + curId);
+        /* Collapse the just-mastered card immediately for visual feedback */
+        if (curCard && curCard.classList.contains('open')) {
+          curCard.classList.remove('open');
+        }
+        /* Short delay: let the collapse animation play, then re-render */
+        setTimeout(function(){
+          /* Preserve scroll position of the Learn grid so user doesn't get whiplash */
+          var grid = document.getElementById('llist');
+          var gridRect = grid ? grid.getBoundingClientRect() : null;
+          renderLearn();
+          /* After re-render, auto-open the first unmastered item visible on the page
+             so the user can continue from exactly where they left off. */
+          setTimeout(function(){
+            var firstCard = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+            if (firstCard) {
+              var fid = firstCard.id.replace(/^vc/, '');
+              if (typeof tog === 'function') tog(fid);
+              firstCard.scrollIntoView({behavior:'smooth', block:'center'});
+            } else {
+              /* No more unmastered on this page — try next page */
+              if (typeof learnNextPage === 'function') {
+                learnNextPage();
+                setTimeout(function(){
+                  var f2 = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+                  if (f2) {
+                    if (typeof tog === 'function') tog(f2.id.replace(/^vc/, ''));
+                    f2.scrollIntoView({behavior:'smooth', block:'center'});
+                  }
+                }, 350);
+              }
+            }
+            /* If learn grid moved, restore reasonable scroll position */
+            if (grid && gridRect) {
+              var newRect = grid.getBoundingClientRect();
+              var delta = newRect.top - gridRect.top;
+              if (Math.abs(delta) > 200) {
+                /* Card position shifted significantly; scrollIntoView above handles it */
+              }
+            }
+          }, 120);
+        }, 280);
+        return;
+      }
+
+      // Auto-advance to next card — supports bay_ / monthly_ / cnen_
       var _prefixMap = {
-        'learn_':  { cardPre:'vc',    tog:'tog',    nextPage:'learnNextPage',  gridSel:'.vgrid .vc',    idxLen:6 },
         'bay_':    { cardPre:'vcbay', tog:'togBay', nextPage:'bayNextPage',    gridSel:'#baylist .vc',  idxLen:4 },
         'monthly_':{ cardPre:'mw',    tog:'togMW',  nextPage:'mwNextPage',     gridSel:'.mw-card',      idxLen:8 },
         'cnen_':   { cardPre:'vccn',  tog:'togCNEN',nextPage:null,             gridSel:'#cnen-list .vc',idxLen:5 }
@@ -4316,36 +4371,9 @@ function _bindMarkPass(key) {
             }, 4000);
           }
         }
-        return; // skip original learn_ handler below
+        return;
       }
-      if (pk.indexOf('learn_') === 0) {
-        var curId = pk.slice(6);
-        var curCard = document.getElementById('vc' + curId);
-        if (curCard) {
-          var sib = curCard.nextElementSibling;
-          while (sib && !sib.classList.contains('vc')) sib = sib.nextElementSibling;
-          if (sib) {
-            var nextId = sib.id.replace('vc','');
-            setTimeout(function(){
-              tog(nextId);
-              sib.scrollIntoView({behavior:'smooth', block:'center'});
-            }, 350);
-          } else if (typeof learnNextPage === 'function' && window._learnPage !== undefined) {
-            // End of page — flip to next page
-            setTimeout(function(){
-              learnNextPage();
-              setTimeout(function(){
-                var firstCard = document.querySelector('.vgrid .vc');
-                if (firstCard) {
-                  var fid = firstCard.id.replace('vc','');
-                  tog(fid);
-                  firstCard.scrollIntoView({behavior:'smooth', block:'center'});
-                }
-              }, 700);
-            }, 350);
-          }
-        }
-      }
+      /* No matching prefix — nothing to auto-advance to */
     };
   }
 }
@@ -17141,7 +17169,7 @@ function renderProfile() {
     '<div class="p2-stats">' +
       '<div class="p2-stat" style="--accent:#f59e0b"><div class="p2-stat-ico">💰</div><div class="p2-stat-num">' + pts + '</div><div class="p2-stat-lbl">总积分</div></div>' +
       '<div class="p2-stat" style="--accent:#ef4444"><div class="p2-stat-ico">🔥</div><div class="p2-stat-num">' + streak + '</div><div class="p2-stat-lbl">连续天数<br><span class="p2-stat-sub">最长 ' + longestStreak + ' 天</span></div></div>' +
-      '<div class="p2-stat" style="--accent:#0ea5e9"><div class="p2-stat-ico">⏱️</div><div class="p2-stat-num">' + (typeof formatActiveTime === 'function' ? formatActiveTime(timeSecs) : Math.round(timeSecs/60)+'m') + '</div><div class="p2-stat-lbl">累计学习时长</div></div>' +
+      '<div class="p2-stat p2-stat-time" style="--accent:#0ea5e9"><div class="p2-stat-ico">⏱️</div><div class="p2-stat-num">' + (typeof formatActiveTime === 'function' ? formatActiveTime(timeSecs) : Math.round(timeSecs/60)+'m') + '</div><div class="p2-stat-lbl">累计学习时长</div></div>' +
       '<div class="p2-stat" style="--accent:#10b981"><div class="p2-stat-ico">✅</div><div class="p2-stat-num">' + correct + '</div><div class="p2-stat-lbl">答对题数<br><span class="p2-stat-sub">正确率 ' + accuracy + '%</span></div></div>' +
       '<div class="p2-stat" style="--accent:#8b5cf6"><div class="p2-stat-ico">📝</div><div class="p2-stat-num">' + quizzes + '</div><div class="p2-stat-lbl">完成测验</div></div>' +
       '<div class="p2-stat" style="--accent:#ec4899"><div class="p2-stat-ico">📚</div><div class="p2-stat-num">' + studyDays + '</div><div class="p2-stat-lbl">学习天数</div></div>' +

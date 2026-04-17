@@ -50022,4 +50022,104 @@ window.CA_PREP_S1 = [
 .ring-easter{position:fixed;inset:0;z-index:10002;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity .35s}
 .ring-easter.on{opacity:1}
 .ring-easter-bubble{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:clamp(34px,7vw,84px);font-weight:900;color:#fff;text-align:center;line-height:1.25;letter-spacing:.04em;text-shadow:0 8px 40px rgba(201,169,106,.55),0 2px 12px rgba(0,0,0,.5);background:linear-gradient(135deg,rgba(201,169,106,.28),rgba(74,90,122,.35));padding:40px 56px;border-radius:28px;border:2px solid rgba(201,169,106,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transform:scale(.4) rotate(-8deg);transition:transform .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.ring-easter.on .ring-easter-bubble{transf
+.ring-easter.on .ring-easter-bubble{transform:scale(1) rotate(0deg)}
+.ring-easter-emoji{font-size:clamp(48px,10vw,120px);margin-bottom:10px;animation:easterWobble 1.2s ease-in-out infinite}
+@keyframes easterWobble{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(10deg) scale(1.1)}}
+.ring-easter-sub{font-size:clamp(14px,2vw,20px);font-weight:500;margin-top:14px;color:#f4e8d0;letter-spacing:.15em}
+.ring-close{position:absolute;top:-6px;right:-6px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s;z-index:3}
+.ring-close:hover{background:rgba(201,169,106,.35);transform:rotate(90deg)}
+.ring-hub{position:absolute;top:50%;left:50%;width:32%;aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#2a3558 0%,#3d4b7a 55%,#1e2640 100%);box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.1),0 0 0 1px rgba(201,169,106,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:18px;text-align:center;z-index:2}
+.ring-hub::before{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(201,169,106,.35)}
+.ring-hub-emoji{font-size:34px;margin-bottom:6px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+.ring-hub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;letter-spacing:.04em;color:#f4e8d0;font-weight:500;line-height:1.2}
+.ring-hub-sub{font-size:11px;color:rgba(244,232,208,.7);margin-top:6px;letter-spacing:.15em;text-transform:uppercase}
+.ring-node{position:absolute;width:26%;aspect-ratio:1/1;border-radius:50%;background:linear-gradient(145deg,#f5ede0,#e8dcc1);border:2px solid rgba(201,169,106,.35);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;box-shadow:0 14px 32px rgba(26,30,56,.4),inset 0 1px 0 rgba(255,255,255,.8);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,background .3s;animation:ringNodePop .55s cubic-bezier(.34,1.56,.64,1) backwards}
+.ring-node:hover{transform:scale(1.09);background:linear-gradient(145deg,#fff7e8,#f0e0bc);box-shadow:0 22px 44px rgba(201,169,106,.4),0 0 0 3px rgba(201,169,106,.45)}
+.ring-node:nth-child(2){animation-delay:.08s}.ring-node:nth-child(3){animation-delay:.16s}.ring-node:nth-child(4){animation-delay:.24s}.ring-node:nth-child(5){animation-delay:.32s}.ring-node:nth-child(6){animation-delay:.40s}
+@keyframes ringNodePop{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.ring-node.active{background:linear-gradient(145deg,#c9a96a,#a8884a);border-color:#fff;color:#fff}
+.ring-node-ico{font-size:26px;margin-bottom:4px}
+.ring-node-en{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;color:#2a3558;line-height:1.15;margin-bottom:3px}
+.ring-node.active .ring-node-en{color:#fff}
+.ring-node-cn{font-size:12px;color:#5b4a2a;font-weight:600;letter-spacing:.02em;line-height:1.2}
+.ring-node.active .ring-node-cn{color:rgba(255,255,255,.9)}
+.ring-connector{position:absolute;top:50%;left:50%;width:100%;height:100%;pointer-events:none;z-index:1;transform:translate(-50%,-50%)}
+.ring-hint{position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:12px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.ring-hint b{color:#c9a96a;font-weight:600}
+@media(max-width:600px){.ring-stage{width:92vw;height:92vw}.ring-node-en{font-size:11px}.ring-node-cn{font-size:10px}.ring-node-ico{font-size:20px}.ring-hub-title{font-size:14px}.ring-hub-emoji{font-size:26px}}
+</style>
+
+<div class="ring-overlay" id="ringOv" onclick="if(event.target===this)closeRing()">
+  <div class="ring-stage" id="ringStage">
+    <button class="ring-close" onclick="closeRing()" title="关闭 Esc">✕</button>
+    <svg class="ring-connector" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(201,169,106,.22)" stroke-width=".3" stroke-dasharray="1,1.5"/>
+    </svg>
+    <div class="ring-hub">
+      <div class="ring-hub-emoji">✦</div>
+      <div class="ring-hub-title">Aaron's<br>English Hub</div>
+      <div class="ring-hub-sub">Choose a Track</div>
+    </div>
+    <div id="ringNodes"></div>
+    <div class="ring-hint">点击任意节点进入 · <b>ESC</b> 关闭</div>
+  </div>
+</div>
+<script>
+(function(){
+  var TRACKS = [
+    {key:'bayarea', emoji:'💼', en:'Workplace', cn:'职场英语'},
+    {key:'plumber', emoji:'🔧', en:'Plumbing Eng.', cn:'水管工程英语'},
+    {key:'learn',   emoji:'📚', en:'Idiomatic',     cn:'地道表达'},
+    {key:'monthly', emoji:'🔥', en:'Trending',      cn:'月度热词'},
+    {key:'cnen',    emoji:'🀄', en:'CN → EN',       cn:'汉译英训练'}
+  ];
+  function layout(active){
+    var N = TRACKS.length, R = 36; // radius in %
+    var html = '';
+    for (var i=0; i<N; i++){
+      var t = TRACKS[i];
+      // Start from top (-90deg), distribute evenly
+      var ang = (-90 + i * (360/N)) * Math.PI / 180;
+      var x = 50 + R * Math.cos(ang);
+      var y = 50 + R * Math.sin(ang);
+      var cls = 'ring-node' + (t.key === active ? ' active' : '');
+      html += '<div class="'+cls+'" style="left:'+x+'%;top:'+y+'%;transform:translate(-50%,-50%)" onclick="pickRing(\''+t.key+'\')">' +
+        '<div class="ring-node-ico">'+t.emoji+'</div>' +
+        '<div class="ring-node-en">'+t.en+'</div>' +
+        '<div class="ring-node-cn">'+t.cn+'</div>' +
+      '</div>';
+    }
+    document.getElementById('ringNodes').innerHTML = html;
+  }
+  window.openRing = function(active){
+    // Ring overlay disabled per user request — navigate directly to track
+    if (active){
+      if (typeof ddGo === 'function') ddGo(active);
+      else if (typeof show === 'function') show(active);
+    }
+  };
+  window.closeRing = function(){
+    var ov = document.getElementById('ringOv');
+    var easter = document.getElementById('ringEaster');
+    ov.classList.remove('on');
+    if (easter) easter.classList.remove('on');
+    document.body.style.overflow = '';
+  };
+  window.pickRing = function(k){
+    closeRing();
+    setTimeout(function(){
+      if (typeof ddGo === 'function') ddGo(k);
+      else if (typeof show === 'function') show(k);
+    }, 120);
+  };
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      var ov = document.getElementById('ringOv');
+      if (ov && ov.classList.contains('on')) closeRing();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

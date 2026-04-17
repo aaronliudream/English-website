@@ -1982,7 +1982,14 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* Two-column layout: dialogue left, vocab right */
 .dlg-two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
 .dlg-col{min-width:0}
-.dlg-col-left{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin;padding-right:6px}
+/* Left column: independent scrollable area.
+   - position:sticky keeps it pinned while the right column scrolls the page
+   - overflow-y:auto makes its content scroll internally
+   - overscroll-behavior:contain stops scroll-chaining to the page, so when the
+     user's cursor is over the left column, the wheel scrolls the dialogue
+     (not the page). Once the left column can no longer scroll in that
+     direction, further wheel events are simply consumed (not passed to page). */
+.dlg-col-left{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:6px}
 .dlg-col-left::-webkit-scrollbar{width:4px}
 .dlg-col-left::-webkit-scrollbar-thumb{background:#d4c7ba;border-radius:4px}
 .dlg-col-hd{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:var(--text1);margin-bottom:14px;padding:10px 14px;background:linear-gradient(135deg,rgba(99,102,241,.06),rgba(59,130,246,.04));border-radius:12px;border:1px solid rgba(99,102,241,.1)}
@@ -1990,7 +1997,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dlg-vocab-list{display:flex;flex-direction:column;gap:8px}
 [data-theme="dark"] .dlg-col-hd{background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(59,130,246,.06));border-color:rgba(99,102,241,.18)}
 [data-theme="dark"] .dlg-col-left::-webkit-scrollbar-thumb{background:#3a4356}
-@media(max-width:860px){.dlg-two-col{grid-template-columns:1fr}.dlg-col-left{position:static;max-height:none;overflow:visible;padding-right:0}}
+@media(max-width:860px){.dlg-two-col{grid-template-columns:1fr}.dlg-col-left{position:static;max-height:none;overflow:visible;overscroll-behavior:auto;padding-right:0}}
 .dlg-step-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:24px 0 14px;padding:12px 16px;background:linear-gradient(135deg,rgba(99,102,241,.06) 0%,rgba(59,130,246,.04) 100%);border-radius:14px;border:1px solid rgba(99,102,241,.12);font-size:15px;font-weight:800;color:var(--text1)}
 .dlg-step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
 .dlg-step-sub{font-size:12px;font-weight:500;color:var(--text3);margin-left:auto}
@@ -13820,19 +13827,14 @@ function setCat(c, el) {
 function renderLearn() {
   refreshDueBadge();
   var q = (document.getElementById('lsearch').value || '').toLowerCase();
-  var _lShowMastered = !!window._learnShowMastered;
   var _lTotalMastered = 0;
   var list = DATA.filter(function(v) {
     if (cat === 'due') return isDue(v.id);
     if (cat !== 'all' && v.type !== cat) return false;
     if (q && !v.phrase.toLowerCase().includes(q) && !v.meaning.toLowerCase().includes(q) &&
         !(v.meaning_cn && v.meaning_cn.toLowerCase().includes(q))) return false;
-    // Forgetting-curve filter: hide already-mastered items by default (except on "due" tab)
-    if (cat !== 'due' && progressData['learn_' + v.id] === 'pass') {
-      _lTotalMastered++;
-      if (!_lShowMastered) return false;
-    }
-    return true;
+    if (cat !== 'due' && progressData['learn_' + v.id] === 'pass') _lTotalMastered++;
+    return true; // Keep ALL items — mastered ones sink to the bottom via sort below
   });
   // Sort: 学习中 → 待学习 → 已通过; 同组内新词(idn_*)优先
   list.sort(function(a, b){
@@ -13895,7 +13897,8 @@ function renderLearn() {
     else if (st === 'learn')  { srsBadge = '<span class="srs-tag learn">Learning</span>'; statusColor = '#2563eb'; }
     else if (st === 'master') { srsBadge = '<span class="srs-tag master">Mastered</span>'; statusColor = '#0a0e1a'; }
     var el = document.createElement('div');
-    el.className = 'vc';
+    var _isMastered = progressData['learn_' + d.id] === 'pass' || st === 'master';
+    el.className = 'vc' + (_isMastered ? ' vc-mastered' : '');
     el.id = 'vc' + d.id;
     var exPlain = d.example ? d.example.replace(/<[^>]+>/g,'') : '';
     var numDisp = typeof d.id === 'number' ? ('00' + d.id).slice(-3) : String(d.id).replace(/^idn_/i,'N').toUpperCase();
@@ -42066,7 +42069,10 @@ function renderClassics() {
     renderDaily();
   };
 
-  // ---------- Add bookmark stars to learn cards (.vc) on render ----------
+  // ---------- Master-toggle stars on learn cards (.vc) ----------
+  // Click the ☆ → marks item as "mastered" via SRS + progress system.
+  // Card smoothly animates to the bottom of the list, next unmastered
+  // card slides up. Click ⭐ again to un-master (revert).
   function _addStarsToLearnCards(){
     if (typeof DATA === 'undefined') return;
     document.querySelectorAll('#llist .vc').forEach(function(card){
@@ -42074,19 +42080,126 @@ function renderClassics() {
       var id = card.id.replace(/^vc/, '');
       var item = DATA.filter(function(d){ return String(d.id) === String(id); })[0];
       if (!item) return;
-      var on = window.bm.has('learn', id);
       var head = card.querySelector('.vc-head-btm') || card.querySelector('.vc-head');
       if (!head) return;
+
+      var isMastered = function(){
+        try {
+          if (typeof getProgress === 'function' && getProgress('learn_' + id) === 'pass') return true;
+          if (typeof srsStatus === 'function' && srsStatus(item.id) === 'master') return true;
+        } catch(e){}
+        return false;
+      };
+
       var btn = document.createElement('button');
-      btn.className = 'vc-bm' + (on?' on':'');
-      btn.title = '收藏 · Bookmark';
-      btn.innerHTML = on ? '★' : '☆';
+      btn.className = 'vc-bm vc-master' + (isMastered() ? ' on' : '');
+      btn.title = isMastered() ? '已掌握 · 点击取消' : '点击标记为已掌握';
+      btn.innerHTML = isMastered() ? '⭐' : '☆';
+
       btn.onclick = function(e){
         e.stopPropagation();
-        var nowOn = window.bm.toggle('learn', id, item.phrase, item.meaning_cn || item.meaning, 'learn');
-        btn.classList.toggle('on', nowOn);
-        btn.innerHTML = nowOn ? '★' : '☆';
+        if (btn.classList.contains('vc-busy')) return; // prevent double-fire during animation
+        var currentlyMastered = isMastered();
+
+        if (currentlyMastered) {
+          /* Un-master: revert to 'learning' state */
+          try {
+            if (typeof setProgress === 'function') setProgress('learn_' + id, 'learning');
+            if (typeof srsData !== 'undefined' && srsData[item.id]) {
+              delete srsData[item.id];
+              localStorage.setItem('srs', JSON.stringify(srsData));
+            }
+          } catch(e){}
+          btn.classList.remove('on');
+          btn.innerHTML = '☆';
+          btn.title = '点击标记为已掌握';
+          try { toast && toast('已取消掌握标记', 'info'); } catch(e){}
+          /* Re-render so card goes back to the top, next unmastered card flows in */
+          setTimeout(function(){ if (typeof renderLearn === 'function') renderLearn(); }, 280);
+          return;
+        }
+
+        /* Mark as mastered */
+        btn.classList.add('vc-busy');
+        btn.innerHTML = '⭐';
+        btn.classList.add('on');
+        btn.title = '已掌握 · 点击取消';
+
+        /* Fire confetti-like micro feedback */
+        try { toast && toast('⭐ 已掌握 · Mastered!', 'ok'); } catch(e){}
+
+        /* Save to progress system */
+        try {
+          if (typeof setProgress === 'function') setProgress('learn_' + id, 'pass');
+        } catch(e){}
+        /* Mark as mastered in SRS (interval ≥ 21 days → 'master' status) */
+        try {
+          if (typeof srsData !== 'undefined') {
+            srsData[item.id] = srsData[item.id] || {interval:30, easeFactor:2.5, reps:4};
+            srsData[item.id].interval = Math.max(30, srsData[item.id].interval || 0);
+            srsData[item.id].reps = Math.max(4, srsData[item.id].reps || 0);
+            srsData[item.id].nextReview = Date.now() + srsData[item.id].interval * 86400000;
+            localStorage.setItem('srs', JSON.stringify(srsData));
+          }
+        } catch(e){}
+
+        /* Award points (matches existing per-correct scoring) */
+        try {
+          if (typeof awardPts === 'function') {
+            awardPts(10);
+            /* awardPts bumps localCorrect +1; we didn't answer a quiz question,
+               so compensate so accuracy stats don't get warped */
+            if (typeof localCorrect !== 'undefined') {
+              localCorrect = Math.max(0, localCorrect - 1);
+              try { localStorage.setItem('lcorrect', localCorrect.toString()); } catch(_){}
+            }
+          }
+        } catch(e){}
+
+        /* Check for badge unlocks */
+        try { if (typeof checkBadges === 'function') checkBadges(); } catch(e){}
+
+        /* Animate the card sinking, then re-render (which applies the sort:
+           mastered items sink to bottom, next unmastered rises to the top). */
+        /* Step 1: capture current positions of all cards in the grid */
+        var grid = document.getElementById('llist');
+        if (!grid){ setTimeout(function(){ if (typeof renderLearn === 'function') renderLearn(); }, 250); return; }
+        var cards = Array.prototype.slice.call(grid.querySelectorAll('.vc'));
+        var before = {};
+        cards.forEach(function(c){ before[c.id] = c.getBoundingClientRect(); });
+
+        /* Step 2: give current card a brief highlight pulse */
+        card.classList.add('vc-mastered-pulse');
+
+        /* Step 3: after the pulse, re-render and play FLIP-style animation */
+        setTimeout(function(){
+          if (typeof renderLearn !== 'function') { btn.classList.remove('vc-busy'); return; }
+          renderLearn();
+
+          /* After re-render, measure new positions and animate the delta */
+          setTimeout(function(){
+            var newGrid = document.getElementById('llist');
+            if (!newGrid) return;
+            var newCards = Array.prototype.slice.call(newGrid.querySelectorAll('.vc'));
+            newCards.forEach(function(nc){
+              var oldRect = before[nc.id];
+              if (!oldRect) return;
+              var newRect = nc.getBoundingClientRect();
+              var dx = oldRect.left - newRect.left;
+              var dy = oldRect.top  - newRect.top;
+              if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+              nc.style.transition = 'none';
+              nc.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+              /* Force reflow, then slide to 0 */
+              nc.getBoundingClientRect();
+              nc.style.transition = 'transform .55s cubic-bezier(.45,.05,.25,1)';
+              nc.style.transform = '';
+              setTimeout(function(){ nc.style.transition=''; nc.style.transform=''; }, 600);
+            });
+          }, 20);
+        }, 280);
       };
+
       head.appendChild(btn);
     });
   }
@@ -42182,10 +42295,36 @@ function renderClassics() {
   .dly-start { width: 100%; margin-top: 8px; padding: 14px; background: linear-gradient(135deg, #d97757, #c05a3c); color: white; border: 0; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; }
   .dly-start:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,119,87,.4); }
 
-  /* Bookmark star on learn cards */
-  .vc-bm { background: transparent; border: 0; cursor: pointer; font-size: 18px; color: #c8b8a3; padding: 0 4px; line-height: 1; transition: all .15s; }
-  .vc-bm:hover { color: #d97757; transform: scale(1.15); }
-  .vc-bm.on { color: #d97757; }
+  /* Mastery-toggle star on learn cards.
+     ☆ (dim) = not yet mastered. ⭐ (gold) = mastered. */
+  .vc-bm { background: transparent; border: 0; cursor: pointer; font-size: 20px; color: #c8b8a3; padding: 2px 6px; line-height: 1; transition: color .18s, transform .18s, text-shadow .18s; border-radius: 6px; }
+  .vc-bm:hover { color: #f59e0b; transform: scale(1.25); }
+  .vc-bm.on { color: #f59e0b; text-shadow: 0 0 12px rgba(245,158,11,.45), 0 2px 3px rgba(0,0,0,.1); }
+  .vc-bm.on:hover { color: #d97706; transform: scale(1.15) rotate(-8deg); }
+  .vc-master.vc-busy { pointer-events: none; }
+  /* Mastered card styling — subtle gold tint, slightly dimmed so unmastered cards stand out */
+  .vc.vc-mastered { background: linear-gradient(135deg, #fffef5, #fef9e7); opacity: .82; }
+  .vc.vc-mastered::before { border-color: rgba(245,158,11,.25); }
+  .vc.vc-mastered::after {
+    content: '⭐';
+    position: absolute; top: 10px; right: 36px;
+    font-size: 11px; opacity: .7;
+    pointer-events: none;
+  }
+  [data-theme="dark"] .vc.vc-mastered { background: linear-gradient(135deg, rgba(245,158,11,.08), rgba(251,191,36,.04)); }
+  /* Brief pulse when a card is marked mastered, before it flies to the bottom */
+  .vc-mastered-pulse { animation: vcMasteredPulse .45s ease-out; }
+  @keyframes vcMasteredPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(245,158,11,.55); }
+    40%  { box-shadow: 0 0 0 10px rgba(245,158,11,.18); background: #fffbeb; }
+    100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+  }
+  [data-theme="dark"] .vc-mastered-pulse { animation-name: vcMasteredPulseDark; }
+  @keyframes vcMasteredPulseDark {
+    0%   { box-shadow: 0 0 0 0 rgba(251,191,36,.55); }
+    40%  { box-shadow: 0 0 0 10px rgba(251,191,36,.2); background: rgba(245,158,11,.1); }
+    100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+  }
 </style>
 
 <script>

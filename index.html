@@ -390,6 +390,40 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 [data-theme="dark"] .learn-mastered-hint.showing .lmh-txt b{color:#a5b4fc}
 [data-theme="dark"] .learn-mastered-hint.showing .lmh-btn{background:rgba(0,0,0,.25);color:#c7d2fe;border-color:rgba(99,102,241,.4)}
 
+/* Page-complete celebration overlay */
+.pdo-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9998;display:flex;align-items:center;justify-content:center;animation:pdoFadeIn .28s ease both;padding:20px}
+.pdo-overlay.pdo-out{animation:pdoFadeOut .28s ease both}
+@keyframes pdoFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pdoFadeOut{from{opacity:1}to{opacity:0}}
+.pdo-card{position:relative;background:linear-gradient(160deg,#fef3c7 0%,#fed7aa 50%,#fbbf24 100%);border-radius:24px;padding:48px 52px 42px;box-shadow:0 25px 60px -15px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.3) inset;text-align:center;max-width:460px;width:100%;animation:pdoPop .45s cubic-bezier(.34,1.56,.64,1) both;overflow:hidden}
+@keyframes pdoPop{from{transform:scale(.85) translateY(12px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.pdo-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.pdo-conf{position:absolute;font-size:28px;animation:pdoConfetti 2.4s ease-out infinite}
+.pdo-conf.c1{top:10%;left:12%;animation-delay:0s}
+.pdo-conf.c2{top:18%;right:15%;animation-delay:.3s}
+.pdo-conf.c3{top:62%;left:8%;animation-delay:.6s}
+.pdo-conf.c4{top:70%;right:10%;animation-delay:.9s}
+.pdo-conf.c5{top:35%;left:18%;animation-delay:1.2s}
+.pdo-conf.c6{top:45%;right:20%;animation-delay:1.5s}
+@keyframes pdoConfetti{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(-60px) rotate(180deg);opacity:0}}
+.pdo-badge{font-size:72px;line-height:1;margin-bottom:18px;filter:drop-shadow(0 8px 16px rgba(0,0,0,.15));animation:pdoBounce 1s ease-out infinite alternate}
+@keyframes pdoBounce{0%{transform:translateY(0)}100%{transform:translateY(-6px)}}
+.pdo-title{font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:700;color:#78350f;letter-spacing:-.01em;margin-bottom:8px;line-height:1.2}
+.pdo-sub{font-size:14px;color:#92400e;font-weight:600;margin-bottom:22px}
+.pdo-countdown{font-family:'Playfair Display',Georgia,serif;font-size:72px;font-weight:800;color:#b45309;line-height:1;letter-spacing:-.04em;margin-bottom:26px;transition:all .3s}
+.pdo-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.pdo-btn{padding:11px 22px;border-radius:999px;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all .2s}
+.pdo-btn.pdo-go{background:linear-gradient(135deg,#d97757,#b45309);color:#fff;box-shadow:0 4px 12px rgba(180,83,9,.35)}
+.pdo-btn.pdo-go:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(180,83,9,.45)}
+.pdo-btn.pdo-stay{background:rgba(255,255,255,.7);color:#78350f;border:1.5px solid #d97757}
+.pdo-btn.pdo-stay:hover{background:rgba(255,255,255,.9)}
+[data-theme="dark"] .pdo-card{background:linear-gradient(160deg,#451a03 0%,#78350f 50%,#b45309 100%);box-shadow:0 25px 60px -15px rgba(0,0,0,.6), 0 0 0 1px rgba(251,191,36,.2) inset}
+[data-theme="dark"] .pdo-title{color:#fef3c7}
+[data-theme="dark"] .pdo-sub{color:#fde68a}
+[data-theme="dark"] .pdo-countdown{color:#fbbf24}
+[data-theme="dark"] .pdo-btn.pdo-stay{background:rgba(0,0,0,.3);color:#fef3c7;border-color:#fbbf24}
+@media(max-width:500px){.pdo-card{padding:32px 22px 28px}.pdo-title{font-size:22px}.pdo-countdown{font-size:56px}.pdo-badge{font-size:56px}}
+
 .vgrid-flip-next{animation:vgridFlipNext .65s cubic-bezier(.45,.05,.25,1) both;transform-origin:left center}
 .vgrid-flip-prev{animation:vgridFlipPrev .65s cubic-bezier(.45,.05,.25,1) both;transform-origin:right center}
 @keyframes vgridFlipNext{
@@ -4293,37 +4327,42 @@ function _bindMarkPass(key) {
         }
         /* Short delay: let the collapse animation play, then re-render */
         setTimeout(function(){
-          /* Preserve scroll position of the Learn grid so user doesn't get whiplash */
-          var grid = document.getElementById('llist');
-          var gridRect = grid ? grid.getBoundingClientRect() : null;
           renderLearn();
-          /* After re-render, auto-open the first unmastered item visible on the page
-             so the user can continue from exactly where they left off. */
+          /* After re-render, decide: open next unmastered card OR celebrate + advance page. */
           setTimeout(function(){
             var firstCard = document.querySelector('.vgrid .vc:not(.vc-mastered)');
             if (firstCard) {
+              /* Still have unmastered items on this page — open + scroll */
               var fid = firstCard.id.replace(/^vc/, '');
               if (typeof tog === 'function') tog(fid);
               firstCard.scrollIntoView({behavior:'smooth', block:'center'});
             } else {
-              /* No more unmastered on this page — try next page */
-              if (typeof learnNextPage === 'function') {
-                learnNextPage();
-                setTimeout(function(){
-                  var f2 = document.querySelector('.vgrid .vc:not(.vc-mastered)');
-                  if (f2) {
-                    if (typeof tog === 'function') tog(f2.id.replace(/^vc/, ''));
-                    f2.scrollIntoView({behavior:'smooth', block:'center'});
-                  }
-                }, 350);
-              }
-            }
-            /* If learn grid moved, restore reasonable scroll position */
-            if (grid && gridRect) {
-              var newRect = grid.getBoundingClientRect();
-              var delta = newRect.top - gridRect.top;
-              if (Math.abs(delta) > 200) {
-                /* Card position shifted significantly; scrollIntoView above handles it */
+              /* No more unmastered on this page — show celebration then auto-advance */
+              var hasNextPage = false;
+              try {
+                var curPage = (typeof window._learnPage === 'number') ? window._learnPage : 0;
+                hasNextPage = typeof learnNextPage === 'function';
+                /* Check if there IS a next page by looking at the pager */
+                var nextBtn = document.querySelector('#learn-pager .lp-btn:last-child');
+                if (nextBtn && nextBtn.disabled) hasNextPage = false;
+              } catch(e){}
+
+              if (hasNextPage) {
+                /* Celebration overlay with 3-second countdown */
+                _showPageCompleteCelebration(function(){
+                  /* Callback after countdown — flip to next page */
+                  learnNextPage();
+                  setTimeout(function(){
+                    var f2 = document.querySelector('.vgrid .vc:not(.vc-mastered)');
+                    if (f2) {
+                      if (typeof tog === 'function') tog(f2.id.replace(/^vc/, ''));
+                      f2.scrollIntoView({behavior:'smooth', block:'center'});
+                    }
+                  }, 400);
+                });
+              } else {
+                /* No more pages — show completion toast */
+                try { toast && toast('🏆 太棒了！这一类全部掌握！', 'ok'); } catch(e){}
               }
             }
           }, 120);
@@ -4376,6 +4415,71 @@ function _bindMarkPass(key) {
       /* No matching prefix — nothing to auto-advance to */
     };
   }
+}
+
+/* Page-complete celebration: big overlay with countdown, auto-advances after 3s.
+   User can click the button to skip or X to stay on this page. */
+function _showPageCompleteCelebration(onDone) {
+  /* Remove any existing overlay */
+  try { var existing = document.getElementById('page-done-overlay'); if (existing) existing.remove(); } catch(e){}
+
+  var ov = document.createElement('div');
+  ov.id = 'page-done-overlay';
+  ov.className = 'pdo-overlay';
+  ov.innerHTML =
+    '<div class="pdo-card">' +
+      '<div class="pdo-confetti">' +
+        '<span class="pdo-conf c1">🎉</span><span class="pdo-conf c2">⭐</span>' +
+        '<span class="pdo-conf c3">✨</span><span class="pdo-conf c4">🎊</span>' +
+        '<span class="pdo-conf c5">💫</span><span class="pdo-conf c6">🌟</span>' +
+      '</div>' +
+      '<div class="pdo-badge">🏆</div>' +
+      '<div class="pdo-title">本页完成！Page Complete!</div>' +
+      '<div class="pdo-sub">4 个习语全部掌握 · 即将进入下一页</div>' +
+      '<div class="pdo-countdown" id="pdo-count">3</div>' +
+      '<div class="pdo-actions">' +
+        '<button class="pdo-btn pdo-go" id="pdo-skip">立即进入 →</button>' +
+        '<button class="pdo-btn pdo-stay" id="pdo-stay">留在本页</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(ov);
+
+  var secs = 3;
+  var countEl = document.getElementById('pdo-count');
+  var done = false;
+  var interval = setInterval(function(){
+    secs--;
+    if (countEl) countEl.textContent = secs;
+    if (secs <= 0) {
+      clearInterval(interval);
+      if (done) return;
+      done = true;
+      _dismissPageComplete();
+      if (typeof onDone === 'function') onDone();
+    }
+  }, 1000);
+
+  /* Skip / Stay buttons */
+  document.getElementById('pdo-skip').onclick = function(){
+    if (done) return;
+    done = true;
+    clearInterval(interval);
+    _dismissPageComplete();
+    if (typeof onDone === 'function') onDone();
+  };
+  document.getElementById('pdo-stay').onclick = function(){
+    if (done) return;
+    done = true;
+    clearInterval(interval);
+    _dismissPageComplete();
+  };
+}
+
+function _dismissPageComplete() {
+  var ov = document.getElementById('page-done-overlay');
+  if (!ov) return;
+  ov.classList.add('pdo-out');
+  setTimeout(function(){ if (ov.parentNode) ov.parentNode.removeChild(ov); }, 280);
 }
 
 function progressStats(prefix, ids) {
